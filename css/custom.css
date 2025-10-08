@@ -75,10 +75,12 @@
 }
 
 .timeline-entry__logo {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  max-height: 48px;
+  height: auto;
   object-fit: contain;
   filter: saturate(0.9);
+  flex-shrink: 0;
 }
 
 .timeline-entry__content {
@@ -125,8 +127,8 @@
   }
 
   .timeline-entry__logo {
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    max-height: 40px;
   }
 
   .timeline-entry::before {
