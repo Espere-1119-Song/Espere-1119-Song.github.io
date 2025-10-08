@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="240" viewBox="0 0 420 240">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e6edf5" />
+      <stop offset="100%" stop-color="#cfd9e8" />
+    </linearGradient>
+  </defs>
+  <rect width="420" height="240" rx="28" fill="url(#bg)" />
+  <g fill="#5c6f85" font-family="'Helvetica Neue', Arial, sans-serif" text-anchor="middle">
+    <text x="210" y="118" font-size="48" font-weight="600">VideoNSA</text>
+    <text x="210" y="156" font-size="20">Native Sparse Attention for Video</text>
+  </g>
+</svg>
