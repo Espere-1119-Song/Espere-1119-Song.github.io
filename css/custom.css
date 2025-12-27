@@ -5,6 +5,27 @@
   color: #696969;
 }
 
+.bio-highlight {
+  margin-top: 12px;
+  padding: 16px 20px;
+  border-left: 3px solid #6c86ad;
+  border-radius: 6px;
+  background: #f6f8fc;
+  color: #2f3a47;
+  line-height: 1.6;
+}
+
+.bio-highlight a {
+  color: #305d96;
+  font-weight: 500;
+}
+
+.bio-highlight strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #223041;
+}
+
 .site-header {
   border-top: 0 !important;
   border-bottom: 1px solid #e4eaf2 !important;
