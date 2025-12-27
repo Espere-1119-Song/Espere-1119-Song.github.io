@@ -26,6 +26,124 @@
   color: #223041;
 }
 
+.info-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.info-card {
+  padding: 20px;
+  border: 1px solid #e4eaf2;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(28, 46, 69, 0.06);
+}
+
+.info-card__eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6c86ad;
+  font-weight: 600;
+}
+
+.info-card__text,
+.info-card__list {
+  margin: 0;
+  color: #364556;
+  line-height: 1.6;
+}
+
+.info-card__list {
+  padding-left: 18px;
+}
+
+.info-card__list li {
+  margin-bottom: 6px;
+}
+
+.teaching-card {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 12px;
+  border: 1px solid #e4eaf2;
+  background: linear-gradient(135deg, #f3f6fb 0%, #ffffff 100%);
+  box-shadow: 0 8px 24px rgba(47, 77, 125, 0.08);
+}
+
+.teaching-card__term {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #eef3fb;
+  color: #365072;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.teaching-card__course {
+  margin: 14px 0 8px;
+  font-size: 1.1rem;
+  color: #1e2d3f;
+  font-weight: 600;
+}
+
+.teaching-card__meta {
+  margin: 0;
+  color: #4a596b;
+  line-height: 1.5;
+}
+
+.awards-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.awards-list li {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid #e4eaf2;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(28, 46, 69, 0.04);
+}
+
+.awards-list__year {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: #303f55;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.awards-list__text {
+  flex: 1;
+  color: #2a3748;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.awards-list__text a {
+  color: #305d96;
+  font-weight: 600;
+}
+
 .site-header {
   border-top: 0 !important;
   border-bottom: 1px solid #e4eaf2 !important;
