@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +11,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-  
+
     gtag('config', 'G-RFR2GFKT75');
   </script> -->
   <!-- Google Tag Manager -->
@@ -22,27 +24,25 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
-	<!-- <meta name="google-site-verification" content="u_--0s_Uw50r4zCgRrzltkmFhNCduYOJwPGlKVTuNJU" /> -->
 
   <title>Enxin Song 宋恩欣</title>
   <meta name="description" lang="en" content="This is an academic website for Enxin Song">
   <meta name="keywords" lang="en" content="Enxin Song." />
-  
 
-  <link rel="shortcut icon" href="old_web/static/imgs/favicon.ico">
+  <link rel="shortcut icon" href="images/icon/Upenn.png">
+  <link rel="icon" type="image/png" href="images/icon/Upenn.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="main.css?v=20240510">
-  <link rel="stylesheet" href="css/custom.css?v=20240510">
+  <link rel="stylesheet" href="css/custom.css?v=20260405u">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
   <link rel="stylesheet" href="css/academicons.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-
-
 
   <script src="js/jquery-2.1.3.min.js"> </script>
 
@@ -55,7 +55,7 @@
     function ShowHide(divId, linkDivId) {
         if(document.getElementById(divId).style.display == 'none') {
             document.getElementById(divId).style.display='block';
-            document.getElementById(linkDivId).style.display='none'; // Hide the "read more" link
+            document.getElementById(linkDivId).style.display='none';
         }
         else {
             document.getElementById(divId).style.display = 'none';
@@ -63,22 +63,6 @@
     }
   </script>
 
-  <style>
-   
-    li.indented {
-        position: relative;
-        padding-left: 90px; 
-    }
-
-    li.indented::before {
-        content: attr(data-date);
-        position: absolute;
-        left: 0;
-        top: 0;
-        white-space: nowrap;
-    }
-  </style>
-  
 </head>
 
 
@@ -92,6 +76,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header class="site-header">
 
   <div class="wrapper">
+    <div class="nav-left">
+      <a href="https://www.upenn.edu" target="_blank" class="nav-penn-link">
+        <img src="images/icon/penn_name.png" alt="University of Pennsylvania" class="nav-penn-logo">
+      </a>
+      <div class="nav-social-icons">
+        <a class="tab-link" data-section="section-about"      href="#section-about">Home</a>
+        <a class="tab-link" data-section="section-experience" href="#section-experience">Profile</a>
+        <a class="tab-link" data-section="section-research"   href="#section-research">Publication</a>
+        <a class="tab-link" data-section="section-blog"       href="#section-blog">Blog</a>
+      </div>
+    </div>
 <nav class="site-nav">
   <a href="#" class="menu-icon">
     <svg viewBox="0 0 18 15">
@@ -101,679 +96,767 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
   </a>
 
-  <div class="trigger">
-    <a class="page-link" href="#bio"><b>Biography</b></a>
-    <a class="page-link" href="#timeline"><b>Education</b></a>
-    <a class="page-link" href="#timeline"><b>Experiences</b></a>
-    <a class="page-link" href="#publications"><b>Publications</b></a>
-    <a class="page-link" href="#awards"><b>Honors & Awards</b></a>
-    <a class="page-link" href="#teaching"><b>Teaching </b></a>
-    <a class="page-link" href="#academicservices"><b>Professional Services </b></a>
-    <!-- <a class="page-link" href="#misc"><b>CV</b></a> -->
-    <!--<a class="page-link" href="#otherprojects">Projects</a>-->
-    <!-- Button for Posts -->
-  </div>
+  <div class="trigger"></div>
 </nav>
   </div>
 </header>
 
-  <div id="profile-cover" class="cover shallow-bg img-responsive"> 
-    <div id="profile-namecard" class="profile-wrapper wrapper-light">
-      <div id="my-pic" class="profile-col profile-col-1">
-        <img id="profile-avatar" src="./images/self-portrait/me.JPEG" alt="Me" class="circle-img border-dark"-/>
-      </div>
-      <div id="my-contact" class="profile-col profile-col-2">
-        <div id="my-name" class="text-grey-dark">
-          Enxin Song (宋恩欣)<br>
-        </div>
-        <div id="my-title" class="text-grey">
-          <!-- Math Undergrad @ ZJU 24'<br> -->
-          Master Student @ ZJU
-        </div>
-        <!-- <div id="my-email" class="text-grey-light">
-          wjzhao1203[at]gmail.com
-        </div> -->
-        <div class="social-media">
-          <a href="https://scholar.google.com.hk/citations?user=sLqa-3oAAAAJ&hl=zh-CN" class="icon-button github">
-          <i class="ai ai-google-scholar-square icon-github"></i>
-            <span></span>
-          </a>
-
-          <a href="https://github.com/Espere-1119-Song" class="icon-button github">
-            <i class="fa fa-github icon-github"></i>
-            <span></span>
-          </a>
-
-          <a href="https://linkedin.com/in/enxinsong-57b471286/" class="icon-button linkedin">
-            <i class="fa fa-linkedin icon-linkedin"></i>
-            <span></span>
-          </a>
-          
-          <a href="https://twitter.com/EnxinSong" class="icon-button twitter">
-            <i class="fa fa-twitter icon-twitter"></i>
-            <span></span>
-          </a>
-         
-          <a href="mailto:enxin.23@intl.zju.edu.cn" class="icon-button github">
-            <i class="fa fa-envelope icon-github"></i>
-            <span></span>
-          </a>
-        </div>
-      </div>
-
-      <!-- <div id="my-desc" class="profile-col profile-col-2 hide">
-        <div id="my-desc-title">
-          Another me.
-        </div>
-        <div id="my-desc-content">
-          I enjoy running, traveling, hiking, movies, music and so much more<br>
-        </div>
-      </div> -->
-    </div>
-  </div>
-  <!-- <script type="text/javascript">
-    function deepFeature()
-    {
-      $('#profile-avatar').attr('src', 'images/self-portrait/deep-me.jpg');
-      $('#profile-avatar').removeClass('border-dark');
-      $('#profile-avatar').addClass('border-bright');
-
-      $('#profile-cover').removeClass('shallow-bg');
-      $('#profile-cover').addClass('deep-bg');
-      
-      $('#profile-namecard').removeClass('wrapper-light');
-      $('#profile-namecard').addClass('wrapper-dark');
-      
-      $('#my-desc').removeClass('hide');
-      $('#my-contact').addClass('hide');    
-      // console.log('Move in now...');
-    }
-
-    function shallowFeature()
-    {
-      $('#profile-avatar').attr('src', 'images/self-portrait/me.jpg');
-      $('#profile-avatar').removeClass('border-bright');
-      $('#profile-avatar').addClass('border-dark');
-
-      $('#profile-cover').removeClass('deep-bg');
-      $('#profile-cover').addClass('shallow-bg');
-      
-      $('#profile-namecard').removeClass('wrapper-dark');
-      $('#profile-namecard').addClass('wrapper-light');
-      
-      $('#my-contact').removeClass('hide');
-      $('#my-desc').addClass('hide');
-      // console.log('Move out now...');
-    }
-
-    $(function() { 
-      $('#my-pic').hover(deepFeature, shallowFeature);
-    })
-
-  </script> -->
-
 <div class="page-content">
 <div class="wrapper">
-<div id="bio" class="bio">
 
-  <h1 class="md-heading text-left">
-    <i class="fa fa-id-card" aria-hidden="true"></i>
-    About
-  </h1>
-  <div class="bio-body" style="overflow:hidden;">
-    <p>
-      Enxin Song is currently a master student at <a href="https://zjui.intl.zju.edu.cn//">Zhejiang University</a>. She is a research intern at <a href="https://www.nyu.edu/">New York University</a>, working with Prof. <a href="https://www.sainingxie.com/">Saining Xie</a>, and previously conducted research as a visiting intern at the University of California, San Diego (<a href="https://www.ucsd.edu/">UCSD</a>) under the supervision of Prof. <a href="https://pages.ucsd.edu/~ztu/">Zhuowen Tu</a>. She will receive her M.S. degree in March 2026 from Zhejiang University, where she is advised by Prof. <a href="https://scholar.google.com/citations?user=GhsXNiwAAAAJ&hl=zh-CN">Gaoang Wang</a> (<a href="https://cvnext.github.io/">CVNext Lab</a>), and holds a B.S. in Software Engineering from <a href="https://en.dlut.edu.cn/">Dalian University of Technology</a>. Her work centers on video understanding, highlighted by MovieChat, the first Large Mutli-Modal Model for hour-long video understanding. She has co-organized workshops and challenges on video understanding at CVPR 2024 and 2025.
-    </p>
-    <p class="bio-highlight">
-      <strong>She is a highly self-motivated student applying to Ph.D. programs for 2026Fall.</strong>
-      You can view her <a href="cv_enxinsong.pdf" target="_blank" rel="noopener">Curriculum Vitae</a>.
+  <!-- ═══════════════════════════════════════════
+       SECTION: About
+  ═══════════════════════════════════════════ -->
+  <div id="section-about" class="page-section">
+
+    <!-- Profile hero with mountain background -->
+    <div id="profile-cover" class="shallow-bg img-responsive">
+      <div class="profile-wrapper wrapper-light">
+        <div class="about-layout">
+
+          <!-- Left: photo + name -->
+          <aside class="about-profile">
+            <img id="profile-avatar" src="./images/self-portrait/me.JPEG" alt="Enxin Song" class="circle-img border-dark" fetchpriority="high">
+            <div id="my-name">Enxin Song (宋恩欣)</div>
+            <div id="my-title">Ph.D. @ UPenn CIS</div>
+            <a href="cv_enxinsong.pdf" target="_blank" class="cv-link">Curriculum Vitae</a>
+          </aside>
+
+          <!-- Right: About bio + social icons -->
+          <div class="about-main">
+            <p>
+              Enxin Song is a Ph.D. student in Computer and Information Science at the <a href="https://www.upenn.edu/">University of Pennsylvania</a>, advised by Prof. <a href="https://jiataogu.me/">Jiatao Gu</a>. She received her master's degree from <a href="https://zjui.intl.zju.edu.cn/">Zhejiang University</a>, and her bachelor's degree from <a href="https://en.dlut.edu.cn/">Dalian University of Technology</a>. She has conducted research at <a href="https://www.nyu.edu/">New York University</a> with Prof. <a href="https://www.sainingxie.com/">Saining Xie</a> and at <a href="https://www.ucsd.edu/">University of California, San Diego</a> with Prof. <a href="https://pages.ucsd.edu/~ztu/">Zhuowen Tu</a>.
+              Her research centers on video understanding and generative models, with a focus on efficient long-sequence modeling, applications of generative models for text-to-image synthesis, and benchmarking for video understanding. She has co-organized workshops at CVPR 2024 and 2025.
+            </p>
+            <div class="social-media">
+              <a href="https://scholar.google.com.hk/citations?user=sLqa-3oAAAAJ&hl=zh-CN" class="icon-button github">
+                <i class="ai ai-google-scholar-square icon-github"></i>
+                <span></span>
+              </a>
+              <a href="https://github.com/Espere-1119-Song" class="icon-button github">
+                <i class="fa fa-github icon-github"></i>
+                <span></span>
+              </a>
+              <a href="https://linkedin.com/in/enxinsong-57b471286/" class="icon-button linkedin">
+                <i class="fa fa-linkedin icon-linkedin"></i>
+                <span></span>
+              </a>
+              <a href="https://twitter.com/EnxinSong" class="icon-button twitter">
+                <i class="fa fa-twitter icon-twitter"></i>
+                <span></span>
+              </a>
+              <a href="mailto:ensong@ucsd.edu" class="icon-button github">
+                <i class="fa fa-envelope icon-github"></i>
+                <span></span>
+              </a>
+            </div>
+          </div><!-- /.about-main -->
+
+        </div><!-- /.about-layout -->
+      </div>
+    </div>
+
+    <div id="news" class="bio">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+        News
+      </h1>
+      <ul class="news-list">
+        <li class="news-list__item">
+          <span class="news-list__date">Jan 2026</span>
+          <span class="news-list__text">Our <a href="https://enxinsong.com/VideoNSA-web/">VideoNSA</a> is accepted by ICLR 2026.</span>
+        </li>
+        <li class="news-list__item">
+          <span class="news-list__date">Nov 2025</span>
+          <span class="news-list__text">Selected (top 10%) to give a talk at the KAUST Rising Stars in AI Symposium 2026.</span>
+        </li>
+        <li class="news-list__item">
+          <span class="news-list__date">Oct 2025</span>
+          <span class="news-list__text">Video-MMLU received the <a href="https://knowledgemr-workshop.github.io/#accepted-paper">Outstanding Paper Award</a> at the ICCV 2025 Knowledge-Intensive Multimodal Reasoning Workshop, along with a travel grant.</span>
+        </li>
+        <li class="news-list__item">
+          <span class="news-list__date">Oct 2025</span>
+          <span class="news-list__text">We release <a href="https://enxinsong.com/VideoNSA-web/">VideoNSA</a>, a hardware-aware native sparse attention mechanism for video understanding.</span>
+        </li>
+        <li class="news-list__item">
+          <span class="news-list__date">Sep 2025</span>
+          <span class="news-list__text">Invited talk at <a href="https://lambda.ai/">Lambda AI</a> titled <i>From Seeing to Thinking</i>.</span>
+        </li>
+        <li class="news-list__item">
+          <span class="news-list__date">Sep 2025</span>
+          <span class="news-list__text">One paper accepted by ICCV 2025 KnowledgeMR Workshop.</span>
+        </li>
+        <li class="news-list__item">
+          <span class="news-list__date">Aug 2025</span>
+          <span class="news-list__text">Our paper <i>MovieChat+: Question-aware Sparse Memory for Long Video Question Answering</i> is accepted by IEEE TPAMI.</span>
+        </li>
+      </ul>
+    </div>
+
+  </div><!-- /#section-about -->
+
+  <!-- ═══════════════════════════════════════════
+       SECTION: Experience
+  ═══════════════════════════════════════════ -->
+  <div id="section-experience" class="page-section">
+
+    <div id="Education" class="bio">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+        Education
+      </h1>
+      <div class="bio-body" style="overflow:hidden;">
+        <div class="timeline">
+          <article class="timeline-entry">
+            <div class="timeline-entry__meta">
+              <span class="timeline-entry__time">Fall 2026 – Present</span>
+              <img src="images/icon/Upenn.png" alt="University of Pennsylvania" class="timeline-entry__logo" width="48" height="48">
+            </div>
+            <div class="timeline-entry__content">
+              <h3>Ph.D., University of Pennsylvania, Philadelphia, USA</h3>
+              <p class="timeline-entry__role">Computer and Information Science</p>
+              <p>Advised by <a href="https://jiataogu.me/">Prof. Jiatao Gu</a>.</p>
+            </div>
+          </article>
+
+          <article class="timeline-entry">
+            <div class="timeline-entry__meta">
+              <span class="timeline-entry__time">Sep. 2023 – Mar. 2026</span>
+              <img src="images/icon/zju.png" alt="Zhejiang University" class="timeline-entry__logo" width="48" height="48">
+            </div>
+            <div class="timeline-entry__content">
+              <h3>M.S., Zhejiang University, Hangzhou, China</h3>
+
+              <p>Advised by <a href="https://cvnext.github.io/">Prof. Gaoang Wang</a>.</p>
+            </div>
+          </article>
+
+          <article class="timeline-entry">
+            <div class="timeline-entry__meta">
+              <span class="timeline-entry__time">Sep. 2019 – Jun. 2023</span>
+              <img src="images/icon/dlut.png" alt="Dalian University of Technology" class="timeline-entry__logo" width="48" height="48">
+            </div>
+            <div class="timeline-entry__content">
+              <h3>B.S., Dalian University of Technology (DLUT), Dalian, China</h3>
+              <p class="timeline-entry__role timeline-entry__role--plain">Software Engineering</p>
+
+            </div>
+          </article>
+        </div>
+      </div>
       <br>
-    </p>
-  </div>
-</div>
-
-
-<div id="Experiences" class="bio">
-
-  <h1 class="md-heading text-left">
-    <i class="fa fa-tasks" aria-hidden="true"></i>
-    Experiences
-  </h1>
-  <div class="bio-body" style="overflow:hidden;">
-    <div class="timeline">
-      <article class="timeline-entry">
-        <div class="timeline-entry__meta">
-          <span class="timeline-entry__time">Feb. 2025 – Present</span>
-          <img src="images/icon/UCSD.svg" alt="UCSD" class="timeline-entry__logo" width="50" height="50">
-        </div>
-        <div class="timeline-entry__content">
-          <h3>University of California, San Diego (UCSD), USA</h3>
-          <p class="timeline-entry__role">Visiting Intern</p>
-          <p>Advised by <a href="https://pages.ucsd.edu/~ztu/">Prof. Zhuowen Tu</a>.</p>
-        </div>
-      </article>
-
-      <article class="timeline-entry">
-        <div class="timeline-entry__meta">
-          <span class="timeline-entry__time">Nov. 2023 – May 2024</span>
-          <img src="images/icon/msra.jpg" alt="Microsoft Research Asia" class="timeline-entry__logo" width="48" height="48">
-        </div>
-        <div class="timeline-entry__content">
-          <h3>Media Computing Group, Microsoft Research Lab - Asia, Beijing</h3>
-          <p class="timeline-entry__role">Research Intern</p>
-          <p>Worked on text-to-image generation.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-  <br>
-</div>
-
-
-<div id="Education" class="bio">
-
-  <h1 class="md-heading text-left">
-    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-    Education
-  </h1>
-  <div class="bio-body" style="overflow:hidden;">
-    <div class="timeline">
-      <article class="timeline-entry">
-        <div class="timeline-entry__meta">
-          <span class="timeline-entry__time">Sep. 2023 – Mar. 2026 (expected)</span>
-          <img src="images/icon/zju.png" alt="Zhejiang University" class="timeline-entry__logo" width="48" height="48">
-        </div>
-        <div class="timeline-entry__content">
-          <h3>M.S., Zhejiang University, Hangzhou, China</h3>
-          <p class="timeline-entry__role">Artificial Intelligence</p>
-          <p>Ranked 1/82 in the M.S. program.</p>
-        </div>
-      </article>
-
-      <article class="timeline-entry">
-        <div class="timeline-entry__meta">
-          <span class="timeline-entry__time">Sep. 2019 – Jun. 2023</span>
-          <img src="images/icon/dlut.png" alt="Dalian University of Technology" class="timeline-entry__logo" width="48" height="48">
-        </div>
-        <div class="timeline-entry__content">
-          <h3>B.S., Dalian University of Technology (DLUT), Dalian, China</h3>
-          <p class="timeline-entry__role">Software Engineering</p>
-          <p>Ranked 21/385 in the undergraduate cohort.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-  <br>
-</div>
-
-
-
-
-
-<div id="news" class="bio">
-  <h1 class="md-heading text-left">
-    <i class="fa fa-tasks" aria-hidden="true"></i>
-    News
-  </h1>  
-  <ul class="news-list">
-    <li class="news-list__item">
-      <span class="news-list__date">Jan 2026</span>
-      <span class="news-list__text">Our <a href="https://enxinsong.com/VideoNSA-web/">VideoNSA</a> is accepted by ICLR 2026.</span>
-    </li>
-    <li class="news-list__item">
-      <span class="news-list__date">Nov 2025</span>
-      <span class="news-list__text">Selected (top 10%) to give a talk at the KAUST Rising Stars in AI Symposium 2026.</span>
-    </li>
-    <li class="news-list__item">
-      <span class="news-list__date">Oct 2025</span>
-      <span class="news-list__text">Video-MMLU received the <a href="https://knowledgemr-workshop.github.io/#accepted-paper">Outstanding Paper Award</a> at the ICCV 2025 Knowledge-Intensive Multimodal Reasoning Workshop, along with a travel grant.</span>
-    </li>
-    <li class="news-list__item">
-      <span class="news-list__date">Oct 2025</span>
-      <span class="news-list__text">We release <a href="https://enxinsong.com/VideoNSA-web/">VideoNSA</a>, a hardware-aware native sparse attention mechanism for video understanding.</span>
-    </li>
-    <li class="news-list__item">
-      <span class="news-list__date">Sep 2025</span>
-      <span class="news-list__text">Invited talk at <a href="https://lambda.ai/">Lambda AI</a> titled <i>From Seeing to Thinking</i>.</span>
-    </li>
-    <li class="news-list__item">
-      <span class="news-list__date">Sep 2025</span>
-      <span class="news-list__text">One paper accepted by ICCV 2025 KnowledgeMR Workshop.</span>
-    </li>
-    <li class="news-list__item">
-      <span class="news-list__date">Aug 2025</span>
-      <span class="news-list__text">Our paper <i>MovieChat+: Question-aware Sparse Memory for Long Video Question Answering</i> is accepted by IEEE TPAMI.</span>
-    </li>
-    <!-- <li class="news-list__item">
-      <span class="news-list__date">Jul 2025</span>
-      <span class="news-list__text">Our paper <i>Video-MMLU: A Massive Multi-Discipline Lecture Understanding Benchmark</i> is accepted by ICCV 2025 Findings.</span>
-    </li> -->
-  </ul>
-  <!-- Additional historical updates retained below for reference
-    <li class="indented" data-date="[Jun, 2025]"> Our paper <i>Bringing RNNs Back to Efficient Open-Ended Video Understanding</i> is accepted by ICCV 2025. </li>
-    <li class="indented" data-date="[Apr, 2025]"> We host the CVPR 2025 Video Understanding Challenge @ <a href="https://sites.google.com/view/loveucvpr25/track1a">LOVE Track 1A</a> and <a href="https://sites.google.com/view/loveucvpr25/track1b">Track 1B</a>. </li>
-    <li class="indented" data-date="[Apr, 2025]"> We release <a href="https://arxiv.org/pdf/2504.14693">Video-MMLU</a>, a Massive Multi-Discipline Lecture Understanding Benchmark. </li>
-    <li class="indented" data-date="[Mar, 2025]"> One paper accepted to the CVPR 2025 Efficient Large Vision Models Workshop. </li>
-    <li class="indented" data-date="[Jan, 2025]"> Two papers are accepted by ICLR 2025. </li>
-    <li class="indented" data-date="[Jan, 2025]"> Our paper <i>Meissonic: Revitalizing masked generative transformers for efficient high-resolution text-to-image synthesis</i> is accepted by ICLR 2025. </li>
-    <li class="indented" data-date="[Oct, 2024]"> We submit some baseline (AuroraCap, MovieChat, MovieChat-Onevision) and some benchmark (VDC, MovieChat-1K) to <a href="https://github.com/EvolvingLMMs-Lab/lmms-eval">lmms-eval</a> (LLaVA team), which enables quick evaluation with just a single line of code. </li>
-    <li class="indented" data-date="[Oct, 2024]"> We release a new version of MovieChat, which use LLaVA-OneVision as the base model instead of the original VideoLLaMA. The new version is available on <a href="https://github.com/rese1f/MovieChat/tree/main/MovieChat_Onevision">Github</a>. </li>
-    <li class="indented" data-date="[Oct, 2024]"> Our paper <i>Meissonic: Revitalizing Masked Generative Transformers for Efficient High-Resolution Text-to-Image Synthesis</i> is released, and the code is available at <a href="https://huggingface.co/MeissonFlow/Meissonic">website</a>. </li>
-    <li class="indented" data-date="[Oct, 2024]"> Our paper <i>AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark</i> is released, and the code is available at <a href="https://github.com/rese1f/aurora">website</a>. </li>
-    <li class="indented" data-date="[Jun, 2024]"> We finish CVPR 2024 Long-form Video Understanding Challenge @ <a href="https://sites.google.com/view/loveucvpr24/home">LOVEU</a> and presented a summary of the competition results offline.</a> </li>
-    <li class="indented" data-date="[May, 2024]"> Finish my research internship at Microsoft Research Asia (MSRA), Beijing.</a> </li>
-    <li class="indented" data-date="[Apr, 2024]"> We are hosting CVPR 2024 Long-form Video Understanding Challenge @ <a href="https://sites.google.com/view/loveucvpr24/track1">LOVEU</a> </li>
-    <li class="indented" data-date="[Apr, 2024]"> Our paper <i>MovieChat+: Question-aware Sparse Memory for Long Video Question Answering</i> is released, and the code is available at <a href="https://rese1f.github.io/MovieChat/">website</a>. </li>
-    <li class="indented" data-date="[Feb, 2024]"> Our paper <i>MovieChat: From Dense Token to Sparse Memory in Long Video Understanding</i> is accepted by Computer Vision and Pattern Recognition (CVPR), 2024. </li>
-    <li class="indented" data-date="[Nov, 2023]"> Become a research intern at <a href="https://www.msra.cn/">Microsoft Research Asia (MSRA)</a>, advised by principal researcher <a href="https://scholar.google.com/citations?user=Ow4R8-EAAAAJ&hl=en&oi=ao">Xun Guo</a>. </li>
-    <li class="indented" data-date="[Sep, 2023]"> Our paper <i>Devil in the Number: Towards Robust Multi-modality Data Filter</i> is accepted by ICCV 2023 workshop: <a href="https://www.datacomp.ai/">TNGCV-DataComp</a>. </li>
-    <li class="indented" data-date="[Jul, 2023]"> Our project <i>MovieChat: From Dense Token to Sparse Memory in Long Video Understanding</i> is released at <a href="https://rese1f.github.io/MovieChat/">website</a>. </li>
-    <li class="indented" data-date="[Jun, 2023]"> I graduate from Dalian University of Technology. </li>
-    <li class="indented" data-date="[Oct, 2022]"> Start my research on domain adaptation task for image caption, advised by Professor <a href="https://person.zju.edu.cn/en/gaoangwang/">Gaoang Wang</a>. </li>
-  -->
-</div>
-
-<br>
-
-<div id="publications" class="publications">
-  <h1 class="md-heading text-left">
-    <i class="fa fa-file" aria-hidden="true"></i>
-    Selected Publications and Manuscripts
-  </h1>
-  <p>
-    * Equal contribution.
-  </p>
-  <p>
-    Also see <a href="https://scholar.google.com/citations?user=sLqa-3oAAAAJ&hl=en" target="_blank">Google Scholar</a>.
-  </p>
-
-  <div class="pub-list">
-    <div class="pub">
-      <div class="pub-left">
-        <img class="intro-img frame" src="publications/VideoNSA.png">
-      </div>
-      <div class="pub-right">
-        <div class="title">
-          VideoNSA: Native Sparse Attention Scales Video Understanding
-        </div>
-        <div class="desc">
-        </div>
-        <div class="authors">
-          <font style="font-size: 11pt;">
-            <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
-            <a class="author" href="https://rese1f.github.io/">Wenhao Chai</a>,
-            <a class="author" href="https://scholar.google.com/citations?user=v6dmW5cntoMC">Shusheng Yang</a>,
-            <a class="author" href="https://ethana.org/">Ethan J. Armand</a>,
-            <a class="author" href="https://shanxiaojun.github.io/">Xiaojun Shan</a>,
-            <a class="author" href="https://scholar.google.com/citations?user=3CK77ZcAAAAJ&hl=en">Haiyang Xu</a>,
-            <a class="author" href="http://www.stat.ucla.edu/~jxie/">Jianwen Xie</a>,
-            <a class="author" href="https://pages.ucsd.edu/~ztu/">Zhuowen Tu</a>
-          </font>
-          </span>
-        </div>
-        <div class="publish">
-          <span class="publisher">ICLR, 2026</span>
-          <span class="place"></span>
-        </div>
-        <div class="tags">
-          <a class="tag" href="https://arxiv.org/abs/2510.02295">Paper</a>
-          <a class="tag" href="https://enxinsong.com/VideoNSA-web/">Website</a>
-          <a class="tag" href="https://huggingface.co/Enxin/VideoNSA">Model</a>
-          <a class="tag" href="https://github.com/Espere-1119-Song/VideoNSA">Code</a>
-          <img alt="GitHub stars" src="https://img.shields.io/github/stars/Espere-1119-Song/VideoNSA?style=social">
-        </div>
-        <span >VideoNSA delivers hardware-aware native sparse attention primitives for efficient video understanding systems.</span>
-      </div>
     </div>
 
-    <!--
-    <div class="pub">
-      <div class="pub-left">
-        <img class="intro-img frame" src="publications/videommlu.png">
-      </div>
-      <div class="pub-right">
-        <div class="title">
-          Video-MMLU: A Massive Multi-Discipline Lecture Understanding Benchmark
-        </div>
-        <div class="desc">
-        </div>
-        <div class="authors">
-          <font style="font-size: 11pt;">
-            <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song</b></a>,
-            <a class="author" href="https://rese1f.github.io/">Wenhao Chai</a>,
-            <a class="author" href="https://weili-0234.github.io/">Weili Xu</a>,
-            <a class="author" href="http://www.stat.ucla.edu/~jxie/">Jianwen Xie</a>,
-            <a class="author" href="">Yuxuan Liu</a>,
-            <a class="author" href="https://omerbt.github.io/">Gaoang Wang</a>,
-          </font>
-          </span>
-        </div>
-        <div class="publish">
-          <span class="publisher">ICCVW, 2025</span>
-          <span class="place"></span>
-        </div>
-        <div class="tags">
-          <a class="tag" href="https://arxiv.org/abs/2504.14693">Paper</a>
-          <a class="tag" href="https://enxinsong.com/Video-MMLU-web/">Website</a>
-          <a class="tag" href="https://huggingface.co/datasets/Enxin/Video-MMLU">Benchmark</a>
-          <a class="tag" href="https://github.com/Espere-1119-Song/Video-MMLU">Code</a>
-          <img alt="NPM" src="https://img.shields.io/github/stars/Espere-1119-Song/Video-MMLU?style=social">
-        </div>
-        <span >Video-MMLU is a massive benchmark designed to evaluate the capabilities of LMMs in understanding Multi-Discipline Lectures. </span>
-      </div>
-    </div>
-    -->
-
-	<div class="pub">
-      <div class="pub-left">
-        <img class="intro-img frame" src="publications/auroralong.png">
-      </div>
-      <div class="pub-right">
-        <div class="title">
-          AuroraLong: Bringing RNNs Back to Efficient Open-Ended Video Understanding
-        </div>
-        <div class="desc">
-        </div>
-        <div class="authors">
-          <font style="font-size: 11pt;">
-			<a class="author" href="https://weili-0234.github.io/">Weili Xu*</a>,
-            <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
-            <a class="author" href="https://rese1f.github.io/">Wenhao Chai</a>,
-			<a class="author" href="">Xuexiang Wen</a>,
-			<a class="author" href="https://owen718.github.io/">Tian Ye</a>,
-            <a class="author" href="https://cvnext.github.io/">Gaoang Wang</a>,
-          </font>
-          </span>
-        </div>
-        <div class="publish">
-          <span class="publisher">ICCV, 2025</span>
-          <span class="place"></span>
-        </div>
-        <div class="tags">
-          <a class="tag" href="https://arxiv.org/abs/2507.02591">Paper</a>
-        </div>
-        <span >Video-MMLU uses a linear RNN language model that handles input sequence of arbitrary length with constant-size hidden states to solve long video understanding tasks. </span>
-      </div>
-    </div>
-    
-    <div class="pub">
-      <div class="pub-left">
-        <img class="intro-img frame" src="publications/auroracap.JPG">
-      </div>
-      <div class="pub-right">
-        <div class="title">
-          AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark
-        </div>
-        <div class="desc">
-        </div>
-        <div class="authors">
-          <font style="font-size: 11pt;">
-            <a class="author" href="https://rese1f.github.io/">Wenhao Chai*</a>,
-            <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
-            <a class="author" href="https://yilundu.github.io/">Yilun Du</a>,
-            <a class="author" href="https://cs.stanford.edu/~chenlin/">Chenlin Meng</a>,
-            <a class="author" href="https://scholar.google.com/citations?user=WjF1dugAAAAJ">Vashisht Madhavan</a>,
-            <a class="author" href="https://omerbt.github.io/">Omer Bar-Tal</a>,
-            <a class="author" href="https://people.ece.uw.edu/hwang/">Jeng-Neng Hwang</a>,
-            <a class="author" href="https://www.sainingxie.com/">Saining Xie</a>,
-            <a class="author" href="https://nlp.stanford.edu/~manning/">Christopher D. Manning</a>
-          </font>
-          </span>
-        </div>
-        <div class="publish">
-          <span class="publisher">ICLR, 2025</span>
-          <span class="place"></span>
-        </div>
-        <div class="tags">
-          <a class="tag" href="https://arxiv.org/abs/2410.03051">Paper</a>
-          <a class="tag" href="https://rese1f.github.io/aurora-web/">Website</a>
-          <a class="tag" href="https://huggingface.co/collections/wchai/auroracap-66d117ffe13bedda96702013">Model</a>
-          <a class="tag" href="https://huggingface.co/datasets/wchai/Video-Detailed-Caption">Benchmark</a>
-          <!-- <a class="tag" href="https://huggingface.co/datasets/wchai/AuroraCap-trainset">Dataset</a> -->
-          <a class="tag" href="https://github.com/rese1f/aurora">Code</a>
-          <img alt="NPM" src="https://img.shields.io/github/stars/rese1f/aurora?style=social">
-        </div>
-        <span >AuroraCap is a multimodal LLM designed for image and video detailed captioning. We also release VDC, the first benchmark for detailed video captioning.</span>
-        <!-- <b><span >Conference on Neural Information Processing Systems (NeurIPS 2024)</span></b> -->
-        <!-- <b><span style="color: red;"> Best Paper Award @ NeurIPS 2023 DLDE</span></b> -->
-      </div>
-    </div>
-
-    <!-- <div class="pub">
-      <div class="pub-left">
-        <img class="intro-img frame" src="publications/Fantasy.png">
-      </div>
-      <div class="pub-right">
-        <div class="title">
-          Fantasy: Transformer Meets Transformer in Text-to-Image Generation
-        </div>
-        <div class="desc">
-        </div>
-        <div class="authors">
-          <font style="font-size: 11pt;">
-            <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
-            <a class="author" href="https://rese1f.github.io/">Wenhao Chai*</a>,
-            <a class="author" href="">Xun Guo</a>,
-            <a class="author" href="https://person.zju.edu.cn/en/gaoangwang/">Gaoang Wang</a>,
-            <a class="author" href="https://people.ece.uw.edu/hwang/">Jenq-Neng Hwang</a>,
-            <a class="author" href="">Yan Lu</a>
-          </font>
-        </div>
-        <div class="publish">
-          <span class="publisher">Preperint, 2024</span>
-          <span class="place"></span>
-        </div>
-        <div class="tags">
-          <a class="tag" href="https://openreview.net/forum?id=qL4nN6Ew7U">Paper</a>
-        </div>
-        <span >Fantasy, an efficient text-to-image generation model marrying the decoder-only Large Language Models (LLMs) and transformer-based masked image modeling (MIM). </span>
-      </div>
-    </div> -->
-
-    <div class="pub">
-      <div class="pub-left">
-        <img class="intro-img frame" src="publications/moviechat.gif">
-      </div>
-      <div class="pub-right">
-        <div class="title">
-          MovieChat: From Dense Token to Sparse Memory for Long Video Understanding
-        </div>
-        <div class="desc">
-        </div>
-        <div class="authors">
-          <font style="font-size: 11pt;">
-            <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
-            <a class="author" href="https://rese1f.github.io/">Wenhao Chai*</a>,
-            <a class="author" href="">Guanhong Wang*</a>,
-            <a class="author" href="">Yucheng Zhang</a>,
-            <a class="author" href="">Haoyang Zhou</a>,
-            <a class="author" href="">Feiyang Wu</a>,
-            <a class="author" href="">Xun Guo</a>,
-            <a class="author" href="">Tian Ye</a>,
-            <a class="author" href="">Yan Lu</a>,
-            <a class="author" href="https://people.ece.uw.edu/hwang/">Jenq-Neng Hwang</a>,
-            <a class="author" href="https://person.zju.edu.cn/en/gaoangwang/">Gaoang Wang</a>
-
-          </font>
-        </div>
-        <div class="publish">
-          <span class="publisher">CVPR, 2024</span>
-          <span class="place"></span>
-        </div>
-        <div class="tags">
-          <a class="tag" href="https://openaccess.thecvf.com/content/CVPR2024/html/Song_MovieChat_From_Dense_Token_to_Sparse_Memory_for_Long_Video_CVPR_2024_paper.html">Paper</a>
-          <a class="tag" href="https://rese1f.github.io/MovieChat/">Website</a>
-          <a class="tag" href="https://huggingface.co/datasets/Enxin/MovieChat-1K_train">Benchmark</a>
-          <a class="tag" href="https://github.com/rese1f/MovieChat">Code</a>
-          <img alt="NPM" src="https://img.shields.io/github/stars/rese1f/MovieChat?style=social">
-        </div>
-        <span >MovieChat achieves state-of-the-art performace in extra long video (more than 10K frames) understanding by introducing memory mechanism. </span>
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-</div>
-
-
-<div class="wrapper">
-  <div id="academicservices" class="bio">
-    <div class="bio-body" style="overflow:hidden;">
+    <div id="Experiences" class="bio">
       <h1 class="md-heading text-left">
-        <i class="fa fa-tasks" aria-hidden="true"></i>
-        Professional Service
-      </h1>  
-      <div class="info-card-grid">
-        <div class="info-card">
-          <p class="info-card__eyebrow">Conference &amp; Journal Refereeing</p>
-          <p class="info-card__text">NeurIPS 2025, PRCV 2023 &amp; 2025, CVPR 2025 &amp; 2026, ICLR 2025 &amp; 2026, TMM 2024, TPAMI 2025.</p>
+        <i class="fa fa-flask" aria-hidden="true"></i>
+        Research Experience
+      </h1>
+      <div class="bio-body" style="overflow:hidden;">
+        <div class="timeline">
+          <article class="timeline-entry">
+            <div class="timeline-entry__meta">
+              <span class="timeline-entry__time">Spring – Summer 2025</span>
+              <img src="images/icon/UCSD.svg" alt="UCSD" class="timeline-entry__logo" width="50" height="50">
+            </div>
+            <div class="timeline-entry__content">
+              <h3>University of California, San Diego (UCSD), USA</h3>
+              <p class="timeline-entry__role">Visiting Researcher</p>
+              <p>Advised by <a href="https://pages.ucsd.edu/~ztu/">Prof. Zhuowen Tu</a>.</p>
+            </div>
+          </article>
+
+          <article class="timeline-entry">
+            <div class="timeline-entry__meta">
+              <span class="timeline-entry__time">Nov. 2023 – May 2024</span>
+              <img src="images/icon/msra.jpg" alt="Microsoft Research Asia" class="timeline-entry__logo" width="48" height="48">
+            </div>
+            <div class="timeline-entry__content">
+              <h3>Media Computing Group, Microsoft Research Lab - Asia, Beijing</h3>
+              <p class="timeline-entry__role">Research Intern</p>
+              <p>Multimedia Computing Group. Mentor: Xun Guo.</p>
+            </div>
+          </article>
         </div>
-        <div class="info-card">
-          <p class="info-card__eyebrow">Workshop Organization</p>
-          <ul class="info-card__list">
-            <li><a href="https://sites.google.com/view/loveucvpr25" target="_blank" rel="noopener">Multimodal Video Agent Workshop @ CVPR 2025</a></li>
-            <li><a href="https://sites.google.com/view/loveucvpr24/home" target="_blank" rel="noopener">Long-form Video Understanding Towards Multimodal AI Assistant and Copilot @ CVPR 2024</a></li>
-          </ul>
+      </div>
+      <br>
+    </div>
+
+    <div id="academicservices" class="bio">
+      <div class="bio-body" style="overflow:hidden;">
+        <h1 class="md-heading text-left">
+          <i class="fa fa-tasks" aria-hidden="true"></i>
+          Professional Service
+        </h1>
+        <div class="info-card-grid">
+          <div class="info-card">
+            <p class="info-card__eyebrow">Conference &amp; Journal Refereeing</p>
+            <p class="info-card__text">IJCV 2026, ICML 2026, CVPR 2025 &amp; 2026, ICLR 2025 &amp; 2026, NeurIPS 2025, TPAMI 2025, PRCV 2023 &amp; 2025, TMM 2024.</p>
+          </div>
+          <div class="info-card">
+            <p class="info-card__eyebrow">Workshop Organization</p>
+            <ul class="info-card__list">
+              <li><a href="https://sites.google.com/view/loveucvpr25" target="_blank" rel="noopener">Multimodal Video Agent Workshop @ CVPR 2025</a></li>
+              <li><a href="https://sites.google.com/view/loveucvpr24/home" target="_blank" rel="noopener">Long-form Video Understanding Towards Multimodal AI Assistant and Copilot @ CVPR 2024</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-
-
-<div class="wrapper">
-  <div id="teaching" class="bio">
+    <div id="talks" class="bio">
       <h1 class="md-heading text-left">
-        <i class="fa fa-tasks" aria-hidden="true"></i>
-        Teaching Assistant
-      </h1>  
+        <i class="fa fa-microphone" aria-hidden="true"></i>
+        Invited Talks
+      </h1>
+      <ul class="awards-list">
+        <li>
+          <span class="awards-list__year">Feb 2026</span>
+          <div class="awards-list__text">
+            <div><i>From Compression to Selection: Better and Longer Video Understanding</i></div>
+            <div class="talk-venue"><a href="https://www.kaust.edu.sa/events/rsais26/" target="_blank" rel="noopener">KAUST Rising Stars in AI Symposium</a>, Saudi Arabia</div>
+          </div>
+        </li>
+        <li>
+          <span class="awards-list__year">Oct 2025</span>
+          <div class="awards-list__text">
+            <div><i>Video-MMLU: A Massive Multi-Discipline Lecture Understanding Benchmark</i></div>
+            <div class="talk-venue">Workshop on Knowledge MR at ICCV 2025, Oahu, HI</div>
+          </div>
+        </li>
+        <li>
+          <span class="awards-list__year">Sep 2025</span>
+          <div class="awards-list__text">
+            <div><i>From Seeing to Thinking</i></div>
+            <div class="talk-venue"><a href="https://lambda.ai/" target="_blank" rel="noopener">Lambda AI</a> (virtual)</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="teaching" class="bio">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-book" aria-hidden="true"></i>
+        Teaching
+      </h1>
       <div class="teaching-card">
         <div class="teaching-card__term">Spring 2024</div>
         <div class="teaching-card__course">ECE 445 Senior Design (Undergraduate)</div>
         <p class="teaching-card__meta">Teaching Assistant with <a href="https://person.zju.edu.cn/en/gaoangwang/">Prof. Gaoang Wang</a>.</p>
       </div>
-  </div>
-</div>
+    </div>
 
-<div class="wrapper">
-  <div id="awards" class="bio">
-    <h1 class="md-heading text-left">
-      <i class="fa fa-tasks" aria-hidden="true"></i>
-      Selected Honors & Awards
-    </h1>
-    <ul class="awards-list">
-      <li>
-        <span class="awards-list__year">2026</span>
-        <div class="awards-list__text"><a href="https://www.kaust.edu.sa/events/rsais26/" target="_blank" rel="noopener">KAUST Rising Stars in AI Symposium</a></div>
-      </li>
-      <li>
-        <span class="awards-list__year">2025</span>
-        <div class="awards-list__text"><a href="https://lambda.ai/?matchtype=p&adgroup=167368709642&feeditemid=&loc_interest_ms=&loc_physical_ms=9053131&network=g&device=c&devicemodel=&adposition=&utm_source=google&utm_campaign=Google_Search_Cloud-Brand&utm_medium=search&utm_term=lambda%20ai&utm_content=708570750692&hsa_acc=1731978716&hsa_cam=17699749392&hsa_grp=167368709642&hsa_ad=708570750692&hsa_src=g&hsa_tgt=kwd-554422468680&hsa_kw=lambda%20ai&hsa_mt=p&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=17699749392&gbraid=0AAAAADrJiRzfUWNIrFKK1cSqVBfmCYcwO&gclid=Cj0KCQjwl5jHBhDHARIsAB0YqjwyVXl0iQvzsjkmAdZ7O4xSkSCjV5rVoJmwDkoGMi-z2I31lZAIPbwaAtIPEALw_wcB" target="_blank" rel="noopener">Lambda AI</a> Cloud Credits Grant Sponsorship</div>
-      </li>
-      <li>
-        <span class="awards-list__year">2025</span>
-        <div class="awards-list__text">National Scholarship, Zhejiang University</div>
-      </li>
-      <li>
-        <span class="awards-list__year">2024</span>
-        <div class="awards-list__text">National Scholarship, Zhejiang University</div>
-      </li>
-      <li>
-        <span class="awards-list__year">2021</span>
-        <div class="awards-list__text">National Scholarship, Dalian University of Technology</div>
-      </li>
-    </ul>
-  </div>
-</div>
+    <div id="awards" class="bio">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-trophy" aria-hidden="true"></i>
+        Selected Honors &amp; Awards
+      </h1>
+      <ul class="awards-list">
+        <li>
+          <span class="awards-list__year">2026</span>
+          <div class="awards-list__text"><a href="https://www.kaust.edu.sa/events/rsais26/" target="_blank" rel="noopener">KAUST Rising Stars in AI Symposium</a></div>
+        </li>
+        <li>
+          <span class="awards-list__year">2025</span>
+          <div class="awards-list__text"><a href="https://knowledgemr-workshop.github.io/#accepted-paper" target="_blank" rel="noopener">Outstanding Paper Award</a>, ICCV 2025 Knowledge-Intensive Multimodal Reasoning Workshop</div>
+        </li>
+        <li>
+          <span class="awards-list__year">2025</span>
+          <div class="awards-list__text"><a href="https://lambda.ai/" target="_blank" rel="noopener">Lambda AI</a> Cloud Credits Grant Sponsorship</div>
+        </li>
+        <li>
+          <span class="awards-list__year">2025</span>
+          <div class="awards-list__text">National Scholarship, Zhejiang University</div>
+        </li>
+        <li>
+          <span class="awards-list__year">2024</span>
+          <div class="awards-list__text">National Scholarship, Zhejiang University</div>
+        </li>
+        <li>
+          <span class="awards-list__year">2021</span>
+          <div class="awards-list__text">National Scholarship, Dalian University of Technology</div>
+        </li>
+      </ul>
+    </div>
 
+  </div><!-- /#section-experience -->
+
+  <!-- ═══════════════════════════════════════════
+       SECTION: Research
+  ═══════════════════════════════════════════ -->
+  <div id="section-research" class="page-section">
+
+    <div id="research-overview" class="bio">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        Research Overview
+      </h1>
+      <p class="research-overview-lead">My research centers on video understanding and generative models, with key areas of focus including:</p>
+      <ul class="research-overview-list">
+        <li>
+          <strong>Efficient Long-Sequence Modeling</strong>
+          <span>, especially for long video inputs, using techniques like hybrid memory, token compression, RNNs, sparse attention, and linear attention mechanism.</span>
+          <div class="research-timeline-wrap">
+            <svg viewBox="0 0 940 190" xmlns="http://www.w3.org/2000/svg" class="research-timeline-svg">
+              <defs>
+                <linearGradient id="tl-arrow" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"   stop-color="#011F5B" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#011F5B" stop-opacity="0.45"/>
+                </linearGradient>
+                <filter id="tl-shadow" x="-5%" y="-20%" width="110%" height="160%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#011F5B" flood-opacity="0.12"/>
+                </filter>
+              </defs>
+
+              <!-- Phase labels -->
+              <text x="271" y="25" text-anchor="middle" font-weight="600" font-size="13" fill="#0d1636" font-family="Inter,sans-serif" letter-spacing="0.3">Token Merging</text>
+              <text x="622" y="25" text-anchor="middle" font-weight="600" font-size="13" fill="#0d1636" font-family="Inter,sans-serif" letter-spacing="0.3">Linear Attention</text>
+              <text x="822" y="25" text-anchor="middle" font-weight="600" font-size="13" fill="#0d1636" font-family="Inter,sans-serif" letter-spacing="0.3">Sparse Attention</text>
+
+              <!-- Phase underlines -->
+              <rect x="72"  y="35" width="398" height="2" fill="#011F5B" rx="1" opacity="0.45"/>
+              <rect x="596" y="35" width="52"  height="2" fill="#011F5B" rx="1" opacity="0.45"/>
+              <rect x="772" y="35" width="100" height="2" fill="#011F5B" rx="1" opacity="0.45"/>
+
+              <!-- Arrow bar -->
+              <polygon points="38,104 858,104 858,96 896,113 858,130 858,122 38,122" fill="url(#tl-arrow)" filter="url(#tl-shadow)"/>
+
+              <!-- ── Item 1: MovieChat  x=95 ── -->
+              <text x="95"  y="66" text-anchor="middle" font-size="11" fill="#5a6a8a" font-family="Inter,sans-serif" font-weight="600">2023.07</text>
+              <line x1="95" y1="104" x2="95" y2="80" stroke="#011F5B" stroke-width="1.5" opacity="0.6"/>
+              <polygon points="95,80 112,89 95,98" fill="#011F5B"/>
+              <text x="95"  y="148" text-anchor="middle" font-weight="600" font-size="12" fill="#0d1636" font-family="Inter,sans-serif" text-decoration="underline">MovieChat</text>
+              <text x="95"  y="163" text-anchor="middle" font-size="10.5" fill="#2a4580" font-family="Inter,sans-serif" font-weight="500">CVPR 2024</text>
+
+              <!-- ── Item 2: MovieChat+  x=270 ── -->
+              <text x="270" y="66" text-anchor="middle" font-size="11" fill="#5a6a8a" font-family="Inter,sans-serif" font-weight="600">2024.04</text>
+              <line x1="270" y1="104" x2="270" y2="80" stroke="#011F5B" stroke-width="1.5" opacity="0.6"/>
+              <polygon points="270,80 287,89 270,98" fill="#011F5B"/>
+              <text x="270" y="148" text-anchor="middle" font-weight="600" font-size="12" fill="#0d1636" font-family="Inter,sans-serif" text-decoration="underline">MovieChat+</text>
+              <text x="270" y="163" text-anchor="middle" font-size="10.5" fill="#2a4580" font-family="Inter,sans-serif" font-weight="500">TPAMI</text>
+
+              <!-- ── Item 3: AuroraCap  x=445 ── -->
+              <text x="445" y="66" text-anchor="middle" font-size="11" fill="#5a6a8a" font-family="Inter,sans-serif" font-weight="600">2024.09</text>
+              <line x1="445" y1="104" x2="445" y2="80" stroke="#011F5B" stroke-width="1.5" opacity="0.6"/>
+              <polygon points="445,80 462,89 445,98" fill="#011F5B"/>
+              <text x="445" y="148" text-anchor="middle" font-weight="600" font-size="12" fill="#0d1636" font-family="Inter,sans-serif" text-decoration="underline">AuroraCap</text>
+              <text x="445" y="163" text-anchor="middle" font-size="10.5" fill="#2a4580" font-family="Inter,sans-serif" font-weight="500">ICLR 2025</text>
+
+              <!-- ── Item 4: AuroraLong  x=622 ── -->
+              <text x="622" y="66" text-anchor="middle" font-size="11" fill="#5a6a8a" font-family="Inter,sans-serif" font-weight="600">2025.01</text>
+              <line x1="622" y1="104" x2="622" y2="80" stroke="#011F5B" stroke-width="1.5" opacity="0.6"/>
+              <polygon points="622,80 639,89 622,98" fill="#011F5B"/>
+              <text x="622" y="148" text-anchor="middle" font-weight="600" font-size="12" fill="#0d1636" font-family="Inter,sans-serif" text-decoration="underline">AuroraLong</text>
+              <text x="622" y="163" text-anchor="middle" font-size="10.5" fill="#2a4580" font-family="Inter,sans-serif" font-weight="500">ICCV 2025</text>
+
+              <!-- ── Item 5: VideoNSA  x=822 ── -->
+              <text x="822" y="66" text-anchor="middle" font-size="11" fill="#5a6a8a" font-family="Inter,sans-serif" font-weight="600">2025.09</text>
+              <line x1="822" y1="104" x2="822" y2="80" stroke="#011F5B" stroke-width="1.5" opacity="0.6"/>
+              <polygon points="822,80 839,89 822,98" fill="#011F5B"/>
+              <text x="822" y="148" text-anchor="middle" font-weight="600" font-size="12" fill="#0d1636" font-family="Inter,sans-serif" text-decoration="underline">VideoNSA</text>
+              <text x="822" y="163" text-anchor="middle" font-size="10.5" fill="#2a4580" font-family="Inter,sans-serif" font-weight="500">ICLR 2026</text>
+            </svg>
+          </div>
+        </li>
+        <li>
+          <strong>Applications of Generative Models</strong>
+          <span>, with an emphasis on masked image modeling for text-to-image synthesis, and a strong focus on enhancing efficiency in data usage and training.</span>
+        </li>
+        <li>
+          <strong>Benchmarking and Evaluation</strong>
+          <span>, creating complex and meaningful real-world challenges in video domains to probe the boundaries of model capabilities, while providing insights for future enhancement.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div id="publications" class="publications">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-file" aria-hidden="true"></i>
+        Selected Publications and Manuscripts
+      </h1>
+      <p>
+        * Equal contribution.
+      </p>
+      <p>
+        Also see <a href="https://scholar.google.com/citations?user=sLqa-3oAAAAJ&hl=en" target="_blank">Google Scholar</a>.
+      </p>
+
+      <div class="pub-filter">
+        <button class="pub-filter__btn active" data-filter="all">All</button>
+        <button class="pub-filter__btn" data-filter="seq">Long-Sequence Modeling</button>
+        <button class="pub-filter__btn" data-filter="gen">Generative Models</button>
+        <button class="pub-filter__btn" data-filter="bench">Benchmarking</button>
+      </div>
+
+      <div class="pub-list">
+        <div class="pub" data-category="seq">
+          <div class="pub-left">
+            <img class="intro-img frame" src="publications/VideoNSA.png" loading="lazy">
+          </div>
+          <div class="pub-right">
+            <div class="title">
+              VideoNSA: Native Sparse Attention Scales Video Understanding
+            </div>
+            <div class="desc">
+            </div>
+            <div class="authors">
+              <font style="font-size: 11pt;">
+                <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
+                <a class="author" href="https://rese1f.github.io/">Wenhao Chai</a>,
+                <a class="author" href="https://scholar.google.com/citations?user=v6dmW5cntoMC">Shusheng Yang</a>,
+                <a class="author" href="https://ethana.org/">Ethan J. Armand</a>,
+                <a class="author" href="https://shanxiaojun.github.io/">Xiaojun Shan</a>,
+                <a class="author" href="https://scholar.google.com/citations?user=3CK77ZcAAAAJ&hl=en">Haiyang Xu</a>,
+                <a class="author" href="http://www.stat.ucla.edu/~jxie/">Jianwen Xie</a>,
+                <a class="author" href="https://pages.ucsd.edu/~ztu/">Zhuowen Tu</a>
+              </font>
+            </div>
+            <div class="publish">
+              <span class="publisher">ICLR, 2026</span>
+              <span class="place"></span>
+            </div>
+            <div class="tags">
+              <a class="tag" href="https://arxiv.org/abs/2510.02295">Paper</a>
+              <a class="tag" href="https://enxinsong.com/VideoNSA-web/">Website</a>
+              <a class="tag" href="https://huggingface.co/Enxin/VideoNSA">Model</a>
+              <a class="tag" href="https://github.com/Espere-1119-Song/VideoNSA">Code</a>
+              <img alt="GitHub stars" src="https://img.shields.io/github/stars/Espere-1119-Song/VideoNSA?style=social">
+            </div>
+            <span>VideoNSA delivers hardware-aware native sparse attention primitives for efficient video understanding systems.</span>
+          </div>
+        </div>
+
+        <!--
+        <div class="pub">
+          <div class="pub-left">
+            <img class="intro-img frame" src="publications/videommlu.png" loading="lazy">
+          </div>
+          <div class="pub-right">
+            <div class="title">
+              Video-MMLU: A Massive Multi-Discipline Lecture Understanding Benchmark
+            </div>
+            <div class="desc">
+            </div>
+            <div class="authors">
+              <font style="font-size: 11pt;">
+                <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song</b></a>,
+                <a class="author" href="https://rese1f.github.io/">Wenhao Chai</a>,
+                <a class="author" href="https://weili-0234.github.io/">Weili Xu</a>,
+                <a class="author" href="http://www.stat.ucla.edu/~jxie/">Jianwen Xie</a>,
+                <a class="author" href="">Yuxuan Liu</a>,
+                <a class="author" href="https://omerbt.github.io/">Gaoang Wang</a>,
+              </font>
+            </div>
+            <div class="publish">
+              <span class="publisher">ICCVW, 2025</span>
+              <span class="place"></span>
+            </div>
+            <div class="tags">
+              <a class="tag" href="https://arxiv.org/abs/2504.14693">Paper</a>
+              <a class="tag" href="https://enxinsong.com/Video-MMLU-web/">Website</a>
+              <a class="tag" href="https://huggingface.co/datasets/Enxin/Video-MMLU">Benchmark</a>
+              <a class="tag" href="https://github.com/Espere-1119-Song/Video-MMLU">Code</a>
+              <img alt="NPM" src="https://img.shields.io/github/stars/Espere-1119-Song/Video-MMLU?style=social">
+            </div>
+            <span>Video-MMLU is a massive benchmark designed to evaluate the capabilities of LMMs in understanding Multi-Discipline Lectures.</span>
+          </div>
+        </div>
+        -->
+
+        <div class="pub" data-category="seq">
+          <div class="pub-left">
+            <img class="intro-img frame" src="publications/auroralong.png" loading="lazy">
+          </div>
+          <div class="pub-right">
+            <div class="title">
+              AuroraLong: Bringing RNNs Back to Efficient Open-Ended Video Understanding
+            </div>
+            <div class="desc">
+            </div>
+            <div class="authors">
+              <font style="font-size: 11pt;">
+                <a class="author" href="https://weili-0234.github.io/">Weili Xu*</a>,
+                <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
+                <a class="author" href="https://rese1f.github.io/">Wenhao Chai</a>,
+                <a class="author" href="">Xuexiang Wen</a>,
+                <a class="author" href="https://owen718.github.io/">Tian Ye</a>,
+                <a class="author" href="https://cvnext.github.io/">Gaoang Wang</a>,
+              </font>
+            </div>
+            <div class="publish">
+              <span class="publisher">ICCV, 2025</span>
+              <span class="place"></span>
+            </div>
+            <div class="tags">
+              <a class="tag" href="https://arxiv.org/abs/2507.02591">Paper</a>
+            </div>
+            <span>Video-MMLU uses a linear RNN language model that handles input sequence of arbitrary length with constant-size hidden states to solve long video understanding tasks.</span>
+          </div>
+        </div>
+
+        <div class="pub" data-category="bench">
+          <div class="pub-left">
+            <img class="intro-img frame" src="publications/auroracap.JPG" loading="lazy">
+          </div>
+          <div class="pub-right">
+            <div class="title">
+              AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark
+            </div>
+            <div class="desc">
+            </div>
+            <div class="authors">
+              <font style="font-size: 11pt;">
+                <a class="author" href="https://rese1f.github.io/">Wenhao Chai*</a>,
+                <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
+                <a class="author" href="https://yilundu.github.io/">Yilun Du</a>,
+                <a class="author" href="https://cs.stanford.edu/~chenlin/">Chenlin Meng</a>,
+                <a class="author" href="https://scholar.google.com/citations?user=WjF1dugAAAAJ">Vashisht Madhavan</a>,
+                <a class="author" href="https://omerbt.github.io/">Omer Bar-Tal</a>,
+                <a class="author" href="https://people.ece.uw.edu/hwang/">Jeng-Neng Hwang</a>,
+                <a class="author" href="https://www.sainingxie.com/">Saining Xie</a>,
+                <a class="author" href="https://nlp.stanford.edu/~manning/">Christopher D. Manning</a>
+              </font>
+            </div>
+            <div class="publish">
+              <span class="publisher">ICLR, 2025</span>
+              <span class="place"></span>
+            </div>
+            <div class="tags">
+              <a class="tag" href="https://arxiv.org/abs/2410.03051">Paper</a>
+              <a class="tag" href="https://rese1f.github.io/aurora-web/">Website</a>
+              <a class="tag" href="https://huggingface.co/collections/wchai/auroracap-66d117ffe13bedda96702013">Model</a>
+              <a class="tag" href="https://huggingface.co/datasets/wchai/Video-Detailed-Caption">Benchmark</a>
+              <a class="tag" href="https://github.com/rese1f/aurora">Code</a>
+              <img alt="NPM" src="https://img.shields.io/github/stars/rese1f/aurora?style=social">
+            </div>
+            <span>AuroraCap is a multimodal LLM designed for image and video detailed captioning. We also release VDC, the first benchmark for detailed video captioning.</span>
+          </div>
+        </div>
+
+        <div class="pub" data-category="seq">
+          <div class="pub-left">
+            <img class="intro-img frame" src="publications/moviechat.gif" loading="lazy">
+          </div>
+          <div class="pub-right">
+            <div class="title">
+              MovieChat: From Dense Token to Sparse Memory for Long Video Understanding
+            </div>
+            <div class="desc">
+            </div>
+            <div class="authors">
+              <font style="font-size: 11pt;">
+                <a class="author" href="https://espere-1119-song.github.io/"><b>Enxin Song*</b></a>,
+                <a class="author" href="https://rese1f.github.io/">Wenhao Chai*</a>,
+                <a class="author" href="">Guanhong Wang*</a>,
+                <a class="author" href="">Yucheng Zhang</a>,
+                <a class="author" href="">Haoyang Zhou</a>,
+                <a class="author" href="">Feiyang Wu</a>,
+                <a class="author" href="">Xun Guo</a>,
+                <a class="author" href="">Tian Ye</a>,
+                <a class="author" href="">Yan Lu</a>,
+                <a class="author" href="https://people.ece.uw.edu/hwang/">Jenq-Neng Hwang</a>,
+                <a class="author" href="https://person.zju.edu.cn/en/gaoangwang/">Gaoang Wang</a>
+              </font>
+            </div>
+            <div class="publish">
+              <span class="publisher">CVPR, 2024</span>
+              <span class="place"></span>
+            </div>
+            <div class="tags">
+              <a class="tag" href="https://openaccess.thecvf.com/content/CVPR2024/html/Song_MovieChat_From_Dense_Token_to_Sparse_Memory_for_Long_Video_CVPR_2024_paper.html">Paper</a>
+              <a class="tag" href="https://rese1f.github.io/MovieChat/">Website</a>
+              <a class="tag" href="https://huggingface.co/datasets/Enxin/MovieChat-1K_train">Benchmark</a>
+              <a class="tag" href="https://github.com/rese1f/MovieChat">Code</a>
+              <img alt="NPM" src="https://img.shields.io/github/stars/rese1f/MovieChat?style=social">
+            </div>
+            <span>MovieChat achieves state-of-the-art performance in extra long video (more than 10K frames) understanding by introducing memory mechanism.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /#section-research -->
+
+
+  <!-- ═══════════════════════════════════════════
+       SECTION: Blog
+  ═══════════════════════════════════════════ -->
+  <div id="section-blog" class="page-section">
+    <div class="bio">
+      <h1 class="md-heading text-left">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+        Blog
+      </h1>
+      <p>Occasional writing on research, tools, and things I find interesting.</p>
+
+      {% assign sorted_blogs = site.blogs | sort: "date" | reverse %}
+      {% if sorted_blogs.size > 0 %}
+      <div class="blog-list" style="margin-top: 24px;">
+        {% for post in sorted_blogs %}
+        <a href="{{ post.url | prepend: site.baseurl }}" class="blog-card">
+          <div class="blog-card__cover"></div>
+          <div class="blog-card__body">
+            {% if post.tags.size > 0 %}
+            <span class="blog-card__category">{{ post.tags[0] }}</span>
+            {% endif %}
+            <h2 class="blog-card__title">{{ post.title }}</h2>
+            <div class="blog-card__meta">
+              <span class="blog-card__date">{{ post.date | date: "%B %-d, %Y" }}</span>
+              <span class="blog-card__meta-sep">·</span>
+              {% assign read_time = post.content | number_of_words | divided_by: 200 %}
+              {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+              <span class="blog-card__read-time">{{ read_time }} min read</span>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div><!-- /#section-blog -->
+
+</div>
+</div>
 
 
 <footer class="site-footer">
-  <div class="wrapper">
-    <div class="footer-col-wrapper">
-      <div class="footer-col  footer-col-1">
-        <ul class="contact-list">
-          <li>Personal Email:</li>
-          <li><a href="mailto:">ensong [at] ucsd.edu</a></li>
-          <li><a href="mailto:">enxin.23 [at] intl.zju.edu.cn</a></li>
-          <li><a href="mailto:">enxin.song.dut [at] gmail.com</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col  footer-col-2">
-          <a href="https://scholar.google.com.hk/citations?user=sLqa-3oAAAAJ&hl=zh-CN" class="icon-button github">
-          <i class="ai ai-google-scholar-square icon-github"></i>
-            <span></span>
-          </a>
-
-          <a href="https://github.com/Espere-1119-Song" class="icon-button github">
-            <i class="fa fa-github icon-github"></i>
-            <span></span>
-          </a>
-
-          <a href="https://linkedin.com/in/enxinsong-57b471286/" class="icon-button linkedin">
-            <i class="fa fa-linkedin icon-linkedin"></i>
-            <span></span>
-          </a>
-          
-          <a href="https://twitter.com/EnxinSong" class="icon-button twitter">
-            <i class="fa fa-twitter icon-twitter"></i>
-            <span></span>
-          </a>
-         
-          <a href="mailto:enxin.23@intl.zju.edu.cn" class="icon-button github">
-            <i class="fa fa-envelope icon-github"></i>
-            <span></span>
-          </a>
-
-
-
-
-      </div>
-	<div class="footer-col footer-col-3">
-    <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fespere-1119-song.github.io&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
-    <p class="text">Last updated: Nov, 2024.<br>The style of this website is borrowed from <a href='https://www.hexianghu.com/'>Hexiang Hu's</a>.</p>
-	</div>
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 Enxin Song</span>
+    <div class="footer-icons">
+      <a href="https://scholar.google.com.hk/citations?user=sLqa-3oAAAAJ&hl=zh-CN" target="_blank" rel="noopener" title="Google Scholar"><i class="ai ai-google-scholar"></i></a>
+      <a href="https://github.com/Espere-1119-Song" target="_blank" rel="noopener" title="GitHub"><i class="fa fa-github"></i></a>
+      <a href="https://linkedin.com/in/enxinsong-57b471286/" target="_blank" rel="noopener" title="LinkedIn"><i class="fa fa-linkedin"></i></a>
+      <a href="https://twitter.com/EnxinSong" target="_blank" rel="noopener" title="Twitter"><i class="fa fa-twitter"></i></a>
+      <span class="footer-email-wrap" id="footer-email-btn" title="Email">
+        <i class="fa fa-envelope"></i>
+        <div class="footer-email-popup" id="footer-email-popup">
+          <a href="mailto:ensong@ucsd.edu">ensong@ucsd.edu</a>
+          <a href="mailto:enxin.23@intl.zju.edu.cn">enxin.23@intl.zju.edu.cn</a>
+          <a href="mailto:enxin.song.dut@gmail.com">enxin.song.dut@gmail.com</a>
+        </div>
+      </span>
+    </div>
+    <span class="footer-updated">Last updated: Apr 2026</span>
   </div>
-  </div>
-
 </footer>
-    <div class="back-to-top">Top</div>
 
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    var offset = 220;
-    var duration = 500;
-    jQuery(window).scroll(function() {
-        if (jQuery(this).scrollTop() > offset) {
-            jQuery('.back-to-top').fadeIn(duration);
-        } else {
-            jQuery('.back-to-top').fadeOut(duration);
-    
-        }
+<!-- Cat widget -->
+<div id="cat-widget">
+  <img id="cat-frame" src="images/cat/wink/cat_wink.gif" alt="pixel cat" width="64">
+</div>
+
+
+<!-- Tab navigation -->
+<script>
+(function () {
+  const tabs = document.querySelectorAll('.tab-link');
+  const sections = document.querySelectorAll('.page-section');
+
+  function activate(id) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.section === id));
+    sections.forEach(s => {
+      const on = s.id === id;
+      s.classList.toggle('active', on);
+      if (on) { s.style.animation = 'none'; s.offsetHeight; s.style.animation = ''; }
     });
-    jQuery('.back-to-top').click(function(event) {
-        event.preventDefault();
-        jQuery('html, body').animate({scrollTop: 0}, duration);
-        return false;
-    })
-});
+    history.replaceState(null, '', '#' + id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabs.forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    activate(t.dataset.section);
+  }));
+
+  const hash = location.hash.replace('#', '');
+  const initial = [...tabs].find(t => t.dataset.section === hash) ? hash : 'section-about';
+  activate(initial);
+})();
 </script>
+
+<!-- Pixel cat state machine -->
+<script>
+(function () {
+  const widget = document.getElementById('cat-widget');
+  const img    = document.getElementById('cat-frame');
+  if (!widget || !img) return;
+
+  const IDLE_SRC  = 'images/cat/wink/cat_wink.gif';
+  const SLEEP_SRC = 'images/cat/sleep/cat_yawn.gif';
+  const COKE_SRC  = 'images/cat/coke/cat_drink_coke.gif';
+  const IDLE_TIMEOUT_MS = 20000;
+  const COKE_DURATION_MS = 3000;
+  const SLEEP_DURATION_MS = 3500;
+
+  let state = 'idle';
+  let idleTimer = null;
+  let actionTimer = null;
+
+  function goIdle() {
+    state = 'idle';
+    img.src = IDLE_SRC;
+    resetIdleTimer();
+  }
+
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () {
+      if (state === 'idle') {
+        state = 'sleep';
+        img.src = SLEEP_SRC;
+        actionTimer = setTimeout(goIdle, SLEEP_DURATION_MS);
+      }
+    }, IDLE_TIMEOUT_MS);
+  }
+
+  ['mousemove', 'scroll', 'keydown', 'click'].forEach(function (ev) {
+    document.addEventListener(ev, function () {
+      if (state === 'idle') resetIdleTimer();
+    }, { passive: true });
+  });
+
+  widget.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (state === 'coke') return;
+    clearTimeout(idleTimer);
+    clearTimeout(actionTimer);
+    state = 'coke';
+    img.src = COKE_SRC;
+    actionTimer = setTimeout(goIdle, COKE_DURATION_MS);
+  });
+
+  goIdle();
+})();
+</script>
+
+  <script>
+    document.querySelectorAll('.pub-filter__btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.pub-filter__btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        var filter = this.dataset.filter;
+        document.querySelectorAll('.pub-list .pub').forEach(function(pub) {
+          pub.style.display = (filter === 'all' || pub.dataset.category === filter) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+  <script>
+  (function () {
+    var btn   = document.getElementById('footer-email-btn');
+    var popup = document.getElementById('footer-email-popup');
+    if (!btn || !popup) return;
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      popup.classList.toggle('open');
+    });
+    document.addEventListener('click', function () {
+      popup.classList.remove('open');
+    });
+  })();
+  </script>
   </body>
 
-<!--
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-60071442-1', 'auto');
-  ga('send', 'pageview');
-</script>
--->
-
-<!--<script src="custom-pub.js"></script>-->
 </html>

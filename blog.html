@@ -1,0 +1,46 @@
+---
+layout: base
+title: Blog
+permalink: /blog/
+---
+
+<div class="post-page">
+  <div class="post-container">
+
+    <a href="/" class="post-back-link">← Home</a>
+
+    <header class="post-header">
+      <h1 class="post-title" style="font-size: 2rem;">Blog</h1>
+      <p class="post-subtitle">Occasional writing on research, tools, and things I find interesting.</p>
+    </header>
+
+    <div class="post-divider"></div>
+
+    {% assign sorted_blogs = site.blogs | sort: "date" | reverse %}
+    {% if sorted_blogs.size > 0 %}
+    <div class="blog-list">
+      {% for post in sorted_blogs %}
+      <a href="{{ post.url | prepend: site.baseurl }}" class="blog-card">
+        <div class="blog-card__cover"></div>
+        <div class="blog-card__body">
+          {% if post.tags.size > 0 %}
+          <span class="blog-card__category">{{ post.tags[0] }}</span>
+          {% endif %}
+          <h2 class="blog-card__title">{{ post.title }}</h2>
+          <div class="blog-card__meta">
+            <span class="blog-card__date">{{ post.date | date: "%B %-d, %Y" }}</span>
+            <span class="blog-card__meta-sep">·</span>
+            {% assign read_time = post.content | number_of_words | divided_by: 200 %}
+            {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+            <span class="blog-card__read-time">{{ read_time }} min read</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); margin-top: 24px;">No posts yet — check back soon.</p>
+    {% endif %}
+
+  </div>
+</div>

@@ -1,0 +1,16 @@
+title: Enxin Song
+url: "https://enxinsong.com"
+baseurl: ""
+
+collections:
+  blogs:
+    output: true
+    permalink: /blog/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: blogs
+    values:
+      layout: post
+

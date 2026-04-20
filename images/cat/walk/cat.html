@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>像素小猫走路动画</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+    }
+
+    h2 {
+      color: #5a3e2b;
+      margin-bottom: 32px;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* 走路场景：小猫从左到右走过去 */
+    .scene {
+      width: 600px;
+      height: 220px;
+      background: linear-gradient(180deg, #d4eaf7 60%, #b8d4a8 60%);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 3px solid #c9a87c;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    .cat-wrapper {
+      position: absolute;
+      bottom: 18px;
+      width: 120px;
+      height: 160px;
+      animation: walk-across 4s linear infinite;
+    }
+
+    .cat-frame {
+      width: 120px;
+      height: 160px;
+      image-rendering: pixelated;
+      display: block;
+    }
+
+    @keyframes walk-across {
+      from { left: -130px; }
+      to   { left: 610px; }
+    }
+
+    /* 静态 GIF 展示 */
+    .gif-demo {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gif-demo img {
+      width: 150px;
+      height: 200px;
+      image-rendering: pixelated;
+      border: 2px solid #c9a87c;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .gif-demo p {
+      color: #7a5c40;
+      font-size: 0.85rem;
+    }
+
+    /* 关键帧展示 */
+    .frames-row {
+      margin-top: 32px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .frames-row .label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: #7a5c40;
+    }
+
+    .frames-row img {
+      width: 90px;
+      height: 120px;
+      image-rendering: pixelated;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      background: white;
+      transition: transform 0.2s;
+    }
+
+    .frames-row img:hover {
+      transform: translateY(-6px);
+      border-color: #c9a87c;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>像素小猫走路动画</h2>
+
+  <!-- 走过场景 -->
+  <div class="scene">
+    <div class="cat-wrapper" id="catWrapper">
+      <img class="cat-frame" id="catFrame" src="walk_f0.png" alt="cat">
+    </div>
+  </div>
+
+  <!-- GIF 版本 -->
+  <div class="gif-demo">
+    <img src="cat_walk.gif" alt="走路 GIF">
+    <p>GIF 版本（透明背景）</p>
+  </div>
+
+  <!-- 八帧关键帧展示 -->
+  <div class="frames-row">
+    <div class="label"><img src="walk_f0.png" alt="f0"><span>1</span></div>
+    <div class="label"><img src="walk_f1.png" alt="f1"><span>2</span></div>
+    <div class="label"><img src="walk_f2.png" alt="f2"><span>3</span></div>
+    <div class="label"><img src="walk_f3.png" alt="f3"><span>4</span></div>
+    <div class="label"><img src="walk_f4.png" alt="f4"><span>5</span></div>
+    <div class="label"><img src="walk_f5.png" alt="f5"><span>6</span></div>
+    <div class="label"><img src="walk_f6.png" alt="f6"><span>7</span></div>
+    <div class="label"><img src="walk_f7.png" alt="f7"><span>8</span></div>
+  </div>
+
+  <script>
+    const frames = [
+      'walk_f0.png', 'walk_f1.png', 'walk_f2.png', 'walk_f3.png',
+      'walk_f4.png', 'walk_f5.png', 'walk_f6.png', 'walk_f7.png',
+    ];
+
+    const catFrame = document.getElementById('catFrame');
+    let idx = 0;
+
+    setInterval(() => {
+      idx = (idx + 1) % frames.length;
+      catFrame.src = frames[idx];
+    }, 120);
+  </script>
+
+</body>
+</html>

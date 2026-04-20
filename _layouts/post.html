@@ -2,54 +2,75 @@
 layout: base
 ---
 
-{% include header.html type="post" %}
 {% include mathjax.html %}
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      
-      <article role="main" class="blog-post">
-        {{ content }}
-      </article>
+<div class="post-page">
+  <div class="post-container">
 
-      {% if page.tags.size > 0 %}
-      <div class="blog-tags">
-        Tags:
-        {% if site.link-tags %}
-        {% for tag in page.tags %}
-        <a href="/tag/{{ tag }}">{{ tag }}</a>
-        {% endfor %}
-        {% else %}
-        {{ page.tags | join: ", " }}
+    <a href="/blog/" class="post-back-link">← Blog</a>
+
+    <header class="post-header">
+      <div class="post-eyebrow">
+        {% if page.tags.size > 0 %}
+        <span class="post-category-tag">{{ page.tags[0] }}</span>
+        <span class="post-meta-sep">·</span>
         {% endif %}
+        <span class="post-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+        <span class="post-meta-sep">·</span>
+        {% assign read_time = page.content | number_of_words | divided_by: 200 %}
+        {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+        <span class="post-read-time">{{ read_time }} min read</span>
       </div>
+      <h1 class="post-title">{{ page.title }}</h1>
+      {% if page.subtitle %}
+      <p class="post-subtitle">{{ page.subtitle }}</p>
       {% endif %}
+    </header>
 
-      {% if page.social-share %}
-      {% include social-share.html %}
-      {% endif %}
+    <div class="post-divider"></div>
 
-      <ul class="pager blog-pager">
-        {% if page.previous.url %}
-        <li class="previous">
-          <a href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip"
-            data-placement="top" title="{{page.previous.title}}">&larr; Previous Post</a>
-        </li>
-        {% endif %}
-        {% if page.next.url %}
-        <li class="next">
-          <a href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip"
-            data-placement="top" title="{{page.next.title}}">Next Post &rarr;</a>
-        </li>
-        {% endif %}
-      </ul>
-
-      {% if page.comments %}
-      <div class="disqus-comments">
-        {% include disqus.html %}
-      </div>
-      {% endif %}
+    <div class="post-body">
+      {{ content }}
     </div>
+
+    <div class="post-divider"></div>
+
+    {% assign sorted_blogs = site.blogs | sort: "date" %}
+    {% for blog in sorted_blogs %}
+      {% if blog.url == page.url %}
+        {% if forloop.index0 > 0 %}
+          {% assign prev_idx = forloop.index0 | minus: 1 %}
+          {% assign prev_post = sorted_blogs[prev_idx] %}
+        {% endif %}
+        {% assign next_idx = forloop.index %}
+        {% if next_idx < forloop.length %}
+          {% assign next_post = sorted_blogs[next_idx] %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    <nav class="post-nav">
+      {% if prev_post %}
+      <a href="{{ prev_post.url | prepend: site.baseurl | replace: '//', '/' }}" class="post-nav__link post-nav__link--prev">
+        <span class="post-nav__label">← Previous</span>
+        <span class="post-nav__title">{{ prev_post.title }}</span>
+      </a>
+      {% else %}
+      <div></div>
+      {% endif %}
+      {% if next_post %}
+      <a href="{{ next_post.url | prepend: site.baseurl | replace: '//', '/' }}" class="post-nav__link post-nav__link--next">
+        <span class="post-nav__label">Next →</span>
+        <span class="post-nav__title">{{ next_post.title }}</span>
+      </a>
+      {% endif %}
+    </nav>
+
+    <div class="post-divider"></div>
+
+    <div class="post-comments">
+      <h2 class="post-comments__heading">Comments</h2>
+      {% include utterances.html %}
+    </div>
+
   </div>
 </div>
