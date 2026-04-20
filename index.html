@@ -754,14 +754,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const tabs = document.querySelectorAll('.tab-link');
   const sections = document.querySelectorAll('.page-section');
 
-  function activate(id) {
+  function activate(id, updateUrl = true) {
     tabs.forEach(t => t.classList.toggle('active', t.dataset.section === id));
     sections.forEach(s => {
       const on = s.id === id;
       s.classList.toggle('active', on);
       if (on) { s.style.animation = 'none'; s.offsetHeight; s.style.animation = ''; }
     });
-    history.replaceState(null, '', '#' + id);
+    if (updateUrl) history.replaceState(null, '', '#' + id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -771,8 +771,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }));
 
   const hash = location.hash.replace('#', '');
-  const initial = [...tabs].find(t => t.dataset.section === hash) ? hash : 'section-about';
-  activate(initial);
+  const validHash = [...tabs].find(t => t.dataset.section === hash);
+  activate(validHash ? hash : 'section-about', !!validHash);
 })();
 </script>
 
