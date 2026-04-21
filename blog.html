@@ -7,11 +7,8 @@ permalink: /blog/
 <div class="post-page">
   <div class="post-container">
 
-    <a href="/" class="post-back-link">← Home</a>
-
     <header class="post-header">
       <h1 class="post-title" style="font-size: 2rem;">Blog</h1>
-      <p class="post-subtitle">Occasional writing on research, tools, and things I find interesting.</p>
     </header>
 
     <div class="post-divider"></div>
@@ -21,7 +18,7 @@ permalink: /blog/
     <div class="blog-list">
       {% for post in sorted_blogs %}
       <a href="{{ post.url | prepend: site.baseurl }}" class="blog-card">
-        <div class="blog-card__cover"></div>
+        <div class="blog-card__cover"{% if post.cover %} style="background-image:url('{{ post.cover }}');background-size:cover;background-position:center;"{% endif %}></div>
         <div class="blog-card__body">
           {% if post.tags.size > 0 %}
           <span class="blog-card__category">{{ post.tags[0] }}</span>

@@ -1,0 +1,67 @@
+---
+layout: post
+title: "CS Ph.D. Application — 2026 Fall"
+date: 2026-04-20
+tags: [life]
+cover: /images/blogs/phd-application/cover.png
+---
+
+<p>
+  Personal record of my CS Ph.D. applications for Fall 2026 admission.
+  I keep this log for myself and in hopes it's useful to future applicants.
+</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:1.4em 0;">
+  <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:20px;background:rgba(22,163,74,0.10);color:#166534;font-size:0.82rem;font-weight:600;">🟢 Ph.D. Offer</span>
+  <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:20px;background:rgba(161,98,7,0.10);color:#713f12;font-size:0.82rem;font-weight:600;">🟡 Master's Offer / Waitlist / Pending</span>
+  <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:20px;background:rgba(220,38,38,0.10);color:#7f1d1d;font-size:0.82rem;font-weight:600;">🔴 Rejection</span>
+</div>
+
+<p style="color:var(--text-muted);font-size:0.88rem;margin-top:-0.6em;">
+  17 interviews &nbsp;·&nbsp; 12 schools
+</p>
+
+<hr>
+
+<h2>Interview Record</h2>
+
+<div style="border:1px solid var(--border-cream);border-radius:12px;overflow:hidden;margin:1.8em 0;font-size:0.92rem;">
+
+  <div style="display:grid;grid-template-columns:40px 108px 1fr 90px 1fr;background:#f4f4f5;border-bottom:1px solid var(--border-cream);padding:9px 18px 9px 0;font-size:0.70rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);">
+    <div></div>
+    <div style="padding-left:4px;">Date</div>
+    <div style="padding-left:16px;">University</div>
+    <div>Duration</div>
+    <div>Interviewer</div>
+  </div>
+
+  {% assign data = "green,2025.07.15,HKUST,100 min,Prof. 1|green,2025.07.24,CUHK,100 min,Prof. 2|amber,2025.08.22,HKU,50 min,Prof. 3|green,2026.01.06,UMD,45 min,Prof. 4|red,2026.01.07,Harvard,60 min,Prof. 5|red,2026.01.07,Harvard,60 min,Prof. 6|amber,2026.01.09,UIUC,30 min,Prof. 7|red,2026.01.09,UIUC,20 min,Prof. 8|green,2026.01.12,Northwestern,90 min,Prof. 9|green,2026.01.13,JHU,90 min,Prof. 10|amber,2026.01.15,Yale,50 min,Prof. 11|green,2026.01.21,JHU,60 min,Prof. 12|amber,2026.01.24,NYU,90 min,Prof. 13's students x2|green,2026.01.26,Northwestern,45 min,Prof. 14|green,2026.01.29,UPenn,35 min,Prof. 15|green,2026.02.03,JHU,40 min,Prof. 10|green,2026.02.09,UCSD,30x4 min,Prof. 16-19" | split: "|" %}
+
+  {% for row in data %}
+    {% assign c = row | split: "," %}
+    {% if c[0] == "green" %}{% assign dot = "#16a34a" %}{% elsif c[0] == "amber" %}{% assign dot = "#eab308" %}{% else %}{% assign dot = "#dc2626" %}{% endif %}
+    {% unless forloop.last %}{% assign rb = "border-bottom:1px solid var(--border-cream);" %}{% else %}{% assign rb = "" %}{% endunless %}
+    <div style="display:grid;grid-template-columns:40px 108px 1fr 90px 1fr;align-items:center;{{ rb }}">
+      <div style="display:flex;justify-content:center;align-items:center;">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:{{ dot }};flex-shrink:0;"></span>
+      </div>
+      <div style="padding:11px 0;color:var(--text-muted);font-size:0.82rem;">{{ c[1] }}</div>
+      <div style="padding:11px 16px;font-weight:600;color:var(--near-black);">{{ c[2] }}</div>
+      <div style="color:var(--text-muted);font-size:0.82rem;">{{ c[3] }}</div>
+      <div style="color:var(--text-sub);font-size:0.82rem;padding-right:18px;">{{ c[4] }}</div>
+    </div>
+  {% endfor %}
+
+</div>
+
+<hr>
+
+<h2>Decision</h2>
+
+<p>
+  I will be joining <strong><span style="white-space:nowrap;">University of Pennsylvania</span></strong> in Fall 2026. I'm truly grateful to every professor
+  who took the time to chat with me, and to everyone who supported me throughout this process.
+  If you're a prospective applicant and have questions about the process, feel free to reach out.
+</p>
+
+<p style="color:var(--text-muted);font-size:0.85rem;margin-top:2em;">Last updated: April 20, 2026</p>
