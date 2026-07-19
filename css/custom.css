@@ -374,6 +374,24 @@ h2.md-heading {
 .news-list__text a            { color: var(--text-warm-dark); font-weight: 500; }
 .news-list__text a:hover      { color: var(--dark-surface); }
 
+.news-list__item[hidden]      { display: none; }
+
+.news-more {
+  margin-top: 14px;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: color 0.13s;
+}
+
+.news-more:hover { color: var(--text-main); }
+.news-more[hidden] { display: none; }
+
 /* ── Publications ── */
 .pub-meta-line { font-size: 0.85rem; color: var(--text-muted); margin-top: -4px; margin-bottom: 0; }
 

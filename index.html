@@ -183,6 +183,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="news-list__text">Our paper <i>MovieChat+: Question-aware Sparse Memory for Long Video Question Answering</i> is accepted by IEEE TPAMI.</span>
         </li>
       </ul>
+      <button type="button" class="news-more" id="news-more-btn" hidden>Load more</button>
     </div>
 
   </div><!-- /#section-about -->
@@ -873,6 +874,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   goIdle();
 })();
 </script>
+
+  <script>
+  (function () {
+    var VISIBLE = 10;
+    var items = document.querySelectorAll('.news-list .news-list__item');
+    var btn   = document.getElementById('news-more-btn');
+    if (!btn || items.length <= VISIBLE) return;
+
+    items.forEach(function (item, i) { if (i >= VISIBLE) item.hidden = true; });
+    btn.hidden = false;
+
+    btn.addEventListener('click', function () {
+      items.forEach(function (item) { item.hidden = false; });
+      btn.hidden = true;
+    });
+  })();
+  </script>
 
   <script>
     document.querySelectorAll('.pub-filter__btn').forEach(function(btn) {
