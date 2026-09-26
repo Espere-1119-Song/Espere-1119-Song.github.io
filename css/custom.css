@@ -1305,10 +1305,14 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 
 /* ══════════════════════════════════════════════════════════════
    Blog article components (first used by /blog/video-index/):
-   language toggle, standfirst, byline, contents, figures with a
-   table view, the pyramid schema, source tables, footer links.
+   language toggle, standfirst, byline, contents (a sticky side
+   column on wide screens), figures with source row and caption,
+   optional table view, the pyramid schema, the walkthrough
+   ladder, fold-outs, footnotes with popovers, the references
+   list, the results table and the footer links.
    ══════════════════════════════════════════════════════════════ */
 .vi-article { position: relative; }
+.vi-sans { font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
 
 .vi-lang { display: flex; justify-content: flex-end; margin: -6px 0 18px; }
 .vi-lang button {
@@ -1335,21 +1339,17 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   font-size: 1.16rem;
   line-height: 1.6;
   color: var(--text-sub);
-  margin: 0 0 22px;
+  margin: 0 0 18px;
 }
-
 .vi-byline {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.92rem;
   color: var(--near-black);
   margin: 0 0 8px;
 }
-.vi-byline__avatar { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 1px solid var(--border-warm); flex: none; }
-.post-body .vi-byline__avatar img { width: 100%; height: 100%; object-fit: cover; border: 0; border-radius: 0; margin: 0; display: block; }
 
+/* contents: a card in the flow; on wide screens a sticky column left of the text */
+.vi-side { position: static; }
 .vi-toc {
   margin: 26px 0 6px;
   padding: 14px 18px 12px;
@@ -1367,15 +1367,31 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   margin: 0 0 8px;
 }
 .post-body .vi-toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; counter-reset: toc; }
+.post-body .vi-toc ol ol { display: block; margin: 0; padding: 0; counter-reset: none; }
 .post-body .vi-toc li { margin: 0; line-height: 1.6; counter-increment: toc; }
+.post-body .vi-toc ol ol li { counter-increment: none; display: inline; margin-left: 12px; }
 .post-body .vi-toc li::before { content: counter(toc) " "; font-family: 'Inter Tight', sans-serif; font-size: 0.72rem; color: var(--text-muted); margin-right: 2px; }
+.post-body .vi-toc ol ol li::before { content: "· "; margin: 0; }
 .post-body .vi-toc a { font-size: 0.92rem; font-weight: 500; color: var(--text-sub); text-decoration: none; }
-.post-body .vi-toc a:hover { color: var(--near-black); text-decoration: underline; text-underline-offset: 3px; }
+.post-body .vi-toc ol ol a { font-size: 0.84rem; font-weight: 400; }
+.post-body .vi-toc a:hover, .post-body .vi-toc a.active { color: var(--near-black); text-decoration: underline; text-underline-offset: 3px; }
+@media (min-width: 1200px) {
+  .vi-side { position: absolute; top: 0; bottom: 0; left: -252px; width: 208px; }
+  .vi-toc { position: sticky; top: 84px; margin: 0; padding: 0 0 0 14px; border: 0; border-left: 2px solid var(--border-warm); border-radius: 0; background: transparent; max-height: calc(100vh - 100px); overflow-y: auto; }
+  .post-body .vi-toc ol { display: block; }
+  .post-body .vi-toc li { display: block; line-height: 1.45; padding: 3px 0; }
+  .post-body .vi-toc ol ol { margin: 2px 0 2px 10px; }
+  .post-body .vi-toc ol ol li { display: block; margin-left: 0; padding: 2px 0; }
+  .post-body .vi-toc li::before { display: none; }
+  .post-body .vi-toc a { font-size: 0.86rem; }
+  .post-body .vi-toc a.active { text-decoration: none; color: var(--near-black); font-weight: 600; }
+}
 
 .post-body .vi-article h2 { padding-top: 18px; border-top: 1px solid var(--border-cream); }
+.post-body .vi-article h3 { margin-top: 1.8em; }
 
-/* figures: heading row, chart or table view, source row, caption */
-.post-body .vi-fig { margin: 30px 0 38px; }
+/* figures: heading row, image or table view, source row, caption */
+.post-body .vi-fig { margin: 28px 0 36px; }
 .vi-fig__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .post-body .vi-fig__head h4 {
   font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
@@ -1408,14 +1424,18 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 }
 .vi-fig__toggle:hover { color: var(--terracotta); border-color: var(--terracotta); }
 .post-body .vi-fig img.vi-fig__img { display: block; width: 100%; height: auto; border: 0; border-radius: 0; margin: 0; }
-.post-body .vi-fig__table table {
+.post-body .vi-fig__table table,
+.post-body table.vi-results,
+.post-body table.vi-ladder {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.84rem;
   margin: 4px 0 0;
 }
-.post-body .vi-fig__table th {
+.post-body .vi-fig__table th,
+.post-body table.vi-results th,
+.post-body table.vi-ladder th {
   font-size: 0.66rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -1427,9 +1447,15 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   border-bottom: 1px solid var(--near-black);
   background: transparent;
 }
-.post-body .vi-fig__table td { padding: 6px 8px; border: 0; border-bottom: 1px solid var(--border-cream); color: #3f3f46; }
-.post-body .vi-fig__table tr:nth-child(even) td { background: transparent; }
-.post-body .vi-fig__table td.n, .post-body .vi-fig__table th.n { text-align: right; font-variant-numeric: tabular-nums; }
+.post-body .vi-fig__table td,
+.post-body table.vi-results td,
+.post-body table.vi-ladder td { padding: 6px 8px; border: 0; border-bottom: 1px solid var(--border-cream); color: #3f3f46; }
+.post-body .vi-fig__table tr:nth-child(even) td,
+.post-body table.vi-results tr:nth-child(even) td,
+.post-body table.vi-ladder tr:nth-child(even) td { background: transparent; }
+.post-body .vi-fig__table td.n, .post-body .vi-fig__table th.n,
+.post-body table.vi-results td.n, .post-body table.vi-results th.n,
+.post-body table.vi-ladder td.n, .post-body table.vi-ladder th.n { text-align: right; font-variant-numeric: tabular-nums; }
 .vi-fig__src {
   display: flex;
   justify-content: space-between;
@@ -1453,6 +1479,21 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   padding-top: 10px;
 }
 .post-body .vi-fig figcaption b { color: var(--near-black); font-weight: 600; }
+
+/* the results table: bold marks the best value of a column */
+.post-body table.vi-results { margin: 6px 0 0; }
+.post-body table.vi-results td:first-child { color: var(--near-black); white-space: nowrap; }
+.post-body table.vi-results tr.vi-results__group td { padding-top: 12px; font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); border-bottom: 0; }
+.post-body table.vi-results td b { font-weight: 700; color: var(--near-black); }
+
+/* the walkthrough ladder: levels down the rows, one benchmark per column */
+.post-body table.vi-ladder th:first-child, .post-body table.vi-ladder td:first-child { text-align: left; white-space: nowrap; }
+.post-body table.vi-ladder tbody th { font-size: 0.8rem; letter-spacing: 0; text-transform: none; font-weight: 500; color: var(--near-black); border-bottom: 1px solid var(--border-cream); }
+.post-body table.vi-ladder tr.vi-ladder__meta td, .post-body table.vi-ladder tr.vi-ladder__meta th { color: var(--text-muted); font-size: 0.78rem; }
+.post-body table.vi-ladder tr.vi-ladder__meta:last-of-type td { border-bottom: 1px solid var(--border-warm); }
+.post-body table.vi-ladder td.brk { background: rgba(201, 100, 66, 0.12); color: var(--terracotta); font-weight: 700; }
+.post-body table.vi-ladder td.dim { color: var(--text-muted); }
+.post-body table.vi-ladder tr.vi-ladder__verdict td { font-weight: 600; color: var(--near-black); border-top: 1px solid var(--near-black); border-bottom: 0; }
 
 /* the pyramid schema (Figure 2 of the Video-Index post) */
 .vi-pyr { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin: 4px 0 0; }
@@ -1486,11 +1527,53 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   .vi-pyr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .vi-fig__src { flex-direction: column; gap: 2px; }
   .vi-fig__src span { text-align: left; }
+  .post-body .vi-fig__table, .post-body .vi-ladder-wrap { overflow-x: auto; }
 }
 
-/* the source table and the footer links */
-.post-body table.vi-src { font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: 0.88rem; }
-.post-body table.vi-src td:first-child { white-space: nowrap; font-weight: 500; color: var(--near-black); }
+/* fold-outs for the details a skimming reader can skip */
+.post-body details.vi-details { margin: 6px 0 22px; }
+.post-body details.vi-details summary {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--near-black);
+  cursor: pointer;
+  list-style: none;
+}
+.post-body details.vi-details summary::-webkit-details-marker { display: none; }
+.post-body details.vi-details summary::before { content: "+"; font-family: 'Inter Tight', sans-serif; color: var(--terracotta); margin-right: 10px; }
+.post-body details.vi-details[open] summary::before { content: "−"; }
+.post-body details.vi-details ol { margin: 10px 0 0 6px; padding-left: 22px; }
+.post-body details.vi-details li { margin: 6px 0; font-size: 0.95rem; line-height: 1.65; }
+
+/* footnotes: a marker with a popover, the notes gathered under References */
+.post-body sup.fn { font-family: 'Inter Tight', sans-serif; font-size: 0.7em; line-height: 0; vertical-align: super; color: var(--terracotta); margin-left: 1px; cursor: pointer; }
+.post-body sup.fn:focus-visible { outline: 1px solid var(--terracotta); outline-offset: 2px; }
+.fnp { position: relative; }
+.post-body .fnote { position: relative; font-family: 'Inter Tight', sans-serif; font-size: 0.82rem; line-height: 1.5; color: var(--text-sub); margin: 0 0 14px; padding-left: 24px; }
+.post-body .fnote::before { content: attr(data-n); position: absolute; left: 0; top: 1px; font-family: 'Inter Tight', sans-serif; font-size: 0.7rem; color: var(--terracotta); }
+.fnpop {
+  position: absolute;
+  z-index: 6;
+  max-width: 340px;
+  background: var(--ivory);
+  color: var(--text-sub);
+  border: 1px solid var(--border-warm);
+  border-radius: 8px;
+  padding: 10px 12px 10px 30px;
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  box-shadow: rgba(0, 0, 0, 0.08) 0 8px 24px;
+  pointer-events: none;
+}
+.fnpop[hidden] { display: none; }
+.fnpop::before { content: attr(data-n); position: absolute; left: 12px; top: 11px; font-family: 'Inter Tight', sans-serif; font-size: 0.7rem; color: var(--terracotta); }
+.post-body .vi-notes ol { list-style: none; padding: 0; margin: 0; }
+.post-body .vi-notes li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; margin: 0; border-bottom: 1px solid var(--border-cream); font-family: 'Inter Tight', sans-serif; font-size: 0.88rem; line-height: 1.55; color: var(--text-sub); }
+.post-body .vi-notes li > b { font-family: 'Inter Tight', sans-serif; font-weight: 500; font-size: 0.75rem; color: var(--terracotta); padding-top: 2px; }
+.post-body .vi-notes li:target { background: rgba(201, 100, 66, 0.07); }
+
 .vi-foot {
   display: flex;
   justify-content: space-between;
