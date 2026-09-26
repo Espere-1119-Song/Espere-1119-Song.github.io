@@ -1,0 +1,360 @@
+---
+layout: post
+title: "Which Video Benchmarks Still Need the Video?"
+subtitle: "Five attacks on 115 video benchmarks, and the 840 questions that survive them."
+date: 2026-09-26
+tags: [research]
+cover: /images/blogs/video-index/cover.png
+js:
+  - /js/blog-article.js
+---
+
+<div class="vi-article" id="vi-article" data-lang="en">
+
+<div class="vi-lang" role="group" aria-label="Language">
+  <button type="button" data-lang="en" aria-pressed="true">EN</button>
+  <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+</div>
+
+<p class="vi-standfirst" lang="en">A benchmark score is a certificate that a model holds the capability the benchmark names. We put 115 video benchmarks through five attacks that try to earn the score without that capability, from reading the answer options alone to watching the video with its frames shuffled. 77 benchmarks break, 35 of them before any attacker sees a frame, and newer benchmarks break earlier. The 840 hardest questions that survive form Video-Index, where GPT-6-Astra reaches 79.3% and the best open model 19.0%.</p>
+<p class="vi-standfirst" lang="zh">一个 benchmark 分数是一张证书，它声称模型具备这个 benchmark 所命名的能力。我们对 115 个视频 benchmark 施加五种攻击，每一种都试图在不具备这项能力的情况下拿到分数，从只看答案选项，到看帧序被打乱的视频。77 个 benchmark 被攻破，其中 35 个在任何攻击者看到一帧画面之前就已失守，而且越新的 benchmark 越早被攻破。幸存下来的 840 道最难的题构成 Video-Index，GPT-6-Astra 在上面拿到 79.3%，最好的开源模型拿到 19.0%。</p>
+
+<div class="vi-byline"><span class="vi-byline__avatar"><img src="/images/self-portrait/me.JPEG" alt=""></span><span lang="en">By Enxin Song</span><span lang="zh">作者 Enxin Song</span></div>
+
+<nav class="vi-toc" aria-label="Contents">
+  <h3><span lang="en">Contents</span><span lang="zh">目录</span></h3>
+  <ol>
+    <li><a href="#question"><span lang="en">The question</span><span lang="zh">问题</span></a></li>
+    <li><a href="#pyramid"><span lang="en">The attack pyramid</span><span lang="zh">攻击金字塔</span></a></li>
+    <li><a href="#example"><span lang="en">Four benchmarks under the pyramid</span><span lang="zh">四个 benchmark 过金字塔</span></a></li>
+    <li><a href="#findings"><span lang="en">What the audit finds</span><span lang="zh">审计结果</span></a></li>
+    <li><a href="#video-index">Video-Index</a></li>
+    <li><a href="#answer"><span lang="en">So what</span><span lang="zh">所以呢</span></a></li>
+    <li><a href="#data"><span lang="en">Data</span><span lang="zh">数据</span></a></li>
+    <li><a href="#cite">Citation</a></li>
+  </ol>
+</nav>
+
+<!-- ================= 1. The question ================= -->
+<section id="question">
+  <h2><span lang="en">The question</span><span lang="zh">问题</span></h2>
+  <p lang="en">Video benchmarks decide which models the field trusts. A model that scores well on the right ones is trusted to follow a soccer match, an egocentric kitchen, or an hour-long lecture. In the past five years, 605 video benchmarks have appeared, 342 of them with public data. The 115 multiple-choice benchmarks we audit hold 528,172 questions over 123,281 videos, as many as the instruction-tuning sets behind the first video language models.</p>
+  <p lang="zh">视频 benchmark 决定这个领域信任哪些模型。一个模型只要在对应的 benchmark 上拿到高分，就会被认为能看懂一场足球赛、一段第一人称视角的厨房录像、或者一小时的课程录像。过去五年里出现了 605 个视频 benchmark，其中 342 个数据公开。我们审计的 115 个选择题 benchmark 共有 528,172 道题、123,281 段视频，规模与训练第一批视频语言模型的指令微调数据相当。</p>
+  <p lang="en">Each benchmark was built against the models of its year. Language priors are stronger now, one frame carries more of the answer, and a deployed system can remember every item it has been asked. A question that forced a 2023 model to watch the video may need no video in 2026, while the score keeps rising. So we asked, for every benchmark at once, how much of its score a model can earn without the capability the benchmark claims to test.</p>
+  <p lang="zh">每个 benchmark 都是对着它那一年的模型造出来的。如今模型的语言先验更强，一帧画面里能读出的答案更多，一个部署中的系统还能记住它被问过的每一道题。一道在 2023 年迫使模型看视频的题，到 2026 年可能根本不需要视频，而分数照样上涨。所以我们同时对每一个 benchmark 问同一个问题：模型不具备它声称要测的能力时，能拿到多少分？</p>
+
+  <figure class="vi-fig" id="f-census">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">605 video benchmarks in five years, 342 of them with public data</span><span lang="zh">五年 605 个视频 benchmark，其中 342 个数据公开</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Benchmarks per release year in our census, split by whether their data are public.</span><span lang="zh">普查中按发布年份统计的 benchmark 数量，按数据是否公开拆分。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-census"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig1_census.png" alt="Stacked bars of video benchmarks per release year from 2021 to 2026: 1, 2, 9, 89, 242, and 262, with the public-data share in blue.">
+    <div class="vi-fig__table" id="t-census" hidden>
+      <table>
+        <thead><tr><th><span lang="en">Release year</span><span lang="zh">发布年份</span></th><th class="n"><span lang="en">Benchmarks</span><span lang="zh">benchmark 数</span></th><th class="n"><span lang="en">With public data</span><span lang="zh">数据公开</span></th></tr></thead>
+        <tbody>
+          <tr><td>2021</td><td class="n">1</td><td class="n">1</td></tr>
+          <tr><td>2022</td><td class="n">2</td><td class="n">2</td></tr>
+          <tr><td>2023</td><td class="n">9</td><td class="n">8</td></tr>
+          <tr><td>2024</td><td class="n">89</td><td class="n">54</td></tr>
+          <tr><td>2025</td><td class="n">242</td><td class="n">138</td></tr>
+          <tr><td>2026</td><td class="n">262</td><td class="n">139</td></tr>
+          <tr><td><span lang="en">Total</span><span lang="zh">合计</span></td><td class="n">605</td><td class="n">342</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, census of Sections 1 and 3.1; releases dated 2021 to 2026 after exclusions</span></div>
+    <figcaption><b>Figure 1.</b> <span lang="en">Video benchmarks per release year, 605 in total. Blue marks the 342 whose data were public at the time of the census; the rest are unreleased or of unknown status. Releases of 2025 and 2026 make up 504 of the 605.</span><span lang="zh">按发布年份统计的视频 benchmark，共 605 个。蓝色为普查时数据已公开的 342 个，其余未公开或状态未知。2025 和 2026 年发布的占 605 个中的 504 个。</span></figcaption>
+  </figure>
+</section>
+
+<!-- ================= 2. The attack pyramid ================= -->
+<section id="pyramid">
+  <h2><span lang="en">The attack pyramid</span><span lang="zh">攻击金字塔</span></h2>
+  <p lang="en">An attacker is any strategy that raises the score without the claimed capability. We arrange attackers in five levels of growing access to an item. The option level sees the answer options alone. The text level adds the question. The pool level adds the other items under evaluation, so an attacker can copy or retrieve answers it has already seen. The frame level adds one frame of the video, or captions of its frames. The order level adds the video itself, with its frames shuffled or cut to a contiguous tenth. No attacker sees the ground truth of the item it answers.</p>
+  <p lang="zh">攻击者指任何不靠所声称的能力却能抬高分数的策略。我们把攻击者按对题目的访问权限由少到多排成五层。选项层只看答案选项。文本层加上问题。题库层加上同一批被评测的其他题目，攻击者可以照抄或检索它已经见过的答案。帧层加上视频的一帧，或者各帧的文字描述。顺序层加上视频本身，但帧序被打乱，或只截取连续的十分之一。任何攻击者都看不到当前这道题的标准答案。</p>
+  <p lang="en">The exploitability of a benchmark at a level is the largest margin over chance that any attacker of that level reaches. A reference model, Gemini 3.5 Flash at 32 frames, sets the full-protocol accuracy. A benchmark breaks at the first level whose exploitability comes within 5 points of the reference's own margin over chance, about the sampling noise of a 300-item accuracy. A benchmark that no level reaches within that tolerance is unbroken. Every benchmark takes every level, since a score is read as a video score whatever the benchmark claims to test.</p>
+  <p lang="zh">一个 benchmark 在某一层的可利用度，是该层任一攻击者超出随机水平的最大幅度。参照模型是看 32 帧的 Gemini 3.5 Flash，它给出完整协议下的准确率。当某一层的可利用度距参照模型自身超出随机水平的幅度不足 5 个点时，benchmark 就在这一层被攻破；5 个点大约是 300 道题的准确率的抽样噪声。没有任何一层在这个容差内追上参照模型的 benchmark 记为未攻破。每个 benchmark 都要过全部五层，因为不管它声称测什么，分数都会被当作视频理解的分数来读。</p>
+
+  <figure class="vi-fig" id="f-schema">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Five levels of access</span><span lang="zh">五层访问权限</span></h4>
+        <p class="vi-fig__sub"><span lang="en">What the attackers of each level see, and the rule that decides where a benchmark breaks.</span><span lang="zh">每一层的攻击者能看到什么，以及判定 benchmark 在哪一层被攻破的规则。</span></p>
+      </div>
+    </div>
+    <div class="vi-pyr">
+      <div class="vi-pyr__lvl vi-pyr__lvl--1"><i><span lang="en">Level 1</span><span lang="zh">第 1 层</span></i><b><span lang="en">Option</span><span lang="zh">选项</span></b><p lang="en">The answer options alone. A fixed answer position, and Claude Opus 5 reading the options.</p><p lang="zh">只有答案选项。固定答案位置，以及只读选项的 Claude Opus 5。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--2"><i><span lang="en">Level 2</span><span lang="zh">第 2 层</span></i><b><span lang="en">Text</span><span lang="zh">文本</span></b><p lang="en">Adds the question. Gemini 3.5 Flash and Claude Opus 5 reading text only.</p><p lang="zh">加上问题。只读文字的 Gemini 3.5 Flash 和 Claude Opus 5。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--3"><i><span lang="en">Level 3</span><span lang="zh">第 3 层</span></i><b><span lang="en">Pool</span><span lang="zh">题库</span></b><p lang="en">Adds the other evaluated items. Copying the nearest earlier answer, Qwen3-8B with retrieved pairs, a classifier on question embeddings.</p><p lang="zh">加上其他被评测的题目。照抄最近的已答题、带检索的 Qwen3-8B、问题向量上的分类器。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--4"><i><span lang="en">Level 4</span><span lang="zh">第 4 层</span></i><b><span lang="en">Frame</span><span lang="zh">帧</span></b><p lang="en">Adds one frame or captions. Gemini 3.5 Flash on one frame, Claude Opus 5 on AuroraCap captions of 32 frames.</p><p lang="zh">加上一帧或帧描述。看单帧的 Gemini 3.5 Flash，读 32 帧 AuroraCap 描述的 Claude Opus 5。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--5"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth. Gemini 3.5 Flash and Qwen3-VL-8B.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。Gemini 3.5 Flash 和 Qwen3-VL-8B。</p></div>
+    </div>
+    <div class="vi-pyr__rule"><span lang="en">A benchmark breaks at the first level whose exploitability reaches the reference's margin over chance minus 5 points, ε<sub>ℓ</sub> ≥ s<sup>*</sup> − c − 5. The reference is Gemini 3.5 Flash reading 32 frames of the full video, and c is chance accuracy.</span><span lang="zh">当某一层的可利用度达到参照模型超出随机水平的幅度减去 5 个点，即 ε<sub>ℓ</sub> ≥ s<sup>*</sup> − c − 5，benchmark 就在这一层被攻破。参照模型是读完整视频 32 帧的 Gemini 3.5 Flash，c 是随机水平的准确率。</span></div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, Sections 2 and 3</span></div>
+    <figcaption><b>Figure 2.</b> <span lang="en">The attack pyramid. Each level adds access to the item. The exploitability at a level is the largest margin over chance among its attackers, and the cumulative profile over the five levels never decreases. The tolerance of 5 points is about the sampling margin of a 300-item accuracy.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，某一层的可利用度是该层攻击者超出随机水平的最大幅度，五层累计的可利用度只增不减。5 个点的容差大约是 300 道题的准确率的抽样误差。</span></figcaption>
+  </figure>
+
+  <p lang="en">The protocol is the same for every benchmark. We sample 300 questions per benchmark, store videos at a 720-pixel short side, and send frames at a long side of 768 pixels. Every model answers once per item, without tools, retries, or an agent scaffold. Claude Opus 5 plays the options-only and blind attackers beside Gemini 3.5 Flash, and Qwen3-8B retrieves the eight nearest question-answer pairs at the pool level. AuroraCap-7B-IMG writes the captions, and Qwen3-VL-8B reads the shuffled and truncated videos beside Gemini 3.5 Flash.</p>
+  <p lang="zh">协议对每个 benchmark 一致。每个 benchmark 抽 300 道题，视频按短边 720 像素存储，送入模型的帧长边不超过 768 像素。每个模型对每道题只答一次，不用工具、不重试、不套 agent 框架。Claude Opus 5 与 Gemini 3.5 Flash 一起充当只看选项和只看文字的攻击者，Qwen3-8B 在题库层检索最近的八个问答对，AuroraCap-7B-IMG 写帧描述，Qwen3-VL-8B 与 Gemini 3.5 Flash 一起读打乱和截断的视频。</p>
+</section>
+
+<!-- ================= 3. Four benchmarks under the pyramid ================= -->
+<section id="example">
+  <h2><span lang="en">Four benchmarks under the pyramid</span><span lang="zh">四个 benchmark 过金字塔</span></h2>
+  <p lang="en">Figure 3 walks four benchmarks up the pyramid. TempCompass asks about the direction, speed, and order of events. Its answer options alone give 41.8%, where chance is 27.1% and the reference with the full video gives 42.4%. TempCompass breaks at the option level, before any question is read. MMWorld asks knowledge questions on videos from seven disciplines. Its questions carry the knowledge, and a blind reader that sees the question and the options reaches 78.2% against the reference's 74.4%, so MMWorld breaks at the text level.</p>
+  <p lang="zh">图 3 带四个 benchmark 走一遍金字塔。TempCompass 问的是事件的方向、速度和先后顺序。只看它的答案选项就能拿到 41.8%，而随机水平是 27.1%，看完整视频的参照模型是 42.4%。TempCompass 在选项层、在读到任何问题之前就被攻破。MMWorld 在七个学科的视频上问知识题。它的问题本身就带着知识，只看问题和选项的盲读模型拿到 78.2%，高于参照模型的 74.4%，所以 MMWorld 在文本层被攻破。</p>
+  <p lang="en">Video-MMMU asks about lectures. Its options, questions, and other items give away less, and one frame or the captions reach 56.4%, short of the reference's 70.5%. The video with its frames shuffled, or a contiguous tenth of it, reaches 71.2%, so Video-MMMU breaks at the order level. TVBench survives. Options, question, other items, one frame, captions, shuffled frames, and a tenth of the clip all stay well below its bar. The strongest of them is 16.3 points over chance, against the 24.5 it would need.</p>
+  <p lang="zh">Video-MMMU 问的是讲座视频。它的选项、问题和其他题目泄露得少，单帧或帧描述拿到 56.4%，离参照模型的 70.5% 还远。但帧序打乱的视频，或者连续的十分之一，能拿到 71.2%，所以 Video-MMMU 在顺序层被攻破。TVBench 幸存下来。选项、问题、其他题目、单帧、帧描述、打乱的帧和十分之一的片段都远在门槛之下。其中最强的一个超出随机水平 16.3 个点，而攻破它需要 24.5 个点。</p>
+
+  <figure class="vi-fig" id="f-profiles">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Where four benchmarks break</span><span lang="zh">四个 benchmark 各在哪一层被攻破</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Exploitability at each level, against the bar each benchmark must clear.</span><span lang="zh">每一层的可利用度，以及各 benchmark 需要跨过的门槛。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-profiles"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig3_profiles.png" alt="Four small panels, one per benchmark, each a line of exploitability over the five levels against a dashed bar; a red dot marks the first level at or above the bar for TempCompass, MMWorld, and Video-MMMU, and TVBench stays below its bar at every level.">
+    <div class="vi-fig__table" id="t-profiles" hidden>
+      <table>
+        <thead><tr><th>Benchmark</th><th class="n"><span lang="en">Chance</span><span lang="zh">随机</span></th><th class="n"><span lang="en">Reference</span><span lang="zh">参照</span></th><th class="n"><span lang="en">Bar</span><span lang="zh">门槛</span></th><th class="n">Option</th><th class="n">Text</th><th class="n">Pool</th><th class="n">Frame</th><th class="n">Order</th><th><span lang="en">Breaks at</span><span lang="zh">攻破层</span></th></tr></thead>
+        <tbody>
+          <tr><td>TempCompass</td><td class="n">27.1</td><td class="n">42.4</td><td class="n">10.3</td><td class="n">14.7</td><td class="n">14.7</td><td class="n">17.8</td><td class="n">17.8</td><td class="n">17.8</td><td>Option</td></tr>
+          <tr><td>MMWorld</td><td class="n">25.9</td><td class="n">74.4</td><td class="n">43.5</td><td class="n">36.2</td><td class="n">52.3</td><td class="n">52.3</td><td class="n">54.8</td><td class="n">56.9</td><td>Text</td></tr>
+          <tr><td>Video-MMMU</td><td class="n">11.8</td><td class="n">70.5</td><td class="n">53.6</td><td class="n">30.2</td><td class="n">44.6</td><td class="n">44.6</td><td class="n">44.6</td><td class="n">59.4</td><td>Order</td></tr>
+          <tr><td>TVBench</td><td class="n">33.4</td><td class="n">62.8</td><td class="n">24.5</td><td class="n">2.5</td><td class="n">6.8</td><td class="n">9.7</td><td class="n">16.3</td><td class="n">16.3</td><td><span lang="en">Unbroken</span><span lang="zh">未攻破</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, per-benchmark breaking levels; accuracies in %, exploitability in points over chance</span></div>
+    <figcaption><b>Figure 3.</b> <span lang="en">Exploitability by level for four benchmarks, in points over chance. The dashed bar is the reference model's margin over chance minus the 5-point tolerance, and the red dot marks the first level that reaches it. TempCompass breaks on the options, MMWorld on the question text, Video-MMMU under temporal perturbation, and TVBench survives every level.</span><span lang="zh">四个 benchmark 每一层的可利用度，单位为超出随机水平的百分点。虚线是参照模型超出随机水平的幅度减去 5 个点的容差，红点标出第一个达到门槛的层级。TempCompass 在选项层被攻破，MMWorld 在文本层，Video-MMMU 在顺序层，TVBench 全部幸存。</span></figcaption>
+  </figure>
+</section>
+
+<!-- ================= 4. What the audit finds ================= -->
+<section id="findings">
+  <h2><span lang="en">What the audit finds</span><span lang="zh">审计结果</span></h2>
+  <p lang="en">Of the 115 benchmarks, 17 break on the options alone, 13 on the question text, 5 on the other evaluated items, 27 on a single frame or captions, and 15 under temporal perturbation. 38 survive every level. The 35 that break at the first three levels, three in ten, do so before any attacker sees a frame.</p>
+  <p lang="zh">115 个 benchmark 里，17 个只靠选项就被攻破，13 个靠问题文本，5 个靠同批的其他题目，27 个靠单帧或帧描述，15 个在时序扰动下被攻破，38 个全部幸存。前三层被攻破的 35 个，占三成，在任何攻击者看到一帧画面之前就已失守。</p>
+  <p lang="en">The options alone lift accuracy significantly over chance on 78 of the 115 benchmarks, by up to 63 points. Reordering the options moves Qwen3-VL-8B by a median 5 points and changes its selected answer on a median 37% of items.</p>
+  <p lang="zh">只看选项就能在 115 个 benchmark 里的 78 个上显著高于随机水平，最多高出 63 个点。把选项顺序重排，Qwen3-VL-8B 的准确率中位数变动 5 个点，中位数 37% 的题目会换一个答案。</p>
+
+  <figure class="vi-fig" id="f-levels">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">77 of 115 benchmarks break, 35 of them before any attacker sees a frame</span><span lang="zh">115 个里 77 个被攻破，其中 35 个在看到任何画面之前</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Benchmarks by their first breaking level.</span><span lang="zh">按首次被攻破的层级统计。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-levels"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig4_levels.png" alt="Horizontal bars of benchmarks by breaking level: option 17, text 13, pool 5, frame 27, order 15, unbroken 38.">
+    <div class="vi-fig__table" id="t-levels" hidden>
+      <table>
+        <thead><tr><th><span lang="en">Breaking level</span><span lang="zh">被攻破层级</span></th><th class="n"><span lang="en">Benchmarks</span><span lang="zh">benchmark 数</span></th><th class="n"><span lang="en">Reaching the level</span><span lang="zh">到达该层</span></th></tr></thead>
+        <tbody>
+          <tr><td>Option</td><td class="n">17</td><td class="n">115</td></tr>
+          <tr><td>Text</td><td class="n">13</td><td class="n">98</td></tr>
+          <tr><td>Pool</td><td class="n">5</td><td class="n">85</td></tr>
+          <tr><td>Frame</td><td class="n">27</td><td class="n">80</td></tr>
+          <tr><td>Order</td><td class="n">15</td><td class="n">53</td></tr>
+          <tr><td><span lang="en">Unbroken</span><span lang="zh">未攻破</span></td><td class="n">38</td><td class="n">38</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, Section 4.1; 115 audited benchmarks</span></div>
+    <figcaption><b>Figure 4.</b> <span lang="en">Number of benchmarks by breaking level, the first level whose exploitability reaches the bar. Option, text, and pool breaks need no visual input; 38 benchmarks resist every tested attack within the tolerance.</span><span lang="zh">按被攻破层级统计的 benchmark 数量，层级取可利用度首次达到门槛的那一层。选项、文本、题库三层的攻破不需要任何视觉输入；38 个 benchmark 在容差内抵住了所有测试过的攻击。</span></figcaption>
+  </figure>
+
+  <p lang="en">Newer benchmarks break earlier. Among releases through 2024, 19% break before any visual input; among releases in 2025 and 2026, 34% do. The rise comes from the text and pool levels, where the newer releases hold 17 of the 18 breaks. A blind reader breaks 12 of the 89 newer benchmarks and 1 of the 26 older ones, mostly by coming within tolerance of a reference that scores far above chance. Recent benchmarks use language models to generate or refine questions and answers, which can leave the answer recoverable from the text alone.</p>
+  <p lang="zh">越新的 benchmark 越早被攻破。2024 年及以前发布的 benchmark 里，19% 在看到任何画面之前就被攻破；2025 和 2026 年发布的里，这个比例是 34%。增量来自文本层和题库层，这两层的 18 次攻破里有 17 次落在新发布的 benchmark 上。盲读模型攻破了 89 个新 benchmark 里的 12 个，26 个老 benchmark 里的 1 个，多数情况是参照模型远高于随机水平，而盲读模型追到了容差之内。近期的 benchmark 用语言模型生成或润色问题和答案，这可能让答案单靠文字就能推出来。</p>
+
+  <figure class="vi-fig" id="f-years">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Newer benchmarks break earlier</span><span lang="zh">越新的 benchmark 越早被攻破</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Each year's benchmarks by breaking level; at right, the share that breaks before any visual input.</span><span lang="zh">各年份的 benchmark 按被攻破层级的占比；右侧是看到任何画面之前就被攻破的比例。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-years"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig5_years.png" alt="Stacked horizontal bars of the share of each year's benchmarks by breaking level, with the share breaking before video at right: 17% for 2023 and earlier, 20% for 2024, 39% for 2025, and 26% for 2026.">
+    <div class="vi-fig__table" id="t-years" hidden>
+      <table>
+        <thead><tr><th><span lang="en">Release year</span><span lang="zh">发布年份</span></th><th class="n">n</th><th class="n">Option</th><th class="n">Text</th><th class="n">Pool</th><th class="n">Frame</th><th class="n">Order</th><th class="n"><span lang="en">Unbroken</span><span lang="zh">未攻破</span></th><th class="n"><span lang="en">Before video</span><span lang="zh">看到画面前</span></th></tr></thead>
+        <tbody>
+          <tr><td>≤ 2023</td><td class="n">6</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td class="n">17%</td></tr>
+          <tr><td>2024</td><td class="n">20</td><td class="n">3</td><td class="n">1</td><td class="n">0</td><td class="n">6</td><td class="n">2</td><td class="n">8</td><td class="n">20%</td></tr>
+          <tr><td>2025</td><td class="n">54</td><td class="n">7</td><td class="n">11</td><td class="n">3</td><td class="n">12</td><td class="n">6</td><td class="n">15</td><td class="n">39%</td></tr>
+          <tr><td>2026</td><td class="n">35</td><td class="n">6</td><td class="n">1</td><td class="n">2</td><td class="n">7</td><td class="n">5</td><td class="n">14</td><td class="n">26%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, Figure 6; release years from the paper's benchmark table</span></div>
+    <figcaption><b>Figure 5.</b> <span lang="en">Share of each year's benchmarks by breaking level, with counts inside the segments. The share breaking before visual input is 19% for releases through 2024 and 34% for releases in 2025 and 2026.</span><span lang="zh">各发布年份的 benchmark 按被攻破层级的占比，段内数字为个数。看到画面之前就被攻破的比例，2024 年及以前发布的为 19%，2025 和 2026 年发布的为 34%。</span></figcaption>
+  </figure>
+
+  <p lang="en">Each claim breaks at its own level. Reasoning and knowledge benchmarks break on the text or on captions, which already carry the facts the question asks for. Perception benchmarks break most often at the frame level. Spatial and physical benchmarks break on the options and under temporal perturbation. Temporal benchmarks split, with 6 of 18 breaking on the options and 10 surviving every level. An audit should match its checks to the claimed capability and still screen the options of a temporal claim.</p>
+  <p lang="zh">每一类能力在各自的层被攻破。推理和知识类 benchmark 在文本层或帧描述上失守，因为问题要的事实已经写在文字里。感知类最常在帧层失守。空间和物理类在选项层和时序扰动下失守。时序类则分成两半，18 个里 6 个在选项层被攻破，10 个全部幸存。审计应当按所声称的能力选检查项，但即使是时序类也要筛一遍选项。</p>
+
+  <figure class="vi-fig" id="f-groups">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Each claim breaks at its own level</span><span lang="zh">每一类能力在各自的层被攻破</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Benchmarks by the capability group most of their items require, split by breaking level.</span><span lang="zh">按多数题目所需的能力分组，再按被攻破层级拆分。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-groups"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig6_groups.png" alt="Stacked horizontal bars of the share of each capability group's benchmarks by breaking level: temporal 18, spatial and physical 20, perception 45, reasoning and knowledge 32.">
+    <div class="vi-fig__table" id="t-groups" hidden>
+      <table>
+        <thead><tr><th><span lang="en">Group</span><span lang="zh">能力组</span></th><th class="n">n</th><th class="n">Option</th><th class="n">Text</th><th class="n">Pool</th><th class="n">Frame</th><th class="n">Order</th><th class="n"><span lang="en">Unbroken</span><span lang="zh">未攻破</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="en">Temporal</span><span lang="zh">时序</span></td><td class="n">18</td><td class="n">6</td><td class="n">0</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td class="n">10</td></tr>
+          <tr><td><span lang="en">Spatial / physical</span><span lang="zh">空间 / 物理</span></td><td class="n">20</td><td class="n">4</td><td class="n">1</td><td class="n">2</td><td class="n">2</td><td class="n">4</td><td class="n">7</td></tr>
+          <tr><td><span lang="en">Perception</span><span lang="zh">感知</span></td><td class="n">45</td><td class="n">3</td><td class="n">5</td><td class="n">1</td><td class="n">17</td><td class="n">6</td><td class="n">13</td></tr>
+          <tr><td><span lang="en">Reasoning / knowledge</span><span lang="zh">推理 / 知识</span></td><td class="n">32</td><td class="n">4</td><td class="n">7</td><td class="n">1</td><td class="n">7</td><td class="n">5</td><td class="n">8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, Figure 7; each benchmark takes the group that most of its items require</span></div>
+    <figcaption><b>Figure 6.</b> <span lang="en">Share of each capability group's benchmarks by breaking level, with counts inside the segments. Temporal benchmarks either break on the options or survive, perception benchmarks break most often on a frame or captions, and reasoning and knowledge benchmarks break most often on the text.</span><span lang="zh">各能力组的 benchmark 按被攻破层级的占比，段内数字为个数。时序类要么在选项层被攻破要么幸存，感知类最常在单帧或帧描述上失守，推理和知识类最常在文本层失守。</span></figcaption>
+  </figure>
+
+  <p lang="en">Three more findings shape what follows. Captions recover more of the video score than a single frame. Among the 78 benchmarks with all three probes at the frame level, captions come within tolerance of the reference on 23 and a single frame on 8. Much of a score survives temporal perturbation. Among the 51 benchmarks with both probes at the order level, shuffling the frames retains a median 96% of full-video accuracy and a contiguous tenth retains 78%. A benchmark also lists more items than it measures. A 200-item draw holds a median of 32 effective items, and near-duplicate questions make up at least half the items of 63 benchmarks.</p>
+  <p lang="zh">还有三个发现决定了后面的做法。帧描述比单帧更能追回视频分数。帧层三种探针齐全的 78 个 benchmark 里，帧描述在 23 个上追到参照模型的容差之内，单帧只在 8 个上做到。分数在时序扰动下大多保得住。顺序层两种探针齐全的 51 个 benchmark 里，打乱帧序后中位数保留完整视频准确率的 96%，连续的十分之一保留 78%。一个 benchmark 列出的题目数也多于它真正测到的。抽 200 道题，中位数只有 32 道有效题目，63 个 benchmark 里至少一半的题目是近似重复。</p>
+</section>
+
+<!-- ================= 5. Video-Index ================= -->
+<section id="video-index">
+  <h2>Video-Index</h2>
+  <p lang="en">The items that no attacker solves are worth keeping. We screen all 381,614 multiple-choice items of 112 audited benchmarks. Qwen3-VL-8B removes the items it answers from the options, from the text, or from one frame, and Qwen3-VL-2B removes the items it answers from 32 frames in order or shuffled. Near-duplicate questions across sources go as well, and 62,142 items remain with complete screening and labeled videos. Claude Opus 5 labels the 3,000 hardest candidates by capability and verifies their answers against the frames. Video-Index takes 840 of them, 210 per capability group and one per video, from 76 benchmarks.</p>
+  <p lang="zh">没有任何攻击者能解的题目值得留下来。我们筛查了 112 个已审计 benchmark 的全部 381,614 道选择题。Qwen3-VL-8B 剔除它靠选项、靠文本或靠单帧就能答对的题，Qwen3-VL-2B 剔除它看 32 帧、无论顺序正常还是打乱都能答对的题。跨来源的近似重复问题也被去掉，最后剩下 62,142 道筛查完整、视频已标注的题目。Claude Opus 5 给其中最难的 3,000 道候选题标注能力类别，并对照画面核验答案。Video-Index 从中取 840 道，每个能力组 210 道，每段视频一道，来自 76 个 benchmark。</p>
+
+  <figure class="vi-fig" id="f-screen">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Screening keeps 840 of 505,518 items</span><span lang="zh">筛查从 505,518 道题里留下 840 道</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Items remaining after each stage, on a log scale.</span><span lang="zh">每个阶段之后剩余的题目数，对数刻度。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-screen"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig7_screen.png" alt="Dots on a log scale showing items remaining after each screening stage, from 505,518 down to 62,142 and then to the 840 of Video-Index.">
+    <div class="vi-fig__table" id="t-screen" hidden>
+      <table>
+        <thead><tr><th><span lang="en">Stage</span><span lang="zh">阶段</span></th><th class="n"><span lang="en">Items remaining</span><span lang="zh">剩余题目</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="en">All items</span><span lang="zh">全部题目</span></td><td class="n">505,518</td></tr>
+          <tr><td><span lang="en">Multiple choice</span><span lang="zh">选择题</span></td><td class="n">381,614</td></tr>
+          <tr><td><span lang="en">Distinct questions</span><span lang="zh">去重后的问题</span></td><td class="n">269,930</td></tr>
+          <tr><td><span lang="en">Not answered from the options</span><span lang="zh">靠选项答不出</span></td><td class="n">191,092</td></tr>
+          <tr><td><span lang="en">Not answered blind</span><span lang="zh">盲读答不出</span></td><td class="n">145,047</td></tr>
+          <tr><td><span lang="en">Not answered from one frame</span><span lang="zh">靠单帧答不出</span></td><td class="n">97,077</td></tr>
+          <tr><td><span lang="en">Not answered by the 2B model</span><span lang="zh">2B 模型答不出</span></td><td class="n">65,818</td></tr>
+          <tr><td><span lang="en">Unique across benchmarks</span><span lang="zh">跨 benchmark 去重</span></td><td class="n">63,630</td></tr>
+          <tr><td><span lang="en">Labelled and complete</span><span lang="zh">已标注且筛查完整</span></td><td class="n">62,142</td></tr>
+          <tr><td>Video-Index</td><td class="n">840</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, Figure 1; the 112 screened benchmarks</span></div>
+    <figcaption><b>Figure 7.</b> <span lang="en">Items after each screening stage. The 112 screened benchmarks start with 505,518 items. The attacks between the option and 2B-model stages remove three quarters of the distinct questions, and Video-Index keeps 840 verified items, 210 per capability group, ranked by attacker margin.</span><span lang="zh">每个筛查阶段之后的题目数。112 个被筛查的 benchmark 共有 505,518 道题，从选项层到 2B 模型这几步攻击去掉了四分之三的不重复问题，Video-Index 最终保留 840 道经核验的题，每个能力组 210 道，按攻击者的得分幅度排序选出。</span></figcaption>
+  </figure>
+
+  <p lang="en">Nine open video models, a fixed-input Claude Opus 5, and five agents with local tools answer Video-Index. The fixed-input systems receive at most 512 frames at one frame per second. The agents work on the same videos stored at two frames per second and choose what to look at. With the same fixed input, Claude Opus 5 outscores every open model by more than 37 points, and tools raise the same model by 19.8 points on matched items. GPT-6-Astra leads at 79.3%, ahead of Claude Fable 5.1 at 71.5% and Claude Opus 5 with tools at 70.6%. Human volunteers reach 55.0%, below the three leading agents and above every open model, whose best is Molmo2-8B at 19.0%. From the text alone, no open model exceeds 7.5% and no agent exceeds 24.9%, so the items need the video.</p>
+  <p lang="zh">九个开源视频模型、固定输入的 Claude Opus 5 和五个带本地工具的 agent 回答 Video-Index。固定输入的系统最多拿到每秒一帧、共 512 帧；agent 在同样的视频上工作，视频按每秒两帧存储，看什么由 agent 自己决定。在相同的固定输入下，Claude Opus 5 比每个开源模型高出 37 个点以上；在相同的题目上，工具让同一个模型再提高 19.8 个点。GPT-6-Astra 以 79.3% 领先，其后是 Claude Fable 5.1 的 71.5% 和带工具的 Claude Opus 5 的 70.6%。人类志愿者拿到 55.0%，低于前三名 agent，高于所有开源模型，开源模型里最好的 Molmo2-8B 是 19.0%。只看文字，没有一个开源模型超过 7.5%，没有一个 agent 超过 24.9%，所以这些题目确实需要视频。</p>
+
+  <figure class="vi-fig" id="f-results">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Agents lead open models on Video-Index</span><span lang="zh">在 Video-Index 上 agent 领先开源模型</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Accuracy on the 840 items; fixed input is at most 512 frames at 1 fps, and the agents use local tools on the same videos.</span><span lang="zh">840 道题上的准确率；固定输入最多 512 帧、每秒一帧，agent 在同样的视频上使用本地工具。</span></p>
+      </div>
+      <button type="button" class="vi-fig__toggle" aria-expanded="false" aria-controls="t-results"><span data-state="chart"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="table" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/video-index/fig8_results.png" alt="Horizontal bars of accuracy on Video-Index, from GPT-6-Astra at 79.3% down to VideoChat3-4B at 9.4%, colored by fixed input, agent tools, or human.">
+    <div class="vi-fig__table" id="t-results" hidden>
+      <table>
+        <thead><tr><th><span lang="en">System</span><span lang="zh">系统</span></th><th><span lang="en">Protocol</span><span lang="zh">协议</span></th><th class="n"><span lang="en">Video</span><span lang="zh">看视频</span></th><th class="n"><span lang="en">Blind</span><span lang="zh">盲读</span></th><th class="n"><span lang="en">Gain</span><span lang="zh">增益</span></th></tr></thead>
+        <tbody>
+          <tr><td>GPT-6-Astra</td><td><span lang="en">Agent tools</span><span lang="zh">agent 工具</span></td><td class="n">79.3</td><td class="n">18.7</td><td class="n">60.6</td></tr>
+          <tr><td>Claude Fable 5.1</td><td><span lang="en">Agent tools</span><span lang="zh">agent 工具</span></td><td class="n">71.5</td><td class="n">20.7</td><td class="n">50.8</td></tr>
+          <tr><td>Claude Opus 5</td><td><span lang="en">Agent tools</span><span lang="zh">agent 工具</span></td><td class="n">70.6</td><td class="n">24.9</td><td class="n">45.7</td></tr>
+          <tr><td>Claude Opus 5</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">56.8</td><td class="n">21.3</td><td class="n">35.5</td></tr>
+          <tr><td><span lang="en">Human volunteers</span><span lang="zh">人类志愿者</span></td><td><span lang="en">Browser tool</span><span lang="zh">浏览器工具</span></td><td class="n">55.0</td><td class="n">17.5</td><td class="n">37.5</td></tr>
+          <tr><td>Gemini 3.1 Pro</td><td><span lang="en">Agent tools</span><span lang="zh">agent 工具</span></td><td class="n">54.7</td><td class="n">23.9</td><td class="n">30.8</td></tr>
+          <tr><td>Gemini 3.5 Flash-Lite</td><td><span lang="en">Agent tools</span><span lang="zh">agent 工具</span></td><td class="n">22.5</td><td class="n">17.5</td><td class="n">5.0</td></tr>
+          <tr><td>Molmo2-8B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">19.0</td><td class="n">4.8</td><td class="n">14.2</td></tr>
+          <tr><td>InternVL3.5-8B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">15.2</td><td class="n">4.4</td><td class="n">10.8</td></tr>
+          <tr><td>LLaVA-OneVision-2-8B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">14.2</td><td class="n">1.8</td><td class="n">12.4</td></tr>
+          <tr><td>VideoLLaMA3-7B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">12.4</td><td class="n">5.2</td><td class="n">7.1</td></tr>
+          <tr><td>Video-XL-2</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">12.4</td><td class="n">7.3</td><td class="n">5.1</td></tr>
+          <tr><td>InternVideo2.5-8B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">12.4</td><td class="n">7.5</td><td class="n">4.9</td></tr>
+          <tr><td>Cambrian-S-7B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">11.3</td><td class="n">5.3</td><td class="n">6.0</td></tr>
+          <tr><td>Qwen3-VL-8B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">9.5</td><td class="n">1.4</td><td class="n">8.1</td></tr>
+          <tr><td>VideoChat3-4B</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">9.4</td><td class="n">3.8</td><td class="n">5.7</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vi-fig__src"><b>Enxin Song</b><span>Video-Index paper, Table 1; accuracy in %, blind = text only, gain = video minus blind</span></div>
+    <figcaption><b>Figure 8.</b> <span lang="en">Accuracy on the 840 items of Video-Index. Fixed-input systems receive at most 512 frames at one frame per second, and the agents run local tools on the same videos. The human row is the accuracy of five volunteers. GPT-6-Astra leads, the fixed-input Claude Opus 5 outscores every open model by more than 37 points, and tools add 19.8 points to Claude Opus 5 on matched items.</span><span lang="zh">Video-Index 840 道题上的准确率。固定输入的系统最多拿到每秒一帧、共 512 帧，agent 在同样的视频上运行本地工具，人类一行是五位志愿者的准确率。GPT-6-Astra 领先，固定输入的 Claude Opus 5 比每个开源模型高出 37 个点以上，在相同题目上工具再给 Claude Opus 5 加 19.8 个点。</span></figcaption>
+  </figure>
+
+  <p lang="en">The agents all tile frames into grids on nearly every answer and then diverge. Any two of them give the same answer on about four in five items but choose the same sampling strategy on fewer than half. GPT-6-Astra seeks timestamps more often, while Claude Fable 5.1 and Claude Opus 5 favor cropping and zooming. Claude Fable 5.1 decodes exhaustively and extracts far more images without reaching GPT-6-Astra's accuracy. All three score lower on videos past ten minutes, GPT-6-Astra least of all. Evaluation should separate the volume of extracted imagery from its relevance and reward knowing when to stop.</p>
+  <p lang="zh">几个 agent 几乎每道题都先把帧拼成网格，然后各走各路。任意两个 agent 在大约五分之四的题目上给出相同答案，但选择相同采样策略的题目不到一半。GPT-6-Astra 更常按时间戳定位，Claude Fable 5.1 和 Claude Opus 5 更爱裁剪和放大。Claude Fable 5.1 把帧解码得最彻底，抽取的图像多得多，准确率却没有追上 GPT-6-Astra。三个 agent 在超过十分钟的视频上分数都更低，GPT-6-Astra 掉得最少。评测应当把抽取图像的数量和它们的相关性分开，并奖励知道何时停下的系统。</p>
+  <p lang="en">Three checks say the set measures what it should. At a matched item budget, the red-team gate holds the strongest attacker to 13%, against 19% for selections without it. Across ten models, video accuracy exceeds blind accuracy for every one. And item-bootstrap analysis gives a signal-to-noise ratio of 10.8, against 3.7 for the median source benchmark.</p>
+  <p lang="zh">三项检查说明这套题测的是该测的东西。在相同的题目预算下，红队闸门把最强攻击者压到 13%，没有闸门的选法是 19%。十个模型里，每一个看视频的准确率都高于盲读。题目 bootstrap 分析给出 10.8 的信噪比，来源 benchmark 的中位数是 3.7。</p>
+</section>
+
+<!-- ================= 6. So what ================= -->
+<section id="answer">
+  <h2><span lang="en">So what</span><span lang="zh">所以呢</span></h2>
+  <p lang="en">A score certifies a capability only above its strongest shortcut. Of 115 video benchmarks, 77 have a shortcut that reaches their score within sampling noise, and for 35 of them the shortcut needs no frame at all. The remedy is measurement rather than abandonment. A builder can run the pyramid before release and report the breaking level beside the score. A user can select by what survives, which is what Video-Index does with 840 items. Resistance holds only against the attacks tested, so both the audit and the benchmark have to evolve with new models and new shortcuts. On the survivors, the leading agents already reach 79.3% and the open models stay below 20%. The distance between them is the room to grow, in accuracy and in knowing which evidence to gather.</p>
+  <p lang="zh">一个分数只在高于它最强捷径的部分才证明能力。115 个视频 benchmark 里，77 个存在一条能在抽样噪声内追平分数的捷径，其中 35 个的捷径连一帧画面都不需要。解决办法是测量，而不是弃用。造 benchmark 的人可以在发布前跑一遍金字塔，把被攻破的层级写在分数旁边。用 benchmark 的人可以只选幸存下来的题目，Video-Index 就是这样做的，共 840 道。抵抗力只对测试过的攻击成立，所以审计和 benchmark 都要跟着新模型和新捷径一起演进。在这些幸存的题目上，领先的 agent 已经拿到 79.3%，开源模型还不到 20%。两者之间的距离就是进步的空间，既在准确率上，也在知道该去找哪些证据上。</p>
+</section>
+
+<!-- ================= 7. Data ================= -->
+<section id="data">
+  <h2><span lang="en">Data</span><span lang="zh">数据</span></h2>
+  <table class="vi-src" lang="en">
+    <thead><tr><th>Source</th><th>What it holds</th></tr></thead>
+    <tbody>
+      <tr><td>The audit</td><td>115 English multiple-choice video benchmarks without audio dependence, 300 sampled questions each, one protocol, and one reference model, Gemini 3.5 Flash at 32 frames. Every number traces to a per-item record.</td></tr>
+      <tr><td>Attackers</td><td>A fixed answer position and Claude Opus 5 on the options; Gemini 3.5 Flash and Claude Opus 5 blind; a copy attacker, Qwen3-8B with retrieved question-answer pairs, and a classifier on question embeddings at the pool level; Gemini 3.5 Flash on one frame and Claude Opus 5 on AuroraCap-7B-IMG captions; Gemini 3.5 Flash and Qwen3-VL-8B on shuffled and truncated video.</td></tr>
+      <tr><td>Screened pool</td><td>62,142 items from 112 benchmarks with complete screening and labeled videos, each with its provenance, duration, attack margins, and embeddings.</td></tr>
+      <tr><td>Video-Index</td><td>840 items from 76 benchmarks, 210 per capability group and one per video, with answers verified against the frames.</td></tr>
+      <tr><td>Evaluated systems</td><td>Nine open video models, a fixed-input Claude Opus 5, five agents with local tools, and five human volunteers.</td></tr>
+      <tr><td>Paper</td><td>Video-Index: A Curated Meta-Benchmark for Video Understanding Evaluation, 2026. Preprint, data, and the per-benchmark report cards to follow.</td></tr>
+    </tbody>
+  </table>
+  <table class="vi-src" lang="zh">
+    <thead><tr><th>来源</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td>审计</td><td>115 个英文选择题视频 benchmark，不依赖音频，每个抽 300 道题，统一协议，统一参照模型，即看 32 帧的 Gemini 3.5 Flash。每个数字都能追溯到逐题记录。</td></tr>
+      <tr><td>攻击者</td><td>选项层：固定答案位置和只读选项的 Claude Opus 5；文本层：盲读的 Gemini 3.5 Flash 和 Claude Opus 5；题库层：照抄攻击者、带检索问答对的 Qwen3-8B、问题向量上的分类器；帧层：看单帧的 Gemini 3.5 Flash 和读 AuroraCap-7B-IMG 帧描述的 Claude Opus 5；顺序层：读打乱和截断视频的 Gemini 3.5 Flash 和 Qwen3-VL-8B。</td></tr>
+      <tr><td>筛查后的题库</td><td>来自 112 个 benchmark 的 62,142 道题，筛查完整、视频已标注，每道题带来源、时长、攻击幅度和向量表示。</td></tr>
+      <tr><td>Video-Index</td><td>来自 76 个 benchmark 的 840 道题，每个能力组 210 道，每段视频一道，答案已对照画面核验。</td></tr>
+      <tr><td>被评测的系统</td><td>九个开源视频模型、固定输入的 Claude Opus 5、五个带本地工具的 agent，以及五位人类志愿者。</td></tr>
+      <tr><td>论文</td><td>Video-Index: A Curated Meta-Benchmark for Video Understanding Evaluation，2026。预印本、数据和逐 benchmark 的报告卡随后发布。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="cite">
+  <h2>Citation</h2>
+  <pre><code>@misc{song2026videoindex,
+  title        = {Which Video Benchmarks Still Need the Video?},
+  author       = {Song, Enxin},
+  year         = {2026},
+  howpublished = {Blog post},
+  url          = {https://enxinsong.com/blog/video-index/}
+}</code></pre>
+  <div class="vi-foot">
+    <a href="/#section-blog"><span lang="en">← All posts</span><span lang="zh">← 全部文章</span></a>
+    <a href="#"><span lang="en">Back to top ↑</span><span lang="zh">回到顶部 ↑</span></a>
+  </div>
+</section>
+
+</div>
