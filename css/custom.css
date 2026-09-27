@@ -1708,6 +1708,7 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 
 /* the sampled items of Appendix D */
 .post-body .vi-qual-lead { margin-bottom: 8px; }
+.post-body .vi-qual-lead b, .post-body ul.vi-which b { font-weight: 700; color: var(--near-black); }
 .vi-qual { margin: 0 0 28px; padding: 12px 14px 10px; border: 1px solid var(--border-warm); border-radius: 10px; background: var(--ivory); font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: #3f3f46; }
 .post-body .vi-qual img { display: block; width: 100%; height: auto; max-height: 150px; object-fit: contain; object-position: left center; border: 0; border-radius: 6px; margin: 2px 0 10px; }
 .post-body .vi-qual p { font-size: 0.86rem; line-height: 1.55; margin: 0 0 6px; }
