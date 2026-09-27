@@ -2,7 +2,6 @@
    where the page has the element:
      .vi-overlay[data-overlay]  hover regions laid over the paper's Figures 1, 6 and 7, at the positions
                                 recorded from the paper's own figure files
-     #vi-cards                  the four worked examples, each a card whose five levels climb to the bar
      #vi-screen                 the screening chain, counting up when scrolled into view
      #vi-explorer               all 115 benchmarks: search, filter, sort, and each benchmark's ladder
      #vi-results                Table 1, sortable, with a bar for the sorted column
@@ -142,14 +141,13 @@
   }
 
   /* ---------- a benchmark's ladder: five bars climbing to its bar ---------- */
-  function ladder(container, b, compact) {
+  function ladder(container, b) {
     clear(container);
-    var W = compact ? 360 : 640, H = compact ? 196 : 280;
-    var x0 = compact ? 28 : 40, x1 = W - 6, yb = H - (compact ? 28 : 40), yt = compact ? 16 : 24;
+    var W = 640, H = 280, x0 = 40, x1 = W - 78, yb = H - 40, yt = 24;     /* the bar's value sits in the right margin */
     var vals = b.eps.map(function (e) { return e === null ? 0 : e; });
     var top = Math.max(60, Math.ceil((Math.max.apply(null, vals.concat([bar(b)])) + 8) / 10) * 10);
     var sc = (yb - yt) / top, step = top > 60 ? 20 : 10;
-    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'vi-ladder-svg' + (compact ? ' is-compact' : ''), role: 'img', 'aria-label': b.name }, container);
+    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'vi-ladder-svg', role: 'img', 'aria-label': b.name }, container);
     for (var g = 0; g <= top; g += step) {
       svg('line', { x1: x0, x2: x1, y1: yb - g * sc, y2: yb - g * sc, class: 'vi-ladder-grid' }, s);
       svg('text', { x: x0 - 6, y: yb - g * sc + 4, 'text-anchor': 'end', class: 'vi-ladder-tick' }, s, String(g));
@@ -157,11 +155,11 @@
     svg('line', { x1: x0, x2: x1, y1: yb, y2: yb, class: 'vi-ladder-axis' }, s);
     var bv = bar(b), by = yb - Math.max(0, bv) * sc;
     svg('line', { x1: x0, x2: x1, y1: by, y2: by, class: 'vi-ladder-barline' }, s);
-    svg('text', { x: x1, y: by - 5, 'text-anchor': 'end', class: 'vi-ladder-bartext' }, s, t('bar ', '门槛 ') + bv.toFixed(1));
+    svg('text', { x: x1 + 8, y: by + 4, 'text-anchor': 'start', class: 'vi-ladder-bartext' }, s, t('bar ', '门槛 ') + bv.toFixed(1));
     var slot = (x1 - x0) / 5, brk = LV.indexOf(b.level), parts = [];
     LV.forEach(function (lv, k) {
       var cx = x0 + slot * (k + 0.5), e = b.eps[k];
-      svg('text', { x: cx, y: yb + (compact ? 17 : 22), 'text-anchor': 'middle', class: 'vi-ladder-lv' }, s, lvName(lv));
+      svg('text', { x: cx, y: yb + 22, 'text-anchor': 'middle', class: 'vi-ladder-lv' }, s, lvName(lv));
       if (e === null) { svg('text', { x: cx, y: yb - 8, 'text-anchor': 'middle', class: 'vi-ladder-na' }, s, t('not measured', '未测')); return; }
       var r = svg('rect', { x: cx - slot * 0.29, width: slot * 0.58, y: yb, height: 0, rx: 2, fill: BLUE }, s);
       var label = svg('text', { x: cx, y: yb - 6, 'text-anchor': 'middle', class: 'vi-ladder-val', opacity: 0 }, s, e.toFixed(1));
@@ -195,33 +193,6 @@
     return '<b>' + b.name + '</b> ' + (b.level === 'unbroken' ? t('is unbroken', '未被攻破') : t('breaks at the ', '在') + '<b>' + lvName(b.level).toLowerCase() + '</b>' + t(' level', '层被攻破')) +
       ' · ' + t('reference', '参照') + ' ' + b.ref.toFixed(1) + '%, ' + t('chance', '随机') + ' ' + b.c.toFixed(1) + '%, ' + t('bar', '门槛') + ' ' + bar(b).toFixed(1);
   }
-
-  /* ---------- the four worked examples as cards ---------- */
-  var EXAMPLES = [
-    ['TempCompass', 'Direction, speed, and order of events', '事件的方向、速度和先后顺序'],
-    ['MMWorld', 'Knowledge questions on videos from seven disciplines', '七个学科视频上的知识题'],
-    ['Video-MMMU', 'Questions about lecture videos', '讲座视频上的问题'],
-    ['TVBench', 'Temporal questions', '时序问题']
-  ];
-  var cardState = { played: false, charts: [] };
-  function cards(container) {
-    clear(container);
-    cardState.charts = [];
-    EXAMPLES.forEach(function (ex) {
-      var b = BY[ex[0]];
-      var card = el('div', { class: 'vi-card' }, container);
-      var head = el('div', { class: 'vi-card__head' }, card);
-      el('b', { class: 'vi-card__name' }, head, b.name);
-      var chip = el('span', { class: 'vi-lvchip', style: 'background:' + LVCOL[b.level] + ';color:' + LVINK[b.level] }, head,
-        b.level === 'unbroken' ? t('Unbroken', '未被攻破') : t('Breaks at ' + b.level, lvName(b.level) + '层被攻破'));
-      el('p', { class: 'vi-card__desc' }, card, t(ex[1], ex[2]));
-      var chart = el('div', { class: 'vi-card__chart' }, card);
-      cardState.charts.push(ladder(chart, b, true));
-      el('p', { class: 'vi-card__foot' }, card, t('chance', '随机') + ' ' + b.c.toFixed(1) + '% · ' + t('reference', '参照') + ' ' + b.ref.toFixed(1) + '% · ' + t('bar', '门槛') + ' ' + bar(b).toFixed(1));
-    });
-    if (cardState.played) { cardState.charts.forEach(function (c) { c.finish(); }); }
-  }
-  function playCards() { cardState.played = true; cardState.charts.forEach(function (c) { c.play(); }); }
 
   /* ---------- the screening chain, counting up when scrolled into view ---------- */
   function screen(container) {
@@ -388,27 +359,22 @@
     var fn = MOUNT[wrap.getAttribute('data-overlay')];
     if (fn && D.figures) { fn(wrap); }
   });
-  var cardsRoot = document.getElementById('vi-cards');
   var screenRoot = document.getElementById('vi-screen');
   var resultsRoot = document.getElementById('vi-results');
   explorerRoot = document.getElementById('vi-explorer');
   var goScreen = null;
   function renderAll() {
-    if (cardsRoot) { cards(cardsRoot); }
     if (resultsRoot) { results(resultsRoot); }
     if (screenRoot) { goScreen = screen(screenRoot); }
     renderExplorer(false);
   }
   renderAll();
-  var replay = document.getElementById('vi-cards-replay');
-  if (replay) { replay.addEventListener('click', playCards); }
   function whenVisible(node, fn) {
     if (!node) { return; }
     if (!('IntersectionObserver' in window)) { fn(); return; }
     var io = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { io.disconnect(); fn(); } }); }, { threshold: 0.35 });
     io.observe(node);
   }
-  whenVisible(cardsRoot, playCards);
   whenVisible(screenRoot, function () { if (goScreen) { goScreen(); } });
   if ('MutationObserver' in window) {
     new MutationObserver(function (muts) {

@@ -1602,16 +1602,6 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-hit:hover { fill: rgba(255, 255, 255, 0.22); stroke: #202124; stroke-width: 2px; }
 .vi-hit.is-link { cursor: pointer; }
 
-/* the four worked examples */
-.vi-fig__actions { display: flex; gap: 6px; flex: none; }
-.vi-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.vi-card { background: #fff; border: 1px solid var(--border-cream); border-radius: 12px; padding: 12px 14px 10px; }
-.vi-card__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.vi-card__name { font: 600 0.98rem/1.3 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--near-black); }
-.post-body .vi-card__desc { font: 0.8rem/1.4 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-sub); margin: 2px 0 6px; }
-.post-body .vi-card__foot { font: 0.74rem/1.4 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-muted); margin: 2px 0 0; font-variant-numeric: tabular-nums; }
-@media (max-width: 600px) { .vi-cards { grid-template-columns: 1fr; } }
-
 /* a benchmark's ladder */
 .vi-ladder-svg { width: 100%; height: auto; display: block; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
 .vi-ladder-grid { stroke: #e8eaed; stroke-width: 1; }
@@ -1622,16 +1612,12 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-ladder-val { font-size: 12px; fill: var(--text-sub); }
 .vi-ladder-val.is-break { fill: #d93025; font-weight: 700; }
 .vi-ladder-na { font-style: italic; }
-.is-compact .vi-ladder-tick, .is-compact .vi-ladder-bartext, .is-compact .vi-ladder-na { font-size: 11px; }
-.is-compact .vi-ladder-lv, .is-compact .vi-ladder-val { font-size: 11.5px; }
 .vi-ladder-verdict { font: 0.88rem/1.5 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; margin-top: 6px; padding: 8px 12px; border-left: 3px solid; border-radius: 0 8px 8px 0; background: var(--ivory); color: var(--near-black); }
 .vi-ladder-verdict.is-break { border-color: #d93025; }
 .vi-ladder-verdict.is-safe { border-color: #4285f4; }
 
 /* controls */
 .vi-input { flex: 1 1 220px; min-width: 0; font: 0.9rem 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; padding: 7px 10px; border: 1px solid var(--border-warm); border-radius: 8px; background: #fff; color: var(--near-black); }
-.vi-btn { font: 600 0.66rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 9px; border: 1px solid var(--border-warm); border-radius: 6px; background: var(--ivory); color: var(--text-sub); cursor: pointer; }
-.vi-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
 .vi-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; align-items: center; }
 .vi-chips__sep { width: 1px; height: 18px; background: var(--border-warm); margin: 0 4px; }
 .vi-chip { display: inline-flex; align-items: center; font: 500 0.76rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; padding: 5px 10px; border: 1px solid var(--border-warm); border-radius: 999px; background: transparent; color: var(--text-sub); cursor: pointer; }
