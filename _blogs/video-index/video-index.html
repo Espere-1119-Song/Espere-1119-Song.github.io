@@ -18,8 +18,8 @@ js:
   <button type="button" data-lang="zh" aria-pressed="false">中文</button>
 </div>
 
-<p class="vi-standfirst" lang="en">Video benchmarks are meant to show whether a model can understand video. We attacked 115 of them with five kinds of shortcuts that do not need the capability a benchmark claims to test. 77 fall to at least one shortcut, 35 of them without the attacker seeing a single frame, and newer benchmarks are more often broken without the video. After screening out the questions that shortcut attacks can solve, we select the 840 hardest to form Video-Index. On it, the best agent reaches 79.3% and the best open model 19.0%.</p>
-<p class="vi-standfirst" lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类不需要所考察能力的捷径去攻击 115 个 benchmark，77 个至少被一类捷径攻破，其中 35 个连一帧画面都不用看就被攻破，而且越新的 benchmark 越常在不看视频时就被攻破。筛掉捷径攻击能解的题之后，我们选出最难的 840 道题，组成 Video-Index。在这上面，最好的 agent 拿到 79.3%，最好的开源模型只有 19.0%。</p>
+<p class="vi-standfirst" lang="en">Video benchmarks are meant to show whether a model can understand video. We attacked 115 of them with five kinds of shortcuts that do not need the capability a benchmark claims to test, and 35 of them break without the attacker seeing a single frame. After screening out the questions that shortcut attacks can solve, we select the 840 hardest to form Video-Index.</p>
+<p class="vi-standfirst" lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类不需要所考察能力的捷径去攻击 115 个 benchmark，其中 35 个连一帧画面都不用看就被攻破。筛掉捷径攻击能解的题之后，我们选出最难的 840 道题，组成 Video-Index。</p>
 
 <div class="vi-byline"><span lang="en">By Enxin Song</span><span lang="zh">作者 Enxin Song</span></div>
 
@@ -339,8 +339,8 @@ js:
 <!-- ================= 7. Takeaways ================= -->
 <section id="takeaways">
   <h2><span lang="en">Takeaways</span><span lang="zh">核心结论</span></h2>
-  <p lang="en">Video benchmarks are meant to show whether a model can understand video. We attacked 115 of them with five kinds of shortcuts that do not need the capability a benchmark claims to test. 77 fall to at least one shortcut, 35 of them without the attacker seeing a single frame, and newer benchmarks are more often broken without the video. After screening out the questions that shortcut attacks can solve, we select the 840 hardest to form Video-Index. On it, the best agent reaches 79.3% and the best open model 19.0%.</p>
-  <p lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类不需要所考察能力的捷径去攻击 115 个 benchmark，77 个至少被一类捷径攻破，其中 35 个连一帧画面都不用看就被攻破，而且越新的 benchmark 越常在不看视频时就被攻破。筛掉捷径攻击能解的题之后，我们选出最难的 840 道题，组成 Video-Index。在这上面，最好的 agent 拿到 79.3%，最好的开源模型只有 19.0%。</p>
+  <p lang="en">Video benchmarks are meant to show whether a model can understand video. We attacked 115 of them with five kinds of shortcuts that do not need the capability a benchmark claims to test, and 35 of them break without the attacker seeing a single frame. After screening out the questions that shortcut attacks can solve, we select the 840 hardest to form Video-Index.</p>
+  <p lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类不需要所考察能力的捷径去攻击 115 个 benchmark，其中 35 个连一帧画面都不用看就被攻破。筛掉捷径攻击能解的题之后，我们选出最难的 840 道题，组成 Video-Index。</p>
   <p lang="en">The remedy is measurement rather than abandonment. A builder can run the pyramid before release and report the breaking level beside the score. A user can draw items from the screened pool, as Video-Index does. Resistance holds only against the attacks tested, so both the audit and the benchmark have to evolve with new models and new shortcuts.</p>
   <p lang="zh">解决办法是测量，而不是弃用。造 benchmark 的人可以在发布前跑一遍金字塔，把被攻破的层级写在分数旁边。用 benchmark 的人可以从筛查后的题库里选题，Video-Index 就是这样做的。抵抗力只对测试过的攻击成立，所以审计和 benchmark 都要跟着新模型和新捷径一起演进。</p>
 </section>
