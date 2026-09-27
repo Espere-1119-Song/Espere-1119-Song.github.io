@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Video-Index: A Curated Meta-Benchmark"
-subtitle: "Auditing 115 video benchmarks with five attacks, and the 840 questions that survive them."
+subtitle: "Auditing 115 video benchmarks with five attacks, and selecting the 840 hardest verified questions."
 date: 2026-09-26
 tags: [research]
 cover: /images/blogs/video-index/cover.jpg
@@ -18,8 +18,8 @@ js:
   <button type="button" data-lang="zh" aria-pressed="false">中文</button>
 </div>
 
-<p class="vi-standfirst" lang="en">A score certifies a capability only above its strongest shortcut. Of 115 video benchmarks, 77 break under one of five attacks that never need the claimed capability, 35 of them before any attacker sees a frame. Newer benchmarks break earlier, and each capability claim breaks at its own level. The 840 verified questions that survive form Video-Index, where the leading agent reaches 79.3% and the best open model 19.0%.</p>
-<p class="vi-standfirst" lang="zh">一个分数只在高于它最强捷径的部分才证明能力。115 个视频 benchmark 里，77 个在五种不需要所声称能力的攻击之一下被攻破，其中 35 个在任何攻击者看到一帧画面之前就已失守。越新的 benchmark 越早被攻破，每一类能力声称都在各自的层被攻破。幸存下来的 840 道经核验的题构成 Video-Index，领先的 agent 在上面拿到 79.3%，最好的开源模型拿到 19.0%。</p>
+<p class="vi-standfirst" lang="en">A score certifies a capability only above its strongest shortcut. Of 115 video benchmarks, 77 break under one of five attacks that never need the claimed capability, 35 of them before any attacker sees a frame. Newer benchmarks break earlier, and each capability claim breaks at its own level. Video-Index selects the 840 hardest questions from the screened pool, each verified against the frames. On them the leading agent reaches 79.3% and the best open model 19.0%.</p>
+<p class="vi-standfirst" lang="zh">一个分数只在高于它最强捷径的部分才证明能力。115 个视频 benchmark 里，77 个在五种不需要所声称能力的攻击之一下被攻破，其中 35 个在任何攻击者看到一帧画面之前就已失守。越新的 benchmark 越早被攻破，每一类能力声称都在各自的层被攻破。Video-Index 从筛查后的题库里选出最难的 840 道题，答案都对照画面核验过。在这些题上，领先的 agent 拿到 79.3%，最好的开源模型拿到 19.0%。</p>
 
 <div class="vi-byline"><span lang="en">By Enxin Song</span><span lang="zh">作者 Enxin Song</span></div>
 
@@ -64,7 +64,7 @@ js:
 
 <figure class="vi-video" id="overview">
   <video autoplay muted loop playsinline preload="metadata" width="1920" height="1080" poster="/images/blogs/video-index/overview-poster.jpg?v=20260926c" aria-label="A short video overview of this post">
-    <source src="/images/blogs/video-index/overview.mp4?v=20260926c" type="video/mp4">
+    <source src="/images/blogs/video-index/overview.mp4?v=20260926d" type="video/mp4">
   </video>
   <figcaption><span lang="en">A short overview of the post, drawn from the paper's numbers.</span><span lang="zh">本文的简短视频概览，画面全部来自论文里的数字。</span></figcaption>
 </figure>
@@ -72,7 +72,7 @@ js:
 <figure class="vi-fig" id="f-screening">
   <div class="vi-fig__head">
     <div>
-      <h4><span lang="en">115 benchmarks, 505,518 items, and the 840 that survive</span><span lang="zh">115 个 benchmark、505,518 道题，以及幸存的 840 道</span></h4>
+      <h4><span lang="en">115 benchmarks, 505,518 items, and the 840 hardest</span><span lang="zh">115 个 benchmark、505,518 道题，以及最难的 840 道</span></h4>
       <p class="vi-fig__sub"><span lang="en">Hover a tile for its audit record and click it to open it in the table further down; hover a stage of the chain for its count.</span><span lang="zh">悬停一块查看它的审计记录，点击在后文的表格中打开；悬停筛查链的一格查看题数。</span></p>
     </div>
   </div>
@@ -456,8 +456,8 @@ js:
     <p lang="zh"><strong>预测式审计。</strong>Brown 等人<sup class="fn">1</sup>在测试集的文本上微调语言模型，剔除它能预测的题目。我们的题库层在评测进行中跑同一思路的在线版本，每道题的答案在被问到之前保持隐藏；筛查则去掉小模型靠文本或单帧就能答对的题。</p>
   </div>
   <div class="fnp">
-    <p lang="en"><strong>Benchmark generators.</strong> Task-Me-Anything<sup class="fn">11</sup> renders items from a taxonomy, AutoBencher<sup class="fn">12</sup> and BenchAgents<sup class="fn">13</sup> let language-model agents write and verify items, and Harbor-Index<sup class="fn">14</sup> distils a compact set from many agentic benchmarks. A generated benchmark leaves the hundreds of existing benchmarks unused. Video-Index instead keeps the items that existing benchmarks already hold and that no tested attack solves.</p>
-    <p lang="zh"><strong>benchmark 生成器。</strong>Task-Me-Anything<sup class="fn">11</sup> 按分类体系渲染题目，AutoBencher<sup class="fn">12</sup> 和 BenchAgents<sup class="fn">13</sup> 让语言模型 agent 编写并核验题目，Harbor-Index<sup class="fn">14</sup> 从许多 agent benchmark 里蒸馏出一个紧凑的集合。生成出来的 benchmark 把现有的几百个 benchmark 晾在一边。Video-Index 反过来，保留现有 benchmark 里已经有的、而且没有任何测试过的攻击能解的题目。</p>
+    <p lang="en"><strong>Benchmark generators.</strong> Task-Me-Anything<sup class="fn">11</sup> renders items from a taxonomy, AutoBencher<sup class="fn">12</sup> and BenchAgents<sup class="fn">13</sup> let language-model agents write and verify items, and Harbor-Index<sup class="fn">14</sup> distils a compact set from many agentic benchmarks. A generated benchmark leaves the hundreds of existing benchmarks unused. Video-Index instead starts from the items that existing benchmarks already hold, screens out those the tested attacks solve, and selects the 840 hardest of the rest.</p>
+    <p lang="zh"><strong>benchmark 生成器。</strong>Task-Me-Anything<sup class="fn">11</sup> 按分类体系渲染题目，AutoBencher<sup class="fn">12</sup> 和 BenchAgents<sup class="fn">13</sup> 让语言模型 agent 编写并核验题目，Harbor-Index<sup class="fn">14</sup> 从许多 agent benchmark 里蒸馏出一个紧凑的集合。生成出来的 benchmark 把现有的几百个 benchmark 晾在一边。Video-Index 反过来，从现有 benchmark 已有的题目出发，先筛掉测试过的攻击能解的题，再从剩下的题里选出最难的 840 道。</p>
     <aside class="fnote" data-n="11">Zhang et al. <a href="https://arxiv.org/abs/2406.11775">Task Me Anything</a>. NeurIPS 2024.</aside>
     <aside class="fnote" data-n="12">Li et al. <a href="https://arxiv.org/abs/2407.08351">AutoBencher: Towards Declarative Benchmark Construction</a>. ICLR 2025.</aside>
     <aside class="fnote" data-n="13">Butt et al. <a href="https://arxiv.org/abs/2410.22584">BenchAgents: Multi-Agent Systems for Structured Benchmark Creation</a>. arXiv 2024.</aside>
@@ -468,10 +468,10 @@ js:
 <!-- ================= 7. Takeaways ================= -->
 <section id="takeaways">
   <h2><span lang="en">Takeaways</span><span lang="zh">核心结论</span></h2>
-  <p lang="en">A score certifies a capability only above its strongest shortcut. Of 115 video benchmarks, 77 break under one of five attacks that never need the claimed capability, 35 of them before any attacker sees a frame. Newer benchmarks break earlier, and each capability claim breaks at its own level. The 840 verified questions that survive form Video-Index, where the leading agent reaches 79.3% and the best open model 19.0%.</p>
-  <p lang="zh">一个分数只在高于它最强捷径的部分才证明能力。115 个视频 benchmark 里，77 个在五种不需要所声称能力的攻击之一下被攻破，其中 35 个在任何攻击者看到一帧画面之前就已失守。越新的 benchmark 越早被攻破，每一类能力声称都在各自的层被攻破。幸存下来的 840 道经核验的题构成 Video-Index，领先的 agent 在上面拿到 79.3%，最好的开源模型拿到 19.0%。</p>
-  <p lang="en">The remedy is measurement rather than abandonment. A builder can run the pyramid before release and report the breaking level beside the score. A user can select by what survives. Resistance holds only against the attacks tested, so both the audit and the benchmark have to evolve with new models and new shortcuts.</p>
-  <p lang="zh">解决办法是测量，而不是弃用。造 benchmark 的人可以在发布前跑一遍金字塔，把被攻破的层级写在分数旁边。用 benchmark 的人可以只选幸存下来的题目。抵抗力只对测试过的攻击成立，所以审计和 benchmark 都要跟着新模型和新捷径一起演进。</p>
+  <p lang="en">A score certifies a capability only above its strongest shortcut. Of 115 video benchmarks, 77 break under one of five attacks that never need the claimed capability, 35 of them before any attacker sees a frame. Newer benchmarks break earlier, and each capability claim breaks at its own level. Video-Index selects the 840 hardest questions from the screened pool, each verified against the frames. On them the leading agent reaches 79.3% and the best open model 19.0%.</p>
+  <p lang="zh">一个分数只在高于它最强捷径的部分才证明能力。115 个视频 benchmark 里，77 个在五种不需要所声称能力的攻击之一下被攻破，其中 35 个在任何攻击者看到一帧画面之前就已失守。越新的 benchmark 越早被攻破，每一类能力声称都在各自的层被攻破。Video-Index 从筛查后的题库里选出最难的 840 道题，答案都对照画面核验过。在这些题上，领先的 agent 拿到 79.3%，最好的开源模型拿到 19.0%。</p>
+  <p lang="en">The remedy is measurement rather than abandonment. A builder can run the pyramid before release and report the breaking level beside the score. A user can draw items from the screened pool, as Video-Index does. Resistance holds only against the attacks tested, so both the audit and the benchmark have to evolve with new models and new shortcuts.</p>
+  <p lang="zh">解决办法是测量，而不是弃用。造 benchmark 的人可以在发布前跑一遍金字塔，把被攻破的层级写在分数旁边。用 benchmark 的人可以从筛查后的题库里选题，Video-Index 就是这样做的。抵抗力只对测试过的攻击成立，所以审计和 benchmark 都要跟着新模型和新捷径一起演进。</p>
 </section>
 
 <!-- ================= 8. References (assembled from the footnotes by blog-article.js) ================= -->
