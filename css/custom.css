@@ -1656,6 +1656,117 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-rbar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; transition: width 0.6s ease; }
 .vi-rval.is-best { font-weight: 700; color: var(--near-black); }
 
+/* ── Appendix views of the Video-Index post (js/video-index-appendix.js) ── */
+.vi-ctl { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 0 0 10px; }
+.vi-ctl__field { display: inline-flex; align-items: center; gap: 6px; font: 600 0.66rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.vi-select { font: 0.84rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0; text-transform: none; padding: 6px 8px; border: 1px solid var(--border-warm); border-radius: 8px; background: #fff; color: var(--near-black); max-width: 190px; }
+.vi-ctl .vi-input { flex: 1 1 170px; }
+.vi-seg { display: inline-flex; align-items: stretch; margin-left: auto; }
+.vi-seg button { font: 600 0.68rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; padding: 7px 11px; border: 1px solid var(--border-warm); background: #fff; color: var(--text-sub); cursor: pointer; }
+.vi-seg button + button, .vi-seg span + button { border-left: 0; }
+.vi-seg > :first-child { border-radius: 6px 0 0 6px; }
+.vi-seg > :last-child { border-radius: 0 6px 6px 0; }
+.vi-seg button:hover { color: var(--near-black); }
+.vi-seg button[aria-pressed="true"] { background: var(--near-black); border-color: var(--near-black); color: var(--ivory); }
+.vi-legend { margin: 0 0 6px; }
+.vi-chip.is-off { opacity: 0.45; text-decoration: line-through; }
+.vi-chip__n { margin-left: 5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.vi-chip.is-on .vi-chip__n { color: inherit; opacity: 0.7; }
+
+/* scatter plots and line charts drawn from the paper's tables */
+.vi-sc-svg { display: block; width: 100%; height: auto; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+.vi-sc-grid { stroke: #e3e6ea; stroke-width: 1; }
+.vi-sc-axis { stroke: #3c4043; stroke-width: 1.2; }
+.vi-sc-tick { font-size: 11.5px; fill: var(--text-muted); }
+.vi-sc-title { font-size: 13px; fill: var(--text-sub); }
+.vi-sc-ref { stroke: #80868b; stroke-width: 1.2; stroke-dasharray: 5 4; fill: none; }
+.vi-sc-pt { stroke: rgba(32, 33, 36, 0.5); stroke-width: 0.9; transition: opacity 0.15s; }
+.vi-sc-pt:hover, .vi-sc-pt.is-hit { stroke: #202124; stroke-width: 1.8; }
+.vi-sc-pt.is-dim { opacity: 0.15; }
+.vi-sc-label { font-size: 12px; font-weight: 600; fill: var(--near-black); paint-order: stroke; stroke: var(--parchment); stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
+.vi-ln { fill: none; stroke-width: 1.7; stroke-linejoin: round; transition: opacity 0.15s; pointer-events: none; }
+.vi-ln.is-dim { opacity: 0.13; }
+.vi-ln.is-hit { stroke-width: 3.2; }
+.vi-ln-hit { fill: none; stroke: transparent; stroke-width: 11; pointer-events: stroke; }
+.vi-sc-body { margin-top: 4px; }
+.post-body table.vi-sc-table td:first-child { color: var(--near-black); }
+.post-body .vi-explorer__table sub, .post-body .vi-explorer__table sup { text-transform: none; letter-spacing: 0; }
+.vi-tip__grid { display: grid; grid-template-columns: auto auto; gap: 1px 14px; margin-top: 5px; font-size: 0.76rem; }
+.vi-tip__grid span { color: var(--text-muted); }
+.vi-tip__grid b { font-weight: 500; color: var(--text-sub); text-align: right; font-variant-numeric: tabular-nums; }
+.vi-tip__grid .is-axis { color: var(--near-black); font-weight: 700; }
+.vi-tip__note { display: block; margin-top: 4px; font-size: 0.74rem; color: var(--text-muted); }
+
+/* Figure Q1: one benchmark's lines over the paper's figure */
+.vi-q1__dim { fill: var(--parchment); opacity: 0; transition: opacity 0.12s; pointer-events: none; }
+.vi-q1.is-active .vi-q1__dim { opacity: 0.84; }
+.vi-q1__line { fill: none; stroke-width: 2.6px; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; pointer-events: none; }
+.vi-q1__name { font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: 7.2px; font-weight: 600; paint-order: stroke; stroke: var(--parchment); stroke-width: 2px; stroke-linejoin: round; pointer-events: none; }
+.vi-q1__hit { fill: none; stroke: transparent; stroke-width: 9px; vector-effect: non-scaling-stroke; pointer-events: stroke; cursor: pointer; }
+.vi-q1__box { fill: transparent; cursor: pointer; }
+.vi-q1__box:hover { fill: rgba(32, 33, 36, 0.06); }
+
+/* the sampled items of Appendix D */
+.post-body .vi-qual-lead { margin-bottom: 8px; }
+.vi-qual { margin: 0 0 28px; padding: 12px 14px 10px; border: 1px solid var(--border-warm); border-radius: 10px; background: var(--ivory); font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: #3f3f46; }
+.post-body .vi-qual img { display: block; width: 100%; height: auto; max-height: 150px; object-fit: contain; object-position: left center; border: 0; border-radius: 6px; margin: 2px 0 10px; }
+.post-body .vi-qual p { font-size: 0.86rem; line-height: 1.55; margin: 0 0 6px; }
+.post-body .vi-qual p b { color: var(--near-black); font-weight: 700; }
+.post-body ol.vi-qual__opts { list-style: none; margin: 0 0 4px; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 18px; font-size: 0.86rem; line-height: 1.55; }
+.post-body ol.vi-qual__opts.is-long { display: block; }
+.post-body ol.vi-qual__opts li { margin: 0 0 2px; padding: 0; }
+.post-body ol.vi-qual__opts li.is-gold { font-weight: 700; color: var(--near-black); }
+.post-body .vi-qual .vi-qual__caps { font-size: 0.82rem; color: var(--text-sub); margin-top: 6px; }
+
+/* Tables 11 and 12 */
+.vi-dups__table { max-height: 290px; }
+.vi-dupex { margin-top: 12px; }
+.post-body .vi-dupex__head { font: 0.86rem/1.5 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-sub); margin: 0 0 8px; }
+.vi-dupex__pair { border: 1px solid var(--border-cream); border-radius: 10px; background: #fff; padding: 10px 12px 8px; margin: 0 0 10px; }
+.post-body .vi-dupex__kind { font: 600 0.64rem/1.3 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.07em; text-transform: uppercase; color: var(--terracotta); margin: 0 0 6px; }
+.vi-dupex__pair.is-exact .vi-dupex__kind { color: #1967d2; }
+.vi-dupex__q { font: 0.85rem/1.5 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: #3f3f46; margin: 0 0 6px; }
+.vi-dupex__src { display: block; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1px; }
+.post-body .vi-dupex__sim { font: 0.74rem/1.4 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-muted); margin: 2px 0 0; }
+.vi-heat-wrap { overflow-x: auto; }
+.post-body table.vi-heat { width: 100%; border-collapse: separate; border-spacing: 2px; font: 0.76rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; margin: 0; }
+.post-body table.vi-heat th { font-size: 0.68rem; font-weight: 600; color: var(--text-sub); text-align: center; padding: 4px 2px; border: 0; background: transparent; cursor: default; }
+.post-body table.vi-heat th.row { text-align: left; white-space: nowrap; font-size: 0.76rem; font-weight: 500; color: var(--near-black); padding-right: 8px; }
+.post-body table.vi-heat thead th.row { font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.post-body table.vi-heat td { min-width: 30px; text-align: center; padding: 6px 2px; border: 0; border-radius: 4px; color: #b0b4ba; font-variant-numeric: tabular-nums; background: transparent; }
+.post-body table.vi-heat tr:nth-child(even) td { background: transparent; }
+.post-body table.vi-heat td.is-link { cursor: pointer; }
+.post-body table.vi-heat td.is-link:hover { box-shadow: inset 0 0 0 2px #202124; }
+
+/* Tables 34 to 37 */
+.vi-rank__wrap { max-height: none; }
+.vi-mbar { display: inline-block; position: relative; width: 120px; height: 8px; margin-right: 10px; vertical-align: middle; background: var(--border-cream); border-radius: 4px; }
+.vi-mbar i { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+.vi-mbar b { position: absolute; top: -3px; bottom: -3px; width: 1px; background: #5f6368; }
+.post-body table.vi-rank tbody tr { cursor: default; }
+.post-body table.vi-rank .vi-rval { display: inline-block; min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.post-body .vi-fig figcaption[hidden] { display: none; }
+
+/* Tables 38 and 48 to 50 */
+.post-body .vi-static { overflow-x: auto; }
+.post-body .vi-static table td:first-child, .post-body .vi-static table th:first-child { white-space: nowrap; }
+.post-body .vi-static tr.vi-static__foot td { color: var(--text-muted); border-top: 1px solid var(--near-black); }
+.post-body .vi-static th.vi-static__dur { font-size: 0.8rem; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--near-black); vertical-align: top; border-bottom: 1px solid var(--border-warm); }
+.post-body .vi-static th.vi-static__dur span { font-weight: 400; color: var(--text-muted); font-size: 0.74rem; }
+.post-body .vi-static tr.vi-static__group td { border-top: 1px solid var(--border-warm); }
+
+/* Appendix X: the report cards */
+.vi-cards__count { display: inline-flex; align-items: center; padding: 0 10px; border: 1px solid var(--border-warm); border-left: 0; background: #fff; font: 0.8rem 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-sub); font-variant-numeric: tabular-nums; }
+.vi-cards__nav button { font-size: 1rem; line-height: 1; padding: 5px 12px; }
+.vi-cards__card { border-radius: 8px; outline: none; }
+.vi-cards__card:focus-visible { box-shadow: 0 0 0 2px var(--terracotta); }
+.post-body .vi-cards__card img { display: block; width: 100%; height: auto; border: 0; border-radius: 0; margin: 4px 0 0; }
+@media (max-width: 600px) {
+  .vi-seg { margin-left: 0; }
+  .vi-select { max-width: 150px; }
+  .vi-mbar { width: 70px; }
+}
+
 /* ── InteractionBench page: begin (built by build_project.py) ── */
 /* The example step-through, the scorer and the leaderboard of /projects/interactionbench/.
    Keep this block, begin to end, when rewriting other parts of custom.css: the page needs it. */

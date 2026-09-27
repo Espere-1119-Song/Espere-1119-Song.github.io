@@ -4,10 +4,10 @@ Each PDF in the paper repository (figs/*.pdf, compiled locally with the paper's 
 380 dpi and its white background turned into alpha with GIMP's color-to-alpha rule: alpha is the pixel's
 distance from white, and the colour is what would composite back to the original over white. The result
 is exact over white and indistinguishable over the site's parchment. The figures keep the paper's
-numbering, so fig06_year.png is Figure 6 of the paper.
+numbering, so fig06_year.png is Figure 6 of the paper and figQ1_frames_pixels.png is Figure Q1 of its appendix.
 
 Usage: python3 render_paper_figures.py <paper repo>/figs
-Output: ../paper/fig01_screening.png ... fig12_agents.png, about 2100 px wide.
+Output: ../paper/fig01_screening.png ... fig12_agents.png and figQ1_frames_pixels.png, about 2100 px wide.
 """
 import sys
 from pathlib import Path
@@ -21,7 +21,7 @@ FIGS = {'fig_teaser_treemap': 'fig01_screening', 'fig_t01_levels': 'fig02_option
         'fig_t3_frame': 'fig04_frame', 'fig_t4_order': 'fig05_order', 'fig_f0_funnel': 'fig06_year',
         'fig_f3_claims': 'fig07_claims', 'fig_f9_frames_pixels': 'fig08_frames_pixels',
         'fig_f5_longvideo': 'fig09_longvideo', 'fig_f10_ability': 'fig10_errors', 'fig_f7_size': 'fig11_duplicates',
-        'fig_agent_comparison': 'fig12_agents'}
+        'fig_agent_comparison': 'fig12_agents', 'fig_f9_frames_pixels_panels': 'figQ1_frames_pixels'}
 
 
 def white_to_alpha(rgb):

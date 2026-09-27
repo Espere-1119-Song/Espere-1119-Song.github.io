@@ -5,7 +5,8 @@
      #vi-screen                 the screening chain, counting up when scrolled into view
      #vi-explorer               all 115 benchmarks: search, filter, sort, and each benchmark's ladder
      #vi-results                Table 1, sortable, with a bar for the sorted column
-   Everything re-renders on the EN / 中文 toggle. No dependencies. */
+   It also shares its helpers as window.VI_UI with js/video-index-appendix.js. Everything re-renders
+   on the EN / 中文 toggle. No dependencies. */
 (function () {
   'use strict';
   var D = window.VI_DATA;
@@ -352,6 +353,10 @@
     });
     el('p', { class: 'vi-hint' }, container, t('Click a column to sort by it; the bars follow the sorted column. Bold marks the highest value of a column among the rows shown.', '点击列标题按该列排序，条形随排序列变化。加粗为当前显示行中该列的最高值。'));
   }
+
+  /* the helpers the appendix views of js/video-index-appendix.js share */
+  window.VI_UI = { root: root, el: el, svg: svg, clear: clear, t: t, lang: lang, lvName: lvName, gName: gName, fmt: fmt,
+    LVCOL: LVCOL, LVINK: LVINK, LV6: LV6, GROUPS: GROUPS, GC: GC, BY: BY, tip: tip, placeTip: placeTip, benchTip: benchTip, chipHtml: chipHtml };
 
   /* ---------- mount, re-render on language change ---------- */
   var MOUNT = { fig1: figure1, fig6: figure6, fig7: figure7 };
