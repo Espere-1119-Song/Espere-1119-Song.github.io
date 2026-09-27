@@ -8,7 +8,7 @@ cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260926c
-  - /js/video-index-explorer.js?v=20260927vi1
+  - /js/video-index-explorer.js?v=20260927vi2
   - /js/video-index-appendix-data.js?v=20260926g
   - /js/video-index-appendix.js?v=20260926g
 ---
@@ -104,7 +104,88 @@ js:
         <div class="vi-pyr__lvl vi-pyr__lvl--5" data-level="order"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth. Gemini 3.5 Flash and Qwen3-VL-8B.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。Gemini 3.5 Flash 和 Qwen3-VL-8B。</p></div>
         <div class="vi-pyr__lvl vi-pyr__lvl--6" data-level="unbroken"><i><span lang="en">After level 5</span><span lang="zh">第 5 层之后</span></i><b><span lang="en">Unbroken</span><span lang="zh">未攻破</span></b><p lang="en">Survives every level.</p><p lang="zh">五层都挡住了。</p></div>
       </div>
-      <p class="vi-hint"><span lang="en">Hover a level for the benchmarks that reach it and break there, or click it to list them in the benchmark table.</span><span lang="zh">悬停在一层上查看到达这一层和在这一层被攻破的 benchmark，点击在后文的表格中列出。</span></p>
+      <p class="vi-hint"><span lang="en">Hover a level for the benchmarks that reach it and break there, or click it for a failure case at that level.</span><span lang="zh">悬停在一层上查看到达这一层和在这一层被攻破的 benchmark，点击查看这一层的失败案例。</span></p>
+      <div class="vi-pyr__cases">
+        <div class="vi-pyr__case" data-level="option" hidden>
+    <p class="vi-qual-lead" lang="en"><b>Options alone.</b> ExAct breaks at the option level. The options-only attacker, Claude Opus 5, sees the five options of item 3175 without the question or the video and picks D, the correct option. D is the only option that says participant instead of player, and the only one without a reason clause. On 240 of the 300 sampled ExAct items, this attacker picks the correct option.</p>
+        <p class="vi-qual-lead" lang="zh"><b>只看选项。</b>ExAct 在选项层被攻破。只看选项的攻击者 Claude Opus 5 看不到问题和视频，只看到第 3175 题的五个选项，就选了正确的 D。D 是唯一说 participant 而不是 player 的选项，也是唯一不带原因从句的选项。在抽样的 300 道 ExAct 题目里，这个攻击者答对了 240 道。</p>
+        <div class="vi-qual">
+          <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;Which expert commentary correctly assesses the skill execution shown in the video?</p>
+          <ol class="vi-qual__opts is-long">
+            <li>A. The player should focus on jumping higher before releasing the ball to generate more backspin, improving the shot's precision and reducing bounce-off potential.</li>
+            <li>B. The player should focus on holding the elbow away from the body to create a wider arc, which will make the shot more difficult for opposing players to contest.</li>
+            <li>C. The player should keep the fingers stiff and straight while shooting to ensure a stronger shot and prevent the ball from being underpowered or easily blocked.</li>
+            <li class="is-gold">D. The participant should focus on snapping the wrist down and pointing the fingers down when shooting.</li>
+            <li>E. The player should concentrate on flicking the wrist upwards and extending the fingers straight out when shooting to achieve more height and distance on the shot.</li>
+          </ol>
+        </div>
+        </div>
+        <div class="vi-pyr__case" data-level="text" hidden>
+    <p class="vi-qual-lead" lang="en"><b>Question text.</b> MMR-V breaks at the text level. Gemini 3.5 Flash and Claude Opus 5 each read the question and the eleven options of item 337 without the video, and both pick D. Only D names a specific work, while the other ten options are generic titles about ratings, technology, and the workplace. Both readers answer 124 of the 300 sampled MMR-V items correctly without the video.</p>
+        <p class="vi-qual-lead" lang="zh"><b>问题文本。</b>MMR-V 在文本层被攻破。Gemini 3.5 Flash 和 Claude Opus 5 不看视频，各自读第 337 题的问题和十一个选项，都选了 D。只有 D 点出了一部具体作品，其余十个选项都是关于评分、科技和职场的泛泛标题。在抽样的 300 道 MMR-V 题目里，两个模型不看视频都答对了 124 道。</p>
+        <div class="vi-qual">
+          <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;Please suggest a suitable title for this video.</p>
+          <ol class="vi-qual__opts">
+            <li>A. A Digital Society Perspective</li>
+            <li>B. Social Ratings and Personal Perceptions</li>
+            <li>C. Online Influence on Personal Life</li>
+            <li class="is-gold">D. Black Mirror - Social Credit System</li>
+            <li>E. Living Under the Social Lens</li>
+            <li>F. Empathy in the Age of Technology</li>
+            <li>G. Corporate Culture vs. Personal Image</li>
+            <li>H. The Intersection of Ratings and Reality</li>
+            <li>I. Navigating Social Standards</li>
+            <li>J. The Power of Community Approval</li>
+            <li>K. Workplace Dynamics in a Digital World</li>
+          </ol>
+        </div>
+        </div>
+        <div class="vi-pyr__case" data-level="pool" hidden>
+    <p class="vi-qual-lead" lang="en"><b>Other evaluation items.</b> TimeScope breaks at the pool level. Items 1104 and 1892 come from videos of 3,600 and 180 seconds, yet they ask the same question with the same six options and the same answer. Their question embeddings coincide, and the copy attacker, which copies the answer of the nearest earlier question when the BGE-large cosine similarity exceeds 0.9, answers whichever item comes second.</p>
+        <p class="vi-qual-lead" lang="zh"><b>同批的其他题目。</b>TimeScope 在题库层被攻破。第 1104 和 1892 题分别来自 3,600 秒和 180 秒的视频，问的却是同一个问题，六个选项和答案也都相同。两道题的问题向量重合，而照抄攻击者会在 BGE-large 余弦相似度超过 0.9 时照抄最近一道已答题的答案，所以两道题里后出现的那道总会被它答对。</p>
+        <div class="vi-qual">
+          <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;What does the girl do after she get a cup of coffee?</p>
+          <ol class="vi-qual__opts">
+            <li>A. reading a book</li>
+            <li>B. working with her computer</li>
+            <li class="is-gold">C. taking some notes</li>
+            <li>D. cleaning the kitchen</li>
+            <li>E. preparing a breakfast</li>
+            <li>F. washing the dishes</li>
+          </ol>
+        </div>
+        </div>
+        <div class="vi-pyr__case" data-level="frame" hidden>
+    <p class="vi-qual-lead" lang="en"><b>Captions.</b> NExT-QA breaks at the frame level. For item 7426, Claude Opus 5 reads the captions of 32 frames, each written independently by AuroraCap-7B-IMG<sup class="fn">1</sup>, and picks C, the correct option. The captions describe a man with a small drone in a garden and later a small object resting on a white platform, and none of the 32 captions mentions a baby, a lady, or a girl. The same model shown a single frame picks B.</p>
+        <p class="vi-qual-lead" lang="zh"><b>帧描述。</b>NExT-QA 在帧层被攻破。对第 7426 题，Claude Opus 5 读 32 帧的描述，每条都由 AuroraCap-7B-IMG<sup class="fn">1</sup> 独立写出，它选了正确的 C。这些描述写的是花园里一个男人和一架小型无人机，后来一个小物体停在白色平台上，32 条描述里没有一条提到婴儿、女士或女孩。同一个模型只看一帧时选了 B。</p>
+        <div class="vi-qual">
+          <img src="/images/blogs/video-index/examples/nextqa_7426.jpg" alt="Four frames of NExT-QA item 7426: a man stands on a garden lawn facing a small drone, which later rests on a white platform." loading="lazy">
+          <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;why did the blade stop moving at the end</p>
+          <ol class="vi-qual__opts">
+            <li>A. baby stopped it</li>
+            <li>B. no battery</li>
+            <li class="is-gold">C. the man stopped it</li>
+            <li>D. lady pressed a button</li>
+            <li>E. girl pulled the sockets</li>
+          </ol>
+          <p class="vi-qual__caps"><b><span lang="en">Captions</span><span lang="zh">帧描述</span></b>&ensp;“A man in a green t-shirt and black shorts stands barefoot on a lawn, facing a small, black, circular object on the ground, which appears to be a remote-controlled toy.” “The image shows a man standing in a garden, facing a drone that is in flight.” “The image captures a tranquil garden scene with a small, unmanned aircraft on the ground, a white rectangular object on the grass, and a variety of greenery.”</p>
+        </div>
+        </div>
+        <div class="vi-pyr__case" data-level="order" hidden>
+    <p class="vi-qual-lead" lang="en"><b>Shuffled frames.</b> MVBench breaks at the order level. For item action_prediction_88, Gemini 3.5 Flash reads the 32 frames in random order and still picks the correct next action, as it does with ordered frames. The question asks for the next action, yet the answer survives the loss of frame order.</p>
+        <p class="vi-qual-lead" lang="zh"><b>打乱的帧。</b>MVBench 在顺序层被攻破。对 action_prediction_88 这道题，Gemini 3.5 Flash 读打乱顺序的 32 帧，依然选出了正确的下一个动作，和读有序帧时一样。问题问的是接下来的动作，答案却不受帧序丢失的影响。</p>
+        <div class="vi-qual">
+          <img src="/images/blogs/video-index/examples/mvbench_ap88.jpg" alt="Four frames of MVBench item action_prediction_88: a person sorts clothes and a blanket in a bedroom while another person walks in." loading="lazy">
+          <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;What will the person do next?</p>
+          <ol class="vi-qual__opts">
+            <li>A. Take the shoe.</li>
+            <li>B. Lie on the floor.</li>
+            <li>C. Close the box.</li>
+            <li class="is-gold">D. Tidy up the blanket.</li>
+          </ol>
+        </div>
+        </div>
+      </div>
       <figcaption><span lang="en">The attack pyramid. Each level adds access to the item, and the cumulative exploitability over the five levels never decreases. The steps shrink with the benchmarks that break at each level.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，五层累计的可利用度只增不减。台阶随每一层被攻破的 benchmark 数逐级缩小。</span></figcaption>
     </figure>
   </section>
@@ -142,38 +223,6 @@ js:
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig02_options_text.png" alt="Scatter of 115 benchmarks: full-video accuracy minus options-only accuracy on the x axis and minus blind accuracy on the y axis, with shaded bands within 5 points of zero; red squares break on the options and purple triangles on the text.">
       <figcaption><b><span lang="en">Figure 2.</span><span lang="zh">图 2</span></b> <span lang="en"><b>Options and question text replace the video on 30 benchmarks.</b> Axes give full-video accuracy minus options-only and minus blind accuracy, and bands mark breaks.</span><span lang="zh"><b>选项和问题文本在 30 个 benchmark 上替代了视频。</b>两个坐标轴分别是完整视频准确率减去只看选项和减去盲读的准确率，阴影带标出被攻破的区域。</span></figcaption>
     </figure>
-
-    <p class="vi-qual-lead" lang="en"><b>Options alone.</b> ExAct breaks at the option level. The options-only attacker, Claude Opus 5, sees the five options of item 3175 without the question or the video and picks D, the correct option. D is the only option that says participant instead of player, and the only one without a reason clause. On 240 of the 300 sampled ExAct items, this attacker picks the correct option.</p>
-    <p class="vi-qual-lead" lang="zh"><b>只看选项。</b>ExAct 在选项层被攻破。只看选项的攻击者 Claude Opus 5 看不到问题和视频，只看到第 3175 题的五个选项，就选了正确的 D。D 是唯一说 participant 而不是 player 的选项，也是唯一不带原因从句的选项。在抽样的 300 道 ExAct 题目里，这个攻击者答对了 240 道。</p>
-    <div class="vi-qual">
-      <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;Which expert commentary correctly assesses the skill execution shown in the video?</p>
-      <ol class="vi-qual__opts is-long">
-        <li>A. The player should focus on jumping higher before releasing the ball to generate more backspin, improving the shot's precision and reducing bounce-off potential.</li>
-        <li>B. The player should focus on holding the elbow away from the body to create a wider arc, which will make the shot more difficult for opposing players to contest.</li>
-        <li>C. The player should keep the fingers stiff and straight while shooting to ensure a stronger shot and prevent the ball from being underpowered or easily blocked.</li>
-        <li class="is-gold">D. The participant should focus on snapping the wrist down and pointing the fingers down when shooting.</li>
-        <li>E. The player should concentrate on flicking the wrist upwards and extending the fingers straight out when shooting to achieve more height and distance on the shot.</li>
-      </ol>
-    </div>
-
-    <p class="vi-qual-lead" lang="en"><b>Question text.</b> MMR-V breaks at the text level. Gemini 3.5 Flash and Claude Opus 5 each read the question and the eleven options of item 337 without the video, and both pick D. Only D names a specific work, while the other ten options are generic titles about ratings, technology, and the workplace. Both readers answer 124 of the 300 sampled MMR-V items correctly without the video.</p>
-    <p class="vi-qual-lead" lang="zh"><b>问题文本。</b>MMR-V 在文本层被攻破。Gemini 3.5 Flash 和 Claude Opus 5 不看视频，各自读第 337 题的问题和十一个选项，都选了 D。只有 D 点出了一部具体作品，其余十个选项都是关于评分、科技和职场的泛泛标题。在抽样的 300 道 MMR-V 题目里，两个模型不看视频都答对了 124 道。</p>
-    <div class="vi-qual">
-      <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;Please suggest a suitable title for this video.</p>
-      <ol class="vi-qual__opts">
-        <li>A. A Digital Society Perspective</li>
-        <li>B. Social Ratings and Personal Perceptions</li>
-        <li>C. Online Influence on Personal Life</li>
-        <li class="is-gold">D. Black Mirror - Social Credit System</li>
-        <li>E. Living Under the Social Lens</li>
-        <li>F. Empathy in the Age of Technology</li>
-        <li>G. Corporate Culture vs. Personal Image</li>
-        <li>H. The Intersection of Ratings and Reality</li>
-        <li>I. Navigating Social Standards</li>
-        <li>J. The Power of Community Approval</li>
-        <li>K. Workplace Dynamics in a Digital World</li>
-      </ol>
-    </div>
   </section>
 
   <section id="pool">
@@ -186,28 +235,6 @@ js:
     <figure class="vi-fig" id="f-pool">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig03_pool.png" alt="Columns for the benchmarks that reach the pool level, each showing full-video accuracy minus the strongest pool attacker's accuracy after 25, 50, 75, and 100 percent of the items; five columns are marked as breaking.">
       <figcaption><b><span lang="en">Figure 3.</span><span lang="zh">图 3</span></b> <span lang="en"><b>Remembering earlier answers narrows the video gap.</b> Each column is a benchmark, with its gap to the strongest pool attacker after 25 to 100% of the items.</span><span lang="zh"><b>记住此前的答案会缩小视频带来的差距。</b>每一列是一个 benchmark，标出看过 25% 到 100% 的题目后它与最强题库攻击者的差距。</span></figcaption>
-    </figure>
-
-    <p class="vi-qual-lead" lang="en"><b>Other evaluation items.</b> TimeScope breaks at the pool level. Items 1104 and 1892 come from videos of 3,600 and 180 seconds, yet they ask the same question with the same six options and the same answer. Their question embeddings coincide, and the copy attacker, which copies the answer of the nearest earlier question when the BGE-large cosine similarity exceeds 0.9, answers whichever item comes second.</p>
-    <p class="vi-qual-lead" lang="zh"><b>同批的其他题目。</b>TimeScope 在题库层被攻破。第 1104 和 1892 题分别来自 3,600 秒和 180 秒的视频，问的却是同一个问题，六个选项和答案也都相同。两道题的问题向量重合，而照抄攻击者会在 BGE-large 余弦相似度超过 0.9 时照抄最近一道已答题的答案，所以两道题里后出现的那道总会被它答对。</p>
-    <div class="vi-qual">
-      <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;What does the girl do after she get a cup of coffee?</p>
-      <ol class="vi-qual__opts">
-        <li>A. reading a book</li>
-        <li>B. working with her computer</li>
-        <li class="is-gold">C. taking some notes</li>
-        <li>D. cleaning the kitchen</li>
-        <li>E. preparing a breakfast</li>
-        <li>F. washing the dishes</li>
-      </ol>
-    </div>
-
-    <p lang="en">In Tables 14 and 15, superscript w marks a store of earlier items from the same benchmark and superscript c a store preloaded with other benchmarks, and <i>n</i> is the benchmark's full item count. ε<sub>pool</sub> is the largest final-stage margin among the attackers, in %, and Att. names that attacker: L0 learns answer-position priors, L1 copies near-duplicates, L2-rule and L2-LLM use sibling items of the same video through rules or a language model, and L3 retrieves eight examples. ALC is that attacker's normalized area under the learning curve, from 0 at chance to 100 at perfect accuracy throughout.</p>
-    <p lang="zh">表 14 和表 15 里，上标 w 表示题库只存放同一 benchmark 里此前的题目，上标 c 表示题库预先装入了其他 benchmark 的题目，<i>n</i> 是该 benchmark 的全部题目数。ε<sub>pool</sub> 是各攻击者在最后阶段的最大幅度，单位为 %；Att. 指出是哪个攻击者：L0 学习答案位置的先验，L1 照抄近似重复题，L2-rule 和 L2-LLM 分别用规则和语言模型利用同一视频的兄弟题目，L3 检索八个样例。ALC 是该攻击者学习曲线下的归一化面积，随机水平为 0，全程全对为 100。</p>
-    <figure class="vi-fig" id="f-t14">
-      <div class="vi-scatter" data-table="14"></div>
-      <figcaption><b><span lang="en">Table 14.</span><span lang="zh">表 14</span></b> <span lang="en">Within-pool and cross-pool exploitability across audited benchmarks (1/2).</span><span lang="zh">各被审计 benchmark 的池内与跨池可利用度（1/2）。</span><br>
-        <b><span lang="en">Table 15.</span><span lang="zh">表 15</span></b> <span lang="en">Within-pool and cross-pool exploitability across audited benchmarks (2/2).</span><span lang="zh">各被审计 benchmark 的池内与跨池可利用度（2/2）。</span></figcaption>
     </figure>
   </section>
 
@@ -222,45 +249,6 @@ js:
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig04_frame.png" alt="Columns for 78 benchmarks sorted by their caption gap, each showing full-video accuracy minus attacker accuracy under no video, one frame, and captions; 27 columns are marked as breaking.">
       <figcaption><b><span lang="en">Figure 4.</span><span lang="zh">图 4</span></b> <span lang="en"><b>Captions recover more of the video score than a single frame.</b> Each column is a benchmark, sorted by its caption gap, with gaps under no video, one frame, and captions.</span><span lang="zh"><b>帧描述比单帧追回更多视频分数。</b>每一列是一个 benchmark，按帧描述的差距排序，标出没有视频、单帧和帧描述三种条件下的差距。</span></figcaption>
     </figure>
-
-    <p class="vi-qual-lead" lang="en"><b>Captions.</b> NExT-QA breaks at the frame level. For item 7426, Claude Opus 5 reads the captions of 32 frames, each written independently by AuroraCap-7B-IMG<sup class="fn">1</sup>, and picks C, the correct option. The captions describe a man with a small drone in a garden and later a small object resting on a white platform, and none of the 32 captions mentions a baby, a lady, or a girl. The same model shown a single frame picks B.</p>
-    <p class="vi-qual-lead" lang="zh"><b>帧描述。</b>NExT-QA 在帧层被攻破。对第 7426 题，Claude Opus 5 读 32 帧的描述，每条都由 AuroraCap-7B-IMG<sup class="fn">1</sup> 独立写出，它选了正确的 C。这些描述写的是花园里一个男人和一架小型无人机，后来一个小物体停在白色平台上，32 条描述里没有一条提到婴儿、女士或女孩。同一个模型只看一帧时选了 B。</p>
-    <div class="vi-qual">
-      <img src="/images/blogs/video-index/examples/nextqa_7426.jpg" alt="Four frames of NExT-QA item 7426: a man stands on a garden lawn facing a small drone, which later rests on a white platform." loading="lazy">
-      <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;why did the blade stop moving at the end</p>
-      <ol class="vi-qual__opts">
-        <li>A. baby stopped it</li>
-        <li>B. no battery</li>
-        <li class="is-gold">C. the man stopped it</li>
-        <li>D. lady pressed a button</li>
-        <li>E. girl pulled the sockets</li>
-      </ol>
-      <p class="vi-qual__caps"><b><span lang="en">Captions</span><span lang="zh">帧描述</span></b>&ensp;“A man in a green t-shirt and black shorts stands barefoot on a lawn, facing a small, black, circular object on the ground, which appears to be a remote-controlled toy.” “The image shows a man standing in a garden, facing a drone that is in flight.” “The image captures a tranquil garden scene with a small, unmanned aircraft on the ground, a white rectangular object on the grass, and a variety of greenery.”</p>
-    </div>
-
-    <p lang="en">Tables 7 and 8 give the accuracy under each input condition. There, video cap. is a whole-video description written by Qwen3-VL-8B, which enters no attack level, Frame cap. is the caption attack, and Cov. is the share of multiple-choice items that the 32-frame run scored.</p>
-    <p lang="zh">表 7 和表 8 给出每种输入条件下的准确率。其中 video cap. 是 Qwen3-VL-8B 写的整段视频描述，不属于任何攻击层级；Frame cap. 是帧描述攻击；Cov. 是 32 帧运行中得到评分的选择题所占比例。</p>
-    <figure class="vi-fig" id="f-t7">
-      <div class="vi-scatter" data-table="7"></div>
-      <figcaption><b><span lang="en">Table 7.</span><span lang="zh">表 7</span></b> <span lang="en">Input-condition accuracy (%) across audited multiple-choice benchmarks (1/2).</span><span lang="zh">各被审计选择题 benchmark 在不同输入条件下的准确率（%）（1/2）。</span></figcaption>
-    </figure>
-
-    <figure class="vi-fig" id="f-t8">
-      <div class="vi-scatter" data-table="8"></div>
-      <figcaption><b><span lang="en">Table 8.</span><span lang="zh">表 8</span></b> <span lang="en">Input-condition accuracy (%) across audited multiple-choice benchmarks (2/2).</span><span lang="zh">各被审计选择题 benchmark 在不同输入条件下的准确率（%）（2/2）。</span></figcaption>
-    </figure>
-
-    <p lang="en">A broader diagnostic sweep with Qwen3-VL-8B helps interpret sensitivity to visual detail and temporal coverage, and not all of its conditions are frame-level attacks. In Table 17, blind supplies no video, 1f uses position 16 of the 32-frame grid, and 32f and 128f give frame counts. The 448px and 224px columns vary resolution, shuf permutes frame order, half1 and half2 restrict input to each half of the video, and off1 and off2 shift the sampling grid. Table 18 summarizes the capability profiles derived from these conditions.</p>
-    <p lang="zh">用 Qwen3-VL-8B 做的更大范围诊断扫描有助于理解模型对视觉细节和时间覆盖的敏感度，其中并非所有条件都是帧层攻击。表 17 里，blind 不给视频，1f 取 32 帧网格中的第 16 帧，32f 和 128f 是帧数；448px 和 224px 两列改变分辨率，shuf 打乱帧序，half1 和 half2 只给视频的前一半或后一半，off1 和 off2 平移采样网格。表 18 汇总由这些条件得出的能力画像。</p>
-    <figure class="vi-fig" id="f-t17">
-      <div class="vi-scatter" data-table="17"></div>
-      <figcaption><b><span lang="en">Table 17.</span><span lang="zh">表 17</span></b> <span lang="en">Qwen3-VL-8B condition accuracy (%), with blank cells for probes outside a benchmark's sweep.</span><span lang="zh">Qwen3-VL-8B 在各条件下的准确率（%），不在某个 benchmark 扫描范围内的探针留空。</span></figcaption>
-    </figure>
-
-    <figure class="vi-fig" id="f-t18">
-      <div class="vi-scatter" data-table="18"></div>
-      <figcaption><b><span lang="en">Table 18.</span><span lang="zh">表 18</span></b> <span lang="en">Qwen3-VL-8B diagnostic capability profiles across audited benchmarks</span><span lang="zh">Qwen3-VL-8B 在各被审计 benchmark 上的诊断能力画像</span></figcaption>
-    </figure>
   </section>
 
   <section id="order">
@@ -270,26 +258,6 @@ js:
     <figure class="vi-fig" id="f-order">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig05_order.png" alt="Two scatter panels sharing the horizontal axis, the relative accuracy from one tenth of the video; the left panel's vertical axis is relative accuracy after shuffling and the right panel's is relative accuracy from the first half.">
       <figcaption><b><span lang="en">Figure 5.</span><span lang="zh">图 5</span></b> <span lang="en"><b>Much of the score survives temporal perturbation.</b> Each dot is a benchmark, placed by the share of full-video accuracy that each perturbation retains.</span><span lang="zh"><b>时序扰动下分数大多保得住。</b>每个点是一个 benchmark，位置由每种扰动保留的完整视频准确率份额决定。</span></figcaption>
-    </figure>
-
-    <p class="vi-qual-lead" lang="en"><b>Shuffled frames.</b> MVBench breaks at the order level. For item action_prediction_88, Gemini 3.5 Flash reads the 32 frames in random order and still picks the correct next action, as it does with ordered frames. The question asks for the next action, yet the answer survives the loss of frame order.</p>
-    <p class="vi-qual-lead" lang="zh"><b>打乱的帧。</b>MVBench 在顺序层被攻破。对 action_prediction_88 这道题，Gemini 3.5 Flash 读打乱顺序的 32 帧，依然选出了正确的下一个动作，和读有序帧时一样。问题问的是接下来的动作，答案却不受帧序丢失的影响。</p>
-    <div class="vi-qual">
-      <img src="/images/blogs/video-index/examples/mvbench_ap88.jpg" alt="Four frames of MVBench item action_prediction_88: a person sorts clothes and a blanket in a bedroom while another person walks in." loading="lazy">
-      <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;What will the person do next?</p>
-      <ol class="vi-qual__opts">
-        <li>A. Take the shoe.</li>
-        <li>B. Lie on the floor.</li>
-        <li>C. Close the box.</li>
-        <li class="is-gold">D. Tidy up the blanket.</li>
-      </ol>
-    </div>
-
-    <p lang="en">In Table 19, the frame-budget ladder reads 8, 32, and 128 frames. The window probe reads 32 frames inside one random contiguous tenth of the video, and retention divides probe accuracy by 32-frame accuracy on the same items.</p>
-    <p lang="zh">表 19 里，帧预算阶梯读 8、32 和 128 帧。窗口探针在视频中随机一段连续的十分之一里读 32 帧，保留率是探针准确率除以同一批题目上 32 帧的准确率。</p>
-    <figure class="vi-fig" id="f-t19">
-      <div class="vi-scatter" data-table="19"></div>
-      <figcaption><b><span lang="en">Table 19.</span><span lang="zh">表 19</span></b> <span lang="en">Frame-budget accuracy (%) and temporal-retention probes on 88 benchmarks</span><span lang="zh">88 个 benchmark 上的帧预算准确率（%）与时序保留探针</span></figcaption>
     </figure>
   </section>
 </section>

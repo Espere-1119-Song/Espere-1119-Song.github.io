@@ -1504,10 +1504,15 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   box-shadow: inset 0 4px 0 var(--pyr-top, var(--border-warm));
   padding: 12px 9px 11px;
   font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-  cursor: pointer;
+  cursor: default;
   transition: filter 0.15s;
 }
 .vi-pyr__lvl:hover { filter: brightness(0.95); }
+.vi-pyr__lvl.is-clickable { cursor: pointer; }
+.vi-pyr__lvl.is-selected { box-shadow: inset 0 4px 0 var(--pyr-top), 0 0 0 2px var(--near-black); }
+.vi-pyr__lvl:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 2px; }
+.vi-pyr__cases { margin-top: 10px; }
+.vi-pyr__case .vi-qual { margin-bottom: 6px; }
 .vi-pyr__lvl--1 { --pyr-top: #AECBFA; background: #e7effe; }
 .vi-pyr__lvl--2 { --pyr-top: #8AB4F8; background: #dce8fd; margin-top: 20px; }
 .vi-pyr__lvl--3 { --pyr-top: #669DF6; background: #d1e2fc; margin-top: 36px; }
