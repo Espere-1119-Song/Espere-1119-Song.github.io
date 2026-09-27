@@ -5,7 +5,7 @@
      #vi-screen                 the screening chain, counting up when scrolled into view
      #vi-explorer               all 115 benchmarks: search, filter, sort, and each benchmark's ladder
      #vi-results                Table 1, sortable, with a bar for the sorted column
-     .vi-pyr__lvl[data-level]   the pyramid's steps: benchmark counts on hover, click for a failure case
+     .vi-pyr__lvl[data-level]   the pyramid's steps: benchmark counts on hover
    It also shares its helpers as window.VI_UI with js/video-index-appendix.js. Everything re-renders
    on the EN / 中文 toggle. No dependencies. */
 (function () {
@@ -355,7 +355,7 @@
     el('p', { class: 'vi-hint' }, container, t('Click a column to sort by it; the bars follow the sorted column. Bold marks the highest value of a column among the rows shown.', '点击列标题按该列排序，条形随排序列变化。加粗为当前显示行中该列的最高值。'));
   }
 
-  /* ---------- the pyramid's steps: counts on hover, click for the level's failure case ---------- */
+  /* ---------- the pyramid's steps: benchmark counts on hover ---------- */
   function pyramid() {
     Array.prototype.forEach.call(root.querySelectorAll('.vi-pyr__lvl[data-level]'), function (step) {
       var lv = step.getAttribute('data-level');
@@ -366,21 +366,6 @@
         return '<b>' + reach.length + ' ' + t('reach the ' + lv + ' level', '个 benchmark 到达' + lvName(lv) + '层') + '</b><br>' +
           here.length + ' ' + t('break here: ', '个在这一层被攻破：') + names(here);
       });
-      var box = root.querySelector('.vi-pyr__case[data-level="' + lv + '"]');
-      if (!box) { return; }                                   /* the unbroken step has no failure case */
-      step.classList.add('is-clickable');
-      step.setAttribute('role', 'button');
-      step.setAttribute('tabindex', '0');
-      step.setAttribute('aria-expanded', 'false');
-      function toggle() {
-        tip.setAttribute('hidden', '');
-        var open = box.hasAttribute('hidden');
-        Array.prototype.forEach.call(root.querySelectorAll('.vi-pyr__case'), function (c) { c.setAttribute('hidden', ''); });
-        Array.prototype.forEach.call(root.querySelectorAll('.vi-pyr__lvl.is-clickable'), function (x) { x.classList.remove('is-selected'); x.setAttribute('aria-expanded', 'false'); });
-        if (open) { box.removeAttribute('hidden'); step.classList.add('is-selected'); step.setAttribute('aria-expanded', 'true'); }
-      }
-      step.addEventListener('click', toggle);
-      step.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); } });
     });
   }
 
