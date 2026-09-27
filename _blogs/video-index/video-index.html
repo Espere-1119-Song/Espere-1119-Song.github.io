@@ -90,8 +90,8 @@ js:
 <!-- ================= 2. The attack pyramid ================= -->
 <section id="pyramid">
   <h2><span lang="en">The attack pyramid</span><span lang="zh">攻击金字塔</span></h2>
-  <p lang="en">An attacker is any strategy that raises the score without the claimed capability, and no attacker sees the correct answer of the item it answers. We arrange attackers in five levels of growing access to an item, shown below, and call the arrangement the attack pyramid, since fewer benchmarks survive each level than reach it.</p>
-  <p lang="zh">攻击者指任何不靠所声称的能力却能抬高分数的策略，任何攻击者都看不到当前这道题的标准答案。我们把攻击者按对题目的访问权限由少到多排成五层，见下图，称之为攻击金字塔，因为每一层幸存的 benchmark 都比到达这一层的少。</p>
+  <p lang="en">An attacker is any strategy that raises the score without the claimed capability, and no attacker sees the correct answer of the item it answers. We arrange attackers in five levels of growing access to an item, shown below, and call the arrangement the attack pyramid.</p>
+  <p lang="zh">攻击者指任何不靠所声称的能力却能抬高分数的策略，任何攻击者都看不到当前这道题的标准答案。我们把攻击者按对题目的访问权限由少到多排成五层，见下图，称之为攻击金字塔。</p>
 
   <section id="levels">
     <h3><span lang="en">Five levels</span><span lang="zh">五个层级</span></h3>
@@ -102,8 +102,20 @@ js:
         <div class="vi-pyr__lvl vi-pyr__lvl--3"><i><span lang="en">Level 3</span><span lang="zh">第 3 层</span></i><b><span lang="en">Pool</span><span lang="zh">题库</span></b><p lang="en">Adds the other evaluated items. Copying the nearest earlier answer, Qwen3-8B with retrieved pairs, a classifier on question embeddings.</p><p lang="zh">加上其他被评测的题目。照抄最近的已答题、带检索的 Qwen3-8B、问题向量上的分类器。</p></div>
         <div class="vi-pyr__lvl vi-pyr__lvl--4"><i><span lang="en">Level 4</span><span lang="zh">第 4 层</span></i><b><span lang="en">Frame</span><span lang="zh">帧</span></b><p lang="en">Adds one frame or captions. Gemini 3.5 Flash on one frame, Claude Opus 5 on AuroraCap captions of 32 frames.</p><p lang="zh">加上一帧或帧描述。看单帧的 Gemini 3.5 Flash，读 32 帧 AuroraCap 描述的 Claude Opus 5。</p></div>
         <div class="vi-pyr__lvl vi-pyr__lvl--5"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth. Gemini 3.5 Flash and Qwen3-VL-8B.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。Gemini 3.5 Flash 和 Qwen3-VL-8B。</p></div>
+        <div class="vi-pyr__end"><b><span lang="en">Unbroken</span><span lang="zh">未攻破</span></b></div>
       </div>
-      <figcaption><span lang="en">The attack pyramid. Each level adds access to the item, and the cumulative exploitability over the five levels never decreases.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，五层累计的可利用度只增不减。</span></figcaption>
+      <div class="vi-pyr__chain" role="img" aria-label="Benchmarks that reach each level: 115, 98, 85, 80 and 53; 38 remain unbroken.">
+        <div class="vi-pyr__cell vi-pyr__cell--1"><b>115</b></div>
+        <div class="vi-pyr__cell vi-pyr__cell--2">98</div>
+        <div class="vi-pyr__cell vi-pyr__cell--3">85</div>
+        <div class="vi-pyr__cell vi-pyr__cell--4">80</div>
+        <div class="vi-pyr__cell vi-pyr__cell--5">53</div>
+        <div class="vi-pyr__cell vi-pyr__cell--6"><b>38</b></div>
+      </div>
+      <div class="vi-pyr__names" aria-hidden="true">
+        <span><span lang="en">Option</span><span lang="zh">选项</span></span><span><span lang="en">Text</span><span lang="zh">文本</span></span><span><span lang="en">Pool</span><span lang="zh">题库</span></span><span><span lang="en">Frame</span><span lang="zh">帧</span></span><span><span lang="en">Order</span><span lang="zh">顺序</span></span><span><span lang="en">Unbroken</span><span lang="zh">未攻破</span></span>
+      </div>
+      <figcaption><span lang="en">The attack pyramid. Each level adds access to the item, and the cumulative exploitability over the five levels never decreases. The band counts the benchmarks that reach each level, and its dark cell those that survive all five.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，五层累计的可利用度只增不减。条带是到达每一层的 benchmark 数，深色一格是五层都挡住的 benchmark 数。</span></figcaption>
     </figure>
   </section>
 
@@ -134,8 +146,8 @@ js:
 
   <section id="options">
     <h3><span lang="en">Options and question text</span><span lang="zh">选项与问题文本</span></h3>
-    <p lang="en">The first two levels never see a frame. At the option level, chance accuracy is the reciprocal of the option count. A fixed-position attacker picks the most frequent answer position, and Claude Opus 5 reads the options alone in a call that shares no context with its other roles. Options raise accuracy by up to 63 points over chance, lift it significantly on 78 benchmarks, and break 17. The option order matters as well. Across 70 complete runs, eight permutations of the option order give Qwen3-VL-8B a median accuracy range of 5 points, and the selected answer changes on a median 37% of items.</p>
-    <p lang="zh">前两层看不到任何画面。在选项层，随机水平是选项数的倒数。固定位置攻击者总选最常见的答案位置，Claude Opus 5 则在一次与其他角色不共享上下文的调用里只读选项。选项最多把准确率抬高到随机水平之上 63 个点，在 78 个 benchmark 上显著高于随机水平，攻破 17 个。选项的顺序也有影响。在 70 次完整运行里，八种选项排列让 Qwen3-VL-8B 的准确率中位数波动 5 个点，中位数 37% 的题目会换一个答案。</p>
+    <p lang="en">At the option level, chance accuracy is the reciprocal of the option count. A fixed-position attacker picks the most frequent answer position, and Claude Opus 5 reads the options alone in a call that shares no context with its other roles. Options raise accuracy by up to 63 points over chance, lift it significantly on 78 benchmarks, and break 17. The option order matters as well. Across 70 complete runs, eight permutations of the option order give Qwen3-VL-8B a median accuracy range of 5 points.</p>
+    <p lang="zh">在选项层，随机水平是选项数的倒数。固定位置攻击者总选最常见的答案位置，Claude Opus 5 则在一次与其他角色不共享上下文的调用里只读选项。选项最多把准确率抬高到随机水平之上 63 个点，在 78 个 benchmark 上显著高于随机水平，攻破 17 个。选项的顺序也有影响。在 70 次完整运行里，八种选项排列让 Qwen3-VL-8B 的准确率中位数波动 5 个点。</p>
     <p lang="en">At the text level, Gemini 3.5 Flash and Claude Opus 5 read the question and the options without the video. Question text raises accuracy by up to 71 points over chance. Among the 98 benchmarks that pass the option level, the blind reader exceeds the reference on 4 and breaks 13.</p>
     <p lang="zh">在文本层，Gemini 3.5 Flash 和 Claude Opus 5 不看视频，只读问题和选项。问题文本最多把准确率抬高到随机水平之上 71 个点。在通过选项层的 98 个 benchmark 里，盲读模型在 4 个上超过参照模型，攻破 13 个。</p>
     <figure class="vi-fig" id="f-options">
