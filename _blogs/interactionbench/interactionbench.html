@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "InteractionBench for Streaming Video Understanding Systems"
-subtitle: "Six tasks, 34 system configurations, and one trade-off: timely speech costs silence."
 date: 2026-09-26
 tags: [research]
 cover: /images/blogs/interactionbench/cover.jpg?v=5c342dce
@@ -18,8 +17,7 @@ js:
   <button type="button" data-lang="zh" aria-pressed="false">中文</button>
 </div>
 
-<p class="vi-standfirst" lang="en">A video assistant has to speak when its instruction calls for a reply and stay silent otherwise. We tested native streaming models, polled models, a native real-time interaction system, and agents on both decisions at once. Timely speech costs silence: the systems that reach events on time keep talking, and the ones that hold back miss events. Each silence check catches a different failure, fewer replies help only when the system chooses which ones to drop, offline scores mispredict online behavior, and adding restraint is costly.</p>
-<p class="vi-standfirst" lang="zh">视频助手要在指令需要回应时开口，其余时间保持沉默。我们把原生流式模型、轮询模型、原生实时交互系统和 agent 放到这两个决定上一起检验。结论是：及时开口要以沉默为代价。能准时命中事件的系统说个不停，克制的系统又会错过事件；每一项沉默检查抓到的都是不同的失败；少说只有在系统自己挑着删时才有用；离线分数预测不了在线行为；而增加克制的代价很高。</p>
+
 
 <div class="vi-side">
 <nav class="vi-toc" aria-label="Contents">
@@ -44,12 +42,6 @@ js:
 </div>
 
 <figure class="vi-fig" id="f-video">
-  <div class="vi-fig__head">
-    <div>
-      <h4><span lang="en">The benchmark in 111 seconds</span><span lang="zh">111 秒看懂这个 benchmark</span></h4>
-      <p class="vi-fig__sub"><span lang="en">A silent explainer: the boiling-water example, the six tasks, the scoring rule, and the main results.</span><span lang="zh">无声讲解视频：烧水的例子、六个任务、打分规则和主要结果。</span></p>
-    </div>
-  </div>
   <video class="ib-film" controls playsinline preload="metadata" poster="/images/blogs/interactionbench/poster.jpg" aria-label="InteractionBench explainer video">
     <source src="/images/blogs/interactionbench/interactionbench.mp4" type="video/mp4">
   </video>
