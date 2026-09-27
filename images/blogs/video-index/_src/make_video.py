@@ -88,7 +88,7 @@ def fmt_int(v):
 def scene_title(ax, t):
     a1, a2 = ease(seg(t, 0.2, 0.9)), ease(seg(t, 0.9, 0.9))
     text(ax, W / 2, 610 + 20 * (1 - a1), 'Video-Index', 96, weight='semibold', ha='center', alpha=a1)
-    text(ax, W / 2, 505 + 20 * (1 - a1), 'A Curated Meta-Benchmark', 58, weight='semibold', ha='center', alpha=a1)
+    text(ax, W / 2, 505 + 20 * (1 - a1), 'A Curated Meta-Benchmark for Video Understanding', 46, weight='semibold', ha='center', alpha=a1)
     text(ax, W / 2, 405, 'Auditing 115 video benchmarks with five attacks, and selecting the 840 hardest verified questions',
          29, color=MUTED, ha='center', alpha=a2)
 
