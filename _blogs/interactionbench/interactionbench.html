@@ -1,0 +1,334 @@
+---
+layout: post
+title: "When Should a Video Assistant Speak?"
+subtitle: "Six tasks, 34 system configurations, and one trade-off: timely speech costs silence."
+date: 2026-09-26
+tags: [research]
+cover: /images/blogs/interactionbench/cover.jpg
+js:
+  - /js/blog-article.js
+  - /js/interactionbench-data.js
+  - /js/interactionbench.js
+---
+
+<div class="vi-article" id="vi-article" data-lang="en">
+
+<div class="vi-lang" role="group" aria-label="Language">
+  <button type="button" data-lang="en" aria-pressed="true">EN</button>
+  <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+</div>
+
+<p class="vi-standfirst" lang="en">A video assistant has to speak when its instruction calls for a reply and stay silent otherwise. We tested native streaming models, polled models, a native real-time interaction system, and agents on both decisions at once. Timely speech costs silence: the systems that reach events on time keep talking, and the ones that hold back miss events. Each silence check catches a different failure, fewer replies help only when the system chooses which ones to drop, offline scores mispredict online behavior, and adding restraint is costly.</p>
+<p class="vi-standfirst" lang="zh">视频助手要在指令需要回应时开口，其余时间保持沉默。我们把原生流式模型、轮询模型、原生实时交互系统和 agent 放到这两个决定上一起检验。结论是：及时开口要以沉默为代价。能准时命中事件的系统说个不停，克制的系统又会错过事件；每一项沉默检查抓到的都是不同的失败；少说只有在系统自己挑着删时才有用；离线分数预测不了在线行为；而增加克制的代价很高。</p>
+
+<div class="vi-side">
+<nav class="vi-toc" aria-label="Contents">
+  <h3><span lang="en">Contents</span><span lang="zh">目录</span></h3>
+  <ol>
+    <li><a href="#question"><span lang="en">Two decisions</span><span lang="zh">两个决定</span></a></li>
+    <li><a href="#tradeoff"><span lang="en">Timely speech costs silence</span><span lang="zh">及时开口以沉默为代价</span></a></li>
+    <li><a href="#failures"><span lang="en">No system passes every silence check</span><span lang="zh">没有系统能通过所有沉默检查</span></a></li>
+    <li><a href="#deletion"><span lang="en">Fewer replies help only when chosen</span><span lang="zh">少说只在挑着说时有用</span></a></li>
+    <li><a href="#offline"><span lang="en">Offline scores mispredict online behavior</span><span lang="zh">离线分数预测不了在线行为</span></a></li>
+    <li><a href="#mechanism"><span lang="en">Restraint is costly</span><span lang="zh">克制的代价</span></a></li>
+    <li><a href="#method"><span lang="en">How the benchmark works</span><span lang="zh">Benchmark 怎么测</span></a>
+      <ol>
+        <li><a href="#tasks"><span lang="en">Six tasks</span><span lang="zh">六个任务</span></a></li>
+        <li><a href="#scores"><span lang="en">Scores</span><span lang="zh">打分</span></a></li>
+        <li><a href="#scorer"><span lang="en">Try the scorer</span><span lang="zh">试一试打分器</span></a></li>
+      </ol></li>
+    <li><a href="#takeaways"><span lang="en">Takeaways</span><span lang="zh">核心结论</span></a></li>
+    <li><a href="#notes"><span lang="en">References</span><span lang="zh">参考文献</span></a></li>
+  </ol>
+</nav>
+</div>
+
+<figure class="vi-fig" id="f-video">
+  <div class="vi-fig__head">
+    <div>
+      <h4><span lang="en">The benchmark in 111 seconds</span><span lang="zh">111 秒看懂这个 benchmark</span></h4>
+      <p class="vi-fig__sub"><span lang="en">A silent explainer: the boiling-water example, the six tasks, the scoring rule, and the main results.</span><span lang="zh">无声讲解视频：烧水的例子、六个任务、打分规则和主要结果。</span></p>
+    </div>
+  </div>
+  <video class="ib-film" controls playsinline preload="metadata" poster="/images/blogs/interactionbench/poster.jpg" aria-label="InteractionBench explainer video">
+    <source src="/images/blogs/interactionbench/interactionbench.mp4" type="video/mp4">
+  </video>
+  <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">explainer video, 1080p, no sound</span><span lang="zh">讲解视频，1080p，无声</span></div>
+</figure>
+
+<!-- ================= 1. Two decisions ================= -->
+<section id="question">
+  <h2><span lang="en">Two decisions</span><span lang="zh">两个决定</span></h2>
+  <p lang="en">“Tell me when the water boils” asks an assistant to make two decisions. It must respond when boiling becomes visible and stay silent while the pot merely simmers. After reporting the event, it should keep watching without repeating itself. A model that answers questions about a frame well can still speak at every poll, repeat an answer, or stop attending after its first reply, and a system can avoid false alarms simply by missing every event. So we score both decisions, for the complete system of model, memory, and response controller.</p>
+  <p lang="zh">“水开了告诉我”这句话要求助手做两个决定：水面开始沸腾时要开口，锅里只是冒小泡时要沉默。报告之后，它还要继续看着，不重复同一句话。一个针对单帧画面答题很强的模型，仍可能每次轮询都开口、重复同一个答案，或在第一次回复后不再关注；而一个系统也可以靠错过所有事件来避免误报。所以我们同时给这两个决定打分，被评测的是由模型、记忆和回应控制器组成的完整系统。</p>
+  <p lang="en">InteractionBench has 1,060 interactions over 812 videos in six tasks: answering a question about now or about earlier, waiting for a time or an event, and updating a count or a commentary as the stream changes. Every reply is scored on the video clock. Content accuracy checks what the reply says, timing accuracy rewards a reply that arrives within a few seconds of the evidence, and silence compliance counts the replies that come too early or repeat. The 69 negative streams, where the requested event never happens, and the 53 near-miss suites, which pair counted events with look-alikes from the same video, test silence directly. The details of the scores come at the end, with a scorer to try.</p>
+  <p lang="zh">InteractionBench 包含 812 段视频上的 1,060 个交互，分六个任务：回答关于当下或之前画面的问题、等待某个时间或事件、随视频流更新计数或解说。每条回复都在视频时钟上打分：内容准确率看回复说了什么，时机准确率奖励在证据出现后几秒内到达的回复，沉默合规度统计提前或重复的回复。69 个负样本流（目标事件从未发生）和 53 个近失误套件（把被计数的事件和同一段视频里的相似时刻配成对）直接检验沉默。打分细节放在文末，还有一个可以动手试的打分器。</p>
+
+  <figure class="vi-fig" id="f-tasks">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">A frame can require speech in one task and silence in its pair</span><span lang="zh">同一帧画面，一个任务要开口，它的配对任务要沉默</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Three videos, two tasks each. Switch to Explore to step through the frames.</span><span lang="zh">三段视频，每段两个任务。切到“交互”可以逐帧查看。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="x-tasks"><span data-state="fig"><span lang="en">Explore</span><span lang="zh">交互</span></span><span data-state="alt" hidden><span lang="en">Figure</span><span lang="zh">原图</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig01_tasks.png" width="2090" height="1533" alt="Three task pairs, each on one video: a basketball score card for Look and Recall, a pot coming to a boil for Time and Alert, and eggs added to a bowl for Track and Commentate. Each cell shows the reply or the silence the task requires at that frame.">
+    <div class="ib-alt ib-cases" id="x-tasks" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 1</span><span lang="zh">论文 Figure 1</span></div>
+    <figcaption><b>Figure 1.</b> <span lang="en">Each task pair shares one video, and each cell shows the reply or silence required at that frame. When the water begins to boil, Alert speaks while Time waits 15 more seconds. The annotations are illustrations, not released benchmark items. Frames from Wikimedia Commons: U.S. Navy (public domain), Sertion (CC BY-SA 1.0), and Elene B (CC BY-SA 4.0).</span><span lang="zh">每对任务共用一段视频，每一格是该帧要求的回复或沉默。水刚开始沸腾时，Alert 开口，而 Time 还要再等 15 秒。这些标注是示意，不是发布的 benchmark 题目。画面来自 Wikimedia Commons：U.S. Navy（公有领域）、Sertion（CC BY-SA 1.0）和 Elene B（CC BY-SA 4.0）。</span></figcaption>
+  </figure>
+</section>
+
+<!-- ================= 2. Timely speech costs silence ================= -->
+<section id="tradeoff">
+  <h2><span lang="en">Timely speech costs silence</span><span lang="zh">及时开口以沉默为代价</span></h2>
+  <div class="fnp">
+    <p lang="en">We evaluated 34 configurations: native streaming models, turn-based models behind a polling adapter that asks every second whether to speak, a native real-time interaction system with swapped-in models, agentic systems, and offline temporal grounding that sees the whole video. The systems that reach event windows keep talking. Among six open turn-based models, the leading one, Qwen3-VL-8B,<sup class="fn">1</sup> reaches 77.8 timing accuracy but only 10.9 silence compliance. Speaking less changes the failure rather than removing it. JoyAI-VL<sup class="fn">2</sup> scores 29.2 silence at 66.8 timing, and VideoLLM-online<sup class="fn">3</sup> raises silence to 47.9 while its timing falls to 33.6. The human reference reaches 53.6 Overall with 74.7 silence compliance, and every configuration above it sees the whole video or is an agent whose logged polls take about half a minute.</p>
+    <p lang="zh">我们评测了 34 个配置：原生流式模型、放在轮询适配器（每秒问一次要不要开口）后面的轮次制模型、可替换内核的原生实时交互系统、agent 系统，以及能看到整段视频的离线时序定位（grounding）。能命中事件窗口的系统说个不停。六个开源轮次制模型里领先的 Qwen3-VL-8B<sup class="fn">1</sup> 时机准确率 77.8，沉默合规度只有 10.9。少说只是换了一种失败：JoyAI-VL<sup class="fn">2</sup> 沉默合规度 29.2、时机准确率 66.8；VideoLLM-online<sup class="fn">3</sup> 把沉默合规度提到 47.9，时机准确率却降到 33.6。人类参照的 Overall 为 53.6、沉默合规度 74.7；所有高于它的配置，要么能看到整段视频，要么是每次记录在案的轮询要花半分钟左右的 agent。</p>
+    <aside class="fnote" data-n="1">Bai et al. <a href="https://arxiv.org/abs/2511.21631">Qwen3-VL Technical Report</a>. arXiv 2025.</aside>
+    <aside class="fnote" data-n="2">Yao et al. <a href="https://arxiv.org/abs/2606.14777">JoyAI-VL-Interaction: Real-Time Vision-Language Interaction Intelligence</a>. arXiv 2026.</aside>
+    <aside class="fnote" data-n="3">Chen et al. VideoLLM-online: Online Video Large Language Model for Streaming Video. CVPR 2024.</aside>
+  </div>
+  <figure class="vi-fig" id="f-results">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Every configuration on timing and silence</span><span lang="zh">每个配置的时机与沉默</span></h4>
+        <p class="vi-fig__sub"><span lang="en">34 configurations and two references. Pick a task, filter the families, and hover a point for its scores.</span><span lang="zh">34 个配置加两个参照。可以选任务、筛选系统类别，悬停在点上查看分数。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="t-results"><span data-state="fig"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="alt" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <div class="ib-controls" id="c-results"></div>
+    <div class="ib-primary ib-viz" id="x-results"></div>
+    <div class="ib-alt vi-fig__table" id="t-results" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Table 2 and the appendix score table</span><span lang="zh">论文 Table 2 与附录分数表</span></div>
+    <figcaption><b>Table 2</b> <span lang="en">as a chart. Scores range from 0 to 100, and higher is better. Hollow grey points are offline grounding with the whole video, the star is the human reference, and the cross is Qwen3-VL-8B without frames. For Commentate, timing and silence are diagnostics, since Overall there is segment content.</span><span lang="zh">的图表版。分数范围 0 到 100，越高越好。空心灰点是能看到整段视频的离线 grounding，星号是人类参照，叉号是不看画面的 Qwen3-VL-8B。Commentate 的 Overall 是分段内容分，时机和沉默只作诊断。</span></figcaption>
+  </figure>
+  <p lang="en">The split holds inside each task. On Look, Qwen3-VL-8B reaches 75.3 content accuracy and 96.6 timing accuracy but only 3.0 silence compliance. On Time it reaches 79.6 timing accuracy with 0.0 silence compliance, and on Alert 79.1 with 9.8, so reaching an event window does not mean the system waited for it or stopped afterward. On Commentate, polled Claude Sonnet 5 reaches 84.1 content accuracy but only 4.0 silence compliance.</p>
+  <p lang="zh">这种分化在单个任务里同样存在。在 Look 上，Qwen3-VL-8B 内容准确率 75.3、时机准确率 96.6，沉默合规度只有 3.0。在 Time 上它的时机准确率 79.6、沉默合规度 0.0，在 Alert 上是 79.1 和 9.8：命中事件窗口，并不说明系统等到了事件，也不说明它之后停了下来。在 Commentate 上，轮询的 Claude Sonnet 5 内容准确率 84.1，沉默合规度只有 4.0。</p>
+  <details class="vi-details">
+    <summary><span lang="en">Does the five-second scale drive this?</span><span lang="zh">这个结论依赖 5 秒的延迟尺度吗？</span></summary>
+    <p lang="en">No. Rescoring every configuration with delay scales from 2 to 10 seconds keeps the Overall ranking at a Kendall τ of at least 0.95 against the five-second default, and Overall moves by at most 3.6 points. Timing accuracy moves by up to 18.0 points, for the human reference, and the timing order holds. Shifting every event timestamp by one second, or jittering it by one second, keeps the Overall ranking at a τ of at least 0.91 with free-text content held fixed.</p>
+    <p lang="zh">不依赖。用 2 到 10 秒的延迟尺度重新给所有配置打分，Overall 排名与默认 5 秒相比的 Kendall τ 至少为 0.95，Overall 最多变化 3.6 分。时机准确率最多变化 18.0 分（人类参照），时机排序保持不变。把每个事件时间戳整体平移一秒或加上一秒的抖动，在自由文本内容分不变的条件下，Overall 排名的 τ 至少为 0.91。</p>
+    <figure class="vi-fig" id="f-delta">
+      <div class="vi-fig__head">
+        <div>
+          <h4><span lang="en">Timing order holds</span><span lang="zh">时机排序保持不变</span></h4>
+          <p class="vi-fig__sub"><span lang="en">Each configuration's timing accuracy at another delay scale against the five-second default. Explore to switch the scale.</span><span lang="zh">每个配置在其他延迟尺度下的时机准确率，对比默认的 5 秒。切到“交互”可以换尺度。</span></p>
+        </div>
+        <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="x-delta"><span data-state="fig"><span lang="en">Explore</span><span lang="zh">交互</span></span><span data-state="alt" hidden><span lang="en">Figure</span><span lang="zh">原图</span></span></button>
+      </div>
+      <img class="vi-fig__img vi-fig__img--half" src="/images/blogs/interactionbench/paper/fig03_delta.png" width="1026" height="935" alt="Thirty configurations as vertical segments at their five-second timing accuracy, from the two-second score as an open circle to the ten-second score as a filled circle, all close to the diagonal.">
+      <div class="ib-alt ib-viz" id="x-delta" hidden></div>
+      <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 3 and the appendix delay-scale table</span><span lang="zh">论文 Figure 3 与附录延迟尺度表</span></div>
+      <figcaption><b>Figure 3.</b> <span lang="en">Open marks 2 s and filled marks 10 s. Grey marks are references and whole-video configurations.</span><span lang="zh">空心为 2 秒，实心为 10 秒。灰色是参照与看整段视频的配置。</span></figcaption>
+    </figure>
+  </details>
+</section>
+
+<!-- ================= 3. Silence checks ================= -->
+<section id="failures">
+  <h2><span lang="en">No system passes every silence check</span><span lang="zh">没有系统能通过所有沉默检查</span></h2>
+  <div class="fnp">
+    <p lang="en">Repetition and premature speech dominate different systems. Polled with a 64-frame window, Qwen3-VL-8B produces 21.4 redundant emissions per reference event. Its fresh prompt carries no record of its last reply, so while the evidence stays visible, every poll can repeat the same answer. MMDuet2<sup class="fn">4</sup> instead produces 7.5 premature emissions per event, speaking before the requested condition holds. The 69 negative streams contain no valid trigger, yet JoyAI-VL speaks on 89.9% of them. On the near-miss suites, LLaVA-OV2<sup class="fn">5</sup> passes 26.4% and JoyAI-VL 22.6%, while the polled Qwen3-VL models pass 5.7% to 13.2%. No open-weight system clears a third of them.</p>
+    <p lang="zh">重复和提前发言分别主导不同的系统。用 64 帧窗口轮询时，Qwen3-VL-8B 每个参考事件平均有 21.4 次冗余发言：每次轮询都用全新的提示，它不记得上一次的回复，只要证据还在画面里，每次轮询都可能重复同一个答案。MMDuet2<sup class="fn">4</sup> 则是每个事件 7.5 次提前发言，在所等的条件成立之前就开口。69 个负样本流里没有任何有效触发，JoyAI-VL 却在其中 89.9% 上开了口。在近失误套件上，LLaVA-OV2<sup class="fn">5</sup> 通过 26.4%，JoyAI-VL 通过 22.6%，轮询的 Qwen3-VL 系列只有 5.7% 到 13.2%。没有一个开源系统能通过三分之一。</p>
+    <aside class="fnote" data-n="4">Wang et al. MMDuet2: Enhancing Proactive Interaction of Video MLLMs with Multi-Turn Reinforcement Learning. ICLR 2026.</aside>
+    <aside class="fnote" data-n="5">An et al. <a href="https://arxiv.org/abs/2605.25979">LLaVA-OneVision-2: Towards Next-Generation Perceptual Intelligence</a>. arXiv 2026.</aside>
+  </div>
+  <figure class="vi-fig" id="f-silence">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">No system passes all four silence checks</span><span lang="zh">没有系统能通过全部四项沉默检查</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Premature and repeated replies per event, false alarms on negative streams, and near-miss suites passed.</span><span lang="zh">每个事件的提前与重复回复数、负样本流上的误报率，以及通过的近失误套件比例。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="t-silence"><span data-state="fig"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="alt" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig05_silence.png" width="2090" height="825" alt="Four bar panels for JoyAI-VL, Qwen3-VL-8B, LLaVA-OV2, MMDuet2, a grounding run and the blind reference: premature replies per event, repeated replies per event, share of negative streams with a false alarm, and share of matched suites passed.">
+    <div class="ib-alt vi-fig__table" id="t-silence" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 5</span><span lang="zh">论文 Figure 5</span></div>
+    <figcaption><b>Figure 5.</b> <span lang="en">Qwen3-VL-8B is polled with a 64-frame window, and the grey rows are its grounding run and the blind reference.</span><span lang="zh">Qwen3-VL-8B 用 64 帧窗口轮询；灰色两行是它的 grounding 运行和不看画面的参照。</span></figcaption>
+  </figure>
+  <p lang="en">The checks catch different failures. Among the four online systems in Figure 5, Qwen3-VL-8B raises the fewest false alarms yet passes the fewest suites. Selective interaction requires waiting for evidence, responding once, and rejecting both absent events and near misses, and none of these systems manages all four on the Alert and Track streams.</p>
+  <p lang="zh">这几项检查抓到的是不同的失败。在 Figure 5 的四个在线系统里，Qwen3-VL-8B 误报最少，通过的套件却也最少。有选择的交互要求等待证据、只回应一次，并同时拒绝不存在的事件和近失误；在 Alert 和 Track 视频流上，这些系统没有一个能四项全部做到。</p>
+</section>
+
+<!-- ================= 4. Fewer replies ================= -->
+<section id="deletion">
+  <h2><span lang="en">Fewer replies help only when chosen</span><span lang="zh">少说只在挑着说时有用</span></h2>
+  <p lang="en">If systems talk too much, would they do better by simply saying less? Deleting replies at random, from all of them down to one in ten, raises silence compliance for all four traced systems, but it deletes correct replies along with redundant ones, so events go unanswered and timing falls. Raising the response threshold of VideoLLM-online moves along the same trade-off, from 30.2 timing and 56.4 silence at 0.5 to 51.7 and 18.4 at 0.9. Deleting only the premature, repeated, and negative-stream replies instead lifts silence compliance to 100.0 at unchanged timing accuracy. None of the tested controls makes that selective choice.</p>
+  <p lang="zh">既然系统话太多，那干脆少说一点会不会更好？随机删除回复，从全部保留一直删到只留十分之一，四个被追踪的系统沉默合规度都上升了；但它把正确回复和冗余回复一起删掉，事件得不到回应，时机准确率随之下降。调高 VideoLLM-online 的回应阈值也沿着同一条权衡曲线移动：阈值 0.5 时时机准确率 30.2、沉默合规度 56.4，阈值 0.9 时变成 51.7 和 18.4。反过来，只删掉提前、重复和负样本流上的回复，沉默合规度升到 100.0，时机准确率不变。测试过的控制手段都做不到这种有选择的删除。</p>
+  <figure class="vi-fig" id="f-deletion">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Random deletion slides along the trade-off</span><span lang="zh">随机删除只会沿着权衡曲线滑动</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Timing against silence as replies are deleted at random, as a threshold rises, and under an oracle that deletes only unneeded replies. Explore to drag the share of replies kept.</span><span lang="zh">随机删除回复、提高阈值，以及只删多余回复的 oracle 过滤下的时机与沉默。切到“交互”可以拖动保留比例。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="x-deletion"><span data-state="fig"><span lang="en">Explore</span><span lang="zh">交互</span></span><span data-state="alt" hidden><span lang="en">Figure</span><span lang="zh">原图</span></span></button>
+    </div>
+    <img class="vi-fig__img vi-fig__img--half" src="/images/blogs/interactionbench/paper/fig04_deletion.png" width="1026" height="935" alt="Timing against silence: four systems move down and to the right as random deletion keeps fewer replies, VideoLLM-online thresholds form a similar line, and oracle diamonds sit at silence 100 at the original timing.">
+    <div class="ib-alt ib-viz" id="x-deletion" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 4</span><span lang="zh">论文 Figure 4</span></div>
+    <figcaption><b>Figure 4.</b> <span lang="en">Squares keep every reply and open circles keep 10%. Triangles are VideoLLM-online at three thresholds, and diamonds are the oracle filter, which uses the reference annotations. Thresholds use the agent items.</span><span lang="zh">方块保留全部回复，空心圆保留 10%。三角是 VideoLLM-online 的三个阈值，菱形是用参考标注的 oracle 过滤。阈值实验用的是 agent 题集。</span></figcaption>
+  </figure>
+</section>
+
+<!-- ================= 5. Offline vs online ================= -->
+<section id="offline">
+  <h2><span lang="en">Offline scores mispredict online behavior</span><span lang="zh">离线分数预测不了在线行为</span></h2>
+  <p lang="en">Under the same polling adapter, offline answer accuracy, online scores, and poll speed rank the six open turn-based models differently. Qwen3-VL-4B leads offline accuracy but ranks fifth in online Overall, and Gemma-3n ranks last offline, leaving 43.8% of keyed items unanswered in grounding, yet first in online timing accuracy. The blind Qwen3-VL-8B baseline scores 15.7 Overall without frames, the floor for every configuration that sees them.</p>
+  <p lang="zh">在同一个轮询适配器下，离线答题准确率、在线分数和轮询速度对六个开源轮次制模型给出了不同的排序。Qwen3-VL-4B 离线准确率第一，在线 Overall 却排第五；Gemma-3n 离线垫底（grounding 时 43.8% 的选择题没有作答），在线时机准确率却排第一。不看画面的 Qwen3-VL-8B 基线 Overall 为 15.7，是所有看画面配置的下限。</p>
+  <figure class="vi-fig" id="f-backbone">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Offline content, online scores, and speed disagree</span><span lang="zh">离线内容分、在线分数与速度互不一致</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Six backbones behind one polling adapter.</span><span lang="zh">同一个轮询适配器后面的六个骨干模型。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="t-backbone"><span data-state="fig"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="alt" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig06_backbone.png" width="2090" height="650" alt="Six backbones compared on offline content, online Overall, online timing, online silence, and the share of polls finished within one second; the orders differ across panels.">
+    <div class="ib-alt vi-fig__table" id="t-backbone" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 6</span><span lang="zh">论文 Figure 6</span></div>
+    <figcaption><b>Figure 6.</b> <span lang="en">Offline content counts unanswered keyed items as wrong.</span><span lang="zh">离线内容分把未作答的选择题记为错误。</span></figcaption>
+  </figure>
+  <p lang="en">Grounding on the whole video also differs from online use. On identical items, grounding and online scores of eight configurations correlate at 0.18 for content, 0.06 for timing, and −0.08 for silence. Per backbone, offline and online keyed answers agree at a Cohen’s κ of at most 0.40. Online decisions need direct measurement on the stream clock.</p>
+  <p lang="zh">看整段视频的 grounding 与在线使用也不一样。在相同的题目上，八个配置的 grounding 分数与在线分数的相关系数，内容为 0.18、时机为 0.06、沉默为 −0.08。逐个骨干看，离线与在线选择题答案的一致性 Cohen’s κ 最高只有 0.40。在线决策必须在视频时钟上直接测量。</p>
+  <figure class="vi-fig" id="f-grounding">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Grounding scores weakly track online behavior</span><span lang="zh">grounding 分数与在线行为关系很弱</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Eight configurations scored both ways on the same Time, Alert, Track, and Commentate items.</span><span lang="zh">八个配置在同一批 Time、Alert、Track、Commentate 题上分别按两种方式打分。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="t-grounding"><span data-state="fig"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="alt" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig07_grounding.png" width="2090" height="764" alt="Three scatter panels, content, timing and silence, with grounding scores on the horizontal axis and online scores on the vertical axis for eight configurations, with near-flat fitted lines.">
+    <div class="ib-alt vi-fig__table" id="t-grounding" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 7</span><span lang="zh">论文 Figure 7</span></div>
+    <figcaption><b>Figure 7.</b> <span lang="en">Solid lines are least-squares fits, and r is the Pearson correlation.</span><span lang="zh">实线是最小二乘拟合，r 为 Pearson 相关系数。</span></figcaption>
+  </figure>
+</section>
+
+<!-- ================= 6. Restraint is costly ================= -->
+<section id="mechanism">
+  <h2><span lang="en">Restraint comes from the response mechanism, at a cost</span><span lang="zh">克制来自回应机制，而且代价不小</span></h2>
+  <p lang="en">The way a system decides when to speak moves silence compliance more than any input setting. Under polling with a fresh prompt, the group median reaches 64.0 timing accuracy but only 17.2 silence compliance, and more frames or new hints leave this profile in place. Widening the window of Qwen3-VL-8B from 16 to 256 frames raises its silence compliance only from 10.9 to 17.2, while the median poll slows from 0.48 to 4.1 seconds. The native interaction system supplies little restraint by itself: on the agent items, with Qwen3-VL-8B inside its controller, silence compliance falls to 11.0, close to the 5.9 of the same model under polling.</p>
+  <p lang="zh">系统决定何时开口的方式，对沉默合规度的影响超过任何输入设定。全新提示轮询的组中位数时机准确率 64.0，沉默合规度只有 17.2；增加帧数或改写提示都改变不了这个格局。把 Qwen3-VL-8B 的窗口从 16 帧加到 256 帧，沉默合规度只从 10.9 升到 17.2，每次轮询的中位耗时却从 0.48 秒涨到 4.1 秒。原生交互系统本身几乎不提供克制：在 agent 题集上，把 Qwen3-VL-8B 装进它的控制器，沉默合规度降到 11.0，接近同一模型轮询时的 5.9。</p>
+  <div class="fnp">
+    <p lang="en">Reply history, agent loops, and grounding all raise silence, and each pays in timing, speed, or stability. Reply history raises silence compliance for all six open turn-based models, which suggests that much repetition comes from forgetting the previous reply. On the agent items, the Claude Sonnet 5 agents, built on Qwen-MM-Plugins<sup class="fn">6</sup> or on Claude Code tools, reply about a quarter as often as the polled model and roughly triple its silence compliance at some cost in timing, yet a logged agent poll takes about half a minute, far beyond the one-second interval. Only 5 of 18 timed configurations finish 90% of one-second polls in time. With the whole video, Qwen3-VL-8B raises its silence compliance more than fivefold but halves its timing accuracy, and with tools that inspect chosen frames, the Claude Sonnet 5 agent in grounding is the only configuration above 70 in both timing and silence.</p>
+    <p lang="zh">回复历史、agent 循环和 grounding 都能提高沉默合规度，但各自要在时机、速度或稳定性上付出代价。加上回复历史后，六个开源轮次制模型的沉默合规度全部上升，说明很多重复来自忘记了上一次的回复。在 agent 题集上，基于 Qwen-MM-Plugins<sup class="fn">6</sup> 或 Claude Code 工具的 Claude Sonnet 5 agent，回复次数约为轮询模型的四分之一，沉默合规度大约是它的三倍，时机上有一些损失；但每次记录在案的 agent 轮询要花半分钟左右，远超一秒的轮询间隔。18 个计时的配置里，只有 5 个能让 90% 的一秒轮询按时完成。给出整段视频后，Qwen3-VL-8B 的沉默合规度提高了五倍多，时机准确率却减半；借助能查看指定帧的工具，grounding 下的 Claude Sonnet 5 agent 是唯一在时机和沉默上都超过 70 的配置。</p>
+    <aside class="fnote" data-n="6">Qwen Team. <a href="https://github.com/QwenLM/Qwen-MM-Plugins">Qwen-MM-Plugins: Make Any Agent Harness Multimodal-Native</a>. 2026.</aside>
+  </div>
+  <figure class="vi-fig" id="f-mechanisms">
+    <div class="vi-fig__head">
+      <div>
+        <h4><span lang="en">Reply history, agents, and grounding trade timing for silence</span><span lang="zh">回复历史、agent 与 grounding 用时机换沉默</span></h4>
+        <p class="vi-fig__sub"><span lang="en">Each dot is one configuration, grouped by how the system decides when to speak. Explore to see the configurations by name.</span><span lang="zh">每个点是一个配置，按系统决定何时开口的方式分组。切到“交互”可以看到每个配置的名字。</span></p>
+      </div>
+      <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="x-mech"><span data-state="fig"><span lang="en">Explore</span><span lang="zh">交互</span></span><span data-state="alt" hidden><span lang="en">Figure</span><span lang="zh">原图</span></span></button>
+    </div>
+    <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig08_mechanisms.png" width="2090" height="821" alt="Overall, timing and silence for seven groups of configurations, from turn-based polling to offline temporal grounding, with a tick for each group median and a dashed human reference line.">
+    <div class="ib-alt ib-viz" id="x-mech" hidden></div>
+    <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 8</span><span lang="zh">论文 Figure 8</span></div>
+    <figcaption><b>Figure 8.</b> <span lang="en">Ticks mark group medians, and the dashed line is the human reference.</span><span lang="zh">竖线为组中位数，虚线为人类参照。</span></figcaption>
+  </figure>
+</section>
+
+<!-- ================= 7. How the benchmark works ================= -->
+<section id="method">
+  <h2><span lang="en">How the benchmark works</span><span lang="zh">Benchmark 怎么测</span></h2>
+
+  <section id="tasks">
+    <h3><span lang="en">Six tasks</span><span lang="zh">六个任务</span></h3>
+    <p lang="en">A system receives a video stream and a question or standing instruction. At each moment it sees only the video so far, its instruction, and its own history, and it chooses to stay silent or to speak. The six tasks come in pairs, and each pair shares one response obligation.</p>
+    <p lang="zh">系统接收一段视频流和一个问题或常驻指令。每个时刻它只能看到到目前为止的视频、指令和自己的历史，然后选择沉默或开口。六个任务两两成对，每一对共享一类回应义务。</p>
+    <div class="ib-pairs">
+      <div class="ib-pair"><i><span lang="en">Obligation 1</span><span lang="zh">义务 1</span></i><b><span lang="en">Answer a query</span><span lang="zh">回答提问</span></b>
+        <p><span lang="en">Speak once, when the user asks.</span><span lang="zh">用户提问时回答一次。</span></p>
+        <p><strong>Look</strong> <span lang="en">answers from the current view.</span><span lang="zh">依据当前画面作答。</span></p>
+        <p><strong>Recall</strong> <span lang="en">answers from earlier evidence.</span><span lang="zh">依据更早的证据作答。</span></p></div>
+      <div class="ib-pair"><i><span lang="en">Obligation 2</span><span lang="zh">义务 2</span></i><b><span lang="en">Wait for evidence</span><span lang="zh">等待证据</span></b>
+        <p><span lang="en">Speak as soon as the condition holds.</span><span lang="zh">条件一成立就开口。</span></p>
+        <p><strong>Time</strong> <span lang="en">waits for a temporal relation.</span><span lang="zh">等待一个时间关系。</span></p>
+        <p><strong>Alert</strong> <span lang="en">waits for a visual event.</span><span lang="zh">等待一个视觉事件。</span></p></div>
+      <div class="ib-pair"><i><span lang="en">Obligation 3</span><span lang="zh">义务 3</span></i><b><span lang="en">Update as needed</span><span lang="zh">按需更新</span></b>
+        <p><span lang="en">Speak whenever the answer changes.</span><span lang="zh">答案一变就开口。</span></p>
+        <p><strong>Track</strong> <span lang="en">updates a count or state.</span><span lang="zh">更新计数或状态。</span></p>
+        <p><strong>Commentate</strong> <span lang="en">describes new steps.</span><span lang="zh">描述新的步骤。</span></p></div>
+    </div>
+    <details class="vi-details">
+      <summary><span lang="en">The data in numbers</span><span lang="zh">数据一览</span></summary>
+      <p lang="en">The 812 videos span ten domains, led by sports, and average 159 s. Their 1,060 interactions comprise 626 questions and 434 instructions. The 991 positive interactions hold 3,693 reference events, and 69 are negative streams. The 53 near-miss suites hold 106 near misses.</p>
+      <p lang="zh">812 段视频覆盖十个领域，体育最多，平均长 159 秒。1,060 个交互里有 626 个提问、434 条指令；991 个正例交互共含 3,693 个参考事件，另有 69 个负样本流。53 个近失误套件共含 106 个近失误。</p>
+      <figure class="vi-fig" id="f-stats">
+        <div class="vi-fig__head">
+          <div>
+            <h4><span lang="en">Most interactions wait for events or update over time</span><span lang="zh">多数交互要等待事件或随时间更新</span></h4>
+            <p class="vi-fig__sub"><span lang="en">Interactions by task, videos by domain, and videos by length.</span><span lang="zh">按任务统计的交互数、按领域统计的视频数，以及视频时长分布。</span></p>
+          </div>
+          <button type="button" class="ib-toggle" aria-expanded="false" aria-controls="t-stats"><span data-state="fig"><span lang="en">Table</span><span lang="zh">表格</span></span><span data-state="alt" hidden><span lang="en">Chart</span><span lang="zh">图表</span></span></button>
+        </div>
+        <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig02_stats.png" width="2090" height="722" alt="Left, a donut of 1,060 interactions by task: Look 159, Recall 163, Time 126, Alert 313, Track 192, Commentate 107. Middle, videos per domain led by sports with 181. Right, videos by length, most between one and four minutes.">
+        <div class="ib-alt vi-fig__table" id="t-stats" hidden></div>
+        <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 2</span><span lang="zh">论文 Figure 2</span></div>
+        <figcaption><b>Figure 2.</b> <span lang="en">Left counts interactions by task, middle videos by domain, and right videos by length, where the last bin holds five minutes or more.</span><span lang="zh">左图按任务统计交互数，中图按领域统计视频数，右图是视频时长分布，最后一档为五分钟及以上。</span></figcaption>
+      </figure>
+    </details>
+  </section>
+
+  <section id="scores">
+    <h3><span lang="en">Scores</span><span lang="zh">打分</span></h3>
+    <p lang="en">Each positive item has <i>N</i> reference events, and event <i>n</i> has an earliest answerable moment <i>r*<sub>n</sub></i>, when the video first supplies enough evidence. Event <i>n</i> owns the response window from <i>r*<sub>n</sub></i> − 1 s to <i>r*<sub>n+1</sub></i> − 1 s, and the last window runs to the end of the stream. The first reply in a window is its matched response, whatever it says. Later replies in the same window are redundant, and replies before the first window are premature.</p>
+    <p lang="zh">每个正例有 <i>N</i> 个参考事件，事件 <i>n</i> 有一个最早可回答时刻 <i>r*<sub>n</sub></i>，即视频第一次提供充分证据的时刻。事件 <i>n</i> 拥有从 <i>r*<sub>n</sub></i> − 1 秒到 <i>r*<sub>n+1</sub></i> − 1 秒的回应窗口，最后一个窗口延伸到视频结束。窗口内的第一条回复就是它的匹配回应，与内容无关；同一窗口里之后的回复算冗余，第一个窗口之前的回复算提前。</p>
+    <div class="vi-pyr__rule"><span lang="en"><b class="m-ta">Timing accuracy</b> gives each matched response (1 − <span class="v">d<sub>n</sub></span> / 5 s)<sub>+</sub> for a delay <span class="v">d<sub>n</sub></span> after <span class="v">r*<sub>n</sub></span>, and an unmatched event adds nothing. <b class="m-sc">Silence compliance</b> is 100 · (1 − |<span class="v">V</span>| / <span class="v">N</span>)<sub>+</sub>, where <span class="v">V</span> holds the premature and redundant replies. <b class="m-ov">Overall</b> = ½ [<span class="m-acc">Acc</span> + <span class="v">H</span>(<span class="m-ta">TA</span>, <span class="m-sc">SC</span>)], with <span class="v">H</span> the harmonic mean. A negative stream with <span class="v">M</span> replies scores 100 · max(0, 1 − <span class="v">M</span>).</span><span lang="zh"><b class="m-ta">时机准确率</b>给每个匹配回应记 (1 − <span class="v">d<sub>n</sub></span> / 5 秒)<sub>+</sub>，<span class="v">d<sub>n</sub></span> 为相对 <span class="v">r*<sub>n</sub></span> 的延迟；没有匹配到回应的事件记零。<b class="m-sc">沉默合规度</b>为 100 · (1 − |<span class="v">V</span>| / <span class="v">N</span>)<sub>+</sub>，<span class="v">V</span> 是提前和冗余回复的集合。<b class="m-ov">Overall</b> = ½ [<span class="m-acc">Acc</span> + <span class="v">H</span>(<span class="m-ta">TA</span>, <span class="m-sc">SC</span>)]，<span class="v">H</span> 为调和平均。有 <span class="v">M</span> 条回复的负样本流得分为 100 · max(0, 1 − <span class="v">M</span>)。</span></div>
+    <p lang="en">The harmonic mean means timing and silence must both be high, and averaging it with content accuracy keeps credit for a correct answer when timing or silence fails. Constant speech and blanket silence both score poorly. A scripted policy that always speaks reaches 98.8 timing accuracy but 0.0 Overall, one that never speaks earns only the 6.5 Overall of the negative streams, and no scripted policy exceeds 15.6. A near-miss suite passes when its positive item earns timing credit and the system says nothing within five seconds of every near miss. Wall-clock latency is reported separately.</p>
+    <p lang="zh">调和平均意味着时机和沉默必须同时高；再与内容准确率平均，时机或沉默失败时仍保留答对内容的分数。一直说和一直不说都拿不到高分：一直开口的脚本策略时机准确率 98.8，Overall 却是 0.0；从不开口的策略只拿到负样本流贡献的 6.5；没有任何脚本策略超过 15.6。近失误套件的通过条件是：正例拿到时机分，并且系统在每个近失误前后五秒内都不开口。真实时钟上的延迟单独报告。</p>
+    <figure class="vi-fig" id="f-failures">
+      <div class="vi-fig__head">
+        <div>
+          <h4><span lang="en">Six ways to fail on one safety video</span><span lang="zh">同一段安全视频上的六种失败</span></h4>
+          <p class="vi-fig__sub"><span lang="en">The instruction at 0 s asks “Tell me once when the train enters the crossing.”</span><span lang="zh">0 秒时的指令是“火车进入道口时告诉我一次”。</span></p>
+        </div>
+      </div>
+      <img class="vi-fig__img" src="/images/blogs/interactionbench/paper/fig13_failures.png" width="2090" height="1634" alt="Three frames of a railway crossing at 19, 30 and 52 s above seven response traces: correct, too early, too late, repeated, missed, wrong answer, and a false alarm on a stream with no target event, each labelled with the score that fails.">
+      <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">paper, Figure 13 (appendix)</span><span lang="zh">论文附录 Figure 13</span></div>
+      <figcaption><b>Figure 13.</b> <span lang="en">Constructed traces separate content, timing, and silence errors; they are examples, not measured system traces. Frames: WeenyBeany (CC BY 4.0), via Wikimedia Commons.</span><span lang="zh">构造的回复轨迹把内容、时机和沉默三类错误分开；它们是示例，不是系统的实测轨迹。画面：WeenyBeany（CC BY 4.0），来自 Wikimedia Commons。</span></figcaption>
+    </figure>
+  </section>
+
+  <section id="scorer">
+    <h3><span lang="en">Try the scorer</span><span lang="zh">试一试打分器</span></h3>
+    <p lang="en">The widget applies these rules to an illustrative Alert item with two events. Click the timeline to add a reply at that second, click a reply to remove it, or start from one of the patterns. The delay scale can be changed too.</p>
+    <p lang="zh">这个小工具把上面的规则用在一道示意性的 Alert 题上，题里有两个事件。点击时间轴可以在那一秒加一条回复，点击已有回复可以删除，也可以从几种预设模式开始；延迟尺度同样可以调。</p>
+    <figure class="vi-fig" id="f-scorer">
+      <div class="vi-fig__head">
+        <div>
+          <h4><span lang="en">Score a reply trace</span><span lang="zh">给一条回复轨迹打分</span></h4>
+          <p class="vi-fig__sub"><span lang="en">The light turns green at 14 s and again at 38 s.</span><span lang="zh">信号灯在第 14 秒和第 38 秒各变绿一次。</span></p>
+        </div>
+      </div>
+      <div class="ib-scorer" id="x-scorer"></div>
+      <div class="vi-fig__src"><b>InteractionBench</b><span lang="en">the scoring rule above, on an illustrative item</span><span lang="zh">上文的打分规则，示意题</span></div>
+      <figcaption><span lang="en">Content is reduced to right or wrong. The scorer follows the rule for a trigger item, where content accuracy averages the matched responses.</span><span lang="zh">内容简化为对或错。打分器按触发类题目的规则计算，内容准确率对匹配回应取平均。</span></figcaption>
+    </figure>
+  </section>
+</section>
+
+<!-- ================= 8. Takeaways ================= -->
+<section id="takeaways">
+  <h2><span lang="en">Takeaways</span><span lang="zh">核心结论</span></h2>
+  <p lang="en">Timely speech costs silence across native streaming models, polled models, a native real-time interaction system, and agents. The systems that reach events on time keep talking, the ones that hold back miss events, and each silence check catches a different failure. Fewer replies help only when the system chooses which ones to drop, offline scores mispredict online behavior, and adding restraint is costly: the native controller adds little by itself, and agents add it at about half a minute per poll.</p>
+  <p lang="zh">在原生流式模型、轮询模型、原生实时交互系统和 agent 上，及时开口都要以沉默为代价。能准时命中事件的系统说个不停，克制的系统又会错过事件，而每一项沉默检查抓到的都是不同的失败。少说只有在系统自己挑着删时才有用；离线分数预测不了在线行为；增加克制的代价很高：原生控制器本身几乎不加克制，agent 能加，但每次轮询要半分钟左右。</p>
+  <p lang="en">Future systems should retain an instruction, recognize new evidence, respond once, and resume monitoring. Progress reports should cover both obligations on matched items, speech when due and silence otherwise, with runtime measured separately. On the Alert and Track streams that carry them, negative streams and near-miss suites separate systems whose aggregate scores look similar.</p>
+  <p lang="zh">未来的系统应当记住指令、识别新证据、只回应一次，然后恢复监视。进展报告应当在匹配的题目上同时报告两类义务，该说时说、其余时间沉默，并单独测量运行时间。在带有负样本流和近失误套件的 Alert 与 Track 视频流上，这两项检查能把总分看起来相近的系统区分开。</p>
+</section>
+
+<!-- ================= References (assembled from the footnotes) ================= -->
+<section id="notes">
+  <h2><span lang="en">References</span><span lang="zh">参考文献</span></h2>
+</section>
+
+<p class="ib-credits"><span lang="en">Video frames via Wikimedia Commons:</span><span lang="zh">视频画面来自 Wikimedia Commons：</span> <a href="https://commons.wikimedia.org/wiki/File:Boiling_water_-_close_up_(short_shutter_speed).ogv">Boiling water, close up</a>, Sertion (CC BY-SA 1.0); <a href="https://commons.wikimedia.org/wiki/File:NSF_Diego_Garcia_hosts_basketball_game_(989713).webm">NSF Diego Garcia hosts basketball game</a>, U.S. Navy (public domain); <a href="https://commons.wikimedia.org/wiki/File:Patata_tortilla.webm">Patata tortilla</a>, Elene B (CC BY-SA 4.0); <a href="https://commons.wikimedia.org/wiki/File:Railway_Crossing_In_Action_with_Train_Passing_Through.webm">Railway Crossing In Action with Train Passing Through</a>, WeenyBeany (CC BY 4.0).</p>
+<div class="vi-foot">
+  <a href="/#section-blog"><span lang="en">← All posts</span><span lang="zh">← 全部文章</span></a>
+  <a href="#"><span lang="en">Back to top ↑</span><span lang="zh">回到顶部 ↑</span></a>
+</div>
+
+</div>
