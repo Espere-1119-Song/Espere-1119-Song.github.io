@@ -8,7 +8,7 @@ cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260926c
-  - /js/video-index-explorer.js?v=20260926g
+  - /js/video-index-explorer.js?v=20260927vi1
   - /js/video-index-appendix-data.js?v=20260926g
   - /js/video-index-appendix.js?v=20260926g
 ---
@@ -97,25 +97,15 @@ js:
     <h3><span lang="en">Five levels</span><span lang="zh">五个层级</span></h3>
     <figure class="vi-fig" id="f-schema">
       <div class="vi-pyr">
-        <div class="vi-pyr__lvl vi-pyr__lvl--1"><i><span lang="en">Level 1</span><span lang="zh">第 1 层</span></i><b><span lang="en">Option</span><span lang="zh">选项</span></b><p lang="en">The answer options alone. A fixed answer position, and Claude Opus 5 reading the options.</p><p lang="zh">只有答案选项。固定答案位置，以及只读选项的 Claude Opus 5。</p></div>
-        <div class="vi-pyr__lvl vi-pyr__lvl--2"><i><span lang="en">Level 2</span><span lang="zh">第 2 层</span></i><b><span lang="en">Text</span><span lang="zh">文本</span></b><p lang="en">Adds the question. Gemini 3.5 Flash and Claude Opus 5 reading text only.</p><p lang="zh">加上问题。只读文字的 Gemini 3.5 Flash 和 Claude Opus 5。</p></div>
-        <div class="vi-pyr__lvl vi-pyr__lvl--3"><i><span lang="en">Level 3</span><span lang="zh">第 3 层</span></i><b><span lang="en">Pool</span><span lang="zh">题库</span></b><p lang="en">Adds the other evaluated items. Copying the nearest earlier answer, Qwen3-8B with retrieved pairs, a classifier on question embeddings.</p><p lang="zh">加上其他被评测的题目。照抄最近的已答题、带检索的 Qwen3-8B、问题向量上的分类器。</p></div>
-        <div class="vi-pyr__lvl vi-pyr__lvl--4"><i><span lang="en">Level 4</span><span lang="zh">第 4 层</span></i><b><span lang="en">Frame</span><span lang="zh">帧</span></b><p lang="en">Adds one frame or captions. Gemini 3.5 Flash on one frame, Claude Opus 5 on AuroraCap captions of 32 frames.</p><p lang="zh">加上一帧或帧描述。看单帧的 Gemini 3.5 Flash，读 32 帧 AuroraCap 描述的 Claude Opus 5。</p></div>
-        <div class="vi-pyr__lvl vi-pyr__lvl--5"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth. Gemini 3.5 Flash and Qwen3-VL-8B.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。Gemini 3.5 Flash 和 Qwen3-VL-8B。</p></div>
-        <div class="vi-pyr__end"><b><span lang="en">Unbroken</span><span lang="zh">未攻破</span></b></div>
+        <div class="vi-pyr__lvl vi-pyr__lvl--1" data-level="option"><i><span lang="en">Level 1</span><span lang="zh">第 1 层</span></i><b><span lang="en">Option</span><span lang="zh">选项</span></b><p lang="en">The answer options alone. A fixed answer position, and Claude Opus 5 reading the options.</p><p lang="zh">只有答案选项。固定答案位置，以及只读选项的 Claude Opus 5。</p></div>
+        <div class="vi-pyr__lvl vi-pyr__lvl--2" data-level="text"><i><span lang="en">Level 2</span><span lang="zh">第 2 层</span></i><b><span lang="en">Text</span><span lang="zh">文本</span></b><p lang="en">Adds the question. Gemini 3.5 Flash and Claude Opus 5 reading text only.</p><p lang="zh">加上问题。只读文字的 Gemini 3.5 Flash 和 Claude Opus 5。</p></div>
+        <div class="vi-pyr__lvl vi-pyr__lvl--3" data-level="pool"><i><span lang="en">Level 3</span><span lang="zh">第 3 层</span></i><b><span lang="en">Pool</span><span lang="zh">题库</span></b><p lang="en">Adds the other evaluated items. Copying the nearest earlier answer, Qwen3-8B with retrieved pairs, a classifier on question embeddings.</p><p lang="zh">加上其他被评测的题目。照抄最近的已答题、带检索的 Qwen3-8B、问题向量上的分类器。</p></div>
+        <div class="vi-pyr__lvl vi-pyr__lvl--4" data-level="frame"><i><span lang="en">Level 4</span><span lang="zh">第 4 层</span></i><b><span lang="en">Frame</span><span lang="zh">帧</span></b><p lang="en">Adds one frame or captions. Gemini 3.5 Flash on one frame, Claude Opus 5 on AuroraCap captions of 32 frames.</p><p lang="zh">加上一帧或帧描述。看单帧的 Gemini 3.5 Flash，读 32 帧 AuroraCap 描述的 Claude Opus 5。</p></div>
+        <div class="vi-pyr__lvl vi-pyr__lvl--5" data-level="order"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth. Gemini 3.5 Flash and Qwen3-VL-8B.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。Gemini 3.5 Flash 和 Qwen3-VL-8B。</p></div>
+        <div class="vi-pyr__lvl vi-pyr__lvl--6" data-level="unbroken"><i><span lang="en">After level 5</span><span lang="zh">第 5 层之后</span></i><b><span lang="en">Unbroken</span><span lang="zh">未攻破</span></b><p lang="en">Survives every level.</p><p lang="zh">五层都挡住了。</p></div>
       </div>
-      <div class="vi-pyr__chain" role="img" aria-label="Benchmarks that reach each level: 115, 98, 85, 80 and 53; 38 remain unbroken.">
-        <div class="vi-pyr__cell vi-pyr__cell--1"><b>115</b></div>
-        <div class="vi-pyr__cell vi-pyr__cell--2">98</div>
-        <div class="vi-pyr__cell vi-pyr__cell--3">85</div>
-        <div class="vi-pyr__cell vi-pyr__cell--4">80</div>
-        <div class="vi-pyr__cell vi-pyr__cell--5">53</div>
-        <div class="vi-pyr__cell vi-pyr__cell--6"><b>38</b></div>
-      </div>
-      <div class="vi-pyr__names" aria-hidden="true">
-        <span><span lang="en">Option</span><span lang="zh">选项</span></span><span><span lang="en">Text</span><span lang="zh">文本</span></span><span><span lang="en">Pool</span><span lang="zh">题库</span></span><span><span lang="en">Frame</span><span lang="zh">帧</span></span><span><span lang="en">Order</span><span lang="zh">顺序</span></span><span><span lang="en">Unbroken</span><span lang="zh">未攻破</span></span>
-      </div>
-      <figcaption><span lang="en">The attack pyramid. Each level adds access to the item, and the cumulative exploitability over the five levels never decreases. The band counts the benchmarks that reach each level, and its dark cell those that survive all five.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，五层累计的可利用度只增不减。条带是到达每一层的 benchmark 数，深色一格是五层都挡住的 benchmark 数。</span></figcaption>
+      <p class="vi-hint"><span lang="en">Hover a level for the benchmarks that reach it and break there, or click it to list them in the benchmark table.</span><span lang="zh">悬停在一层上查看到达这一层和在这一层被攻破的 benchmark，点击在后文的表格中列出。</span></p>
+      <figcaption><span lang="en">The attack pyramid. Each level adds access to the item, and the cumulative exploitability over the five levels never decreases. The steps shrink with the benchmarks that break at each level.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，五层累计的可利用度只增不减。台阶随每一层被攻破的 benchmark 数逐级缩小。</span></figcaption>
     </figure>
   </section>
 
@@ -141,15 +131,13 @@ js:
 <!-- ================= 3. What each level takes ================= -->
 <section id="attacks">
   <h2><span lang="en">What each level takes</span><span lang="zh">每一层拿走什么</span></h2>
-  <p lang="en">Across the 115 benchmarks, 17 break on the options alone and 13 on the question text. Another 5 break on the other evaluated items, 27 on a single frame or captions, and 15 under temporal perturbation. 38 benchmarks survive every level. Each level below also shows one sampled item. Its box gives the question and the options with the correct option in bold, the text above it states what each attacker saw and chose, and frames appear only where an attacker saw visual input.</p>
-  <p lang="zh">在 115 个 benchmark 上跑完五层，17 个只靠选项就被攻破，13 个靠问题文本，5 个靠同批的其他题目，27 个靠单帧或帧描述，15 个在时序扰动下被攻破。38 个 benchmark 全部幸存。下面每一层还各配一道抽样题：框里是问题和选项，正确选项加粗；框上方的文字说明每个攻击者看到了什么、选了什么；只有攻击者看到了画面时才附上帧。</p>
 
   <section id="options">
     <h3><span lang="en">Options and question text</span><span lang="zh">选项与问题文本</span></h3>
-    <p lang="en">At the option level, chance accuracy is the reciprocal of the option count. A fixed-position attacker picks the most frequent answer position, and Claude Opus 5 reads the options alone in a call that shares no context with its other roles. Options raise accuracy by up to 63 points over chance, lift it significantly on 78 benchmarks, and break 17. The option order matters as well. Across 70 complete runs, eight permutations of the option order give Qwen3-VL-8B a median accuracy range of 5 points.</p>
-    <p lang="zh">在选项层，随机水平是选项数的倒数。固定位置攻击者总选最常见的答案位置，Claude Opus 5 则在一次与其他角色不共享上下文的调用里只读选项。选项最多把准确率抬高到随机水平之上 63 个点，在 78 个 benchmark 上显著高于随机水平，攻破 17 个。选项的顺序也有影响。在 70 次完整运行里，八种选项排列让 Qwen3-VL-8B 的准确率中位数波动 5 个点。</p>
-    <p lang="en">At the text level, Gemini 3.5 Flash and Claude Opus 5 read the question and the options without the video. Question text raises accuracy by up to 71 points over chance. Among the 98 benchmarks that pass the option level, the blind reader exceeds the reference on 4 and breaks 13.</p>
-    <p lang="zh">在文本层，Gemini 3.5 Flash 和 Claude Opus 5 不看视频，只读问题和选项。问题文本最多把准确率抬高到随机水平之上 71 个点。在通过选项层的 98 个 benchmark 里，盲读模型在 4 个上超过参照模型，攻破 13 个。</p>
+    <p lang="en">Options alone raise accuracy by up to 63 points over chance, lift it significantly on 78 benchmarks, and break 17. The option order matters as well. Across 70 complete runs, eight permutations of the option order give Qwen3-VL-8B a median accuracy range of 5 points.</p>
+    <p lang="zh">只看选项就能把准确率抬高到随机水平之上最多 63 个点，在 78 个 benchmark 上显著高于随机水平，攻破 17 个。选项的顺序也有影响。在 70 次完整运行里，八种选项排列让 Qwen3-VL-8B 的准确率中位数波动 5 个点。</p>
+    <p lang="en">Question text raises accuracy by up to 71 points over chance. Among the 98 benchmarks that pass the option level, the blind reader exceeds the reference on 4 and breaks 13.</p>
+    <p lang="zh">问题文本最多把准确率抬高到随机水平之上 71 个点。在通过选项层的 98 个 benchmark 里，盲读模型在 4 个上超过参照模型，攻破 13 个。</p>
     <figure class="vi-fig" id="f-options">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig02_options_text.png" alt="Scatter of 115 benchmarks: full-video accuracy minus options-only accuracy on the x axis and minus blind accuracy on the y axis, with shaded bands within 5 points of zero; red squares break on the options and purple triangles on the text.">
       <figcaption><b><span lang="en">Figure 2.</span><span lang="zh">图 2</span></b> <span lang="en"><b>Options and question text replace the video on 30 benchmarks.</b> Axes give full-video accuracy minus options-only and minus blind accuracy, and bands mark breaks.</span><span lang="zh"><b>选项和问题文本在 30 个 benchmark 上替代了视频。</b>两个坐标轴分别是完整视频准确率减去只看选项和减去盲读的准确率，阴影带标出被攻破的区域。</span></figcaption>
@@ -191,9 +179,9 @@ js:
   <section id="pool">
     <h3><span lang="en">Other evaluation items</span><span lang="zh">同批的其他题目</span></h3>
     <div class="fnp">
-      <p lang="en">The pool level asks whether the answers to other items help solve a question. A copy attacker copies the answer of the nearest earlier question when their BGE-large embeddings are similar enough. A retrieval attacker gives Qwen3-8B the eight nearest question-answer pairs. Following the predictive auditing of Brown et al.<sup class="fn">1</sup>, a logistic regression on question embeddings predicts answer letters out of sample. The pool is ordered at random, and each item is answered before its ground truth enters the pool. The gap between the strongest attacker and the reference narrows as more items enter the sequence, and 5 benchmarks break.</p>
-      <p lang="zh">题库层问的是其他题目的答案能否帮助解题。照抄攻击者在 BGE-large 向量足够相似时，直接照抄最近的一道已答题的答案。检索攻击者把最近的八个问答对交给 Qwen3-8B。按照 Brown 等人<sup class="fn">1</sup>的预测式审计，一个基于问题向量的逻辑回归在样本外预测答案字母。题库按随机顺序排列，每道题都在它的标准答案进入题库之前作答。随着进入序列的题目越来越多，最强攻击者与参照模型的差距不断缩小，5 个 benchmark 被攻破。</p>
-      <aside class="fnote" data-n="1">Brown et al. <a href="https://arxiv.org/abs/2511.04655">Benchmark Designers Should "Train on the Test Set" to Expose Exploitable Non-Visual Shortcuts</a>. arXiv 2025.</aside>
+      <p lang="en">Remembering the answers of earlier items narrows the video gap. The gap between the strongest attacker and the reference shrinks as more items enter the sequence, and 5 benchmarks break.</p>
+      <p lang="zh">记住此前题目的答案会缩小视频带来的差距。随着进入序列的题目越来越多，最强攻击者与参照模型的差距不断缩小，5 个 benchmark 被攻破。</p>
+      <aside class="fnote" data-n="10">Brown et al. <a href="https://arxiv.org/abs/2511.04655">Benchmark Designers Should "Train on the Test Set" to Expose Exploitable Non-Visual Shortcuts</a>. arXiv 2025.</aside>
     </div>
     <figure class="vi-fig" id="f-pool">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig03_pool.png" alt="Columns for the benchmarks that reach the pool level, each showing full-video accuracy minus the strongest pool attacker's accuracy after 25, 50, 75, and 100 percent of the items; five columns are marked as breaking.">
@@ -226,17 +214,17 @@ js:
   <section id="frame">
     <h3><span lang="en">Single frames and captions</span><span lang="zh">单帧与帧描述</span></h3>
     <div class="fnp">
-      <p lang="en">The frame level replaces the video with a single frame or a text description. Gemini 3.5 Flash reads one frame, and Claude Opus 5 reads captions of the 32 sampled frames, each written independently by AuroraCap-7B-IMG<sup class="fn">2</sup> without the question or options. Captions recover more of the reference accuracy than a single frame. Among the 78 benchmarks with all three probes at this level, one frame comes within tolerance of the reference on 8. It beats the blind reader by a median 3.3 points. Captions come within tolerance on 23 and exceed the reference on 9, and 27 benchmarks break at this level.</p>
-      <p lang="zh">帧层用单帧或文字描述替代视频。Gemini 3.5 Flash 看一帧，Claude Opus 5 读 32 个抽样帧的描述，每条描述由 AuroraCap-7B-IMG<sup class="fn">2</sup> 在看不到问题和选项的情况下独立写出。帧描述比单帧更能追回参照模型的准确率。在这一层三种探针齐全的 78 个 benchmark 里，单帧在 8 个上追到参照模型的容差之内，比盲读模型高出中位数 3.3 个点。帧描述在 23 个上追到容差之内，在 9 个上超过参照模型，27 个 benchmark 在这一层被攻破。</p>
-      <aside class="fnote" data-n="2">Chai et al. <a href="https://arxiv.org/abs/2410.03051">AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark</a>. ICLR 2025.</aside>
+      <p lang="en">Captions recover more of the reference accuracy than a single frame. Among the 78 benchmarks with all three probes at this level, one frame comes within tolerance of the reference on 8 and beats the blind reader by a median 3.3 points. Captions come within tolerance on 23 and exceed the reference on 9, and 27 benchmarks break at this level.</p>
+      <p lang="zh">帧描述比单帧更能追回参照模型的准确率。在这一层三种探针齐全的 78 个 benchmark 里，单帧在 8 个上追到参照模型的容差之内，比盲读模型高出中位数 3.3 个点。帧描述在 23 个上追到容差之内，在 9 个上超过参照模型，27 个 benchmark 在这一层被攻破。</p>
+      <aside class="fnote" data-n="1">Chai et al. <a href="https://arxiv.org/abs/2410.03051">AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark</a>. ICLR 2025.</aside>
     </div>
     <figure class="vi-fig" id="f-frame">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig04_frame.png" alt="Columns for 78 benchmarks sorted by their caption gap, each showing full-video accuracy minus attacker accuracy under no video, one frame, and captions; 27 columns are marked as breaking.">
       <figcaption><b><span lang="en">Figure 4.</span><span lang="zh">图 4</span></b> <span lang="en"><b>Captions recover more of the video score than a single frame.</b> Each column is a benchmark, sorted by its caption gap, with gaps under no video, one frame, and captions.</span><span lang="zh"><b>帧描述比单帧追回更多视频分数。</b>每一列是一个 benchmark，按帧描述的差距排序，标出没有视频、单帧和帧描述三种条件下的差距。</span></figcaption>
     </figure>
 
-    <p class="vi-qual-lead" lang="en"><b>Captions.</b> NExT-QA breaks at the frame level. For item 7426, Claude Opus 5 reads the captions of 32 frames, each written independently by AuroraCap-7B-IMG, and picks C, the correct option. The captions describe a man with a small drone in a garden and later a small object resting on a white platform, and none of the 32 captions mentions a baby, a lady, or a girl. The same model shown a single frame picks B.</p>
-    <p class="vi-qual-lead" lang="zh"><b>帧描述。</b>NExT-QA 在帧层被攻破。对第 7426 题，Claude Opus 5 读 32 帧的描述，每条都由 AuroraCap-7B-IMG 独立写出，它选了正确的 C。这些描述写的是花园里一个男人和一架小型无人机，后来一个小物体停在白色平台上，32 条描述里没有一条提到婴儿、女士或女孩。同一个模型只看一帧时选了 B。</p>
+    <p class="vi-qual-lead" lang="en"><b>Captions.</b> NExT-QA breaks at the frame level. For item 7426, Claude Opus 5 reads the captions of 32 frames, each written independently by AuroraCap-7B-IMG<sup class="fn">1</sup>, and picks C, the correct option. The captions describe a man with a small drone in a garden and later a small object resting on a white platform, and none of the 32 captions mentions a baby, a lady, or a girl. The same model shown a single frame picks B.</p>
+    <p class="vi-qual-lead" lang="zh"><b>帧描述。</b>NExT-QA 在帧层被攻破。对第 7426 题，Claude Opus 5 读 32 帧的描述，每条都由 AuroraCap-7B-IMG<sup class="fn">1</sup> 独立写出，它选了正确的 C。这些描述写的是花园里一个男人和一架小型无人机，后来一个小物体停在白色平台上，32 条描述里没有一条提到婴儿、女士或女孩。同一个模型只看一帧时选了 B。</p>
     <div class="vi-qual">
       <img src="/images/blogs/video-index/examples/nextqa_7426.jpg" alt="Four frames of NExT-QA item 7426: a man stands on a garden lawn facing a small drone, which later rests on a white platform." loading="lazy">
       <p><b><span lang="en">Question</span><span lang="zh">问题</span></b>&ensp;why did the blade stop moving at the end</p>
@@ -277,8 +265,8 @@ js:
 
   <section id="order">
     <h3><span lang="en">Order and coverage</span><span lang="zh">顺序与覆盖</span></h3>
-    <p lang="en">The order level tests whether accuracy depends on frame order and on coverage of the full clip. Gemini 3.5 Flash and Qwen3-VL-8B read 32 shuffled frames and, separately, a contiguous tenth of the video. Much of the score survives both. Among the 51 benchmarks with both probes at this level, shuffling retains a median 96% of the same model's full-video accuracy, and one tenth retains 78%. Across all 96 profiled benchmarks, either half of the video retains a median 92%. Of 15 benchmarks whose papers claim temporal reasoning, 6 retain over 90% under shuffling, yet 6 of the 7 that reach this level lose at least a quarter. 15 benchmarks break here, and 38 remain unbroken.</p>
-    <p lang="zh">顺序层检验准确率是否依赖帧的顺序和对完整片段的覆盖。Gemini 3.5 Flash 和 Qwen3-VL-8B 读 32 个打乱顺序的帧，另外单独读视频中连续的十分之一。两种扰动下分数大多保得住。在这一层两种探针齐全的 51 个 benchmark 里，打乱帧序后中位数保留同一模型完整视频准确率的 96%，十分之一的片段保留 78%。在全部 96 个有完整画像的 benchmark 上，视频的任意一半都保留中位数 92%。论文声称考察时序推理的 15 个 benchmark 里，6 个在打乱后仍保留 90% 以上，但到达这一层的 7 个里有 6 个至少损失四分之一。15 个 benchmark 在这里被攻破，38 个保持未攻破。</p>
+    <p lang="en">Much of the score survives shuffled frames and a contiguous tenth of the video. Among the 51 benchmarks with both probes at this level, shuffling retains a median 96% of the same model's full-video accuracy, and one tenth retains 78%. Across all 96 profiled benchmarks, either half of the video retains a median 92%. Of 15 benchmarks whose papers claim temporal reasoning, 6 retain over 90% under shuffling, yet 6 of the 7 that reach this level lose at least a quarter. 15 benchmarks break here, and 38 remain unbroken.</p>
+    <p lang="zh">打乱帧序或只看连续的十分之一，分数大多保得住。在这一层两种探针齐全的 51 个 benchmark 里，打乱帧序后中位数保留同一模型完整视频准确率的 96%，十分之一的片段保留 78%。在全部 96 个有完整画像的 benchmark 上，视频的任意一半都保留中位数 92%。论文声称考察时序推理的 15 个 benchmark 里，6 个在打乱后仍保留 90% 以上，但到达这一层的 7 个里有 6 个至少损失四分之一。15 个 benchmark 在这里被攻破，38 个保持未攻破。</p>
     <figure class="vi-fig" id="f-order">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig05_order.png" alt="Two scatter panels sharing the horizontal axis, the relative accuracy from one tenth of the video; the left panel's vertical axis is relative accuracy after shuffling and the right panel's is relative accuracy from the first half.">
       <figcaption><b><span lang="en">Figure 5.</span><span lang="zh">图 5</span></b> <span lang="en"><b>Much of the score survives temporal perturbation.</b> Each dot is a benchmark, placed by the share of full-video accuracy that each perturbation retains.</span><span lang="zh"><b>时序扰动下分数大多保得住。</b>每个点是一个 benchmark，位置由每种扰动保留的完整视频准确率份额决定。</span></figcaption>
@@ -371,9 +359,9 @@ js:
       <figcaption><b><span lang="en">Figure 10.</span><span lang="zh">图 10</span></b> <span lang="en"><b>Errors concentrate in few capabilities.</b> Columns are the 76 pool-level survivors with 20 or more agreed attributions, grouped by their first breaking level, each summing to 100%.</span><span lang="zh"><b>错误集中在少数几种能力上。</b>列是通过题库层且至少有 20 条一致归因的 76 个 benchmark，按首次被攻破的层级分组，每列之和为 100%。</span></figcaption>
     </figure>
     <div class="fnp">
-      <p lang="en">A benchmark also lists more items than it measures. We embed each item's 32 frames with SigLIP 2 and its question with BGE-large. The Vendi score<sup class="fn">3</sup> of a 200-item draw in the joint space is the benchmark's effective size. A 200-item draw holds a median of 32 effective items, and 39 benchmarks hold 20 or fewer. Near-duplicate questions make up at least half the items of 63 benchmarks, and weighting items by inverse duplicate-cluster size moves accuracy by more than 1 point on 93 benchmarks. Across sources, a tenth of items use videos that appear in another benchmark, and PAI-Bench-U and PhysicalAI share 191 questions.</p>
-      <p lang="zh">一个 benchmark 列出的题目数也多于它真正测到的。我们用 SigLIP 2 编码每道题的 32 帧，用 BGE-large 编码问题，把 200 道题在联合空间里的 Vendi 分数<sup class="fn">3</sup>作为 benchmark 的有效题目数。抽 200 道题，中位数只有 32 道有效题目，39 个 benchmark 不超过 20 道。63 个 benchmark 里至少一半的题目是近似重复，按重复簇大小的倒数给题目加权，会让 93 个 benchmark 的准确率变动超过 1 个点。跨来源看，十分之一的题目用的视频也出现在别的 benchmark 里，PAI-Bench-U 和 PhysicalAI 共享 191 道题。</p>
-      <aside class="fnote" data-n="3">Friedman and Dieng. <a href="https://arxiv.org/abs/2210.02410">The Vendi Score: A Diversity Evaluation Metric for Machine Learning</a>. arXiv 2022.</aside>
+      <p lang="en">A benchmark also lists more items than it measures. We embed each item's 32 frames with SigLIP 2 and its question with BGE-large. The Vendi score<sup class="fn">2</sup> of a 200-item draw in the joint space is the benchmark's effective size. A 200-item draw holds a median of 32 effective items, and 39 benchmarks hold 20 or fewer. Near-duplicate questions make up at least half the items of 63 benchmarks, and weighting items by inverse duplicate-cluster size moves accuracy by more than 1 point on 93 benchmarks. Across sources, a tenth of items use videos that appear in another benchmark, and PAI-Bench-U and PhysicalAI share 191 questions.</p>
+      <p lang="zh">一个 benchmark 列出的题目数也多于它真正测到的。我们用 SigLIP 2 编码每道题的 32 帧，用 BGE-large 编码问题，把 200 道题在联合空间里的 Vendi 分数<sup class="fn">2</sup>作为 benchmark 的有效题目数。抽 200 道题，中位数只有 32 道有效题目，39 个 benchmark 不超过 20 道。63 个 benchmark 里至少一半的题目是近似重复，按重复簇大小的倒数给题目加权，会让 93 个 benchmark 的准确率变动超过 1 个点。跨来源看，十分之一的题目用的视频也出现在别的 benchmark 里，PAI-Bench-U 和 PhysicalAI 共享 191 道题。</p>
+      <aside class="fnote" data-n="2">Friedman and Dieng. <a href="https://arxiv.org/abs/2210.02410">The Vendi Score: A Diversity Evaluation Metric for Machine Learning</a>. arXiv 2022.</aside>
     </div>
     <figure class="vi-fig" id="f-duplicates">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig11_duplicates.png" alt="Left, effective items per 200 for the benchmarks sorted, red where at least half the items are near-duplicates. Right, a heat map of the share of items with a near-duplicate in another benchmark for the twelve benchmarks with the largest totals.">
@@ -459,9 +447,9 @@ js:
       <figcaption><span lang="en">Items remaining after each screening stage, counted up as the figure scrolls into view. The bars are on a log scale.</span><span lang="zh">每个筛查阶段之后剩余的题目数，滚动到这里时开始计数。条形为对数刻度。</span></figcaption>
     </figure>
     <div class="fnp">
-      <p lang="en">The screened pool serves two kinds of selection. A coverage composition answers a request that specifies task and event coverage, an item budget, and a cap per source. A specification agent turns the request into a query over the pool, and a selector draws items round-robin across duration groups, event types, and sources. A red-team gate then applies adversarial filtering<sup class="fn">4</sup> to what was selected. Video-Index takes the other route, difficulty first. It holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video, ranked by their maximum percentile over the five attacker margins. Claude Opus 5 labels the 3,000 hardest candidates by fine capability and verifies their answers against the frames, and selection ignores reference-model accuracy.</p>
-      <p lang="zh">筛查后的题库支持两种选题方式。覆盖式组合回应一个指定任务和事件覆盖、题目预算和每个来源上限的请求：一个规格 agent 把请求翻译成对题库的查询，选择器在时长组、事件类型和来源之间轮流抽题，再由红队闸门对选出的题目做对抗式过滤<sup class="fn">4</sup>。Video-Index 走的是另一条路，难度优先。它收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道，按五种攻击者得分幅度的最大百分位排序选出。Claude Opus 5 给最难的 3,000 道候选题标注细粒度能力，并对照画面核验答案，选题不看参照模型的准确率。</p>
-      <aside class="fnote" data-n="4">Le Bras et al. <a href="https://arxiv.org/abs/2002.04108">Adversarial Filters of Dataset Biases</a>. ICML 2020.</aside>
+      <p lang="en">The screened pool serves two kinds of selection. A coverage composition answers a request that specifies task and event coverage, an item budget, and a cap per source. A specification agent turns the request into a query over the pool, and a selector draws items round-robin across duration groups, event types, and sources. A red-team gate then applies adversarial filtering<sup class="fn">3</sup> to what was selected. Video-Index takes the other route, difficulty first. It holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video, ranked by their maximum percentile over the five attacker margins. Claude Opus 5 labels the 3,000 hardest candidates by fine capability and verifies their answers against the frames, and selection ignores reference-model accuracy.</p>
+      <p lang="zh">筛查后的题库支持两种选题方式。覆盖式组合回应一个指定任务和事件覆盖、题目预算和每个来源上限的请求：一个规格 agent 把请求翻译成对题库的查询，选择器在时长组、事件类型和来源之间轮流抽题，再由红队闸门对选出的题目做对抗式过滤<sup class="fn">3</sup>。Video-Index 走的是另一条路，难度优先。它收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道，按五种攻击者得分幅度的最大百分位排序选出。Claude Opus 5 给最难的 3,000 道候选题标注细粒度能力，并对照画面核验答案，选题不看参照模型的准确率。</p>
+      <aside class="fnote" data-n="3">Le Bras et al. <a href="https://arxiv.org/abs/2002.04108">Adversarial Filters of Dataset Biases</a>. ICML 2020.</aside>
     </div>
     <details class="vi-details">
       <summary><span lang="en">How the red-team gate works</span><span lang="zh">红队闸门如何工作</span></summary>
@@ -483,10 +471,10 @@ js:
       <figcaption><b><span lang="en">Table 1.</span><span lang="zh">表 1</span></b> <span lang="en"><b>Agents lead open models on Video-Index.</b> Accuracy in %, fixed input then agent tools. Blind sees text only and Gain is Video minus Blind. Highest in bold.</span><span lang="zh"><b>在 Video-Index 上 agent 领先开源模型。</b>准确率单位为 %，先列固定输入，再列 agent 工具。盲读只看文字，增益为看视频减去盲读。加粗为最高值。</span></figcaption>
     </figure>
     <div class="fnp">
-      <p lang="en">Three checks say the set measures what it should. Blind baselines in the style of MMStar<sup class="fn">5</sup> give a mean text-only accuracy of 6% and a mean video gain of 11% over the ten fixed-input models. Video exceeds blind for all ten. Item-bootstrap signal-to-noise analysis<sup class="fn">6</sup> gives a noise floor of 2.0% and a signal-to-noise ratio of 10.8, against 3.7 for the median source benchmark. And at a matched item budget, the red-team gate holds the strongest attacker to 13%, against 19% for selections without it.</p>
-      <p lang="zh">三项检查说明这套题测的是该测的东西。按 MMStar<sup class="fn">5</sup> 的方式做盲读基线，十个固定输入模型只看文字的平均准确率为 6%，看视频的平均增益为 11%，十个模型看视频都高于盲读。题目 bootstrap 的信噪比分析<sup class="fn">6</sup>给出 2.0% 的噪声下限和 10.8 的信噪比，来源 benchmark 的中位数是 3.7。在相同的题目预算下，红队闸门把最强攻击者压到 13%，没有闸门的选法是 19%。</p>
-      <aside class="fnote" data-n="5">Chen et al. <a href="https://arxiv.org/abs/2403.20330">Are We on the Right Way for Evaluating Large Vision-Language Models?</a> NeurIPS 2024.</aside>
-      <aside class="fnote" data-n="6">Heineman et al. <a href="https://arxiv.org/abs/2508.13144">Signal and Noise: A Framework for Reducing Uncertainty in Language Model Evaluation</a>. NeurIPS 2026.</aside>
+      <p lang="en">Three checks say the set measures what it should. Blind baselines in the style of MMStar<sup class="fn">4</sup> give a mean text-only accuracy of 6% and a mean video gain of 11% over the ten fixed-input models. Video exceeds blind for all ten. Item-bootstrap signal-to-noise analysis<sup class="fn">5</sup> gives a noise floor of 2.0% and a signal-to-noise ratio of 10.8, against 3.7 for the median source benchmark. And at a matched item budget, the red-team gate holds the strongest attacker to 13%, against 19% for selections without it.</p>
+      <p lang="zh">三项检查说明这套题测的是该测的东西。按 MMStar<sup class="fn">4</sup> 的方式做盲读基线，十个固定输入模型只看文字的平均准确率为 6%，看视频的平均增益为 11%，十个模型看视频都高于盲读。题目 bootstrap 的信噪比分析<sup class="fn">5</sup>给出 2.0% 的噪声下限和 10.8 的信噪比，来源 benchmark 的中位数是 3.7。在相同的题目预算下，红队闸门把最强攻击者压到 13%，没有闸门的选法是 19%。</p>
+      <aside class="fnote" data-n="4">Chen et al. <a href="https://arxiv.org/abs/2403.20330">Are We on the Right Way for Evaluating Large Vision-Language Models?</a> NeurIPS 2024.</aside>
+      <aside class="fnote" data-n="5">Heineman et al. <a href="https://arxiv.org/abs/2508.13144">Signal and Noise: A Framework for Reducing Uncertainty in Language Model Evaluation</a>. NeurIPS 2026.</aside>
     </div>
 
     <figure class="vi-fig" id="f-t38">
@@ -550,20 +538,20 @@ js:
 <section id="related">
   <h2><span lang="en">Related work</span><span lang="zh">相关工作</span></h2>
   <div class="fnp">
-    <p lang="en"><strong>Single-frame and blind audits.</strong> Buch et al.<sup class="fn">7</sup> answer earlier video benchmarks from one frame, and Cambrian-S<sup class="fn">8</sup> reruns benchmarks without the video to expose the ones that never needed it. Each audit takes one probe and a few benchmarks. The pyramid runs every probe on every one of 115 benchmarks under one protocol, so the benchmarks can be compared.</p>
-    <p lang="zh"><strong>单帧与盲读审计。</strong>Buch 等人<sup class="fn">7</sup>用一帧回答早期的视频 benchmark，Cambrian-S<sup class="fn">8</sup> 不看视频重跑 benchmark，找出那些从来不需要视频的。每项审计只用一种探针、只看几个 benchmark。金字塔在统一协议下把每一种探针跑遍 115 个 benchmark，于是 benchmark 之间可以比较。</p>
-    <aside class="fnote" data-n="7">Buch et al. <a href="https://arxiv.org/abs/2206.01720">Revisiting the "Video" in Video-Language Understanding</a>. CVPR 2022.</aside>
-    <aside class="fnote" data-n="8">Yang et al. <a href="https://arxiv.org/abs/2511.04670">Cambrian-S: Towards Spatial Supersensing in Video</a>. ICLR 2026.</aside>
+    <p lang="en"><strong>Single-frame and blind audits.</strong> Buch et al.<sup class="fn">6</sup> answer earlier video benchmarks from one frame, and Cambrian-S<sup class="fn">7</sup> reruns benchmarks without the video to expose the ones that never needed it. Each audit takes one probe and a few benchmarks. The pyramid runs every probe on every one of 115 benchmarks under one protocol, so the benchmarks can be compared.</p>
+    <p lang="zh"><strong>单帧与盲读审计。</strong>Buch 等人<sup class="fn">6</sup>用一帧回答早期的视频 benchmark，Cambrian-S<sup class="fn">7</sup> 不看视频重跑 benchmark，找出那些从来不需要视频的。每项审计只用一种探针、只看几个 benchmark。金字塔在统一协议下把每一种探针跑遍 115 个 benchmark，于是 benchmark 之间可以比较。</p>
+    <aside class="fnote" data-n="6">Buch et al. <a href="https://arxiv.org/abs/2206.01720">Revisiting the "Video" in Video-Language Understanding</a>. CVPR 2022.</aside>
+    <aside class="fnote" data-n="7">Yang et al. <a href="https://arxiv.org/abs/2511.04670">Cambrian-S: Towards Spatial Supersensing in Video</a>. ICLR 2026.</aside>
   </div>
   <div class="fnp">
-    <p lang="en"><strong>Temporal audits.</strong> TVBench<sup class="fn">9</sup> and TOMATO<sup class="fn">10</sup> shuffle or reverse frames to ask whether a temporal benchmark needs the order of events. Our order level applies the same test to every benchmark and adds a contiguous tenth of the video. Among 15 benchmarks whose papers claim temporal reasoning, 6 keep over 90% of their score under shuffling.</p>
-    <p lang="zh"><strong>时序审计。</strong>TVBench<sup class="fn">9</sup> 和 TOMATO<sup class="fn">10</sup> 打乱或倒放帧序，追问一个时序 benchmark 是否真的需要事件的先后顺序。我们的顺序层把同样的检验用于每一个 benchmark，并加上只看连续十分之一的探针。论文声称考察时序推理的 15 个 benchmark 里，6 个在打乱后仍保留 90% 以上的分数。</p>
-    <aside class="fnote" data-n="9">Cores et al. <a href="https://arxiv.org/abs/2410.07752">Lost in Time: A New Temporal Benchmark for VideoLLMs</a> (TVBench). arXiv 2024.</aside>
-    <aside class="fnote" data-n="10">Shangguan et al. <a href="https://arxiv.org/abs/2410.23266">TOMATO: Assessing Visual Temporal Reasoning Capabilities in Multimodal Foundation Models</a>. arXiv 2024.</aside>
+    <p lang="en"><strong>Temporal audits.</strong> TVBench<sup class="fn">8</sup> and TOMATO<sup class="fn">9</sup> shuffle or reverse frames to ask whether a temporal benchmark needs the order of events. Our order level applies the same test to every benchmark and adds a contiguous tenth of the video. Among 15 benchmarks whose papers claim temporal reasoning, 6 keep over 90% of their score under shuffling.</p>
+    <p lang="zh"><strong>时序审计。</strong>TVBench<sup class="fn">8</sup> 和 TOMATO<sup class="fn">9</sup> 打乱或倒放帧序，追问一个时序 benchmark 是否真的需要事件的先后顺序。我们的顺序层把同样的检验用于每一个 benchmark，并加上只看连续十分之一的探针。论文声称考察时序推理的 15 个 benchmark 里，6 个在打乱后仍保留 90% 以上的分数。</p>
+    <aside class="fnote" data-n="8">Cores et al. <a href="https://arxiv.org/abs/2410.07752">Lost in Time: A New Temporal Benchmark for VideoLLMs</a> (TVBench). arXiv 2024.</aside>
+    <aside class="fnote" data-n="9">Shangguan et al. <a href="https://arxiv.org/abs/2410.23266">TOMATO: Assessing Visual Temporal Reasoning Capabilities in Multimodal Foundation Models</a>. arXiv 2024.</aside>
   </div>
   <div class="fnp">
-    <p lang="en"><strong>Predictive auditing.</strong> Brown et al.<sup class="fn">1</sup> fine-tune a language model on the text of test sets and prune the items it predicts. Our pool level runs an online version of that idea while evaluation proceeds, with the answer of each item hidden until it has been asked. The screening removes the items a small model answers from the text or from one frame.</p>
-    <p lang="zh"><strong>预测式审计。</strong>Brown 等人<sup class="fn">1</sup>在测试集的文本上微调语言模型，剔除它能预测的题目。我们的题库层在评测进行中跑同一思路的在线版本，每道题的答案在被问到之前保持隐藏；筛查则去掉小模型靠文本或单帧就能答对的题。</p>
+    <p lang="en"><strong>Predictive auditing.</strong> Brown et al.<sup class="fn">10</sup> fine-tune a language model on the text of test sets and prune the items it predicts. Our pool level runs an online version of that idea while evaluation proceeds, with the answer of each item hidden until it has been asked. The screening removes the items a small model answers from the text or from one frame.</p>
+    <p lang="zh"><strong>预测式审计。</strong>Brown 等人<sup class="fn">10</sup>在测试集的文本上微调语言模型，剔除它能预测的题目。我们的题库层在评测进行中跑同一思路的在线版本，每道题的答案在被问到之前保持隐藏；筛查则去掉小模型靠文本或单帧就能答对的题。</p>
   </div>
   <div class="fnp">
     <p lang="en"><strong>Benchmark generators.</strong> Task-Me-Anything<sup class="fn">11</sup> renders items from a taxonomy, AutoBencher<sup class="fn">12</sup> and BenchAgents<sup class="fn">13</sup> let language-model agents write and verify items, and Harbor-Index<sup class="fn">14</sup> distils a compact set from many agentic benchmarks. A generated benchmark leaves the hundreds of existing benchmarks unused. Video-Index instead starts from the items that existing benchmarks already hold, screens out those the tested attacks solve, and selects the 840 hardest of the rest.</p>

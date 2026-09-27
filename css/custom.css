@@ -1496,33 +1496,26 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .post-body table.vi-ladder tr.vi-ladder__verdict td { font-weight: 600; color: var(--near-black); border-top: 1px solid var(--near-black); border-bottom: 0; }
 
 /* the pyramid schema (Figure 2 of the Video-Index post) */
-.vi-pyr { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 0.62fr); gap: 6px; margin: 4px 0 0; }
-/* under the levels, the benchmarks that reach each one, stepping down like the item chain of Figure 1 */
-.vi-pyr__end { display: flex; align-items: flex-end; justify-content: center; padding: 0 0 2px; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
-.vi-pyr__end b { font-size: 0.9rem; font-weight: 600; color: var(--near-black); }
-.vi-pyr__chain { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 0.62fr); column-gap: 6px; align-items: end; margin: 8px 0 0; }
-.vi-pyr__cell { display: flex; justify-content: center; align-items: flex-start; padding-top: 8px; background: #dadce0; border-top: 2px solid #3c4043; font: 500 1.02rem/1 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: #5f6368; font-variant-numeric: tabular-nums; }
-.vi-pyr__cell b { font-weight: 700; color: #202124; }
-.vi-pyr__cell--1 { height: 58px; }
-.vi-pyr__cell--2 { height: 53px; }
-.vi-pyr__cell--3 { height: 49px; }
-.vi-pyr__cell--4 { height: 47px; }
-.vi-pyr__cell--5 { height: 39px; }
-.vi-pyr__cell--6 { height: 34px; background: #3c4043; }
-.vi-pyr__cell--6 b { color: #fff; }
-.vi-pyr__names { display: none; }
+/* the pyramid: each step sinks by the benchmarks that break at the level before it (1.2 px each) */
+.vi-pyr { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 0.8fr); gap: 6px; align-items: stretch; margin: 4px 0 0; }
 .vi-pyr__lvl {
-  border-top: 3px solid var(--border-warm);
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px;
   background: var(--ivory);
-  padding: 8px 8px 10px;
+  box-shadow: inset 0 4px 0 var(--pyr-top, var(--border-warm));
+  padding: 12px 9px 11px;
   font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  cursor: pointer;
+  transition: filter 0.15s;
 }
-.vi-pyr__lvl--1 { border-top-color: #AECBFA; }
-.vi-pyr__lvl--2 { border-top-color: #8AB4F8; }
-.vi-pyr__lvl--3 { border-top-color: #669DF6; }
-.vi-pyr__lvl--4 { border-top-color: #4285F4; }
-.vi-pyr__lvl--5 { border-top-color: #1A73E8; }
+.vi-pyr__lvl:hover { filter: brightness(0.95); }
+.vi-pyr__lvl--1 { --pyr-top: #AECBFA; background: #e7effe; }
+.vi-pyr__lvl--2 { --pyr-top: #8AB4F8; background: #dce8fd; margin-top: 20px; }
+.vi-pyr__lvl--3 { --pyr-top: #669DF6; background: #d1e2fc; margin-top: 36px; }
+.vi-pyr__lvl--4 { --pyr-top: #4285F4; background: #c6dafc; margin-top: 42px; }
+.vi-pyr__lvl--5 { --pyr-top: #1A73E8; background: #bad5f8; margin-top: 74px; }
+.vi-pyr__lvl--6 { --pyr-top: #174EA6; background: #174EA6; margin-top: 92px; }
+.vi-pyr__lvl--6 i { color: rgba(255, 255, 255, 0.72) !important; }
+.vi-pyr__lvl--6 b, .post-body .vi-pyr__lvl--6 p { color: #fff !important; }
 .vi-pyr__lvl i { display: block; font-style: normal; font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 2px; }
 .vi-pyr__lvl b { display: block; font-size: 0.9rem; font-weight: 600; color: var(--near-black); margin: 0 0 4px; }
 .post-body .vi-pyr__lvl p { font-size: 0.76rem; line-height: 1.42; color: var(--text-sub); margin: 0; }
@@ -1538,11 +1531,14 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   color: var(--near-black);
 }
 @media (max-width: 600px) {
-  .vi-pyr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .vi-pyr__end { display: none; }
-  .vi-pyr__chain, .vi-pyr__names { grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: 3px; }
-  .vi-pyr__cell { font-size: 0.86rem; }
-  .vi-pyr__names { display: grid; margin-top: 4px; font: 0.68rem/1.3 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-sub); text-align: center; }
+  /* on phones the steps stack into a funnel, each as wide as the benchmarks that reach it */
+  .vi-pyr { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+  .vi-pyr__lvl { margin-top: 0; }
+  .vi-pyr__lvl--2 { width: 85.2%; }
+  .vi-pyr__lvl--3 { width: 73.9%; }
+  .vi-pyr__lvl--4 { width: 69.6%; }
+  .vi-pyr__lvl--5 { width: 46.1%; }
+  .vi-pyr__lvl--6 { width: 33%; }
   .vi-fig__src { flex-direction: column; gap: 2px; }
   .vi-fig__src span { text-align: left; }
   .post-body .vi-fig__table, .post-body .vi-ladder-wrap { overflow-x: auto; }

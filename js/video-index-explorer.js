@@ -5,6 +5,7 @@
      #vi-screen                 the screening chain, counting up when scrolled into view
      #vi-explorer               all 115 benchmarks: search, filter, sort, and each benchmark's ladder
      #vi-results                Table 1, sortable, with a bar for the sorted column
+     .vi-pyr__lvl[data-level]   the pyramid's steps: benchmark counts on hover, click to list them
    It also shares its helpers as window.VI_UI with js/video-index-appendix.js. Everything re-renders
    on the EN / 中文 toggle. No dependencies. */
 (function () {
@@ -71,7 +72,7 @@
   }
   function hoverable(node, html) {
     node.addEventListener('pointerenter', function (ev) { tip.innerHTML = html(); tip.removeAttribute('hidden'); placeTip(ev.clientX, ev.clientY); });
-    node.addEventListener('pointermove', function (ev) { placeTip(ev.clientX, ev.clientY); });
+    node.addEventListener('pointermove', function (ev) { if (tip.hasAttribute('hidden')) { tip.innerHTML = html(); tip.removeAttribute('hidden'); } placeTip(ev.clientX, ev.clientY); });   /* a scroll hid it */
     node.addEventListener('pointerleave', function () { tip.setAttribute('hidden', ''); });
   }
   function benchTip(b) {
@@ -354,6 +355,21 @@
     el('p', { class: 'vi-hint' }, container, t('Click a column to sort by it; the bars follow the sorted column. Bold marks the highest value of a column among the rows shown.', '点击列标题按该列排序，条形随排序列变化。加粗为当前显示行中该列的最高值。'));
   }
 
+  /* ---------- the pyramid's steps: counts on hover, click to list them ---------- */
+  function pyramid() {
+    Array.prototype.forEach.call(root.querySelectorAll('.vi-pyr__lvl[data-level]'), function (step) {
+      var lv = step.getAttribute('data-level');
+      var reach = B.filter(function (b) { return LV6.indexOf(b.level) >= LV6.indexOf(lv); });
+      var here = reach.filter(function (b) { return b.level === lv; });
+      hoverable(step, function () {
+        if (lv === 'unbroken') { return '<b>' + here.length + ' ' + t('survive every level', '个 benchmark 五层都挡住了') + '</b><br>' + names(here); }
+        return '<b>' + reach.length + ' ' + t('reach the ' + lv + ' level', '个 benchmark 到达' + lvName(lv) + '层') + '</b><br>' +
+          here.length + ' ' + t('break here: ', '个在这一层被攻破：') + names(here);
+      });
+      step.addEventListener('click', function () { tip.setAttribute('hidden', ''); filterExplorer({ level: lv }); });
+    });
+  }
+
   /* the helpers the appendix views of js/video-index-appendix.js share */
   window.VI_UI = { root: root, el: el, svg: svg, clear: clear, t: t, lang: lang, lvName: lvName, gName: gName, fmt: fmt,
     LVCOL: LVCOL, LVINK: LVINK, LV6: LV6, GROUPS: GROUPS, GC: GC, BY: BY, tip: tip, placeTip: placeTip, benchTip: benchTip, chipHtml: chipHtml };
@@ -374,6 +390,7 @@
     renderExplorer(false);
   }
   renderAll();
+  pyramid();
   function whenVisible(node, fn) {
     if (!node) { return; }
     if (!('IntersectionObserver' in window)) { fn(); return; }
