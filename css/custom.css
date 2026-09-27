@@ -1795,27 +1795,30 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .ib-page .m-sc { color: var(--ib-green-text); }
 .ib-page .m-ov { color: var(--ib-purple-text); }
 
-/* examples: step through the frames */
+/* examples: three videos, all six tasks */
 .ib-cases { font-family: var(--ib-sans); }
+.ib-vblock { margin: 0 0 8px; }
+.ib-vblock + .ib-vblock { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border-cream); }
 .ib-grid { display: grid; grid-template-columns: 132px repeat(4, minmax(0, 1fr)); gap: 6px; align-items: stretch; }
-.ib-frame { display: block; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; font: inherit; }
-.ib-frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; opacity: 0.55; transition: opacity 0.2s; border: 0; margin: 0; }
-.ib-frame span { display: block; font-size: 0.72rem; line-height: 1.3; color: var(--text-muted); margin-top: 4px; }
-.ib-frame span b { color: var(--text-sub); font-weight: 600; }
-.ib-frame[aria-pressed="true"] img { opacity: 1; outline: 2px solid var(--near-black); outline-offset: 1px; }
-.ib-frame[aria-pressed="true"] span b { color: var(--near-black); }
+.ib-vcell { grid-column: 2 / span 4; }
+.ib-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 8px; background: #141413; }
+.ib-moment { font: inherit; font-size: 0.72rem; line-height: 1.3; color: var(--text-muted); background: none; border: 0; border-top: 2px solid var(--border-warm); padding: 5px 0 2px; text-align: left; cursor: pointer; }
+.ib-moment b { color: var(--text-sub); font-weight: 600; }
+.ib-moment:hover b, .ib-moment[aria-pressed="true"] b { color: var(--near-black); }
+.ib-moment[aria-pressed="true"] { border-top-color: var(--near-black); }
 .ib-task { font-size: 0.78rem; line-height: 1.35; color: var(--text-sub); padding-top: 4px; }
 .ib-task b { display: block; font-size: 0.86rem; color: var(--near-black); font-weight: 600; }
 .ib-task q { display: block; font-style: italic; font-family: 'Lora', Georgia, serif; color: var(--near-black); margin-top: 2px; }
-.ib-cell { border-radius: 6px; padding: 6px 7px; font-size: 0.76rem; line-height: 1.3; min-height: 44px; display: flex; align-items: center; justify-content: center; text-align: center; opacity: 0.45; transition: opacity 0.2s; }
-.ib-cell.on { opacity: 1; box-shadow: 0 0 0 1.5px var(--near-black); }
+.ib-cell { border-radius: 6px; padding: 6px 7px; font-size: 0.76rem; line-height: 1.3; min-height: 44px; display: flex; align-items: center; justify-content: center; text-align: center; transition: opacity 0.2s; }
+.ib-vblock.is-live .ib-cell { opacity: 0.42; }
+.ib-vblock.is-live .ib-cell.on { opacity: 1; box-shadow: 0 0 0 1.5px var(--near-black); }
 .ib-cell.speak { background: rgba(111, 161, 242, 0.32); color: var(--near-black); font-family: 'Lora', Georgia, serif; font-style: italic; }
 .ib-cell.silent { background: rgba(135, 134, 127, 0.10); color: var(--text-muted); }
 .ib-page p.ib-obs { font-family: var(--ib-sans); margin: 10px 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text-sub); min-height: 2.6em; }
 .ib-obs b { color: var(--near-black); font-weight: 600; }
 @media (max-width: 600px) {
   .ib-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .ib-grid .ib-task { grid-column: 1 / -1; }
+  .ib-grid .ib-task, .ib-vcell { grid-column: 1 / -1; }
   .ib-grid .ib-spacer { display: none; }
 }
 
@@ -1900,5 +1903,5 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .ib-page table.ib-tasks th { font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border-warm); }
 .ib-page p.ib-credits { font-family: var(--ib-sans); font-size: 0.78rem; line-height: 1.6; color: var(--text-muted); margin: 36px 0 0; }
 .ib-page .ib-credits a { color: var(--text-sub); font-weight: 400; }
-@media (prefers-reduced-motion: reduce) { .ib-meter .bar i, .ib-frame img, .ib-cell { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .ib-meter .bar i, .ib-cell { transition: none !important; } }
 /* ── InteractionBench page: end ── */

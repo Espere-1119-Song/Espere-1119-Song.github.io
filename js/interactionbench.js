@@ -4,6 +4,7 @@
   'use strict';
   var DATA = window.IB_DATA;
   var FRAMES = '/projects/interactionbench/frames/';
+  var VIDS = '/projects/interactionbench/videos/';
   var root = document.getElementById('ib-page');
   if (!root || !DATA) { return; }
   var NS = 'http://www.w3.org/2000/svg';
@@ -25,69 +26,61 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function widthOf(node, min) { return Math.max(min || 260, Math.floor(node.getBoundingClientRect().width)); }
 
-  /* ------------------------------------------------ examples: step through the frames */
+  /* ------------------------------------------------ examples: three videos, all six tasks */
   (function cases() {
     var host = document.getElementById('x-tasks');
-    var state = { row: 1, frame: 2, timer: null };
-    function clock(s) { var t = Math.floor(s); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2) + (s % 1 ? '.5' : ''); }
-    function stop() { if (state.timer) { clearInterval(state.timer); state.timer = null; } }
-    function render() {
-      var row = DATA.cases[state.row];
-      host.innerHTML = '';
-      var top = h('div', { 'class': 'ib-controls' });
-      var seg = h('div', { 'class': 'ib-seg ib-seg--plain', role: 'group', 'aria-label': 'Video' });
-      DATA.cases.forEach(function (r, i) {
-        var b = h('button', { type: 'button', 'aria-pressed': String(i === state.row) }, esc(r.group));
-        b.addEventListener('click', function () { stop(); state.row = i; state.frame = 0; render(); });
-        seg.appendChild(b);
-      });
-      top.appendChild(seg);
-      var nav = h('div', { 'class': 'ib-seg', role: 'group', 'aria-label': 'Step' });
-      var prev = h('button', { type: 'button', 'aria-label': 'Previous frame' }, '◀');
-      var play = h('button', { type: 'button' }, state.timer ? 'Pause' : 'Play');
-      var next = h('button', { type: 'button', 'aria-label': 'Next frame' }, '▶');
-      prev.addEventListener('click', function () { stop(); state.frame = (state.frame + 3) % 4; render(); });
-      next.addEventListener('click', function () { stop(); state.frame = (state.frame + 1) % 4; render(); });
-      play.addEventListener('click', function () {
-        if (state.timer) { stop(); render(); return; }
-        if (state.frame === 3) { state.frame = 0; }
-        state.timer = setInterval(function () {
-          if (state.frame >= 3) { stop(); } else { state.frame += 1; }
-          render();
-        }, 1700);
-        render();
-      });
-      nav.appendChild(prev); nav.appendChild(play); nav.appendChild(next);
-      top.appendChild(nav);
-      host.appendChild(top);
+    function clock(t) { var w = Math.floor(t); return Math.floor(w / 60) + ':' + ('0' + (w % 60)).slice(-2) + (t % 1 ? '.5' : ''); }
+    DATA.cases.forEach(function (row) {
+      var block = h('div', { 'class': 'ib-vblock' });
       var grid = h('div', { 'class': 'ib-grid' });
       grid.appendChild(h('div', { 'class': 'ib-task ib-spacer' }, '<b>' + esc(row.group) + '</b>' + esc(row.gloss) + ' ' + esc(row.silence)));
+      var vid = h('video', { 'class': 'ib-video', controls: '', playsinline: '', preload: 'metadata', poster: FRAMES + row.poster, 'aria-label': row.title });
+      vid.muted = true;
+      vid.appendChild(h('source', { src: VIDS + row.video, type: 'video/mp4' }));
+      var vcell = h('div', { 'class': 'ib-vcell' });
+      vcell.appendChild(vid);
+      grid.appendChild(vcell);
+      grid.appendChild(h('div', { 'class': 'ib-spacer' }));
+      var chips = [], cols = [];
       row.frames.forEach(function (f, j) {
-        var b = h('button', { type: 'button', 'class': 'ib-frame', 'aria-pressed': String(j === state.frame) },
-          '<img src="' + FRAMES + esc(f.file) + '" alt="' + esc(f.obs) + '" loading="lazy"><span><b>' + clock(f.t) + '</b> · ' + esc(f.label) + '</span>');
-        b.addEventListener('click', function () { stop(); state.frame = j; render(); });
+        var b = h('button', { type: 'button', 'class': 'ib-moment', 'aria-pressed': 'false', 'aria-label': 'Jump to ' + clock(f.t) }, '<b>' + clock(f.t) + '</b> · ' + esc(f.label));
+        b.addEventListener('click', function () { block.classList.add('is-live'); vid.currentTime = Math.max(0, f.t - row.offset + 0.05); show(j); });
+        chips.push(b);
         grid.appendChild(b);
       });
       row.tasks.forEach(function (t) {
         var asked = t.query ? 'asked at ' + t.query + ' s' : 'given at 0 s';
         grid.appendChild(h('div', { 'class': 'ib-task' }, '<b>' + esc(t.name) + '</b>' + esc(t.meaning) + '<q>' + esc(t.instruction) + '</q>' + esc(asked)));
         t.decisions.forEach(function (d, j) {
-          var cls = 'ib-cell ' + (d.speak ? 'speak' : 'silent') + (j === state.frame ? ' on' : '');
-          grid.appendChild(h('div', { 'class': cls }, esc(d.speak ? '“' + d.text + '”' : 'silent · ' + d.text)));
+          var c = h('div', { 'class': 'ib-cell ' + (d.speak ? 'speak' : 'silent') }, esc(d.speak ? '“' + d.text + '”' : 'silent · ' + d.text));
+          (cols[j] = cols[j] || []).push(c);
+          grid.appendChild(c);
         });
       });
-      host.appendChild(grid);
-      var f = row.frames[state.frame];
-      var said = row.tasks.filter(function (t) { return t.decisions[state.frame].speak; }).map(function (t) { return t.name; });
-      var verdict = said.length ? said.join(' and ') + ' speak' + (said.length === 1 ? 's' : '') + ' at this frame.' : 'Both tasks stay silent at this frame.';
-      host.appendChild(h('p', { 'class': 'ib-obs', 'aria-live': 'polite' }, '<b>' + clock(f.t) + ' · ' + esc(f.label) + '.</b> ' + esc(f.obs) + ' ' + esc(verdict)));
-    }
-    document.addEventListener('keydown', function (e) {
-      if (!host.contains(document.activeElement)) { return; }
-      if (e.key === 'ArrowRight') { stop(); state.frame = Math.min(3, state.frame + 1); render(); host.querySelectorAll('.ib-frame')[state.frame].focus(); }
-      if (e.key === 'ArrowLeft') { stop(); state.frame = Math.max(0, state.frame - 1); render(); host.querySelectorAll('.ib-frame')[state.frame].focus(); }
+      block.appendChild(grid);
+      var obs = h('p', { 'class': 'ib-obs', 'aria-live': 'polite' }, 'Play the video, or click a moment to jump to it.');
+      block.appendChild(obs);
+      host.appendChild(block);
+      var current = null;
+      function show(j) {
+        if (j === current) { return; }
+        current = j;
+        chips.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === j)); });
+        cols.forEach(function (col, k) { col.forEach(function (c) { c.classList.toggle('on', k === j); }); });
+        if (j < 0) { obs.innerHTML = 'The first moment comes at <b>' + clock(row.frames[0].t) + '</b>.'; return; }
+        var f = row.frames[j];
+        var said = row.tasks.filter(function (t) { return t.decisions[j].speak; }).map(function (t) { return t.name; });
+        var verdict = said.length ? said.join(' and ') + ' speak' + (said.length === 1 ? 's' : '') + ' here.' : 'Both tasks stay silent here.';
+        obs.innerHTML = '<b>' + clock(f.t) + ' · ' + esc(f.label) + '.</b> ' + esc(f.obs) + ' ' + esc(verdict);
+      }
+      vid.addEventListener('play', function () { block.classList.add('is-live'); });
+      vid.addEventListener('timeupdate', function () {
+        if (!block.classList.contains('is-live') || vid.seeking) { return; }
+        var t = vid.currentTime + row.offset, j = -1;
+        row.frames.forEach(function (f, k) { if (t + 0.1 >= f.t) { j = k; } });
+        show(j);
+      });
     });
-    renderers.push(render);
   })();
 
   /* ------------------------------------------------ scoring: the scorer */
