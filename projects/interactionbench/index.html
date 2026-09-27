@@ -1,0 +1,40 @@
+---
+layout: base
+title: InteractionBench
+permalink: /projects/interactionbench/
+js:
+  - /js/interactionbench-data.js
+  - /js/interactionbench.js
+---
+
+<div class="post-page">
+<div class="post-container ib-page" id="ib-page">
+<header class="post-header">
+  <h1 class="post-title">InteractionBench</h1>
+  <p class="post-subtitle">When should a streaming video understanding system speak, and when should it stay silent?</p>
+</header>
+<div class="post-divider"></div>
+<div class="post-body">
+
+<section id="demo">
+  <h2>Demo</h2>
+  <p class="ib-part">Examples</p>
+  <p class="ib-note">Three videos, two tasks each. Step through the frames to see which task must speak and which must stay silent.</p>
+  <div class="ib-cases" id="x-tasks"></div>
+  <p class="ib-part">Scoring</p>
+  <p class="ib-note">An illustrative Alert item with two events. Click the timeline to add or remove a reply, or start from a pattern. Content accuracy grades what the reply says, timing accuracy when it arrives, and silence compliance penalizes premature and repeated replies.</p>
+  <div class="ib-scorer" id="x-scorer"></div>
+</section>
+
+<section id="leaderboard">
+  <h2>Leaderboard</h2>
+  <p class="ib-note">34 system configurations and two references on 1,060 interactions over 812 videos. Scores range from 0 to 100, and higher is better. Overall = ½ [Acc + H(TA, SC)], with H the harmonic mean. Click a column to sort, and a row for its scores on each task.</p>
+  <div class="ib-controls" id="c-lb"></div>
+  <div class="ib-lb-wrap" id="x-lb"></div>
+</section>
+
+<p class="ib-credits">Example frames via Wikimedia Commons: <a href="https://commons.wikimedia.org/wiki/File:NSF_Diego_Garcia_hosts_basketball_game_(989713).webm">NSF Diego Garcia hosts basketball game</a>, U.S. Navy (public domain); <a href="https://commons.wikimedia.org/wiki/File:Boiling_water_-_close_up_(short_shutter_speed).ogv">Boiling water, close up</a>, Sertion (CC BY-SA 1.0); <a href="https://commons.wikimedia.org/wiki/File:Patata_tortilla.webm">Patata tortilla</a>, Elene B (CC BY-SA 4.0). The example annotations are illustrations, not benchmark items.</p>
+
+</div>
+</div>
+</div>
