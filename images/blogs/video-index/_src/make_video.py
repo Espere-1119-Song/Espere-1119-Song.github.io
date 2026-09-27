@@ -1,5 +1,5 @@
-"""The overview video of the Video-Index post: eight short scenes drawn with matplotlib and piped to
-ffmpeg (H.264, 1920 x 1080, 30 fps, about 46 seconds), plus a poster frame.
+"""The overview video of the Video-Index post: seven short scenes drawn with matplotlib and piped to
+ffmpeg (H.264, 1920 x 1080, 30 fps, 41.5 seconds), plus a poster frame.
 
 Every number is transcribed from the paper (Sections 1, 3, 4 and 5, Table 1). The look follows the
 post's charts: Instrument Sans (from the plot skill of github.com/wenhaochai/claude-plugins), Google's
@@ -18,7 +18,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt                      # noqa: E402
 import numpy as np                                    # noqa: E402
 from matplotlib import font_manager                   # noqa: E402
-from matplotlib.patches import FancyBboxPatch, Polygon, Rectangle  # noqa: E402
+from matplotlib.patches import Polygon, Rectangle  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent
@@ -87,11 +87,10 @@ def fmt_int(v):
 # --- scenes: each draws its state at time t (seconds into the scene) -----------------------------------
 def scene_title(ax, t):
     a1, a2 = ease(seg(t, 0.2, 0.9)), ease(seg(t, 0.9, 0.9))
-    text(ax, W / 2, 600 + 20 * (1 - a1), 'Which Video Benchmarks', 78, weight='semibold', ha='center', alpha=a1)
-    text(ax, W / 2, 500 + 20 * (1 - a1), 'Still Need the Video?', 78, weight='semibold', ha='center', alpha=a1)
-    text(ax, W / 2, 400, 'Five attacks on 115 video benchmarks, and the 840 questions that survive them',
-         30, color=MUTED, ha='center', alpha=a2)
-    text(ax, W / 2, 330, 'Video-Index · Enxin Song', 22, color=GREY, ha='center', alpha=a2)
+    text(ax, W / 2, 610 + 20 * (1 - a1), 'Video-Index', 96, weight='semibold', ha='center', alpha=a1)
+    text(ax, W / 2, 505 + 20 * (1 - a1), 'A Curated Meta-Benchmark', 58, weight='semibold', ha='center', alpha=a1)
+    text(ax, W / 2, 405, 'Auditing 115 video benchmarks with five attacks, and the 840 questions that survive them',
+         29, color=MUTED, ha='center', alpha=a2)
 
 
 def scene_census(ax, t):
@@ -134,50 +133,6 @@ def scene_pyramid(ax, t):
     a = ease(seg(t, 5.6, 0.7))
     ytop = y0 + 5 * (layer_h + gap)
     text(ax, cx, ytop + 20, '38 survive every level', 30, color=RAMP[5], weight='semibold', ha='center', alpha=a)
-
-
-def ladder(ax, t, name, eps, bar, brk, note, t0=0.0):
-    """Five bars grow one after another; the one that reaches the dashed bar turns red."""
-    a = ease(seg(t, t0, 0.5))
-    text(ax, 140, 940, name, 46, weight='semibold', alpha=a)
-    text(ax, 140, 885, 'Exploitability at each level, in points over chance', 24, color=MUTED, alpha=a)
-    x0, x1, y_base, y_top = 260, 1640, 220, 760
-    scale = (y_top - y_base) / 70.0
-    for g in (0, 20, 40, 60):
-        ax.plot([x0, x1], [y_base + g * scale] * 2, color=GRID, lw=1.2, alpha=a, zorder=1)
-        text(ax, x0 - 16, y_base + g * scale, str(g), 20, color=TICK, ha='right', va='center', alpha=a)
-    ax.plot([x0, x1], [y_base] * 2, color=TICK, lw=1.6, alpha=a, zorder=2)
-    ax.plot([x0, x1], [y_base + bar * scale] * 2, color=GREY, lw=2.2, ls=(0, (7, 5)), alpha=a, zorder=3)
-    text(ax, x0 + 8, y_base + bar * scale + 10, 'bar = reference − chance − 5', 20, color=GREY, ha='left', alpha=a)
-    slot = (x1 - x0) / 5
-    broke = False
-    for k in range(5):
-        p = ease_out(seg(t, t0 + 0.6 + 0.55 * k, 0.55))
-        cx = x0 + slot * (k + 0.5)
-        text(ax, cx, y_base - 34, LEVELS[k], 24, color=TICK, ha='center', alpha=a)
-        if p <= 0:
-            continue
-        h = eps[k] * p * scale
-        hit = (brk is not None and k == brk and eps[k] * p >= bar)
-        broke = broke or hit
-        color = RED if (brk is not None and k >= brk and eps[k] * p >= bar and k == brk) else (RAMP[k] if not (brk is not None and k > brk) else GREY_SOFT)
-        ax.add_patch(Rectangle((cx - slot * 0.28, y_base), slot * 0.56, h, facecolor=color, edgecolor='none', zorder=4))
-        if p >= 1:
-            text(ax, cx, y_base + h + 10, f'{eps[k]:.1f}', 22, color=RED if color == RED else TICK, ha='center', weight='semibold' if color == RED else 'regular')
-    q = ease(seg(t, t0 + 0.6 + 0.55 * (brk if brk is not None else 5) + 0.5, 0.6))
-    if q > 0:
-        label, color = note, RED if brk is not None else RAMP[5]
-        ax.add_patch(Rectangle((x0, 786), 10, 28, facecolor=color, edgecolor='none', alpha=q, zorder=5))
-        text(ax, x0 + 24, 800, label, 28, color=color, weight='semibold', va='center', alpha=q, zorder=6)
-
-
-def scene_ladder(ax, t):
-    if t < 4.6:
-        ladder(ax, t, 'MMWorld, knowledge questions on videos', [36.2, 52.3, 52.3, 54.8, 56.9], 43.5, 1,
-               'Breaks at the text level: the question gives the answer away')
-    else:
-        ladder(ax, t, 'TVBench, temporal questions', [2.5, 6.8, 9.7, 16.3, 16.3], 24.5, None,
-               'Unbroken: every attacker stays below the bar', t0=4.6)
 
 
 def scene_year(ax, t):
@@ -259,8 +214,8 @@ def scene_end(ax, t):
     text(ax, W / 2, 440, 'enxinsong.com/blog/video-index', 28, color=BLUE, ha='center', alpha=a2)
 
 
-SCENES = [(scene_title, 4.5), (scene_census, 5.5), (scene_pyramid, 7.5), (scene_ladder, 8.5),
-          (scene_year, 5.5), (scene_screen, 7.0), (scene_results, 7.5), (scene_end, 4.0)]
+SCENES = [(scene_title, 4.5), (scene_census, 5.5), (scene_pyramid, 7.5), (scene_year, 5.5),
+          (scene_screen, 7.0), (scene_results, 7.5), (scene_end, 4.0)]
 FADE = 0.45
 
 
