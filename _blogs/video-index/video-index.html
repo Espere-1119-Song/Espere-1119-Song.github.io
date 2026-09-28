@@ -7,7 +7,7 @@ tags: [research]
 cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
-  - /js/video-index-data.js?v=20260927vi1
+  - /js/video-index-data.js?v=20260927vi2
   - /js/video-index-explorer.js?v=20260927vi7
   - /js/video-index-appendix-data.js?v=20260927vi3
   - /js/video-index-appendix.js?v=20260927vi7
@@ -125,7 +125,7 @@ js:
     <p lang="en">Among releases through 2024, 19% break before any visual input; among releases in 2025 and 2026, 34% do. The rise comes from the text and pool levels, where the newer releases hold 17 of the 18 breaks. A blind reader breaks 12 of the 89 newer benchmarks and 1 of the 26 older ones, mostly by coming within tolerance of a reference that scores far above chance. The option level breaks a similar share in both periods, 4 older and 13 newer benchmarks, especially where reference accuracy approaches chance. Recent benchmarks use language models to generate or refine questions and answers, which can leave the answer recoverable from the text alone.</p>
     <p lang="zh">2024 年及以前发布的 benchmark 里，19% 在看到任何画面之前就被攻破；2025 和 2026 年发布的里，这个比例是 34%。增量来自文本层和题库层，这两层的 18 次攻破里有 17 次落在新发布的 benchmark 上。盲读模型攻破了 89 个新 benchmark 里的 12 个，26 个老 benchmark 里的 1 个，多数情况是参照模型远高于随机水平，而盲读模型追到了容差之内。选项层在两个时期攻破的比例相近，老的 4 个、新的 13 个，多发生在参照模型接近随机水平的 benchmark 上。近期的 benchmark 用语言模型生成或润色问题和答案，这可能让答案单靠文字就能推出来。</p>
     <figure class="vi-fig" id="f-year">
-      <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year_counts.png" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year, each as long as the year's releases: 6 for 2023 and earlier, 20 for 2024, 54 for 2025 and 35 for 2026, of which 17, 20, 39 and 26 percent break before video."></div>
+      <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year_counts.png?v=20260927vi2" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year, each as long as the year's releases: 6 for 2023 and earlier, 20 for 2024, 54 for 2025 and 35 for 2026, of which 17, 20, 39 and 26 percent break before video."></div>
       <figcaption><b><span lang="en">Figure 6.</span><span lang="zh">图 6</span></b> <span lang="en"><b>Newer benchmarks break earlier.</b> Left, benchmarks that reach and break at each level. Right, breaking levels by release year, each bar as long as the year's releases, with breaks before visual input in red.</span><span lang="zh"><b>越新的 benchmark 越早被攻破。</b>左图，到达并在每一层被攻破的 benchmark。右图，按发布年份的被攻破层级，条形长度为当年发布的 benchmark 数，红色为看到画面之前就被攻破的部分。</span></figcaption>
     </figure>
   </section>
@@ -135,8 +135,8 @@ js:
     <p lang="en">Reasoning and knowledge benchmarks break on the text or on captions, which already carry the facts the question asks for. Perception benchmarks break most often at the frame level. Spatial and physical benchmarks break on the options and under temporal perturbation. Temporal benchmarks split, with 6 of 18 breaking on the options and 10 surviving every level. An audit should match its checks to the claimed capability and still screen the options of a temporal claim.</p>
     <p lang="zh">推理和知识类 benchmark 在文本层或帧描述上失守，因为问题要的事实已经写在文字里。感知类最常在帧层失守。空间和物理类在选项层和时序扰动下失守。时序类则分成两半，18 个里 6 个在选项层被攻破，10 个全部幸存。审计应当按所声称的能力选检查项，但即使是时序类也要筛一遍选项。</p>
     <figure class="vi-fig" id="f-claims">
-      <div class="vi-overlay vi-fig__img" data-overlay="fig7"><img src="/images/blogs/video-index/paper/fig07_claims_plain.png" alt="Stacked horizontal bars of the share of each capability group's benchmarks by breaking level: temporal 18, spatial and physical 20, perception 45, reasoning and knowledge 32, with counts in the segments."></div>
-      <figcaption><b><span lang="en">Figure 7.</span><span lang="zh">图 7</span></b> <span lang="en"><b>Each capability group breaks at its own levels.</b> Bars split the benchmarks of each group by breaking level.</span><span lang="zh"><b>每个能力组在各自的层被攻破。</b>条形按被攻破层级拆分每组的 benchmark。</span></figcaption>
+      <div class="vi-overlay vi-fig__img" data-overlay="fig7"><img src="/images/blogs/video-index/paper/fig07_claims_counts.png" alt="Stacked horizontal bars of each capability group's benchmarks by breaking level, each as long as the group: temporal 18, spatial and physical 20, perception 45, reasoning and knowledge 32."></div>
+      <figcaption><b><span lang="en">Figure 7.</span><span lang="zh">图 7</span></b> <span lang="en"><b>Each capability group breaks at its own levels.</b> Bars split the benchmarks of each group by breaking level, each bar as long as the group.</span><span lang="zh"><b>每个能力组在各自的层被攻破。</b>条形按被攻破层级拆分每组的 benchmark，条形长度为该组的 benchmark 数。</span></figcaption>
     </figure>
   </section>
 

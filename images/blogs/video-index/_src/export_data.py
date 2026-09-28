@@ -241,13 +241,20 @@ def figure6_regions():
 
 
 def figure7_regions():
-    page, rects = pdf_rects(REPO / 'figs' / 'fig_f3_claims.pdf')
+    # the post's Figure 7 (fig07_claims_counts.py: the paper's script with the bars in counts), rendered as
+    # render_plain_figures.py renders it for the post
+    from render_plain_figures import render
+    page, rects = pdf_rects(render(Path(__file__).resolve().parent / 'fig07_claims_counts.py', Path(tempfile.mkdtemp(prefix='fig7_'))))
+    png = Image.open(Path(__file__).resolve().parents[1] / 'paper' / 'fig07_claims_counts.png')
+    assert abs(png.size[0] / 380 * 72 - page.width) < 0.5 and abs(png.size[1] / 380 * 72 - page.height) < 0.5, (png.size, page)
     out = []
     ordered = ['Temporal', 'Spatial / physical', 'Perception', 'Reasoning / knowledge']   # top to bottom
     found = bar_rows(rects, 0, page.width)
     assert len(found) == 4, len(found)
+    members_of = {g: [b for b in rows if b['group'] == g] for g in ordered}
+    unit = sum(r.width for _, _, r in found[ordered.index('Perception')]) / len(members_of['Perception'])
     for group, row in zip(ordered, found):
-        check_shares(row, [b for b in rows if b['group'] == group], group)
+        check_counts(row, members_of[group], group, unit)
         out.extend({'group': group, 'level': lv, 'box': pt_box(r)} for _, lv, r in row)
     return {'w': round(page.width, 2), 'h': round(page.height, 2), 'groups': out}
 

@@ -2,7 +2,8 @@
 
 A copy of the paper's figs/scripts/fig_f0_funnel.py (same data, style and layout) in which each release
 year's bar is as long as the number of benchmarks released that year, instead of 100%. The author asked
-for this on 2026-09-27 so that the bars also compare the years. The left panel is unchanged.
+for this on 2026-09-27 so that the bars also compare the years, and to drop the (n=...) of the year labels.
+The left panel is unchanged.
 
 Not run directly: render_plain_figures.py and export_data.py run it with the paper's figs/scripts on
 sys.path and OUT_DIR set, and it writes OUT_DIR/fig06_year_counts.pdf, never into the paper repository.
@@ -67,7 +68,7 @@ for i, y in enumerate(years):
         axr.text(left + w / 2, row_y, str(w), ha='center', va='center', fontsize=7.5, color=color, zorder=4)
         left += w
     axr.text(n + top * 0.02, row_y, f'{100 * early[y]:.0f}%', ha='left', va='center', fontsize=7.5, color=PENNRED, zorder=4)
-axr.set_yticks(np.arange(len(years)) * 1.35, [f'{"$\\leq$" if y == 2023 else ""}{y} ($n$={sum(by[y].values())})' for y in years], fontsize=8); axr.invert_yaxis()
+axr.set_yticks(np.arange(len(years)) * 1.35, [f'{"$\\leq$" if y == 2023 else ""}{y}' for y in years], fontsize=8); axr.invert_yaxis()   # no (n=...): the bar lengths give it
 axr.set_xlim(0, top * 1.22); axr.set_xticks([0, 25, 50]); axr.tick_params(axis='x', labelsize=8); axr.tick_params(axis='y', length=0)
 axr.set_xlabel('Benchmarks released', fontsize=9); axr.spines['left'].set_visible(False)
 axr.set_title('By release year', loc='left', fontsize=9, fontweight='bold', pad=4)

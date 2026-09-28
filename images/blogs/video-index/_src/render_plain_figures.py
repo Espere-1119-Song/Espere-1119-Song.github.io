@@ -1,7 +1,8 @@
 """Render Figures 6 and 7 of the Video-Index paper without the numbers on their bars, for the post.
 
-The post shows those numbers on hover instead. Figure 7 comes from the paper's figs/scripts/fig_f3_claims.py,
-Figure 6 from fig06_year_counts.py here (the paper's fig_f0_funnel.py with its right panel in counts), and
+The post shows those numbers on hover instead. Figure 7 comes from fig07_claims_counts.py here (the paper's
+fig_f3_claims.py with its bars in counts), Figure 6 from fig06_year_counts.py (the paper's fig_f0_funnel.py
+with its right panel in counts), and
 Figure 9 from fig09_longvideo_left.py here (the left panel of fig_f5_longvideo.py, wider, on its own).
 Each runs unchanged except that every Axes.text whose string is a bare number or percentage is drawn fully
 transparent; the text keeps its box, so the layout is the script's. The PDFs go to a temporary folder, Figure 7's
@@ -10,7 +11,7 @@ export_data.py still fit; export_data.py reads Figure 6's regions from this same
 rasterized at 380 dpi with the white background turned into alpha, as in render_paper_figures.py.
 
 Usage: python3 render_plain_figures.py <paper repo>
-Output: ../paper/fig06_year_counts.png, fig07_claims_plain.png and fig09_longvideo_left.png
+Output: ../paper/fig06_year_counts.png, fig07_claims_counts.png and fig09_longvideo_left.png
 """
 import contextlib
 import io
@@ -34,7 +35,7 @@ SCRIPTS = REPO / 'figs' / 'scripts'
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent / 'paper'
 FIGS = [(HERE / 'fig06_year_counts.py', 'fig06_year_counts', None),                       # (script, output, paper PDF with the same bars)
-        (SCRIPTS / 'fig_f3_claims.py', 'fig07_claims_plain', REPO / 'figs' / 'fig_f3_claims.pdf'),
+        (HERE / 'fig07_claims_counts.py', 'fig07_claims_counts', None),
         (HERE / 'fig09_longvideo_left.py', 'fig09_longvideo_left', None)]
 NUMBER = re.compile(r'\s*\d+(\.\d+)?%?\s*')
 
