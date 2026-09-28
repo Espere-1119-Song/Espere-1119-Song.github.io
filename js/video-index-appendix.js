@@ -8,7 +8,9 @@
      .vi-lines[data-table="20"]      Table 20 as one line per benchmark over the frame budgets, with the table
      #vi-dupshare                    Table 12, with the example questions of the flow picked in it
      #vi-rank                        Tables 34 to 37 side by side, names only, details on hover
-     .vi-static[data-table]          Tables 38 and 48 to 50
+     .vi-static[data-table]          Tables 38 and 48 to 50 as plain tables
+     .vi-overlay[data-overlay="fig12"] Figure 12: every agent's dot, tracks and images on hover, picked out in all panels
+     .vi-agents[data-table]          Tables 48 to 50 as figures: bubbles, strategy bars, accuracy by duration
      #vi-cards                       the report cards of Appendix X, one at a time
    Everything re-renders on the EN / 中文 toggle. No dependencies. */
 (function () {
@@ -241,6 +243,159 @@
     f.dots.forEach(function (d) {
       bindTip(svg('circle', { cx: d[4], cy: d[5], r: 2.6, class: 'vi-hitmark' }, hits), function () { return tipFor(d); }, function () { show(d[0], d[1]); }, function () { clear(hl); });
     });
+  }
+
+  /* ================= Figure 12: each agent picked out across the three panels ================= */
+  var OPS12 = [['Sample at intervals', '按间隔采样'], ['Seek to times', '跳到指定时间'], ['Tile frames', '把帧拼成网格'], ['Crop / zoom', '裁剪或放大']];
+  var DUR12 = [['under 30 s', '30 秒以内'], ['30 s to 2 min', '30 秒到 2 分钟'], ['2 to 10 min', '2 到 10 分钟'], ['over 10 min', '10 分钟以上']];
+  function figure12(wrap) {
+    var f = A.fig12;
+    if (!f) { return; }
+    var old = wrap.querySelector('svg.vi-overlay__svg');
+    if (old) { wrap.removeChild(old); }
+    var s = svg('svg', { viewBox: '0 0 ' + f.w + ' ' + f.h, preserveAspectRatio: 'none', class: 'vi-overlay__svg', 'aria-hidden': 'true' }, wrap);
+    var hl = svg('g', {}, s), hits = svg('g', {}, s);
+    function show(a) {
+      clear(hl);
+      svg('circle', { cx: a.dot[0], cy: a.dot[1], r: 4.6, class: 'vi-ring', style: 'stroke:' + a.color }, hl);
+      var r = a.row, pb = a.panel;
+      svg('rect', { x: r[0], y: r[1], width: r[2], height: r[3], rx: 2, class: 'vi-ring', style: 'stroke:' + a.color }, hl);
+      svg('rect', { x: pb[0] - 2, y: pb[1] - 2, width: pb[2] + 4, height: pb[3] + 4, rx: 3, class: 'vi-ring', style: 'stroke:' + a.color }, hl);
+    }
+    function head(a) { return '<b>' + esc(a.name) + '</b> ' + dot(a.color); }
+    f.agents.forEach(function (a) {
+      var tipA = function () {
+        return head(a) + '<span class="vi-tip__grid"><span>' + t('Accuracy', '准确率') + '</span><b class="is-axis">' + a.acc.toFixed(1) + '%</b>' +
+          '<span>' + t('Median time per item', '每题耗时中位数') + '</span><b class="is-axis">' + Math.round(a.sec) + ' s</b>' +
+          '<span>Q1–Q3</span><b>' + Math.round(a.q[0]) + '–' + Math.round(a.q[1]) + ' s</b><span>' + t('Sessions timed', '计时的会话') + '</span><b>' + U.fmt(a.n) + '</b></span>';
+      };
+      var i = a.iqr;
+      bindTip(svg('rect', { x: i[0] - 2, y: i[1] - 3.5, width: i[2] + 4, height: 7, class: 'vi-hitmark' }, hits), tipA, function () { show(a); }, function () { clear(hl); });
+      bindTip(svg('circle', { cx: a.dot[0], cy: a.dot[1], r: 5, class: 'vi-hitmark' }, hits), tipA, function () { show(a); }, function () { clear(hl); });
+      a.ops.forEach(function (o, j) {
+        var b = o.box;
+        bindTip(svg('rect', { x: b[0], y: b[1], width: b[2], height: b[3], class: 'vi-hitmark' }, hits), function () {
+          return head(a) + '<br>' + t(OPS12[j][0], OPS12[j][1]) + ': <b>' + o.share.toFixed(0) + '%</b> ' + t('of its answers', '的作答') +
+            '<br><span class="vi-tip__note">' + U.fmt(o.count) + ' / ' + U.fmt(o.total) + t(' sessions; operations can co-occur', ' 个会话；多种操作可以同时出现') + '</span>';
+        }, function () { show(a); }, function () { clear(hl); });
+      });
+      a.images.forEach(function (m, k) {
+        bindTip(svg('circle', { cx: m.at[0], cy: m.at[1], r: 4, class: 'vi-hitmark' }, hits), function () {
+          return head(a) + '<br>' + t('Videos ', '视频 ') + t(DUR12[k][0], DUR12[k][1]) + '<br>' + t('Median images per item: ', '每题图像数中位数：') + '<b>' + U.fmt(m.value) + '</b>';
+        }, function () { show(a); }, function () { clear(hl); });
+      });
+    });
+  }
+
+  /* ================= Tables 48 to 50 drawn as figures ================= */
+  var AGT = { 'Astra': ['GPT-6-Astra', '#4285f4'], 'Fable 5.1': ['Claude Fable 5.1', '#db4437'], 'Opus 5': ['Claude Opus 5', '#ab47bc'],
+    'Gemini 3.1 Pro': ['Gemini 3.1 Pro', '#0f9d58'], 'Gemini Pro': ['Gemini 3.1 Pro', '#0f9d58'], 'Flash-Lite': ['Gemini 3.5 Flash-Lite', '#f4b400'] };
+  var AG_COLS = ['Astra', 'Fable 5.1', 'Gemini 3.1 Pro', 'Flash-Lite', 'Opus 5'];            /* the tables' column order */
+  function grow(node, attr, to) {                                                            /* a short entrance */
+    node.setAttribute(attr, 0);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { node.setAttribute(attr, to); }); });
+  }
+  function agentHead(s, x, y, a, anchor) {
+    var g = svg('g', {}, s);
+    var tx = svg('text', { x: x, y: y, 'text-anchor': anchor || 'middle', class: 'vi-ag-name', fill: AGT[a][1] }, g, AGT[a][0].replace('Gemini 3.5 ', '').replace('Claude ', '').replace('GPT-6-', ''));
+    return tx;
+  }
+
+  function agents48(container) {                          /* Table 48: a bubble for every agent and measure */
+    clear(container);
+    var rows = TB['48'], zh = STATIC['48'].zh;
+    var W = chartWidth(container), narrow = W < 520;
+    var L = narrow ? 150 : 250, top = 34, rowH = narrow ? 30 : 32, colW = (W - L - 8) / 5, H = top + rows.length * rowH + 6;
+    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'vi-sc-svg vi-ag', role: 'img', 'aria-label': t('Agent tool use', 'agent 的工具使用') }, container);
+    var SHORT = { 'Astra': 'Astra', 'Fable 5.1': 'Fable', 'Gemini 3.1 Pro': 'Pro', 'Flash-Lite': 'Lite', 'Opus 5': 'Opus' };
+    AG_COLS.forEach(function (a, j) {
+      if (narrow) { svg('text', { x: L + colW * (j + 0.5), y: 18, 'text-anchor': 'middle', class: 'vi-ag-name', fill: AGT[a][1], 'font-size': 10.5 }, s, SHORT[a]); }
+      else { agentHead(s, L + colW * (j + 0.5), 18, a); }
+    });
+    rows.forEach(function (r, i) {
+      var y = top + i * rowH + rowH / 2, pctRow = /%\)/.test(r[0]);
+      if (i % 2 === 0) { svg('rect', { x: 0, y: y - rowH / 2, width: W, height: rowH, class: 'vi-ag-band' }, s); }
+      svg('text', { x: L - 14, y: y + 4, 'text-anchor': 'end', class: 'vi-ag-label' }, s, t(r[0], zh[r[0]] || r[0]));
+      var vals = r.slice(1).map(function (v) { return v === '–' ? null : parseFloat(v); });
+      var top1 = pctRow ? 100 : Math.max.apply(null, vals.filter(isNum));
+      vals.forEach(function (v, j) {
+        var cx = L + colW * (j + 0.5), a = AG_COLS[j];
+        if (v === null) { svg('line', { x1: cx - 5, x2: cx + 5, y1: y, y2: y, class: 'vi-ag-none' }, s); return; }
+        var rr = Math.max(2.2, (rowH / 2 - 2) * Math.sqrt(v / top1));
+        var c = svg('circle', { cx: cx, cy: y, fill: AGT[a][1], class: 'vi-ag-bubble' }, s);
+        grow(c, 'r', rr);
+        bindTip(c, function () { return '<b>' + AGT[a][0] + '</b> ' + dot(AGT[a][1]) + '<br>' + esc(t(r[0], zh[r[0]] || r[0])) + t(': ', '：') + '<b>' + r[j + 1] + '</b>'; },
+          function () { c.classList.add('is-hot'); }, function () { c.classList.remove('is-hot'); });
+      });
+    });
+  }
+
+  var ST49 = ['#1a73e8', '#8ab4f8', '#34a853', '#fbbc04', '#ea4335', '#a142f4', '#bdc1c6'];
+  function agents49(container) {                          /* Table 49: each agent's sessions split by sampling strategy */
+    clear(container);
+    var rows = TB['49'], zh = STATIC['49'].zh;
+    var legend = el('div', { class: 'vi-chips vi-legend vi-ag-legend' }, container);
+    rows.forEach(function (r, k) { el('span', { class: 'vi-legend__item' }, legend).innerHTML = '<i class="vi-legend__dot" style="background:' + ST49[k] + '"></i>' + esc(t(r[0], zh[r[0]] || r[0])); });
+    var W = chartWidth(container), narrow = W < 520, L = narrow ? 92 : 150, R = 10, rowH = 34, top = 8, H = top + AG_COLS.length * rowH + 26;
+    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'vi-sc-svg vi-ag', role: 'img', 'aria-label': t('Sampling strategies', '采样策略') }, container);
+    var sx = linear(0, 100, L, W - R);
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      svg('line', { x1: sx(v), x2: sx(v), y1: top, y2: top + AG_COLS.length * rowH, class: 'vi-sc-grid' }, s);
+      svg('text', { x: sx(v), y: top + AG_COLS.length * rowH + 16, 'text-anchor': v === 100 ? 'end' : v === 0 ? 'start' : 'middle', class: 'vi-sc-tick' }, s, v + '%');
+    });
+    AG_COLS.forEach(function (a, j) {
+      var y = top + j * rowH + 7, h = rowH - 14, left = 0;
+      svg('text', { x: L - 12, y: y + h / 2 + 4, 'text-anchor': 'end', class: 'vi-ag-name', fill: AGT[a][1] }, s, AGT[a][0].replace('Gemini 3.5 ', '').replace('Claude ', '').replace('GPT-6-', ''));
+      rows.forEach(function (r, k) {
+        var v = r[j + 1] === '–' ? 0 : parseFloat(r[j + 1]);
+        if (!v) { return; }
+        var seg = svg('rect', { x: sx(left), y: y, height: h, fill: ST49[k], class: 'vi-ag-seg' }, s);
+        grow(seg, 'width', Math.max(0.5, sx(left + v) - sx(left) - 1));
+        bindTip(seg, function () { return '<b>' + AGT[a][0] + '</b> ' + dot(AGT[a][1]) + '<br>' + dot(ST49[k]) + esc(t(r[0], zh[r[0]] || r[0])) + '<br><b>' + r[j + 1] + '%</b> ' + t('of its sessions', '的会话'); });
+        left += v;
+      });
+    });
+  }
+
+  var STRAT = { all: ['decodes every stored frame', '解码全部存储帧'], fps: ['explicit fps filter', '显式 fps 过滤'], nth: ['every n-th frame', '每隔 n 帧取一帧'], mix: ['two or more strategies', '两种以上策略混用'] };
+  var DUR50 = { '<30 s': ['under 30 s', '30 秒以内'], '30-120 s': ['30 to 120 s', '30 到 120 秒'], '120-600 s': ['2 to 10 min', '2 到 10 分钟'], '>600 s': ['over 10 min', '10 分钟以上'] };
+  function agents50(container) {                          /* Table 50: accuracy by video duration, each point labelled by its main strategy */
+    clear(container);
+    var rows = TB['50'], durs = [], agents = ['Astra', 'Fable 5.1', 'Gemini Pro', 'Flash-Lite', 'Opus 5'];
+    rows.forEach(function (r) { if (durs.indexOf(r[0]) < 0) { durs.push(r[0]); } });
+    var W = chartWidth(container), narrow = W < 520, L = narrow ? 40 : 52, R = 12, T = 12, Bt = 52, H = narrow ? 330 : 360;
+    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'vi-sc-svg vi-ag', role: 'img', 'aria-label': t('Accuracy by video duration', '按视频时长的准确率') }, container);
+    var sy = linear(0, 100, H - Bt, T), band = (W - L - R) / durs.length, pw = narrow ? 24 : 32, dodge = Math.min(band / 5.6, narrow ? 15 : 24);
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      svg('line', { x1: L, x2: W - R, y1: sy(v), y2: sy(v), class: 'vi-sc-grid' }, s);
+      svg('text', { x: L - 8, y: sy(v) + 4, 'text-anchor': 'end', class: 'vi-sc-tick' }, s, String(v));
+    });
+    svg('text', { x: 14, y: (T + H - Bt) / 2, 'text-anchor': 'middle', transform: 'rotate(-90 14 ' + ((T + H - Bt) / 2) + ')', class: 'vi-sc-title' }, s, t('Accuracy (%)', '准确率 (%)'));
+    durs.forEach(function (d, k) {
+      var cx = L + band * (k + 0.5), items = rows.filter(function (r) { return r[0] === d; })[0][1];
+      svg('text', { x: cx, y: H - Bt + 18, 'text-anchor': 'middle', class: 'vi-ag-label' }, s, t(DUR50[d][0], DUR50[d][1]));
+      svg('text', { x: cx, y: H - Bt + 34, 'text-anchor': 'middle', class: 'vi-sc-tick' }, s, t(items + ' items', items + ' 题'));
+    });
+    var lines = svg('g', {}, s), pills = svg('g', {}, s);
+    agents.forEach(function (a, j) {
+      var pts = rows.filter(function (r) { return r[2] === a; }).map(function (r) {
+        return { r: r, x: L + band * (durs.indexOf(r[0]) + 0.5) + (j - 2) * dodge, y: sy(parseFloat(r[6])) };
+      });
+      svg('polyline', { points: pts.map(function (p) { return p.x + ',' + p.y; }).join(' '), stroke: AGT[a][1], class: 'vi-ag-line' }, lines);
+      pts.forEach(function (p) {
+        var g = svg('g', { class: 'vi-ag-pill' }, pills), r = p.r;
+        svg('rect', { x: p.x - pw / 2, y: p.y - 8, width: pw, height: 16, rx: 8, fill: AGT[a][1] }, g);
+        svg('text', { x: p.x, y: p.y + 3.6, 'text-anchor': 'middle', style: 'fill:' + (a === 'Flash-Lite' ? '#202124' : '#fff') }, g, r[3]);
+        bindTip(g, function () {
+          return '<b>' + AGT[a][0] + '</b> ' + dot(AGT[a][1]) + '<br>' + t('Videos ' + DUR50[r[0]][0] + ' (' + r[1] + ' items)', '视频' + DUR50[r[0]][1] + '（' + r[1] + ' 题）') +
+            '<span class="vi-tip__grid"><span>' + t('Main strategy', '主要策略') + '</span><b>' + t(STRAT[r[3]][0], STRAT[r[3]][1]) + ' · ' + r[4] + '%</b>' +
+            '<span>' + t('Images per item', '每题图像数') + '</span><b>' + r[5] + '</b><span>' + t('Accuracy', '准确率') + '</span><b class="is-axis">' + r[6] + '%</b></span>';
+        }, function () { g.classList.add('is-hot'); }, function () { g.classList.remove('is-hot'); });
+      });
+    });
+    var key = el('div', { class: 'vi-chips vi-legend vi-ag-legend' }, container);
+    agents.forEach(function (a) { el('span', { class: 'vi-legend__item' }, key).innerHTML = '<i class="vi-legend__dot" style="background:' + AGT[a][1] + '"></i>' + AGT[a][0]; });
+    el('span', { class: 'vi-legend__item vi-ag-codes' }, key).innerHTML = t('Labels: main sampling strategy (all, nth, fps, mix)', '标签：主要采样策略（all、nth、fps、mix）');
   }
 
   /* ================= Tables as scatter plots ================= */
@@ -770,6 +925,10 @@
     each('.vi-overlay[data-overlay="q1"]', figureQ1);
     each('.vi-overlay[data-overlay="fig8"]', figure8);
     each('.vi-overlay[data-overlay="fig9"]', figure9);
+    each('.vi-overlay[data-overlay="fig12"]', figure12);
+    each('.vi-agents[data-table="48"]', agents48);
+    each('.vi-agents[data-table="49"]', agents49);
+    each('.vi-agents[data-table="50"]', agents50);
     each('.vi-scatter[data-table]', scatter);
     each('.vi-lines[data-table="20"]', lines20);
     each('#vi-dupshare', dupshare);
@@ -783,12 +942,13 @@
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
-      var probe = root.querySelector('.vi-scatter .vi-sc-body');
+      var probe = root.querySelector('.vi-scatter .vi-sc-body') || root.querySelector('.vi-agents');
       var w = probe ? chartWidth(probe) : null;
       if (w === lastW) { return; }
       lastW = w;
       each('.vi-scatter[data-table]', scatter);
       each('.vi-lines[data-table="20"]', lines20);
+      each('.vi-agents[data-table]', function (c) { ({ '48': agents48, '49': agents49, '50': agents50 })[c.getAttribute('data-table')](c); });
     }, 200);
   });
   if ('MutationObserver' in window) {

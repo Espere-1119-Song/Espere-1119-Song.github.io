@@ -9,8 +9,8 @@ js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260927vi1
   - /js/video-index-explorer.js?v=20260927vi7
-  - /js/video-index-appendix-data.js?v=20260927vi2
-  - /js/video-index-appendix.js?v=20260927vi5
+  - /js/video-index-appendix-data.js?v=20260927vi3
+  - /js/video-index-appendix.js?v=20260927vi7
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -276,22 +276,22 @@ js:
     <p lang="en">The execution logs show how the agents look. GPT-6-Astra, Claude Fable 5.1, and Claude Opus 5 all tile frames into grids on nearly every answer and then diverge. Any two of them give the same answer on about four in five items but choose the same sampling strategy on fewer than half. GPT-6-Astra seeks timestamps more often, while Claude Fable 5.1 and Claude Opus 5 favor cropping and zooming. Claude Opus 5 extracts similar image counts across durations. GPT-6-Astra decodes all stored frames on short clips and combines methods on longer videos, whereas Claude Fable 5.1 decodes exhaustively and extracts far more images without reaching GPT-6-Astra's accuracy. All three score lower on videos past ten minutes, GPT-6-Astra least of all. Evaluation should separate the volume of extracted imagery from its relevance and reward knowing when to stop.</p>
     <p lang="zh">执行日志显示了 agent 是怎么看的。GPT-6-Astra、Claude Fable 5.1 和 Claude Opus 5 几乎每道题都先把帧拼成网格，然后各走各路。任意两个 agent 在大约五分之四的题目上给出相同答案，但选择相同采样策略的题目不到一半。GPT-6-Astra 更常按时间戳定位，Claude Fable 5.1 和 Claude Opus 5 更爱裁剪和放大。Claude Opus 5 在不同时长的视频上抽取的图像数量相近。GPT-6-Astra 在短片段上解码全部存储帧，在长视频上组合多种方法；Claude Fable 5.1 则把帧解码得最彻底，抽取的图像多得多，准确率却没有追上 GPT-6-Astra。三个 agent 在超过十分钟的视频上分数都更低，GPT-6-Astra 掉得最少。评测应当把抽取图像的数量和它们的相关性分开，并奖励知道何时停下的系统。</p>
     <figure class="vi-fig" id="f-agents">
-      <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes.">
+      <div class="vi-overlay vi-fig__img" data-overlay="fig12"><img src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes."></div>
       <figcaption><b><span lang="en">Figure 12.</span><span lang="zh">图 12</span></b> <span lang="en"><b>Agents differ in accuracy, runtime, and inspection.</b> Left, accuracy and median runtime, Q1–Q3. Right, operations per answer. Bottom, image medians by duration on shared log axes.</span><span lang="zh"><b>agent 在准确率、耗时和查看方式上各不相同。</b>左图，准确率与耗时中位数及 Q1–Q3。右图，每次作答使用的操作。下图，按视频时长的图像数中位数，共用对数坐标。</span></figcaption>
     </figure>
 
     <figure class="vi-fig" id="f-t48">
-      <div class="vi-fig__table vi-static" data-table="48"></div>
+      <div class="vi-agents" data-table="48"></div>
       <figcaption><b><span lang="en">Table 48.</span><span lang="zh">表 48</span></b> <span lang="en">Agent tool use on Video-Index, as medians per item unless indicated otherwise.</span><span lang="zh">agent 在 Video-Index 上的工具使用，除特别注明外均为每题中位数。</span></figcaption>
     </figure>
 
     <figure class="vi-fig" id="f-t49">
-      <div class="vi-fig__table vi-static" data-table="49"></div>
+      <div class="vi-agents" data-table="49"></div>
       <figcaption><b><span lang="en">Table 49.</span><span lang="zh">表 49</span></b> <span lang="en">Agent sampling strategies (% of sessions); videos store at most 2 fps and 1,024 frames.</span><span lang="zh">agent 的采样策略（占会话的 %）；视频最多按 2 fps、1,024 帧存储。</span></figcaption>
     </figure>
 
     <figure class="vi-fig" id="f-t50">
-      <div class="vi-fig__table vi-static" data-table="50"></div>
+      <div class="vi-agents" data-table="50"></div>
       <figcaption><b><span lang="en">Table 50.</span><span lang="zh">表 50</span></b> <span lang="en">Agent sampling strategies, image counts, and accuracy by video duration.</span><span lang="zh">按视频时长划分的 agent 采样策略、图像数和准确率。</span></figcaption>
     </figure>
   </section>

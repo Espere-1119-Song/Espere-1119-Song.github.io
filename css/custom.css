@@ -1761,6 +1761,23 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .post-body table.vi-heat td.is-link { cursor: pointer; }
 .post-body table.vi-heat td.is-link:hover, .post-body table.vi-heat td.is-selected { box-shadow: inset 0 0 0 2px #202124; }
 
+/* Tables 48 to 50 as figures, in the agents' colours of Figure 12 */
+.vi-ag-name { font-size: 12px; font-weight: 600; }
+.vi-ag-label { font-size: 12px; fill: var(--text-sub); }
+.vi-ag-band { fill: rgba(32, 33, 36, 0.025); }
+.vi-ag-bubble { opacity: 0.88; stroke: #fff; stroke-width: 1; transition: r 0.55s ease, opacity 0.15s; }
+.vi-ag-bubble.is-hot { opacity: 1; stroke: #202124; stroke-width: 1.6; }
+.vi-ag-none { stroke: #bdc1c6; stroke-width: 1.5; }
+.vi-ag-seg { transition: width 0.6s ease, opacity 0.15s; }
+.vi-ag-seg:hover { opacity: 0.82; }
+.vi-ag-line { fill: none; stroke-width: 1.6; opacity: 0.4; }
+.vi-ag-pill { cursor: default; }
+.vi-ag-pill rect { stroke: #fff; stroke-width: 1.2; }
+.vi-ag-pill text { font-size: 9.5px; font-weight: 700; pointer-events: none; }
+.vi-ag-pill.is-hot rect { stroke: #202124; stroke-width: 1.6; }
+.vi-ag-legend { margin: 6px 0 6px; gap: 4px 16px; font: 0.76rem/1.4 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-sub); }
+.vi-ag-codes { color: var(--text-muted); }
+
 /* Tables 34 to 37 */
 .vi-rank4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .vi-rank4__col { border: 1px solid var(--border-cream); border-radius: 10px; background: #fff; padding: 10px 12px 8px; }

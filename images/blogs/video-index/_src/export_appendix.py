@@ -373,8 +373,80 @@ def figure9_regions():
             'bars': [[b['group'], side['budgets'].index(b['budget']), b['n'], round(b['mean'], 1), round(b['q1'], 1), round(b['q3'], 1)] + b['top'] + b['bottom'] + b['at'] for b in side['bars']]}
 
 
+
+# --- Figure 12: each agent's dot, operation tracks and image markers -----------------------------------------
+def figure12_regions():
+    """Run figs/scripts/fig_agent_comparison.py with its figure and the two data files it writes
+    (data/figure12_*.json) sent to a temporary folder, and read every element's place off its axes."""
+    import _figure_header
+    from matplotlib.colors import to_hex
+    save = _figure_header.save_with_header_spacing
+    tmp = Path(tempfile.mkdtemp(prefix='fig12_'))
+    write_text = Path.write_text
+
+    def guarded(self, *a, **k):                   # never into the paper repository
+        target = Path(self).resolve()
+        return write_text(tmp / target.name if str(target).startswith(str(REPO)) else self, *a, **k)
+    _figure_header.save_with_header_spacing = lambda fig, path, **k: save(fig, tmp / Path(path).name, **k)
+    Path.write_text = guarded
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            g = runpy.run_path(str(SCRIPTS / 'fig_agent_comparison.py'), run_name='fig12_capture')
+    finally:
+        Path.write_text = write_text
+        _figure_header.save_with_header_spacing = save
+    fig = g['fig']
+    W, H, dpi = fig.get_figwidth() * 72, fig.get_figheight() * 72, fig.dpi
+    renderer = fig.canvas.get_renderer()
+    axA, axB = g['axes'][0], g['axes'][1]
+    panels = fig.axes[3:8]
+
+    def pt(ax, x, y):
+        px, py = ax.transData.transform((x, y))
+        return [round(px * 72 / dpi, 2), round(H - py * 72 / dpi, 2)]
+
+    def span(ax, x0, y0, x1, y1):
+        (a, b), (c, d) = pt(ax, x0, y0), pt(ax, x1, y1)
+        return [round(min(a, c), 2), round(min(b, d), 2), round(abs(c - a), 2), round(abs(d - b), 2)]
+
+    def box(bb):
+        return [round(bb.x0 * 72 / dpi, 2), round(H - bb.y1 * 72 / dpi, 2), round(bb.width * 72 / dpi, 2), round(bb.height * 72 / dpi, 2)]
+    acc, sec, q, n = g['accuracy'], g['seconds'], g['runtime_quantiles'], g['runtime_counts']
+    shares, counts, totals, images, centres = g['shares'], g['operation_counts'], g['operation_totals'], g['images'], g['centres']
+    agents = []
+    for i in range(5):
+        agents.append({
+            'name': g['LEGEND_NAMES'][i], 'color': to_hex(g['COLORS'][i]), 'acc': round(float(acc[i]), 1), 'sec': round(float(sec[i]), 1),
+            'q': [round(float(q[i][0]), 1), round(float(q[i][2]), 1)], 'n': int(n[i]),
+            'dot': pt(axA, sec[i], acc[i]), 'iqr': span(axA, q[i][0], acc[i], q[i][2], acc[i]),
+            'ops': [{'share': float(shares[i][j]), 'count': int(counts[i][j]), 'total': int(totals[i]),
+                     'box': span(axB, j - .37, i - .24, j + .37, i + .30)} for j in range(4)],
+            'row': span(axB, -.45, i - .26, 3.45, i + .32),
+            'images': [{'value': float(images[i][k]), 'at': pt(panels[i], centres[k], images[i][k])} for k in range(4)],
+            'panel': box(panels[i].get_window_extent(renderer)),
+        })
+    # the captured places must be the paper's figure: its markers and bars are drawn there
+    page = fitz.open(REPO / 'figs' / 'fig_agent_comparison.pdf')[0]
+    # the paper's save extends the page below the figure for its footer (_plot_spacing.py), keeping the top
+    assert abs(page.rect.width - W) < 0.1 and page.rect.height >= H - 0.1, (page.rect, W, H)
+    shapes = [d['rect'] for d in page.get_drawings() if d.get('fill')]
+
+    def drawn_at(x, y, tol=0.6):
+        return any(abs((r.x0 + r.x1) / 2 - x) < tol and abs((r.y0 + r.y1) / 2 - y) < tol and r.width < 9 for r in shapes)
+    for a in agents:
+        assert drawn_at(*a['dot']), ('no dot', a['name'])
+        for m in a['images']:
+            assert drawn_at(*m['at']), ('no image marker', a['name'], m)
+        for o in a['ops']:
+            if o['share'] > 0:
+                x0, y0, w, h = o['box']
+                bar = w * o['share'] / 100
+                assert any(abs(r.x0 - x0) < 0.3 and abs(r.width - bar) < 0.3 and y0 <= r.y0 <= y0 + h for r in shapes), ('no bar', a['name'], o)
+    return {'w': round(page.rect.width, 2), 'h': round(page.rect.height, 2), 'agents': agents}
+
 FIG8 = figure8_regions()
 FIG9 = figure9_regions()
+FIG12 = figure12_regions()
 
 Q1 = figure_q1()
 assert len(Q1['lines']) == 57, len(Q1['lines'])      # "57 have both ladders" (Appendix Q)
@@ -387,7 +459,7 @@ missing = [n for n in card_names if not (CARDS / (slug(n) + '.png')).exists()]
 assert not missing, 'run render_report_cards.py first: ' + ', '.join(missing[:5])
 cards = [{'name': n, 'file': slug(n) + '.png'} for n in sorted(card_names, key=str.lower)]
 
-out = {'tables': {str(k): v for k, v in T.items()}, 'q1': Q1, 'fig8': FIG8, 'fig9': FIG9, 'cards': cards}
+out = {'tables': {str(k): v for k, v in T.items()}, 'q1': Q1, 'fig8': FIG8, 'fig9': FIG9, 'fig12': FIG12, 'cards': cards}
 OUT.write_text('/* Generated by images/blogs/video-index/_src/export_appendix.py from the Video-Index paper; do not edit. */\n'
                'window.VI_APPX = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
 print('wrote', OUT.relative_to(SITE), f'{OUT.stat().st_size / 1024:.0f} KB')
