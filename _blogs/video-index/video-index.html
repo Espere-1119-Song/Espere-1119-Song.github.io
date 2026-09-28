@@ -10,7 +10,7 @@ js:
   - /js/video-index-data.js?v=20260927vi2
   - /js/video-index-explorer.js?v=20260927vi7
   - /js/video-index-appendix-data.js?v=20260927vi3
-  - /js/video-index-appendix.js?v=20260927vi7
+  - /js/video-index-appendix.js?v=20260927vi8
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -176,16 +176,8 @@ js:
 <!-- ================= Which benchmarks to use ================= -->
 <section id="which">
   <h2><span lang="en">Which benchmarks to use for a capability</span><span lang="zh">按能力选 benchmark</span></h2>
-  <p lang="en">A benchmark that survives every level holds a certificate that none of our attackers can forge, and 38 of the 115 hold one. The survivors of each capability group are these.</p>
-  <p lang="zh">通过全部层级的 benchmark 拿到了一份我们的攻击者都无法伪造的证书，115 个里有 38 个。各能力组的幸存者如下。</p>
-  <ul class="vi-which">
-    <li><span lang="en"><b>Perception</b>, 13 of 45:</span><span lang="zh"><b>感知</b>，45 个中的 13 个：</span> Colon-Bench, K9-Bench, KFS-Bench, MME-VideoOCR, NaturalBench-Video, Perception Test, Q-Bench-Video, ST-Evidence, ScaleLong, TimeBlind, VELOCITI, VNBench, ViMUL-Bench.</li>
-    <li><span lang="en"><b>Temporal understanding</b>, 10 of 18:</span><span lang="zh"><b>时序理解</b>，18 个中的 10 个：</span> AoTBench, E.T. Bench, MotionBench, PhysicalAI, S-EMBER, SLVMBench, TOMATO, TVBench, VCR-Bench, Vinoground.</li>
-    <li><span lang="en"><b>Spatial and physical understanding</b>, 7 of 20:</span><span lang="zh"><b>空间与物理理解</b>，20 个中的 7 个：</span> CMU, ContPhy, OSI-Bench, SIS-Bench, UrbanVideo-Bench, VGenST-Bench, VSI-Bench.</li>
-    <li><span lang="en"><b>Reasoning and knowledge</b>, 8 of 32:</span><span lang="zh"><b>推理与知识</b>，32 个中的 8 个：</span> GUI-World, MORSE-500, Neptune, PAI-Bench-U, SFI-Bench, SciVideoBench, SmartHome-Bench, Video-Holmes.</li>
-  </ul>
-  <p lang="en">A survivor resists the attackers we tried and certifies nothing beyond them. Its <a href="#cards">report card</a> names the level at which it came closest to breaking, and a user who needs the strongest guard for one claim can rank the survivors of a group by that margin. Tables 34 to 37 rank the ten strongest benchmarks of each group, where the margin is the breaking threshold <i>s</i>* − <i>c</i> − <i>δ</i> minus the largest exploitability over the measured levels, in %.</p>
-  <p lang="zh">幸存只说明它挡住了我们试过的攻击者，并不证明更多。它的<a href="#cards">报告卡</a>写明它离被攻破最近的是哪一层；如果某项能力需要最可靠的把关，可以按这个余量给同组的幸存者排序。表 34 到表 37 给出每组最强的十个 benchmark，余量是攻破门槛 <i>s</i>* − <i>c</i> − <i>δ</i> 减去各已测层级中最大的可利用度，单位为 %。</p>
+  <p lang="en">A benchmark that survives every level holds a certificate that none of our attackers can forge, and 38 of the 115 hold one. A survivor resists the attackers we tried and certifies nothing beyond them. Its <a href="#cards">report card</a> names the level at which it came closest to breaking, and a user who needs the strongest guard for one claim can rank the survivors of a group by that margin: the breaking threshold <i>s</i>* − <i>c</i> − <i>δ</i> minus the largest exploitability over the measured levels.</p>
+  <p lang="zh">通过全部层级的 benchmark 拿到了一份我们的攻击者都无法伪造的证书，115 个里有 38 个。幸存只说明它挡住了我们试过的攻击者，并不证明更多。它的<a href="#cards">报告卡</a>写明它离被攻破最近的是哪一层；如果某项能力需要最可靠的把关，可以按这个余量给同组的幸存者排序，余量是攻破门槛 <i>s</i>* − <i>c</i> − <i>δ</i> 减去各已测层级中最大的可利用度。</p>
   <figure class="vi-fig" id="f-rank">
     <div id="vi-rank"></div>
     <figcaption><b><span lang="en">Tables 34–37.</span><span lang="zh">表 34–37</span></b> <span lang="en">The ten strongest benchmarks of each capability group, ranked by breaking level and then by the margin below the breaking threshold (%).</span><span lang="zh">各能力组最强的十个 benchmark，先按被攻破层级、再按低于攻破门槛的余量（%）排序。</span></figcaption>

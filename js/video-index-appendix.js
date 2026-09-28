@@ -799,15 +799,24 @@
   /* ================= Tables 34 to 37: the strongest benchmarks of each group, side by side ================= */
   var RKT = [['34', 'Perception'], ['35', 'Temporal'], ['36', 'Spatial / physical'], ['37', 'Reasoning / knowledge']];
   var RKL = { 'Survives': ['unbroken', 'Survives', '幸存'], 'Option': ['option', 'Option', '选项'], 'Text': ['text', 'Text', '文本'], 'Pool': ['pool', 'Pool', '题库'], 'Frame': ['frame', 'Frame', '帧'], 'Order': ['order', 'Order', '顺序'] };
+  var RKC = { 'Perception': ['#4285f4', '#e8f0fe', '#1967d2'], 'Temporal': ['#0f9d58', '#e6f4ea', '#137333'],
+    'Spatial / physical': ['#db4437', '#fce8e6', '#c5221f'], 'Reasoning / knowledge': ['#f4b400', '#fef7e0', '#b06000'] };   /* colour, tint, ink */
   function rank(container) {
     clear(container);
     var grid = el('div', { class: 'vi-rank4' }, container);
     RKT.forEach(function (g) {
-      var col = el('div', { class: 'vi-rank4__col' }, grid);
-      el('div', { class: 'vi-rank4__head' }, col).innerHTML = '<i class="vi-legend__dot" style="background:' + GC[g[1]] + '"></i>' + esc(U.gName(g[1]));
-      var list = el('ol', { class: 'vi-rank4__list' }, col);
+      var c = RKC[g[1]], members = Object.keys(BY).map(function (n) { return BY[n]; }).filter(function (b) { return b.group === g[1]; });
+      var survivors = members.filter(function (b) { return b.level === 'unbroken'; });
+      var col = el('div', { class: 'vi-rank4__col', style: '--g:' + c[0] + ';--gt:' + c[1] + ';--gi:' + c[2] }, grid);
+      var head = el('div', { class: 'vi-rank4__head' }, col);
+      el('span', { class: 'vi-rank4__name' }, head, U.gName(g[1]));
+      el('span', { class: 'vi-rank4__count' }, head, t(survivors.length + ' of ' + members.length + ' survive', members.length + ' 个中 ' + survivors.length + ' 个幸存'));
+      var list = el('ol', { class: 'vi-rank4__list' }, col), shown = {};
       TB[g[0]].forEach(function (r, k) {
-        var item = el('li', { tabindex: '0' }, list, r[0]);
+        shown[r[0]] = true;
+        var item = el('li', { tabindex: '0', class: r[1] === 'Survives' ? '' : 'is-out' }, list);
+        el('span', { class: 'vi-rank4__n' }, item, String(k + 1));
+        el('span', { class: 'vi-rank4__b' }, item, r[0]);
         bindTip(item, function () {
           var b = BY[r[0]], lv = RKL[r[1]];
           return '<b>' + esc(r[0]) + '</b><br>' + t('Rank ' + (k + 1) + ' of the ten · margin ', '十个中排第 ' + (k + 1) + ' · 余量 ') + r[2].replace('-', '−') + '<br>' + U.chipHtml(lv[0]) +
@@ -815,6 +824,8 @@
               t('Reference ', '参照 ') + b.ref.toFixed(1) + '% · ' + t('chance ', '随机 ') + b.c.toFixed(1) + '%' : '');
         });
       });
+      var more = survivors.filter(function (b) { return !shown[b.name]; }).map(function (b) { return b.name; }).sort(function (x, y) { return x.toLowerCase() < y.toLowerCase() ? -1 : 1; });
+      if (more.length) { el('p', { class: 'vi-rank4__more' }, col, t('Also surviving: ', '另有幸存：') + more.join(t(', ', '、'))); }
     });
   }
 
