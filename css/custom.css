@@ -1630,6 +1630,15 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-clip__label { flex: none; height: 0; display: flex; align-items: center; gap: 8px; padding: 0 14px; overflow: hidden; font: 600 0.84rem/1 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--near-black); opacity: 0; transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s; }
 .vi-clip.is-open .vi-clip__label { height: 36px; opacity: 1; transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s 0.25s; }
 .vi-clip__label i { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+.vi-clip__q { flex: none; box-sizing: border-box; overflow: hidden; padding: 0 14px 14px; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--near-black); opacity: 0; transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s; }
+.vi-clip.is-open .vi-clip__q { opacity: 1; transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s 0.3s; }
+.post-body .vi-clip__q p { margin: 0 0 8px; font-size: 0.86rem; line-height: 1.45; }
+.post-body .vi-clip__q ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.post-body .vi-clip__q li { display: flex; gap: 8px; margin: 0; font-size: 0.8rem; line-height: 1.4; color: var(--text-sub); }
+.post-body .vi-clip__q li b { flex: none; width: 1em; font-weight: 600; color: var(--text-muted); }
+.post-body .vi-clip__q li.is-ans { color: var(--near-black); font-weight: 600; }
+.post-body .vi-clip__q li.is-ans b { color: #188038; }
+.post-body .vi-clip__q li.is-ans::after { content: "\2713"; color: #188038; margin-left: 2px; }
 
 /* a benchmark's ladder */
 .vi-ladder-svg { width: 100%; height: auto; display: block; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }

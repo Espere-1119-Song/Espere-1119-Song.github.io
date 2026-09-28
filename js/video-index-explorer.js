@@ -83,7 +83,19 @@
 
   /* ---------- Figure 1: a tile opens into a card playing an example of its benchmark, as in the overview video ---------- */
   var CLIP_DIR = '/images/blogs/video-index/clips/';
+  var CLIP_Q = /[?&]q=1(&|$)/.test(location.search);   /* ?q=1: the card also shows the item's question */
   var card = null;
+  function questionBlock(parent, clip) {
+    var box = el('div', { class: 'vi-clip__q' }, parent);
+    el('p', {}, box, clip.q);
+    var ol = el('ol', {}, box);
+    (clip.opts || []).forEach(function (o, j) {
+      var li = el('li', { class: j === clip.ans ? 'is-ans' : '' }, ol);
+      el('b', {}, li, String.fromCharCode(65 + j));
+      el('span', {}, li, String(o).replace(/^\(?[A-H][.):]\s*/, ''));
+    });
+    return box;
+  }
   function place(node, r) { node.style.left = r.x + 'px'; node.style.top = r.y + 'px'; node.style.width = r.w + 'px'; node.style.height = r.h + 'px'; }
   function closeClip(now) {
     var c = card;
@@ -92,6 +104,7 @@
     if (now) { c.node.parentNode.removeChild(c.node); return; }
     c.node.classList.remove('is-open');
     place(c.node, c.from);
+    if (c.qb) { c.qb.style.height = '0px'; }
     setTimeout(function () { if (c.node.parentNode) { c.node.parentNode.removeChild(c.node); } }, 480);
   }
   function openClip(wrap, f, rect, b, clip) {
@@ -103,26 +116,36 @@
     var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;   /* the mosaic, the union of the tiles */
     f.tiles.forEach(function (t0) { x0 = Math.min(x0, t0.box[0]); y0 = Math.min(y0, t0.box[1]); x1 = Math.max(x1, t0.box[0] + t0.box[2]); y1 = Math.max(y1, t0.box[1] + t0.box[3]); });
     x0 *= k; y0 *= k; x1 *= k; y1 *= k;
-    var LABEL = 36, pad = 6;
+    var LABEL = 36, pad = 6, withQ = CLIP_Q && clip.q;
     var w = Math.min((x1 - x0) * (wr.width < 600 ? 0.9 : 0.62), 600), h = w * clip.h / clip.w + LABEL;
     if (h > (y1 - y0) - 2 * pad) { h = (y1 - y0) - 2 * pad; w = (h - LABEL) * clip.w / clip.h; }
+    var qh = 0, bottom = y1;
+    if (withQ) {                                  /* the question under the video: measure it at the card's width */
+      var probe = el('div', { class: 'vi-clip', style: 'visibility:hidden;left:0;top:0;width:' + w + 'px;height:auto' }, wrap);
+      qh = questionBlock(probe, clip).offsetHeight;
+      wrap.removeChild(probe);
+      h += qh; bottom = wr.height;                /* it may reach over the chain below the mosaic */
+    }
     var cx = from.x + from.w / 2, cy = from.y + from.h / 2;
-    var to = { x: Math.max(x0 + pad, Math.min(cx - w / 2, x1 - pad - w)), y: Math.max(y0 + pad, Math.min(cy - h / 2, y1 - pad - h)), w: w, h: h };
-    var node = el('div', { class: 'vi-clip', role: 'dialog', 'aria-label': b.name }, wrap);
+    var to = { x: Math.max(x0 + pad, Math.min(cx - w / 2, x1 - pad - w)), y: Math.max(y0 + pad, Math.min(cy - h / 2, bottom - pad - h)), w: w, h: h };
+    var node = el('div', { class: 'vi-clip' + (withQ ? ' has-q' : ''), role: 'dialog', 'aria-label': b.name }, wrap);
     var media = el('div', { class: 'vi-clip__media' }, node);
     var v = el('video', { poster: CLIP_DIR + clip.poster, src: CLIP_DIR + clip.src, preload: 'auto', playsinline: '', loop: '', muted: '' }, media);
     v.muted = true;
     var label = el('div', { class: 'vi-clip__label' }, node);
     el('i', { style: 'background:' + GC[b.group] }, label);
     el('span', {}, label, b.name);
+    var qb = withQ ? questionBlock(node, clip) : null;
+    if (qb) { qb.style.height = '0px'; }
     place(node, from);
     node.getBoundingClientRect();                 /* start from the tile, then grow */
     node.classList.add('is-open');
     place(node, to);
+    if (qb) { qb.style.height = qh + 'px'; }
     var p = v.play();
     if (p && p.catch) { p.catch(function () {}); }
     node.addEventListener('click', function (ev) { ev.stopPropagation(); closeClip(false); });
-    card = { node: node, from: from, name: b.name, width: wrap.clientWidth };
+    card = { node: node, from: from, name: b.name, width: wrap.clientWidth, qb: qb };
   }
   document.addEventListener('click', function (ev) { if (card && !card.node.contains(ev.target)) { closeClip(false); } });
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { closeClip(false); } });
