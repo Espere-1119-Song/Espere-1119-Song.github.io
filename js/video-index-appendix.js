@@ -2,6 +2,8 @@
    (js/video-index-appendix-data.js) and the helpers that js/video-index-explorer.js shares as
    window.VI_UI, and mounts, where the page has the element:
      .vi-overlay[data-overlay="q1"]  Figure Q1: one benchmark's lines picked out across both panels
+     .vi-overlay[data-overlay="fig8"] Figure 8: each benchmark's better resolution and frame rate on hover
+     .vi-overlay[data-overlay="fig9"] Figure 9: one long-video benchmark followed across the frame budgets
      .vi-scatter[data-table]         Tables 7, 8, 14-15, 16, 17, 18 and 19 as scatter plots, with the table
      .vi-lines[data-table="20"]      Table 20 as one line per benchmark over the frame budgets, with the table
      #vi-dups, #vi-dupshare          Tables 11 and 12, with example questions for each duplicate flow
@@ -157,6 +159,88 @@
       restore();
     });
     restore();
+  }
+
+  /* ================= Figure 8: each benchmark's better settings on hover ================= */
+  var RESL = ['168 px', '224 px', '336 px', '448 px'], FPSL = ['0.25 fps', '0.5 fps', '1 fps', '2 fps'];
+  function argmax(vals) { var k = -1; vals.forEach(function (v, i) { if (v !== null && (k < 0 || v > vals[k])) { k = i; } }); return k; }
+  function ladderLine(vals, labels) {
+    return vals.map(function (v, i) { return labels[i] + ' ' + (v === null ? '–' : v.toFixed(1)); }).join(' · ');
+  }
+  function fig8Tip(it) {
+    var p = it.pix - it.frm, key = p >= 5 ? 'pixels' : p <= -5 ? 'frames' : 'within';
+    var verdict = { pixels: t('Pixels help more', '更多像素帮助更大'), frames: t('Frames help more', '更多帧帮助更大'), within: t('Pixels and frames help within 5 points of each other', '像素和帧数的帮助相差不到 5 个点') }[key];
+    var rl = RESL.concat([t('stored', '存储分辨率')]), br = argmax(it.res), bf = argmax(it.fps);
+    return '<b>' + esc(it.name) + '</b><br>' + dot(PREF[key][0]) + verdict + '<br>' +
+      t('Pixel gain ', '像素增益 ') + signed(it.pix, 1) + ' · ' + t('frame gain ', '帧数增益 ') + signed(it.frm, 1) +
+      '<span class="vi-tip__grid">' +
+      (br >= 0 ? '<span>' + t('Best resolution', '最好的分辨率') + '</span><b class="is-axis">' + rl[br] + ' · ' + it.res[br].toFixed(1) + '%</b>' : '') +
+      (bf >= 0 ? '<span>' + t('Best frame rate', '最好的帧率') + '</span><b class="is-axis">' + FPSL[bf] + ' · ' + it.fps[bf].toFixed(1) + '%</b>' : '') +
+      '</span><span class="vi-tip__note">' + ladderLine(it.res, rl) + '<br>' + ladderLine(it.fps, FPSL) + '</span>';
+  }
+  function figure8(wrap) {
+    var f = A.fig8;
+    if (!f) { return; }
+    var old = wrap.querySelector('svg.vi-overlay__svg');
+    if (old) { wrap.removeChild(old); }
+    var s = svg('svg', { viewBox: '0 0 ' + f.w + ' ' + f.h, preserveAspectRatio: 'none', class: 'vi-overlay__svg', 'aria-hidden': 'true' }, wrap);
+    var ring = svg('circle', { r: 3.4, class: 'vi-ring', visibility: 'hidden' }, s);
+    function mark(it) {
+      var x = it.dot ? it.dot[0] : it.tick[0], y = it.dot ? it.dot[1] : it.tick[1] - 1.6;
+      ring.setAttribute('cx', x); ring.setAttribute('cy', y); ring.setAttribute('visibility', 'visible');
+    }
+    function unmark() { ring.setAttribute('visibility', 'hidden'); }
+    var byName = {};
+    f.items.forEach(function (it) {
+      byName[it.name] = it;
+      var node = it.dot ? svg('circle', { cx: it.dot[0], cy: it.dot[1], r: 4.2, class: 'vi-hitmark' }, s)
+        : svg('rect', { x: it.tick[0] - 1.6, y: it.tick[1] - 2, width: 3.2, height: it.tick[2] - it.tick[1] + 4, class: 'vi-hitmark' }, s);
+      bindTip(node, function () { return fig8Tip(it); }, function () { mark(it); }, unmark);
+    });
+    f.labels.forEach(function (lb) {
+      var it = byName[lb.name];
+      if (!it) { return; }
+      var b = lb.box;
+      bindTip(svg('rect', { x: b[0] - 1, y: b[1] - 1, width: b[2] + 2, height: b[3] + 2, class: 'vi-hitmark' }, s), function () { return fig8Tip(it); }, function () { mark(it); }, unmark);
+    });
+  }
+
+  /* ================= Figure 9: follow one long-video benchmark across the budgets ================= */
+  var F9COL = ['#4285f4', '#db4437'];
+  function figure9(wrap) {
+    var f = A.fig9;
+    if (!f) { return; }
+    var old = wrap.querySelector('svg.vi-overlay__svg');
+    if (old) { wrap.removeChild(old); }
+    var s = svg('svg', { viewBox: '0 0 ' + f.w + ' ' + f.h, preserveAspectRatio: 'none', class: 'vi-overlay__svg', 'aria-hidden': 'true' }, wrap);
+    var hl = svg('g', {}, s), hits = svg('g', {}, s);
+    var GN9 = [t('Still gaining in reference', '参照模型仍在提高'), t('Remaining', '其余')];
+    var byBench = {};
+    f.dots.forEach(function (d) { (byBench[d[0]] = byBench[d[0]] || []).push(d); });
+    function show(name, group) {
+      clear(hl);
+      var ds = byBench[name].slice().sort(function (a, b) { return a[2] - b[2]; });
+      svg('polyline', { points: ds.map(function (d) { return d[4] + ',' + d[5]; }).join(' '), class: 'vi-f9-line', stroke: F9COL[group] }, hl);
+      ds.forEach(function (d) { svg('circle', { cx: d[4], cy: d[5], r: 2.2, fill: F9COL[group], class: 'vi-f9-dot' }, hl); });
+    }
+    function tipFor(d) {
+      var ys = f.curves[d[0]];
+      return '<b>' + esc(d[0]) + '</b><br>' + dot(F9COL[d[1]]) + GN9[d[1]] + '<span class="vi-tip__grid">' + f.budgets.map(function (bud, k) {
+        var cls = k === d[2] ? ' class="is-axis"' : '';
+        return '<span' + cls + '>' + bud + t(' frames', ' 帧') + '</span><b' + cls + '>' + (ys[k] === null ? '–' : ys[k].toFixed(1) + '%') + '</b>';
+      }).join('') + '</span>';
+    }
+    f.bars.forEach(function (b) {
+      var x = b[6], top = b[7], bottom = b[9];
+      var node = svg('rect', { x: x - 4, y: Math.min(top, b[11]) - 3, width: 8, height: Math.max(bottom, b[11]) - Math.min(top, b[11]) + 6, class: 'vi-hitmark' }, hits);
+      bindTip(node, function () {
+        return '<b>' + GN9[b[0]] + ' · ' + f.budgets[b[1]] + t(' frames', ' 帧') + '</b><br>' + b[2] + t(' benchmarks', ' 个 benchmark') +
+          '<span class="vi-tip__grid"><span>' + t('Mean', '均值') + '</span><b class="is-axis">' + b[3].toFixed(1) + '%</b><span>Q1–Q3</span><b>' + b[4].toFixed(1) + '–' + b[5].toFixed(1) + '%</b></span>';
+      });
+    });
+    f.dots.forEach(function (d) {
+      bindTip(svg('circle', { cx: d[4], cy: d[5], r: 2.6, class: 'vi-hitmark' }, hits), function () { return tipFor(d); }, function () { show(d[0], d[1]); }, function () { clear(hl); });
+    });
   }
 
   /* ================= Tables as scatter plots ================= */
@@ -734,6 +818,8 @@
   function each(sel, fn) { Array.prototype.forEach.call(root.querySelectorAll(sel), fn); }
   function mountAll() {
     each('.vi-overlay[data-overlay="q1"]', figureQ1);
+    each('.vi-overlay[data-overlay="fig8"]', figure8);
+    each('.vi-overlay[data-overlay="fig9"]', figure9);
     each('.vi-scatter[data-table]', scatter);
     each('.vi-lines[data-table="20"]', lines20);
     each('#vi-dups', dups);

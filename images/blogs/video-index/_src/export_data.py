@@ -6,11 +6,12 @@ fallback, data/pool_summary.csv for item counts, data/meta_census_hard_v6.json f
 and writes js/video-index-data.js, a script that sets window.VI_DATA. The checks at the end reproduce
 the paper's counts (breaking levels, release years, capability groups) before anything is written.
 
-It also records where each piece of the paper's Figures 1, 6 and 7 sits, in PDF points from the top
-left of the page, so the post can lay hover regions over the paper's own figures. Figure 1's tiles and
-chain come from running figs/scripts/fig_teaser_treemap.py with saving disabled; the bars of Figures 6
-and 7 are read from figs/fig_f0_funnel.pdf and figs/fig_f3_claims.pdf. Both are checked against the
-PDFs and the data before anything is written.
+It also records where each piece of the post's Figures 1, 6 and 7 sits, in PDF points from the top
+left of the page, so the post can lay hover regions over the figures. Figure 1's tiles and chain come
+from running figs/scripts/fig_teaser_treemap.py with saving disabled; the bars of Figure 7 are read from
+figs/fig_f3_claims.pdf, and those of Figure 6 from a render of fig06_year_counts.py (the paper's
+fig_f0_funnel.py with the release years in counts), as render_plain_figures.py renders it. All are
+checked against the PDFs and the data before anything is written.
 
 Usage: python3 export_data.py <paper repo>
 """
@@ -22,12 +23,14 @@ import json
 import re
 import runpy
 import sys
+import tempfile
 from pathlib import Path
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.figure     # noqa: E402
 import pymupdf as fitz       # noqa: E402
+from PIL import Image        # noqa: E402
 
 REPO = Path(sys.argv[1] if len(sys.argv) > 1 else Path.home() / 'Downloads/apex_paper').resolve()
 SITE = Path(__file__).resolve().parents[4]
@@ -197,8 +200,22 @@ def check_shares(row, members, label):
         assert abs(r.width / total - counts[lv] / len(members)) < 0.01, (label, lv)
 
 
+def check_counts(row, members, label, unit):
+    """As check_shares, for a bar whose length is its count of benchmarks (unit = points per benchmark)."""
+    counts = collections.Counter(b['level'] for b in members)
+    levels = [lv for _, lv, _ in row]
+    assert levels == [lv for lv in ORDER6 if counts[lv]], (label, levels, counts)
+    for _, lv, r in row:
+        assert abs(r.width / unit - counts[lv]) < 0.05, (label, lv, r.width / unit, counts[lv])
+
+
 def figure6_regions():
-    page, rects = pdf_rects(REPO / 'figs' / 'fig_f0_funnel.pdf')
+    # the post's Figure 6 (fig06_year_counts.py: the paper's script with the release years in counts), rendered
+    # as render_plain_figures.py renders it for the post, so the regions fit the image the post shows
+    from render_plain_figures import render
+    page, rects = pdf_rects(render(Path(__file__).resolve().parent / 'fig06_year_counts.py', Path(tempfile.mkdtemp(prefix='fig6_'))))
+    png = Image.open(Path(__file__).resolve().parents[1] / 'paper' / 'fig06_year_counts.png')
+    assert abs(png.size[0] / 380 * 72 - page.width) < 0.5 and abs(png.size[1] / 380 * 72 - page.height) < 0.5, (png.size, page)
     mid = page.width / 2
     funnel, years = [], []
     left = bar_rows(rects, 0, mid)
@@ -214,9 +231,11 @@ def figure6_regions():
     right = bar_rows(rects, mid, page.width)
     labels = ['≤ 2023', '2024', '2025', '2026']
     assert len(right) == 4, len(right)
+    members_of = {label: [b for b in rows if ('≤ 2023' if b['year'] <= 2023 else str(b['year'])) == label] for label in labels}
+    unit = sum(r.width for _, _, r in right[labels.index('2025')]) / len(members_of['2025'])
     for label, row in zip(labels, right):
-        members = [b for b in rows if ('≤ 2023' if b['year'] <= 2023 else str(b['year'])) == label]
-        check_shares(row, members, label)
+        members = members_of[label]
+        check_counts(row, members, label, unit)
         years.extend({'year': label, 'level': lv, 'box': pt_box(r)} for _, lv, r in row)
     return {'w': round(page.width, 2), 'h': round(page.height, 2), 'funnel': funnel, 'years': years}
 

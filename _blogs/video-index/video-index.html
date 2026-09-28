@@ -7,10 +7,10 @@ tags: [research]
 cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
-  - /js/video-index-data.js?v=20260926c
+  - /js/video-index-data.js?v=20260927vi1
   - /js/video-index-explorer.js?v=20260927vi5
-  - /js/video-index-appendix-data.js?v=20260926g
-  - /js/video-index-appendix.js?v=20260927vi1
+  - /js/video-index-appendix-data.js?v=20260927vi1
+  - /js/video-index-appendix.js?v=20260927vi2
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -126,10 +126,9 @@ js:
     <p lang="en">Among releases through 2024, 19% break before any visual input; among releases in 2025 and 2026, 34% do. The rise comes from the text and pool levels, where the newer releases hold 17 of the 18 breaks. A blind reader breaks 12 of the 89 newer benchmarks and 1 of the 26 older ones, mostly by coming within tolerance of a reference that scores far above chance. The option level breaks a similar share in both periods, 4 older and 13 newer benchmarks, especially where reference accuracy approaches chance. Recent benchmarks use language models to generate or refine questions and answers, which can leave the answer recoverable from the text alone.</p>
     <p lang="zh">2024 年及以前发布的 benchmark 里，19% 在看到任何画面之前就被攻破；2025 和 2026 年发布的里，这个比例是 34%。增量来自文本层和题库层，这两层的 18 次攻破里有 17 次落在新发布的 benchmark 上。盲读模型攻破了 89 个新 benchmark 里的 12 个，26 个老 benchmark 里的 1 个，多数情况是参照模型远高于随机水平，而盲读模型追到了容差之内。选项层在两个时期攻破的比例相近，老的 4 个、新的 13 个，多发生在参照模型接近随机水平的 benchmark 上。近期的 benchmark 用语言模型生成或润色问题和答案，这可能让答案单靠文字就能推出来。</p>
     <figure class="vi-fig" id="f-year">
-      <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year_plain.png" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year with the share breaking before video: 17 percent for 2023 and earlier, 20 percent for 2024, 39 percent for 2025, 26 percent for 2026."></div>
-      <figcaption><b><span lang="en">Figure 6.</span><span lang="zh">图 6</span></b> <span lang="en"><b>Newer benchmarks break earlier.</b> Left, benchmarks that reach and break at each level. Right, breaking levels by release year, with the share breaking before visual input in red.</span><span lang="zh"><b>越新的 benchmark 越早被攻破。</b>左图，到达并在每一层被攻破的 benchmark。右图，按发布年份的被攻破层级，红色为看到画面之前就被攻破的比例。</span></figcaption>
+      <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year_counts.png" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year, each as long as the year's releases: 6 for 2023 and earlier, 20 for 2024, 54 for 2025 and 35 for 2026, of which 17, 20, 39 and 26 percent break before video."></div>
+      <figcaption><b><span lang="en">Figure 6.</span><span lang="zh">图 6</span></b> <span lang="en"><b>Newer benchmarks break earlier.</b> Left, benchmarks that reach and break at each level. Right, breaking levels by release year, each bar as long as the year's releases, with breaks before visual input in red.</span><span lang="zh"><b>越新的 benchmark 越早被攻破。</b>左图，到达并在每一层被攻破的 benchmark。右图，按发布年份的被攻破层级，条形长度为当年发布的 benchmark 数，红色为看到画面之前就被攻破的部分。</span></figcaption>
     </figure>
-
   </section>
 
   <section id="claims">
@@ -147,26 +146,15 @@ js:
     <p lang="en">Additional visual input can supply finer spatial detail or denser temporal coverage, and we asked which helps more. On the benchmarks that pass the pool level, Qwen3-VL-8B reads 32 frames at short sides of 168, 224, 336, and 448 pixels and at the stored resolution. It then reads 224-pixel frames sampled at 0.25, 0.5, 1, and 2 frames per second within its context. 11 benchmarks favor pixels, 3 favor frames, and the two gains differ by less than the tolerance on the rest. Resolution recovers small details in slides, endoscopy, and synthetic artifacts, and denser sampling catches brief events that sparse sampling misses.</p>
     <p lang="zh">额外的视觉输入可以提供更细的空间细节，也可以提供更密的时间覆盖，我们想知道哪一种帮助更大。在通过题库层的 benchmark 上，Qwen3-VL-8B 先以 168、224、336、448 像素的短边以及存储分辨率各读 32 帧，再在上下文允许的范围内以每秒 0.25、0.5、1、2 帧读 224 像素的帧。11 个 benchmark 更受益于像素，3 个更受益于帧数，其余的两种增益相差不到容差。分辨率找回幻灯片、内窥镜和合成瑕疵里的小细节，更密的采样抓住稀疏采样漏掉的短暂事件。</p>
     <figure class="vi-fig" id="f-budget">
-      <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig08_frames_pixels.png" alt="A density curve of pixel gain minus frame gain with named dots for benchmarks; three sit on the frames side and eleven on the pixels side.">
+      <div class="vi-overlay vi-fig__img" data-overlay="fig8"><img src="/images/blogs/video-index/paper/fig08_frames_pixels.png" alt="A density curve of pixel gain minus frame gain with named dots for benchmarks; three sit on the frames side and eleven on the pixels side."></div>
       <figcaption><b><span lang="en">Figure 8.</span><span lang="zh">图 8</span></b> <span lang="en"><b>Eleven benchmarks gain more from pixels and three from frames.</b> The curve is the density of pixel gain minus frame gain, and dots mark survivors with both ladders.</span><span lang="zh"><b>11 个 benchmark 更受益于像素，3 个更受益于帧数。</b>曲线是像素增益减去帧数增益的密度，圆点标出两条阶梯都跑过的幸存者。</span></figcaption>
     </figure>
 
-    <figure class="vi-fig" id="f-q1">
-      <div class="vi-overlay vi-fig__img" data-overlay="q1"><img src="/images/blogs/video-index/paper/figQ1_frames_pixels.png" alt="Two panels with one line per benchmark, each centred on its mean accuracy: left, accuracy against the short side of the 32 frames from 168 pixels to the stored resolution; right, accuracy against 0.25 to 2 frames per second at 224 pixels. Blue lines gain more from frames, red lines from pixels, and grey lines are within 5 points."></div>
-      <figcaption><b><span lang="en">Figure Q1.</span><span lang="zh">图 Q1</span></b> <span lang="en">Resolution and frame-rate effects, centered on each benchmark's mean accuracy.</span><span lang="zh">分辨率与帧率的影响，以各 benchmark 的平均准确率为中心。</span></figcaption>
-    </figure>
     <p lang="en">Long videos want more frames. Among the 30 benchmarks whose videos average at least 300 seconds, 18 gain at least 5 points from larger frame budgets in the reference sweep. Nine still gain at its 600-frame limit. In a diagnostic sweep at 224 pixels, only LongTimeScope and TimeScope keep improving at 1024 frames. Since the observed gains also depend on the reference model's long-context ability, other benchmarks may still place high demands on processing events across long time spans.</p>
     <p lang="zh">长视频需要更多帧。视频平均时长不低于 300 秒的 30 个 benchmark 里，18 个在参照模型的扫描中随帧预算增加至少提高 5 个点，9 个到它 600 帧的上限时仍在提高。在 224 像素的诊断扫描里，只有 LongTimeScope 和 TimeScope 在 1024 帧时仍在提高。观察到的增益也取决于参照模型的长上下文能力，所以其他 benchmark 仍可能对跨越长时间跨度的事件处理提出很高的要求。</p>
     <figure class="vi-fig" id="f-longvideo">
-      <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig09_longvideo.png" alt="Left, accuracy across frame budgets for 30 long-video benchmarks with means and quartiles, blue where the reference still gains at 600 frames. Right, the six largest gains from 512 to 1024 frames, led by LongTimeScope and TimeScope.">
-      <figcaption><b><span lang="en">Figure 9.</span><span lang="zh">图 9</span></b> <span lang="en"><b>Most long videos gain from larger budgets.</b> Left, scores per budget with means and quartiles, blue if the reference still gains at 600 frames. Right, the six largest gains, 512 to 1024.</span><span lang="zh"><b>大多数长视频受益于更大的帧预算。</b>左图，各帧预算下的分数及均值和四分位数，参照模型在 600 帧时仍在提高的标为蓝色。右图，512 到 1024 帧增益最大的六个。</span></figcaption>
-    </figure>
-
-    <p lang="en">Table 20 gives the reference sweep of Claude Opus 5 on the long-video set, with the same items, prompt, and scorer and uniform frames over the whole video. Median frames is the median number of frames sent at the largest budget that ran, since a video holds at most 1,024 stored frames and short videos send every frame once. Saturation is the first budget within 5% of the maximum over the budgets that ran.</p>
-    <p lang="zh">表 20 是 Claude Opus 5 在长视频集合上的参照扫描，题目、提示词和评分方式都相同，帧在整段视频上均匀采样。帧数中位数是实际跑过的最大预算下发送帧数的中位数，因为一段视频最多存储 1,024 帧，短视频每帧只发送一次。饱和点是第一个落在各预算最大值 5% 以内的预算。</p>
-    <figure class="vi-fig" id="f-t20">
-      <div class="vi-lines" data-table="20"></div>
-      <figcaption><b><span lang="en">Table 20.</span><span lang="zh">表 20</span></b> <span lang="en">Long-video accuracy (%) at 32, 128, 512, and 600 frames with Claude Opus 5.</span><span lang="zh">Claude Opus 5 在 32、128、512 和 600 帧下的长视频准确率（%）。</span></figcaption>
+      <div class="vi-overlay vi-fig__img" data-overlay="fig9"><img src="/images/blogs/video-index/paper/fig09_longvideo_left.png" alt="Accuracy of 30 long-video benchmarks at frame budgets of 32, 128, 512 and 1024, with group means and quartiles: blue for the 9 where the reference still gains at 600 frames, red for the other 21."></div>
+      <figcaption><b><span lang="en">Figure 9.</span><span lang="zh">图 9</span></b> <span lang="en"><b>Most long videos gain from larger budgets.</b> Scores per budget with means and quartiles, blue if the reference still gains at 600 frames.</span><span lang="zh"><b>大多数长视频受益于更大的帧预算。</b>各帧预算下的分数及均值和四分位数，参照模型在 600 帧时仍在提高的标为蓝色。</span></figcaption>
     </figure>
   </section>
 

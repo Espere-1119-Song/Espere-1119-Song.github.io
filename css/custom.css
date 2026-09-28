@@ -1719,6 +1719,11 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-q1__hit { fill: none; stroke: transparent; stroke-width: 9px; vector-effect: non-scaling-stroke; pointer-events: stroke; cursor: pointer; }
 .vi-q1__box { fill: transparent; cursor: pointer; }
 .vi-q1__box:hover { fill: rgba(32, 33, 36, 0.06); }
+/* Figures 8 and 9: marks to hover, the hovered benchmark picked out */
+.vi-hitmark { fill: transparent; stroke: none; cursor: default; }
+.vi-ring { fill: none; stroke: #202124; stroke-width: 1.4px; vector-effect: non-scaling-stroke; pointer-events: none; }
+.vi-f9-line { fill: none; stroke-width: 1.6px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.vi-f9-dot { stroke: #fff; stroke-width: 0.8px; vector-effect: non-scaling-stroke; pointer-events: none; }
 
 /* the sampled items of Appendix D */
 .post-body .vi-qual-lead { margin-bottom: 8px; }

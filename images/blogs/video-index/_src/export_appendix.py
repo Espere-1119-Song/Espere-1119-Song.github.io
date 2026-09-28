@@ -3,7 +3,8 @@
 Reads the paper repository's presentation tables (fig_tex/presentation/*.tex) for Tables 7, 8, 11, 12,
 14 to 20, 34 to 38 and 48 to 50, runs figs/scripts/fig_f9_frames_pixels_panels.py (Figure Q1) with its
 output sent to a temporary folder to record where each benchmark's line sits in the paper's figure,
-lists the report cards of Appendix X, and adds example question pairs to the duplicate flows of Table 11
+records Figure 8's dots and ticks and the dots of the post's one-panel Figure 9 (fig09_longvideo_left.py)
+for hover regions, lists the report cards of Appendix X, and adds example question pairs to the duplicate flows of Table 11
 from dup_examples.json (exp/results/duplicates_detail.jsonl on the cluster, summarised by dup_examples.py).
 Writes js/video-index-appendix-data.js, which sets window.VI_APPX.
 
@@ -26,6 +27,7 @@ from pathlib import Path
 
 import matplotlib
 matplotlib.use('Agg')
+import numpy as np  # noqa: E402
 import pymupdf as fitz       # noqa: E402
 
 REPO = Path(sys.argv[1] if len(sys.argv) > 1 else Path.home() / 'Downloads/apex_paper').resolve()
@@ -275,6 +277,102 @@ def figure_q1():
     return {'w': round(W, 2), 'h': round(H, 2), 'axes': axes, 'legend': legend, 'labels': labels, 'lines': lines}
 
 
+
+# --- Figure 8: each benchmark's better settings, over the paper's own figure -------------------------------
+def figure8_regions():
+    """Run figs/scripts/fig_f9_frames_pixels.py with its output sent to a temporary folder for its data, and read
+    the dots (the survivors) and the rug ticks (the other benchmarks) from the paper's PDF, matched in x order."""
+    import _figure_header
+    save = _figure_header.save_with_header_spacing
+    tmp = Path(tempfile.mkdtemp(prefix='fig8_'))
+    _figure_header.save_with_header_spacing = lambda fig, path, **k: save(fig, tmp / Path(path).name, **k)
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            g = runpy.run_path(str(SCRIPTS / 'fig_f9_frames_pixels.py'), run_name='fig8_capture')
+    finally:
+        _figure_header.save_with_header_spacing = save
+    rows, Pc, surv, reg = g['rows'], g['Pc'], g['surv'], g['reg']
+    assert not g['PROV'], 'Figure 8 is on the provisional two-rung data'
+    fp = {r['benchmark']: r for r in csv.DictReader(l for l in open(REPO / 'data' / 'frames_pixels.csv', encoding='utf-8') if not l.startswith('#'))}
+
+    def acc(r, k):
+        v = r.get(k, '')
+        return None if v in ('', 'NA') else round(float(v) * 100, 1)
+    page = fitz.open(REPO / 'figs' / 'fig_f9_frames_pixels.pdf')[0]
+    dots, ticks = [], []
+    for d in page.get_drawings():
+        r, kinds = d['rect'], [it[0] for it in d['items']]
+        if d.get('fill') and 'c' in kinds and r.width < 6 and r.height < 6:
+            dots.append((round((r.x0 + r.x1) / 2, 2), round((r.y0 + r.y1) / 2, 2)))
+        elif d['type'] == 's' and kinds == ['l'] and r.width < 0.01 and 0.5 < r.height < 6 and abs((d.get('width') or 0) - 0.8) < 0.01:
+            ticks.append((round(r.x0, 2), round(r.y0, 2), round(r.y1, 2)))
+    others = sorted((i for i in range(len(rows)) if i not in set(surv)), key=lambda i: Pc[i])
+    assert len(dots) == len(surv) and len(ticks) == len(others), (len(dots), len(surv), len(ticks), len(others))
+    dots.sort(); ticks.sort()
+    # x grows linearly with the plotted value, so matched in order every mark sits where its value maps (0.3 pt)
+    xs = [x for x, *_ in dots] + [x for x, *_ in ticks]
+    vs = [float(Pc[i]) for i in surv] + [float(Pc[i]) for i in others]
+    slope, icept = np.polyfit(vs, xs, 1)
+    worst = max(abs(x - (slope * v + icept)) for x, v in zip(xs, vs))
+    assert worst < 0.3, ('Figure 8 marks off their values by', worst)
+    items = []
+
+    def item(i, **where):
+        b, pix, frm = rows[i]
+        r = fp[b]
+        items.append(dict(name=reg.get(b, {}).get('short_name', b), pix=round(pix, 1), frm=round(frm, 1),
+                          res=[acc(r, k) for k in ('acc_s168', 'acc_s224', 'acc_s336', 'acc_s448', 'acc_store')],
+                          fps=[acc(r, k) for k in ('acc_fps025', 'acc_fps05', 'acc_fps1', 'acc_fps2')], **where))
+    for (x, y), i in zip(dots, surv):
+        item(i, dot=[x, y])
+    for (x, y0, y1), i in zip(ticks, others):
+        item(i, tick=[x, y0, y1])
+    for it in items:                                             # the gains follow from the ladders, as the paper defines them
+        res, fps = [v for v in it['res'] if v is not None], it['fps']
+        if res and it['res'][0] is not None:
+            assert abs(max(res) - it['res'][0] - it['pix']) < 0.2, (it['name'], it['pix'], it['res'])
+        if fps[0] is not None and fps[-1] is not None:
+            assert abs(fps[-1] - fps[0] - it['frm']) < 0.2, (it['name'], it['frm'], fps)
+    labels = []
+    for it in items[:len(dots)]:
+        hits = page.search_for(it['name'])
+        if hits:
+            assert len(hits) == 1, (it['name'], hits)
+            h = hits[0]
+            labels.append({'name': it['name'], 'box': [round(h.x0, 2), round(h.y0, 2), round(h.width, 2), round(h.height, 2)]})
+    return {'w': round(page.rect.width, 2), 'h': round(page.rect.height, 2), 'items': items, 'labels': labels}
+
+
+# --- Figure 9: the post's one-panel version, with each benchmark's dots --------------------------------------
+def figure9_regions():
+    from render_plain_figures import render
+    tmp = Path(tempfile.mkdtemp(prefix='fig9_'))
+    pdf = render(HERE / 'fig09_longvideo_left.py', tmp)
+    side = json.loads((tmp / 'fig09_longvideo_left.json').read_text())
+    page = fitz.open(pdf)[0]
+    from PIL import Image
+    png = Image.open(HERE.parent / 'paper' / 'fig09_longvideo_left.png')
+    assert abs(png.size[0] / 380 * 72 - page.rect.width) < 0.5 and abs(png.size[1] / 380 * 72 - page.rect.height) < 0.5, (png.size, page.rect)
+    assert abs(page.rect.width - side['w']) < 0.1 and abs(page.rect.height - side['h']) < 0.1, (page.rect, side['w'], side['h'])
+    marks = []
+    for d in page.get_drawings():
+        r = d['rect']
+        if d.get('fill') and r.width < 8 and r.height < 8:          # benchmark dots (2.6 pt) and means (6 pt)
+            marks.append(((r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2))
+    for dot in side['dots'] + side['bars']:
+        x, y = dot['at']
+        assert any(abs(x - a) < 0.35 and abs(y - b) < 0.35 for a, b in marks), ('no drawn marker at', dot)
+    names = side['names']
+    assert all(n in NAMES for n in names.values()), [n for n in names.values() if n not in NAMES]
+    return {'w': side['w'], 'h': side['h'], 'groups': side['groups'], 'budgets': side['budgets'],
+            'curves': {names[b]: ys for b, ys in side['curves'].items()},
+            'dots': [[names[d['bench']], d['group'], side['budgets'].index(d['budget']), round(d['value'], 1)] + d['at'] for d in side['dots']],
+            'bars': [[b['group'], side['budgets'].index(b['budget']), b['n'], round(b['mean'], 1), round(b['q1'], 1), round(b['q3'], 1)] + b['top'] + b['bottom'] + b['at'] for b in side['bars']]}
+
+
+FIG8 = figure8_regions()
+FIG9 = figure9_regions()
+
 Q1 = figure_q1()
 assert len(Q1['lines']) == 57, len(Q1['lines'])      # "57 have both ladders" (Appendix Q)
 
@@ -286,7 +384,7 @@ missing = [n for n in card_names if not (CARDS / (slug(n) + '.png')).exists()]
 assert not missing, 'run render_report_cards.py first: ' + ', '.join(missing[:5])
 cards = [{'name': n, 'file': slug(n) + '.png'} for n in sorted(card_names, key=str.lower)]
 
-out = {'tables': {str(k): v for k, v in T.items()}, 'q1': Q1, 'cards': cards}
+out = {'tables': {str(k): v for k, v in T.items()}, 'q1': Q1, 'fig8': FIG8, 'fig9': FIG9, 'cards': cards}
 OUT.write_text('/* Generated by images/blogs/video-index/_src/export_appendix.py from the Video-Index paper; do not edit. */\n'
                'window.VI_APPX = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n', encoding='utf-8')
 print('wrote', OUT.relative_to(SITE), f'{OUT.stat().st_size / 1024:.0f} KB')
