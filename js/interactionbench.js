@@ -85,11 +85,14 @@
 
   /* ------------------------------------------------ scoring: the formulas */
   (function formulas() {
+    // The site loads KaTeX's stylesheet and fonts; the standalone page cannot, so it asks for MathML,
+    // which browsers draw without them.
+    var OUTPUT = 'htmlAndMathml';
     var nodes = document.querySelectorAll('#scoring [data-tex]');
     Array.prototype.forEach.call(nodes, function (el) {
       var tex = el.getAttribute('data-tex');
       if (window.katex) {
-        try { window.katex.render(tex, el, { displayMode: el.classList.contains('ib-eq'), throwOnError: false }); return; } catch (e) { /* fall through to the source */ }
+        try { window.katex.render(tex, el, { displayMode: el.classList.contains('ib-eq'), throwOnError: false, output: OUTPUT }); return; } catch (e) { /* fall through to the source */ }
       }
       el.textContent = tex;
     });
