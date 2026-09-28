@@ -1,4 +1,5 @@
-"""The overview video of the Video-Index post: seven short scenes drawn with matplotlib and piped to
+"""The post no longer uses this video: since 2026-09-27 overview.mp4 is a video the author supplied (poster: its frame at 3 s).
+The overview video of the Video-Index post: seven short scenes drawn with matplotlib and piped to
 ffmpeg (H.264, 1920 x 1080, 30 fps, 41.5 seconds), plus a poster frame.
 
 Every number is transcribed from the paper (Sections 1, 3, 4 and 5, Table 1). The look follows the
