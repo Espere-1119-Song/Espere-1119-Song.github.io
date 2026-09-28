@@ -33,7 +33,7 @@
     DATA.cases.forEach(function (row) {
       var block = h('div', { 'class': 'ib-vblock' });
       var grid = h('div', { 'class': 'ib-grid' });
-      grid.appendChild(h('div', { 'class': 'ib-task ib-spacer' }, '<b>' + esc(row.group) + '</b>' + esc(row.gloss) + ' ' + esc(row.silence)));
+      block.appendChild(h('p', { 'class': 'ib-vhead' }, '<b>' + esc(row.group) + '</b>' + esc(row.gloss) + ' ' + esc(row.silence)));
       var vid = h('video', { 'class': 'ib-video', controls: '', playsinline: '', preload: 'metadata', poster: FRAMES + row.poster, 'aria-label': row.title });
       vid.muted = true;
       vid.appendChild(h('source', { src: VIDS + row.video, type: 'video/mp4' }));
