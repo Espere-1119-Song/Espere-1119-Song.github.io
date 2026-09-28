@@ -568,7 +568,7 @@
   }
 
   /* ================= Tables 11 and 12: duplicate flows and their example questions ================= */
-  var dupSel = 0;                      /* the Table 11 flow whose questions show under the heat map */
+  var dupSel = null;                   /* the Table 11 flow whose questions show under the heat map; none at first */
   function examples(panel, r) {
     clear(panel);
     var head = el('p', { class: 'vi-dupex__head' }, panel);
@@ -611,12 +611,12 @@
       bindTip(th, function () { return '<b>' + c + '</b> ' + esc(names[k]); });
     });
     var tbody = el('tbody', {}, tb), linked = [];
-    var panel = el('div', { class: 'vi-dupex', 'aria-live': 'polite' }, container);
-    function pick(k) {
-      dupSel = k;
-      linked.forEach(function (td) { td.classList.toggle('is-selected', +td.getAttribute('data-flow') === k); });
-      examples(panel, TB['11'][k]);
+    var panel = el('div', { class: 'vi-dupex', 'aria-live': 'polite', hidden: '' }, container);
+    function apply() {
+      linked.forEach(function (td) { td.classList.toggle('is-selected', dupSel !== null && +td.getAttribute('data-flow') === dupSel); });
+      if (dupSel === null) { clear(panel); panel.setAttribute('hidden', ''); } else { panel.removeAttribute('hidden'); examples(panel, TB['11'][dupSel]); }
     }
+    function pick(k) { dupSel = dupSel === k ? null : k; apply(); }      /* a second click on the flow folds it away */
     d.rows.forEach(function (r) {
       var row = el('tr', {}, tbody);
       el('th', { class: 'row', scope: 'row' }, row, r[0]);
@@ -638,7 +638,7 @@
         });
       });
     });
-    pick(dupSel);
+    apply();
   }
 
   /* ================= Tables 34 to 37: the strongest benchmarks of each group ================= */
