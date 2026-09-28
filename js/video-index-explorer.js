@@ -340,12 +340,6 @@
         el('td', {}, trr, label);
         cols.slice(1).forEach(function (c) {
           var td = el('td', { class: 'n' + (c[0] === metric ? ' is-metric' : '') }, trr);
-          if (c[0] === metric) {
-            var track = el('span', { class: 'vi-rbar-track' }, td);
-            var fill = el('i', { class: 'vi-rbar' }, track);
-            fill.style.width = '0%';
-            requestAnimationFrame(function () { requestAnimationFrame(function () { fill.style.width = r[c[0]] + '%'; }); });
-          }
           var v = el('span', { class: 'vi-rval' }, td, r[c[0]].toFixed(1));
           if (r[c[0]] === best[c[0]]) { v.classList.add('is-best'); }
         });
