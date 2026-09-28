@@ -8,9 +8,9 @@ cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260926c
-  - /js/video-index-explorer.js?v=20260927vi3
+  - /js/video-index-explorer.js?v=20260927vi5
   - /js/video-index-appendix-data.js?v=20260926g
-  - /js/video-index-appendix.js?v=20260926g
+  - /js/video-index-appendix.js?v=20260927vi1
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -51,8 +51,6 @@ js:
         <li><a href="#results"><span lang="en">Results</span><span lang="zh">结果</span></a></li>
         <li><a href="#agents"><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></a></li>
       </ol></li>
-    <li><a href="#related"><span lang="en">Related work</span><span lang="zh">相关工作</span></a></li>
-    <li><a href="#takeaways"><span lang="en">Takeaways</span><span lang="zh">核心结论</span></a></li>
     <li><a href="#notes"><span lang="en">References</span><span lang="zh">参考文献</span></a></li>
     <li><a href="#cite">Citation</a></li>
   </ol>
@@ -67,7 +65,6 @@ js:
 
 <figure class="vi-fig" id="f-screening">
   <div class="vi-overlay" data-overlay="fig1"><img src="/images/blogs/video-index/paper/fig01_screening.png" alt="A mosaic of 115 benchmark tiles colored by capability group, and below it a chain of eleven screening stages from 505,518 items to the 840 of Video-Index."></div>
-  <p class="vi-hint"><span lang="en">Hover a tile for its audit record, or click it to open it in the benchmark table further down.</span><span lang="zh">悬停一块查看它的审计记录，点击在后文的 benchmark 表格中打开。</span></p>
   <figcaption><b><span lang="en">Figure 1.</span><span lang="zh">图 1</span></b> <span lang="en"><b>Video-Index.</b> We sample 840 problems from the 505,518 in the 115 video benchmarks.</span><span lang="zh"><b>Video-Index。</b>我们从 115 个视频 benchmark 的 505,518 道题中选出 840 道。</span></figcaption>
 </figure>
 
@@ -97,7 +94,6 @@ js:
         <div class="vi-pyr__lvl vi-pyr__lvl--5" data-level="order"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth. Gemini 3.5 Flash and Qwen3-VL-8B.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。Gemini 3.5 Flash 和 Qwen3-VL-8B。</p></div>
         <div class="vi-pyr__lvl vi-pyr__lvl--6" data-level="unbroken"><i><span lang="en">After level 5</span><span lang="zh">第 5 层之后</span></i><b><span lang="en">Unbroken</span><span lang="zh">未攻破</span></b><p lang="en">Survives every level.</p><p lang="zh">五层都挡住了。</p></div>
       </div>
-      <p class="vi-hint"><span lang="en">Hover a level for the benchmarks that reach it and break there.</span><span lang="zh">悬停在一层上查看到达这一层和在这一层被攻破的 benchmark。</span></p>
       <figcaption><span lang="en">The attack pyramid. Each level adds access to the item, and the cumulative exploitability over the five levels never decreases. The steps shrink with the benchmarks that break at each level.</span><span lang="zh">攻击金字塔。每一层增加一点对题目的访问权限，五层累计的可利用度只增不减。台阶随每一层被攻破的 benchmark 数逐级缩小。</span></figcaption>
     </figure>
   </section>
@@ -130,8 +126,7 @@ js:
     <p lang="en">Among releases through 2024, 19% break before any visual input; among releases in 2025 and 2026, 34% do. The rise comes from the text and pool levels, where the newer releases hold 17 of the 18 breaks. A blind reader breaks 12 of the 89 newer benchmarks and 1 of the 26 older ones, mostly by coming within tolerance of a reference that scores far above chance. The option level breaks a similar share in both periods, 4 older and 13 newer benchmarks, especially where reference accuracy approaches chance. Recent benchmarks use language models to generate or refine questions and answers, which can leave the answer recoverable from the text alone.</p>
     <p lang="zh">2024 年及以前发布的 benchmark 里，19% 在看到任何画面之前就被攻破；2025 和 2026 年发布的里，这个比例是 34%。增量来自文本层和题库层，这两层的 18 次攻破里有 17 次落在新发布的 benchmark 上。盲读模型攻破了 89 个新 benchmark 里的 12 个，26 个老 benchmark 里的 1 个，多数情况是参照模型远高于随机水平，而盲读模型追到了容差之内。选项层在两个时期攻破的比例相近，老的 4 个、新的 13 个，多发生在参照模型接近随机水平的 benchmark 上。近期的 benchmark 用语言模型生成或润色问题和答案，这可能让答案单靠文字就能推出来。</p>
     <figure class="vi-fig" id="f-year">
-      <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year.png" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year with the share breaking before video: 17 percent for 2023 and earlier, 20 percent for 2024, 39 percent for 2025, 26 percent for 2026."></div>
-      <p class="vi-hint"><span lang="en">Hover a bar for its benchmarks, or click it to list them in the benchmark table.</span><span lang="zh">悬停一段查看其中的 benchmark，点击在后文的表格中列出。</span></p>
+      <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year_plain.png" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year with the share breaking before video: 17 percent for 2023 and earlier, 20 percent for 2024, 39 percent for 2025, 26 percent for 2026."></div>
       <figcaption><b><span lang="en">Figure 6.</span><span lang="zh">图 6</span></b> <span lang="en"><b>Newer benchmarks break earlier.</b> Left, benchmarks that reach and break at each level. Right, breaking levels by release year, with the share breaking before visual input in red.</span><span lang="zh"><b>越新的 benchmark 越早被攻破。</b>左图，到达并在每一层被攻破的 benchmark。右图，按发布年份的被攻破层级，红色为看到画面之前就被攻破的比例。</span></figcaption>
     </figure>
 
@@ -142,9 +137,8 @@ js:
     <p lang="en">Reasoning and knowledge benchmarks break on the text or on captions, which already carry the facts the question asks for. Perception benchmarks break most often at the frame level. Spatial and physical benchmarks break on the options and under temporal perturbation. Temporal benchmarks split, with 6 of 18 breaking on the options and 10 surviving every level. An audit should match its checks to the claimed capability and still screen the options of a temporal claim.</p>
     <p lang="zh">推理和知识类 benchmark 在文本层或帧描述上失守，因为问题要的事实已经写在文字里。感知类最常在帧层失守。空间和物理类在选项层和时序扰动下失守。时序类则分成两半，18 个里 6 个在选项层被攻破，10 个全部幸存。审计应当按所声称的能力选检查项，但即使是时序类也要筛一遍选项。</p>
     <figure class="vi-fig" id="f-claims">
-      <div class="vi-overlay vi-fig__img" data-overlay="fig7"><img src="/images/blogs/video-index/paper/fig07_claims.png" alt="Stacked horizontal bars of the share of each capability group's benchmarks by breaking level: temporal 18, spatial and physical 20, perception 45, reasoning and knowledge 32, with counts in the segments."></div>
-      <p class="vi-hint"><span lang="en">Hover a bar for its benchmarks, or click it to list them in the benchmark table.</span><span lang="zh">悬停一段查看其中的 benchmark，点击在后文的表格中列出。</span></p>
-      <figcaption><b><span lang="en">Figure 7.</span><span lang="zh">图 7</span></b> <span lang="en"><b>Each capability group breaks at its own levels.</b> Bars split the benchmarks of each group by breaking level, and segment labels give counts.</span><span lang="zh"><b>每个能力组在各自的层被攻破。</b>条形按被攻破层级拆分每组的 benchmark，段内数字为个数。</span></figcaption>
+      <div class="vi-overlay vi-fig__img" data-overlay="fig7"><img src="/images/blogs/video-index/paper/fig07_claims_plain.png" alt="Stacked horizontal bars of the share of each capability group's benchmarks by breaking level: temporal 18, spatial and physical 20, perception 45, reasoning and knowledge 32, with counts in the segments."></div>
+      <figcaption><b><span lang="en">Figure 7.</span><span lang="zh">图 7</span></b> <span lang="en"><b>Each capability group breaks at its own levels.</b> Bars split the benchmarks of each group by breaking level.</span><span lang="zh"><b>每个能力组在各自的层被攻破。</b>条形按被攻破层级拆分每组的 benchmark。</span></figcaption>
     </figure>
   </section>
 
@@ -159,7 +153,6 @@ js:
 
     <figure class="vi-fig" id="f-q1">
       <div class="vi-overlay vi-fig__img" data-overlay="q1"><img src="/images/blogs/video-index/paper/figQ1_frames_pixels.png" alt="Two panels with one line per benchmark, each centred on its mean accuracy: left, accuracy against the short side of the 32 frames from 168 pixels to the stored resolution; right, accuracy against 0.25 to 2 frames per second at 224 pixels. Blue lines gain more from frames, red lines from pixels, and grey lines are within 5 points."></div>
-      <p class="vi-hint"><span lang="en">Hover a line or a name to follow one benchmark across both panels, or a legend entry to pick out its group. Click to keep the highlight.</span><span lang="zh">悬停在线或名字上，可在两个面板里同时追踪一个 benchmark；悬停在图例上可挑出整组。点击可保持高亮。</span></p>
       <figcaption><b><span lang="en">Figure Q1.</span><span lang="zh">图 Q1</span></b> <span lang="en">Resolution and frame-rate effects, centered on each benchmark's mean accuracy.</span><span lang="zh">分辨率与帧率的影响，以各 benchmark 的平均准确率为中心。</span></figcaption>
     </figure>
     <p lang="en">Long videos want more frames. Among the 30 benchmarks whose videos average at least 300 seconds, 18 gain at least 5 points from larger frame budgets in the reference sweep. Nine still gain at its 600-frame limit. In a diagnostic sweep at 224 pixels, only LongTimeScope and TimeScope keep improving at 1024 frames. Since the observed gains also depend on the reference model's long-context ability, other benchmarks may still place high demands on processing events across long time spans.</p>
@@ -361,46 +354,7 @@ js:
   </section>
 </section>
 
-<!-- ================= 5. Related work ================= -->
-<section id="related">
-  <h2><span lang="en">Related work</span><span lang="zh">相关工作</span></h2>
-  <div class="fnp">
-    <p lang="en"><strong>Single-frame and blind audits.</strong> Buch et al.<sup class="fn">5</sup> answer earlier video benchmarks from one frame, and Cambrian-S<sup class="fn">6</sup> reruns benchmarks without the video to expose the ones that never needed it. Each audit takes one probe and a few benchmarks. The pyramid runs every probe on every one of 115 benchmarks under one protocol, so the benchmarks can be compared.</p>
-    <p lang="zh"><strong>单帧与盲读审计。</strong>Buch 等人<sup class="fn">5</sup>用一帧回答早期的视频 benchmark，Cambrian-S<sup class="fn">6</sup> 不看视频重跑 benchmark，找出那些从来不需要视频的。每项审计只用一种探针、只看几个 benchmark。金字塔在统一协议下把每一种探针跑遍 115 个 benchmark，于是 benchmark 之间可以比较。</p>
-    <aside class="fnote" data-n="5">Buch et al. <a href="https://arxiv.org/abs/2206.01720">Revisiting the "Video" in Video-Language Understanding</a>. CVPR 2022.</aside>
-    <aside class="fnote" data-n="6">Yang et al. <a href="https://arxiv.org/abs/2511.04670">Cambrian-S: Towards Spatial Supersensing in Video</a>. ICLR 2026.</aside>
-  </div>
-  <div class="fnp">
-    <p lang="en"><strong>Temporal audits.</strong> TVBench<sup class="fn">7</sup> and TOMATO<sup class="fn">8</sup> shuffle or reverse frames to ask whether a temporal benchmark needs the order of events. Our order level applies the same test to every benchmark and adds a contiguous tenth of the video. Among 15 benchmarks whose papers claim temporal reasoning, 6 keep over 90% of their score under shuffling.</p>
-    <p lang="zh"><strong>时序审计。</strong>TVBench<sup class="fn">7</sup> 和 TOMATO<sup class="fn">8</sup> 打乱或倒放帧序，追问一个时序 benchmark 是否真的需要事件的先后顺序。我们的顺序层把同样的检验用于每一个 benchmark，并加上只看连续十分之一的探针。论文声称考察时序推理的 15 个 benchmark 里，6 个在打乱后仍保留 90% 以上的分数。</p>
-    <aside class="fnote" data-n="7">Cores et al. <a href="https://arxiv.org/abs/2410.07752">Lost in Time: A New Temporal Benchmark for VideoLLMs</a> (TVBench). arXiv 2024.</aside>
-    <aside class="fnote" data-n="8">Shangguan et al. <a href="https://arxiv.org/abs/2410.23266">TOMATO: Assessing Visual Temporal Reasoning Capabilities in Multimodal Foundation Models</a>. arXiv 2024.</aside>
-  </div>
-  <div class="fnp">
-    <p lang="en"><strong>Predictive auditing.</strong> Brown et al.<sup class="fn">9</sup> fine-tune a language model on the text of test sets and prune the items it predicts. Our pool level runs an online version of that idea while evaluation proceeds, with the answer of each item hidden until it has been asked. The screening removes the items a small model answers from the text or from one frame.</p>
-    <p lang="zh"><strong>预测式审计。</strong>Brown 等人<sup class="fn">9</sup>在测试集的文本上微调语言模型，剔除它能预测的题目。我们的题库层在评测进行中跑同一思路的在线版本，每道题的答案在被问到之前保持隐藏；筛查则去掉小模型靠文本或单帧就能答对的题。</p>
-    <aside class="fnote" data-n="9">Brown et al. <a href="https://arxiv.org/abs/2511.04655">Benchmark Designers Should "Train on the Test Set" to Expose Exploitable Non-Visual Shortcuts</a>. arXiv 2025.</aside>
-  </div>
-  <div class="fnp">
-    <p lang="en"><strong>Benchmark generators.</strong> Task-Me-Anything<sup class="fn">10</sup> renders items from a taxonomy, AutoBencher<sup class="fn">11</sup> and BenchAgents<sup class="fn">12</sup> let language-model agents write and verify items, and Harbor-Index<sup class="fn">13</sup> distils a compact set from many agentic benchmarks. A generated benchmark leaves the hundreds of existing benchmarks unused. Video-Index instead starts from the items that existing benchmarks already hold, screens out those the tested attacks solve, and selects the 840 hardest of the rest.</p>
-    <p lang="zh"><strong>benchmark 生成器。</strong>Task-Me-Anything<sup class="fn">10</sup> 按分类体系渲染题目，AutoBencher<sup class="fn">11</sup> 和 BenchAgents<sup class="fn">12</sup> 让语言模型 agent 编写并核验题目，Harbor-Index<sup class="fn">13</sup> 从许多 agent benchmark 里蒸馏出一个紧凑的集合。生成出来的 benchmark 把现有的几百个 benchmark 晾在一边。Video-Index 反过来，从现有 benchmark 已有的题目出发，先筛掉测试过的攻击能解的题，再从剩下的题里选出最难的 840 道。</p>
-    <aside class="fnote" data-n="10">Zhang et al. <a href="https://arxiv.org/abs/2406.11775">Task Me Anything</a>. NeurIPS 2024.</aside>
-    <aside class="fnote" data-n="11">Li et al. <a href="https://arxiv.org/abs/2407.08351">AutoBencher: Towards Declarative Benchmark Construction</a>. ICLR 2025.</aside>
-    <aside class="fnote" data-n="12">Butt et al. <a href="https://arxiv.org/abs/2410.22584">BenchAgents: Multi-Agent Systems for Structured Benchmark Creation</a>. arXiv 2024.</aside>
-    <aside class="fnote" data-n="13">Shi et al. <a href="https://arxiv.org/abs/2609.04298">Harbor Adapters and Harbor-Index: Infrastructure and a Curated Meta-Dataset for Large-Scale Agentic Evaluation</a>. arXiv 2026.</aside>
-  </div>
-</section>
-
-<!-- ================= 6. Takeaways ================= -->
-<section id="takeaways">
-  <h2><span lang="en">Takeaways</span><span lang="zh">核心结论</span></h2>
-  <p lang="en">Video benchmarks are meant to show whether a model can understand video. We attacked 115 of them with five kinds of shortcuts that do not need the capability a benchmark claims to test, and 35 of them break without the attacker seeing a single frame. After screening out the questions that shortcut attacks can solve, we select the 840 hardest to form Video-Index.</p>
-  <p lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类不需要所考察能力的捷径去攻击 115 个 benchmark，其中 35 个连一帧画面都不用看就被攻破。筛掉捷径攻击能解的题之后，我们选出最难的 840 道题，组成 Video-Index。</p>
-  <p lang="en">The remedy is measurement rather than abandonment. A builder can run the pyramid before release and report the breaking level beside the score. A user can draw items from the screened pool, as Video-Index does. Resistance holds only against the attacks tested, so both the audit and the benchmark have to evolve with new models and new shortcuts.</p>
-  <p lang="zh">解决办法是测量，而不是弃用。造 benchmark 的人可以在发布前跑一遍金字塔，把被攻破的层级写在分数旁边。用 benchmark 的人可以从筛查后的题库里选题，Video-Index 就是这样做的。抵抗力只对测试过的攻击成立，所以审计和 benchmark 都要跟着新模型和新捷径一起演进。</p>
-</section>
-
-<!-- ================= 7. References (assembled from the footnotes by blog-article.js) ================= -->
+<!-- ================= 5. References (assembled from the footnotes by blog-article.js) ================= -->
 <section id="notes">
   <h2><span lang="en">References</span><span lang="zh">参考文献</span></h2>
 </section>

@@ -125,7 +125,11 @@
       var members = B.filter(function (b) { return yearLabel(b) === seg.year; });
       var here = members.filter(function (b) { return b.level === seg.level; });
       regions.push({ box: seg.box,
-        tip: function () { return '<b>' + seg.year + ' · ' + lvName(seg.level) + '</b><br>' + here.length + ' / ' + members.length + ' (' + pct(here.length, members.length) + '%)<br>' + names(here); },
+        tip: function () {
+          var early = members.filter(function (b) { return LV.indexOf(b.level) >= 0 && LV.indexOf(b.level) < 3; }).length;   /* option, text, pool */
+          return '<b>' + seg.year + ' · ' + lvName(seg.level) + '</b><br>' + here.length + ' / ' + members.length + ' (' + pct(here.length, members.length) + '%)<br>' + names(here) +
+            '<br><span class="vi-tip__note">' + t(pct(early, members.length) + '% of these releases break before any visual input', '这一年发布的 benchmark 中 ' + pct(early, members.length) + '% 在看到画面之前就被攻破') + '</span>';
+        },
         click: function () { filterExplorer({ level: seg.level, year: seg.year }); } });
     });
     overlay(wrap, f, regions);
@@ -280,7 +284,7 @@
         if (typeof va === 'string') { return ex.dir * (va.toLowerCase() < vb.toLowerCase() ? -1 : va.toLowerCase() > vb.toLowerCase() ? 1 : 0); }
         return ex.dir * ((va === null ? -1 : va) - (vb === null ? -1 : vb));
       });
-      count.textContent = t('Showing ' + list.length + ' of 115 benchmarks. Click a row for its ladder.', '显示 115 个 benchmark 中的 ' + list.length + ' 个。点击一行查看它的阶梯图。');
+      count.textContent = t('Showing ' + list.length + ' of 115 benchmarks.', '显示 115 个 benchmark 中的 ' + list.length + ' 个。');
       list.forEach(function (b) {
         var r = el('tr', { class: ex.selected === b ? 'is-selected' : '', tabindex: '0' }, tbody);
         el('td', {}, r, b.name);
@@ -303,7 +307,6 @@
     }
     renderBody();
     if (ex.selected) { showDetail(ex.selected, animate); }
-    else { detail.innerHTML = '<p class="vi-hint">' + t('Select a benchmark to see its exploitability at each level.', '选择一个 benchmark，查看它在每一层的可利用度。') + '</p>'; }
   }
 
   /* ---------- Table 1, sortable ---------- */
@@ -352,7 +355,6 @@
         if (r[c[0]] === best[c[0]]) { v.classList.add('is-best'); }
       });
     });
-    el('p', { class: 'vi-hint' }, container, t('Click a column to sort by it; the bars follow the sorted column. Bold marks the highest value of a column among the rows shown.', '点击列标题按该列排序，条形随排序列变化。加粗为当前显示行中该列的最高值。'));
   }
 
   /* ---------- the pyramid's steps: benchmark counts on hover ---------- */

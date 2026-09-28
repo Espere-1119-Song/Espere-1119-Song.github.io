@@ -253,7 +253,6 @@
       b.title = t('Show or hide', '显示或隐藏');
     });
     var body = el('div', { class: 'vi-sc-body' }, container);
-    var hint = el('p', { class: 'vi-hint' }, container);
     function visible(r) { return !st.hidden[C.of(r)]; }
     function matches(r) { var q = st.q.trim().toLowerCase(); return q && r[0].toLowerCase().indexOf(q) >= 0; }
 
@@ -330,11 +329,6 @@
         svg('text', { x: right ? x - 9 : x + 9, y: y + 4, 'text-anchor': right ? 'end' : 'start', class: 'vi-sc-label' }, plot, h[1][0]);
         plot.appendChild(h[0]);
       });
-      var missing = rows.length - all.length;
-      hint.textContent = t(pts.length + ' of ' + rows.length + ' benchmarks shown' + (missing ? ', ' + missing + ' without both values' : '') + '. Hover a point for its row' +
-        (diag ? '; the dashed line marks equal values' : cx.ref !== undefined || cy.ref !== undefined ? '; dashed lines mark ' + (cx.ref !== undefined ? cx.ref : cy.ref) : '') + '.',
-        '显示 ' + rows.length + ' 个 benchmark 中的 ' + pts.length + ' 个' + (missing ? '，' + missing + ' 个缺少其中一个值' : '') + '。悬停在点上查看整行' +
-        (diag ? '；虚线表示两者相等' : cx.ref !== undefined || cy.ref !== undefined ? '；虚线标出 ' + (cx.ref !== undefined ? cx.ref : cy.ref) : '') + '。');
     }
 
     function table() {
@@ -366,7 +360,6 @@
         name.appendChild(document.createTextNode(r[0]));
         cols.forEach(function (c) { el('td', { class: c.unit === 'cat' ? '' : 'n' }, row, fmtCell(r, c)); });
       });
-      hint.textContent = t(list.length + ' of ' + rows.length + ' rows. Click a column to sort by it.', '显示 ' + rows.length + ' 行中的 ' + list.length + ' 行。点击列标题排序。');
     }
     function render() { clear(body); if (st.view === 'table') { table(); } else { chart(); } }
     search.addEventListener('input', function () { st.q = search.value; render(); });
@@ -396,7 +389,6 @@
       });
     });
     var body = el('div', { class: 'vi-sc-body' }, container);
-    var hint = el('p', { class: 'vi-hint' }, container);
     function rowTip(r) {
       var grid = L20COLS.map(function (c) { return '<span>' + labHtml(label(c)) + '</span><b>' + esc(fx(r[c.i], dec[c.i - 1])) + '</b>'; }).join('');
       var b = BY[r[0]];
@@ -460,8 +452,6 @@
         bindTip(hitLine, function () { return rowTip(d2[1]); }, function () { focus(d2[1]); }, unfocus);
       });
       unfocus();
-      hint.textContent = t(shown.length + ' of ' + rows.length + ' long-video benchmarks shown. Hover a line for its row; the dashed line is its chance level.',
-        '显示 ' + rows.length + ' 个长视频 benchmark 中的 ' + shown.length + ' 个。悬停在线上查看整行，虚线为它的随机水平。');
     }
     function table() {
       var wrap = el('div', { class: 'vi-explorer__wrap' }, body);
@@ -488,7 +478,6 @@
         name.appendChild(document.createTextNode(r[0]));
         L20COLS.forEach(function (c) { el('td', { class: 'n' }, row, fx(r[c.i], dec[c.i - 1])); });
       });
-      hint.textContent = t(list.length + ' of ' + rows.length + ' rows. Click a column to sort by it.', '显示 ' + rows.length + ' 行中的 ' + list.length + ' 行。点击列标题排序。');
     }
     search.addEventListener('input', function () { st.q = search.value; clear(body); if (st.view === 'table') { table(); } else { chart(); } });
     if (st.view === 'table') { table(); } else { chart(); }
@@ -523,8 +512,6 @@
       row.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); } });
     });
     examples(panel, rows[dupState.sel]);
-    el('p', { class: 'vi-hint' }, container, t('Click a row to read its example questions. Near-duplicates differ in wording; exact pairs repeat the question verbatim.',
-      '点击一行查看例题。近似重复的措辞不同，逐字相同的题对完全重复同一个问题。'));
   }
   function examples(panel, r) {
     clear(panel);
@@ -596,8 +583,6 @@
         });
       });
     });
-    el('p', { class: 'vi-hint' }, container, t('Hover a code or a cell for names and shares; click a shaded cell for the example questions of that flow.',
-      '悬停在代码或格子上查看名称与份额，点击有颜色的格子查看这对 benchmark 的例题。'));
   }
 
   /* ================= Tables 34 to 37: the strongest benchmarks of each group ================= */
@@ -716,7 +701,6 @@
     next.setAttribute('aria-label', t('Next card', '下一张'));
     var card = el('div', { class: 'vi-cards__card', tabindex: '0', 'aria-label': t('Report card; use the arrow keys to browse', '报告卡；用方向键翻页') }, container);
     var img = el('img', { class: 'vi-cards__img', width: '1430', height: '455', decoding: 'async', alt: '' }, card);
-    el('p', { class: 'vi-hint' }, container, t('Type a name, use the arrows, or focus the card and press ← and →.', '输入名称、点击箭头，或选中报告卡后按 ← 和 → 翻页。'));
     function preload(k) { var im = new Image(); im.src = CARD_DIR + list[(k + n) % n].file; }
     function show(k) {
       CD.i = (k + n) % n;
