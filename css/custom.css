@@ -1917,9 +1917,6 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .ib-eq .katex-display > .katex { text-align: left; }
 .ib-eq .katex { font-size: 1.1em; }
 .ib-page p.ib-ftext { font-family: var(--ib-sans); margin: 0.6em 0; font-size: 0.9rem; line-height: 1.5; color: var(--text-sub); }
-.ib-page ul.ib-defs { font-family: var(--ib-sans); font-size: 0.86rem; line-height: 1.6; color: var(--text-sub); margin: 0; padding-left: 1.1em; }
-.ib-page ul.ib-defs li { margin: 4px 0; }
-.ib-defs .katex { font-size: 1.04em; color: var(--near-black); }
 @media (max-width: 600px) {
   .ib-formulas { grid-template-columns: minmax(0, 1fr); }
   .ib-formulas .ib-fname { margin-top: 10px; }

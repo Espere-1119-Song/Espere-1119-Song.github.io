@@ -38,13 +38,6 @@ js:
     <div class="ib-fname m-neg">Negative stream</div>
     <div class="ib-eq" data-tex="\mathrm{Overall}=\mathrm{SC}=100\max(0,\,1-M)"></div>
   </div>
-  <ul class="ib-defs">
-    <li>Event <span data-tex="n"></span> of <span data-tex="N"></span> can first be answered at <span data-tex="r^{*}_{n}"></span> and owns the window <span data-tex="W_n=[\,r^{*}_{n}-\epsilon,\;r^{*}_{n+1}-\epsilon)"></span> with <span data-tex="\epsilon=1\,\mathrm{s}"></span>. The last window runs to the end of the stream.</li>
-    <li>The first reply in <span data-tex="W_n"></span> is the matched response, <span data-tex="d_n=\max(0,\,t-r^{*}_{n})"></span> after <span data-tex="r^{*}_{n}"></span>. An event without one adds nothing to TA, and the delay scale is <span data-tex="\Delta=5\,\mathrm{s}"></span>.</li>
-    <li>Later replies in the same window are redundant and replies before the first window are premature. Together they form the violation set <span data-tex="V"></span>.</li>
-    <li><span data-tex="H(a,b)=2ab/(a+b)"></span> is the harmonic mean with <span data-tex="H(0,0)=0"></span>, and <span data-tex="(x)_{+}=\max(x,0)"></span>. <span data-tex="M"></span> counts the replies on a negative stream, where silence is correct throughout.</li>
-    <li>Dataset scores average the item scores.</li>
-  </ul>
 </section>
 
 <section id="leaderboard">
