@@ -4,7 +4,7 @@
                                 recorded from the paper's own figure files
      #vi-screen                 the screening chain, counting up when scrolled into view
      #vi-explorer               all 115 benchmarks: search, filter, sort, and each benchmark's ladder
-     #vi-results                Table 1 in blocks (fixed input, agents, human), sortable within them
+     #vi-lb                     Table 1 as a leaderboard: ranks the rows written in the post, sortable
      .vi-pyr__lvl[data-level]   the pyramid's steps: benchmark counts on hover
    It also shares its helpers as window.VI_UI with js/video-index-appendix.js. Everything re-renders
    on the EN / 中文 toggle. No dependencies. */
@@ -311,40 +311,68 @@
     if (ex.selected) { showDetail(ex.selected, animate); }
   }
 
-  /* ---------- Table 1, sortable within its three blocks ---------- */
-  var rs = { metric: 'video', dir: -1 };
-  var BLOCKS = [['fixed', 'Fixed input', '固定输入'], ['agent', 'Agent tools', 'agent 工具'], ['human', 'Human', '人类']];
-  function results(container) {
-    clear(container);
-    var wrap = el('div', { class: 'vi-explorer__wrap' }, container);
-    var table = el('table', { class: 'vi-explorer__table vi-results-table' }, wrap);
-    var tr = el('tr', {}, el('thead', {}, table));
-    var cols = [['model', t('Model', '模型')], ['video', t('Video', '看视频')], ['blind', t('Blind', '盲读')], ['gain', t('Gain', '增益')], ['perception', t('Percep.', '感知')], ['temporal', t('Temp.', '时序')], ['spatial', t('Spatial', '空间')], ['reasoning', t('Reason.', '推理')]];
-    var metric = rs.metric === 'model' ? 'video' : rs.metric;
-    cols.forEach(function (c) {
-      var th = el('th', { class: (c[0] === 'model' ? '' : 'n') + (rs.metric === c[0] ? ' is-sorted' : ''), scope: 'col' }, tr);
-      var btn = el('button', { type: 'button', class: 'vi-sort' }, th, c[1] + (rs.metric === c[0] ? (rs.dir > 0 ? ' ↑' : ' ↓') : ''));
-      btn.addEventListener('click', function () { if (rs.metric === c[0]) { rs.dir = -rs.dir; } else { rs.metric = c[0]; rs.dir = c[0] === 'model' ? 1 : -1; } results(container); });
-    });
-    var best = {};
-    cols.slice(1).forEach(function (c) { best[c[0]] = Math.max.apply(null, D.results.map(function (r) { return r[c[0]]; })); });
-    BLOCKS.forEach(function (blk) {
-      var tbody = el('tbody', { class: 'vi-results__block' }, table);
-      var head = el('tr', { class: 'vi-results__blockhead' }, tbody);
-      el('th', { colspan: String(cols.length), scope: 'rowgroup' }, head, t(blk[1], blk[2]));
-      var list = D.results.filter(function (r) { return r.protocol === blk[0]; });
-      list.sort(function (a, b) { return rs.metric === 'model' ? rs.dir * (a.model < b.model ? -1 : 1) : rs.dir * (a[rs.metric] - b[rs.metric]); });
-      list.forEach(function (r) {
-        var trr = el('tr', {}, tbody);
-        var label = r.model === 'Human volunteers' ? t('Human volunteers', '人类志愿者') : r.model;
-        el('td', {}, trr, label);
-        cols.slice(1).forEach(function (c) {
-          var td = el('td', { class: 'n' + (c[0] === metric ? ' is-metric' : '') }, trr);
-          var v = el('span', { class: 'vi-rval' }, td, r[c[0]].toFixed(1));
-          if (r[c[0]] === best[c[0]]) { v.classList.add('is-best'); }
-        });
+  /* ---------- Table 1 as a leaderboard: the rows are written in the post, the page ranks them ---------- */
+  var LB_TYPE = { agent: ['Agent', 'agent'], fixed: ['Fixed input', '固定输入'], human: ['Human', '人类'] };
+  function both(en, zh) { return '<span lang="en">' + en + '</span><span lang="zh">' + zh + '</span>'; }
+  function leaderboard(table) {
+    if (table.getAttribute('data-ready')) { return; }
+    table.setAttribute('data-ready', '1');
+    var head = table.tHead.rows[0], body = table.tBodies[0];
+    var keys = Array.prototype.map.call(head.cells, function (th) { return th.getAttribute('data-k'); });
+    var rows = Array.prototype.map.call(body.rows, function (tr, i) {
+      var v = {}, td = {}, type = LB_TYPE[tr.getAttribute('data-type')] ? tr.getAttribute('data-type') : 'fixed';
+      keys.forEach(function (k, j) {
+        if (!k) { return; }
+        td[k] = tr.cells[j];
+        td[k].classList.add('n');
+        v[k] = parseFloat(td[k].textContent);
       });
+      tr.cells[0].classList.add('vi-lb__model');
+      tr.insertBefore(el('td', { class: 'vi-lb__type' }), tr.cells[1]).innerHTML = both(LB_TYPE[type][0], LB_TYPE[type][1]);
+      var rank = tr.insertBefore(el('td', { class: 'vi-lb__rank' }), tr.cells[0]);
+      if (type === 'human') { tr.classList.add('is-human'); }
+      return { tr: tr, v: v, td: td, type: type, order: i, rank: rank };
     });
+    head.insertBefore(el('th', { class: 'vi-lb__type', scope: 'col' }), head.cells[1]).innerHTML = both('Type', '类型');
+    head.insertBefore(el('th', { class: 'vi-lb__rank', scope: 'col' }, null, '#'), head.cells[0]);
+    /* the best of each column in bold */
+    keys.forEach(function (k) {
+      if (!k) { return; }
+      var best = Math.max.apply(null, rows.map(function (r) { return isFinite(r.v[k]) ? r.v[k] : -Infinity; }));
+      rows.forEach(function (r) { if (r.v[k] === best) { r.td[k].classList.add('is-best'); } });
+    });
+    /* sorting by a column: the rank is always by that column, highest first; the human row is unranked */
+    var sort = { k: 'video', dir: -1 };
+    function val(r) { var x = r.v[sort.k]; return isFinite(x) ? x : null; }
+    function render() {
+      var list = rows.slice().sort(function (a, b) {
+        var x = val(a), y = val(b);
+        if (x === null || y === null) { return (x === null) - (y === null) || a.order - b.order; }
+        return sort.dir * (x - y) || a.order - b.order;
+      });
+      var ranked = rows.filter(function (r) { return r.type !== 'human' && val(r) !== null; });
+      list.forEach(function (r) {
+        body.appendChild(r.tr);
+        clear(r.rank);
+        if (r.type === 'human' || val(r) === null) { r.rank.textContent = '–'; return; }
+        var n = 1 + ranked.filter(function (o) { return val(o) > val(r); }).length;
+        el('span', { class: 'vi-lb__n' + (n <= 3 ? ' is-top' : '') }, r.rank, String(n));
+      });
+      Array.prototype.forEach.call(head.cells, function (th) {
+        var k = th.getAttribute('data-k');
+        if (k) { th.setAttribute('aria-sort', k === sort.k ? (sort.dir < 0 ? 'descending' : 'ascending') : 'none'); }
+      });
+    }
+    Array.prototype.forEach.call(head.cells, function (th) {
+      var k = th.getAttribute('data-k');
+      if (!k) { return; }
+      th.classList.add('n');
+      var btn = el('button', { type: 'button', class: 'vi-sort' });
+      while (th.firstChild) { btn.appendChild(th.firstChild); }
+      th.appendChild(btn);
+      btn.addEventListener('click', function () { if (sort.k === k) { sort.dir = -sort.dir; } else { sort.k = k; sort.dir = -1; } render(); });
+    });
+    render();
   }
 
   /* ---------- the pyramid's steps: benchmark counts on hover ---------- */
@@ -372,11 +400,11 @@
     if (fn && D.figures) { fn(wrap); }
   });
   var screenRoot = document.getElementById('vi-screen');
-  var resultsRoot = document.getElementById('vi-results');
+  var lbTable = document.getElementById('vi-lb');
   explorerRoot = document.getElementById('vi-explorer');
   var goScreen = null;
   function renderAll() {
-    if (resultsRoot) { results(resultsRoot); }
+    if (lbTable) { leaderboard(lbTable); }
     if (screenRoot) { goScreen = screen(screenRoot); }
     renderExplorer(false);
   }

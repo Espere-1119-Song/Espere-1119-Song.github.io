@@ -1671,19 +1671,23 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-sort:hover { color: var(--near-black); }
 .vi-lvchip { display: inline-block; font: 600 0.68rem/1.4 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.02em; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
 .vi-explorer__detail { margin-top: 12px; }
-.post-body table.vi-results-table tbody tr { cursor: default; }
-.post-body table.vi-results-table td.is-metric { white-space: nowrap; }
-.post-body table.vi-results-table tbody.vi-results__block tr.vi-results__blockhead th { position: static; padding: 10px 8px 3px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; text-align: left; color: var(--text-muted); background: transparent; border: 0; border-bottom: 1px solid var(--border-warm); }
-.post-body table.vi-results-table tbody.vi-results__block:first-of-type tr.vi-results__blockhead th { padding-top: 6px; }
-/* Table 1 sits on the page, no box, as wide as its columns */
-.vi-results-live .vi-explorer__wrap { max-height: none; border: 0; border-radius: 0; background: transparent; }
-.post-body .vi-results-live table.vi-results-table { width: auto; font-size: 0.9rem; }
-.post-body .vi-results-live table.vi-results-table thead th { position: static; padding: 3px 12px 5px; background: transparent; font-size: 0.7rem; }
-.post-body .vi-results-live table.vi-results-table td { padding: 3px 12px; }
-.post-body .vi-results-live table.vi-results-table thead th:first-child, .post-body .vi-results-live table.vi-results-table td:first-child { padding-left: 0; padding-right: 20px; }
-.post-body .vi-results-live table.vi-results-table thead th:last-child, .post-body .vi-results-live table.vi-results-table td:last-child { padding-right: 0; }
-.post-body .vi-results-live table.vi-results-table tbody.vi-results__block tr.vi-results__blockhead th { padding-left: 0; }
-.post-body .vi-results-live table.vi-results-table tbody tr:hover td { background: rgba(20, 20, 19, 0.04); }
+/* Table 1 as a leaderboard (js/video-index-explorer.js ranks the rows written in the post) */
+.vi-lb-wrap { overflow-x: auto; }
+.post-body table.vi-lb { width: auto; border-collapse: collapse; margin: 0; font: 0.9rem 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+.post-body table.vi-lb th { padding: 3px 10px 6px; border: 0; border-bottom: 1px solid var(--near-black); background: transparent; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-sub); text-align: left; white-space: nowrap; }
+.post-body table.vi-lb td { padding: 4px 10px; border: 0; border-bottom: 1px solid var(--border-cream); background: transparent; color: #3f3f46; white-space: nowrap; }
+.post-body table.vi-lb tr:nth-child(even) td { background: transparent; }
+.post-body table.vi-lb tbody tr:hover td { background: rgba(20, 20, 19, 0.04); }
+.post-body table.vi-lb th.n, .post-body table.vi-lb td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.post-body table.vi-lb th[aria-sort="descending"] .vi-sort::after { content: " ↓"; }
+.post-body table.vi-lb th[aria-sort="ascending"] .vi-sort::after { content: " ↑"; }
+.post-body table.vi-lb .vi-lb__rank { width: 1%; padding-left: 0; padding-right: 6px; text-align: center; color: var(--text-muted); }
+.vi-lb__n { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: #eef0f3; color: #5f6368; font-size: 0.72rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.vi-lb__n.is-top { background: var(--near-black); color: #fff; }
+.post-body table.vi-lb td.vi-lb__model { color: var(--near-black); font-weight: 500; }
+.post-body table.vi-lb td.vi-lb__type { color: var(--text-muted); font-size: 0.8rem; }
+.post-body table.vi-lb td.is-best { font-weight: 700; color: var(--near-black); }
+.post-body table.vi-lb tr.is-human td.vi-lb__model { color: var(--text-sub); }
 .vi-rval.is-best { font-weight: 700; color: var(--near-black); }
 
 /* ── Appendix views of the Video-Index post (js/video-index-appendix.js) ── */

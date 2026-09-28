@@ -8,7 +8,7 @@ cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260927vi2
-  - /js/video-index-explorer.js?v=20260927vi8
+  - /js/video-index-explorer.js?v=20260928vi9
   - /js/video-index-appendix-data.js?v=20260927vi3
   - /js/video-index-appendix.js?v=20260927vi10
 ---
@@ -37,6 +37,12 @@ js:
   <ol>
     <li><a href="#question"><span lang="en">The question</span><span lang="zh">问题</span></a></li>
     <li><a href="#pyramid"><span lang="en">The attack pyramid</span><span lang="zh">攻击金字塔</span></a></li>
+    <li><a href="#video-index">Video-Index</a>
+      <ol>
+        <li><a href="#screening"><span lang="en">Screening every item</span><span lang="zh">逐题筛查</span></a></li>
+        <li><a href="#results"><span lang="en">Results</span><span lang="zh">结果</span></a></li>
+        <li><a href="#agents"><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></a></li>
+      </ol></li>
     <li><a href="#findings"><span lang="en">What the audit finds</span><span lang="zh">审计结果</span></a>
       <ol>
         <li><a href="#year"><span lang="en">Newer benchmarks break earlier</span><span lang="zh">越新越早被攻破</span></a></li>
@@ -46,21 +52,14 @@ js:
       </ol></li>
     <li><a href="#which"><span lang="en">Which benchmarks to use</span><span lang="zh">按能力选 benchmark</span></a></li>
     <li><a href="#cards"><span lang="en">Report cards</span><span lang="zh">报告卡</span></a></li>
-    <li><a href="#video-index">Video-Index</a>
-      <ol>
-        <li><a href="#screening"><span lang="en">Screening every item</span><span lang="zh">逐题筛查</span></a></li>
-        <li><a href="#results"><span lang="en">Results</span><span lang="zh">结果</span></a></li>
-        <li><a href="#agents"><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></a></li>
-      </ol></li>
-    <li><a href="#notes"><span lang="en">References</span><span lang="zh">参考文献</span></a></li>
     <li><a href="#cite">Citation</a></li>
   </ol>
 </nav>
 </div>
 
 <figure class="vi-video" id="overview">
-  <video autoplay muted loop playsinline preload="metadata" width="1920" height="1080" poster="/images/blogs/video-index/overview-poster.jpg?v=20260927vi1" aria-label="A short video overview of this post">
-    <source src="/images/blogs/video-index/overview.mp4?v=20260927vi1" type="video/mp4">
+  <video autoplay muted loop playsinline preload="metadata" width="1920" height="1080" poster="/images/blogs/video-index/overview-poster.jpg?v=20260928vi2" aria-label="A short video overview of this post">
+    <source src="/images/blogs/video-index/overview.mp4?v=20260928vi2" type="video/mp4">
   </video>
 </figure>
 
@@ -98,7 +97,74 @@ js:
   <p lang="zh">如果某一层的攻击者与看视频的参照模型（看 32 帧的 Gemini 3.5 Flash）相差不到 5 个点，两者都按超出随机水平计，benchmark 就在这一层被攻破；哪一层都没攻破的 benchmark 算作幸存。</p>
 </section>
 
-<!-- ================= 3. What the audit finds ================= -->
+<!-- ================= 3. Video-Index ================= -->
+<section id="video-index">
+  <h2>Video-Index</h2>
+
+  <section id="screening">
+    <h3><span lang="en">Screening every item</span><span lang="zh">逐题筛查</span></h3>
+    <p lang="en">We screen all 381,614 multiple-choice items of 112 audited benchmarks, dropping near-duplicates and every item that a small model answers from the options, the text, one frame, or 32 frames. The attacks remove 76% of the distinct questions.</p>
+    <p lang="zh">我们筛查了 112 个已审计 benchmark 的全部 381,614 道选择题，去掉近似重复的题，以及小模型靠选项、文字、单帧或 32 帧就能答对的题。这些攻击去掉了 76% 的不重复问题。</p>
+    <p lang="en">Video-Index holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video. Selection ranks items by the attacker margins and ignores reference-model accuracy.</p>
+    <p lang="zh">Video-Index 收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道。选题按攻击者的得分幅度排序，不看参照模型的准确率。</p>
+  </section>
+
+  <section id="results">
+    <h3><span lang="en">Results</span><span lang="zh">结果</span></h3>
+    <p lang="en">With the same fixed input, Claude Opus 5 outscores every open model by more than 37 points, and tools raise it by another 19.8. GPT-6-Astra leads at 79.3%. Human volunteers reach 55.0%, below the three leading agents and above every open model.</p>
+    <p lang="zh">在相同的固定输入下，Claude Opus 5 比每个开源模型高出 37 个点以上，用上工具再提高 19.8 个点。GPT-6-Astra 以 79.3% 领先。人类志愿者拿到 55.0%，低于前三名 agent，高于所有开源模型。</p>
+    <figure class="vi-fig" id="f-results">
+      <!-- The leaderboard. To add a system, add one row anywhere: data-type is agent, fixed (fixed input) or human
+           (shown unranked), then the name and the seven accuracies in the order of the header, "–" if missing.
+           The page ranks the rows by Video and bolds the best of each column. -->
+      <div class="vi-lb-wrap">
+        <table class="vi-lb" id="vi-lb">
+          <thead><tr>
+            <th scope="col"><span lang="en">Model</span><span lang="zh">模型</span></th>
+            <th scope="col" data-k="video"><span lang="en">Video</span><span lang="zh">看视频</span></th>
+            <th scope="col" data-k="blind"><span lang="en">Blind</span><span lang="zh">盲读</span></th>
+            <th scope="col" data-k="gain"><span lang="en">Gain</span><span lang="zh">增益</span></th>
+            <th scope="col" data-k="perception"><span lang="en">Percep.</span><span lang="zh">感知</span></th>
+            <th scope="col" data-k="temporal"><span lang="en">Temp.</span><span lang="zh">时序</span></th>
+            <th scope="col" data-k="spatial"><span lang="en">Spatial</span><span lang="zh">空间</span></th>
+            <th scope="col" data-k="reasoning"><span lang="en">Reason.</span><span lang="zh">推理</span></th>
+          </tr></thead>
+          <tbody>
+            <tr data-type="agent"><td>GPT-6-Astra</td><td>79.3</td><td>18.7</td><td>60.6</td><td>75.4</td><td>83.7</td><td>80.4</td><td>77.1</td></tr>
+            <tr data-type="agent"><td>Claude Fable 5.1</td><td>71.5</td><td>20.7</td><td>50.8</td><td>68.4</td><td>77.7</td><td>71.1</td><td>68.7</td></tr>
+            <tr data-type="agent"><td>Claude Opus 5</td><td>70.6</td><td>24.9</td><td>45.7</td><td>68.4</td><td>77.2</td><td>69.1</td><td>67.6</td></tr>
+            <tr data-type="fixed"><td>Claude Opus 5</td><td>56.8</td><td>21.3</td><td>35.5</td><td>62.4</td><td>56.2</td><td>46.7</td><td>61.9</td></tr>
+            <tr data-type="human"><td><span lang="en">Human volunteers</span><span lang="zh">人类志愿者</span></td><td>55.0</td><td>17.5</td><td>37.5</td><td>56.0</td><td>68.0</td><td>56.0</td><td>40.0</td></tr>
+            <tr data-type="agent"><td>Gemini 3.1 Pro</td><td>54.7</td><td>23.9</td><td>30.8</td><td>58.2</td><td>59.1</td><td>60.6</td><td>40.9</td></tr>
+            <tr data-type="agent"><td>Gemini 3.5 Flash-Lite</td><td>22.5</td><td>17.5</td><td>5.0</td><td>20.0</td><td>30.0</td><td>10.0</td><td>30.0</td></tr>
+            <tr data-type="fixed"><td>Molmo2-8B</td><td>19.0</td><td>4.8</td><td>14.2</td><td>20.0</td><td>16.2</td><td>17.1</td><td>22.9</td></tr>
+            <tr data-type="fixed"><td>InternVL3.5-8B</td><td>15.2</td><td>4.4</td><td>10.8</td><td>13.3</td><td>20.0</td><td>8.1</td><td>19.5</td></tr>
+            <tr data-type="fixed"><td>LLaVA-OneVision-2-8B</td><td>14.2</td><td>1.8</td><td>12.4</td><td>11.4</td><td>21.0</td><td>11.9</td><td>12.4</td></tr>
+            <tr data-type="fixed"><td>InternVideo2.5-8B</td><td>12.4</td><td>7.5</td><td>4.9</td><td>12.9</td><td>11.0</td><td>8.1</td><td>17.6</td></tr>
+            <tr data-type="fixed"><td>VideoLLaMA3-7B</td><td>12.4</td><td>5.2</td><td>7.1</td><td>11.9</td><td>18.6</td><td>8.6</td><td>10.5</td></tr>
+            <tr data-type="fixed"><td>Video-XL-2</td><td>12.4</td><td>7.3</td><td>5.1</td><td>12.4</td><td>15.7</td><td>9.0</td><td>12.4</td></tr>
+            <tr data-type="fixed"><td>Cambrian-S-7B</td><td>11.3</td><td>5.3</td><td>6.0</td><td>12.4</td><td>10.0</td><td>3.8</td><td>19.0</td></tr>
+            <tr data-type="fixed"><td>Qwen3-VL-8B</td><td>9.5</td><td>1.4</td><td>8.1</td><td>9.0</td><td>11.4</td><td>6.7</td><td>11.0</td></tr>
+            <tr data-type="fixed"><td>VideoChat3-4B</td><td>9.4</td><td>3.8</td><td>5.7</td><td>9.5</td><td>12.4</td><td>6.2</td><td>9.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><b><span lang="en">Table 1.</span><span lang="zh">表 1</span></b> <span lang="en"><b>Agents lead open models on Video-Index.</b></span><span lang="zh"><b>在 Video-Index 上 agent 领先开源模型。</b></span></figcaption>
+    </figure>
+  </section>
+
+  <section id="agents">
+    <h3><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></h3>
+    <p lang="en">GPT-6-Astra, Claude Fable 5.1, and Claude Opus 5 tile frames into grids on nearly every answer and then diverge. GPT-6-Astra seeks timestamps more often, Claude Fable 5.1 and Claude Opus 5 favor cropping and zooming, and Claude Fable 5.1 extracts far more images without reaching GPT-6-Astra&#8217;s accuracy. All three score lower on videos past ten minutes.</p>
+    <p lang="zh">GPT-6-Astra、Claude Fable 5.1 和 Claude Opus 5 几乎每道题都先把帧拼成网格，然后各走各路。GPT-6-Astra 更常按时间戳定位，Claude Fable 5.1 和 Claude Opus 5 更爱裁剪和放大；Claude Fable 5.1 抽取的图像多得多，准确率却没有追上 GPT-6-Astra。三个 agent 在超过十分钟的视频上分数都更低。</p>
+    <figure class="vi-fig" id="f-agents">
+      <div class="vi-overlay vi-fig__img" data-overlay="fig12"><img src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes."></div>
+      <figcaption><b><span lang="en">Figure 12.</span><span lang="zh">图 12</span></b> <span lang="en"><b>Agents differ in accuracy, runtime, and inspection.</b></span><span lang="zh"><b>agent 在准确率、耗时和查看方式上各不相同。</b></span></figcaption>
+    </figure>
+  </section>
+</section>
+
+<!-- ================= 4. What the audit finds ================= -->
 <section id="findings">
   <h2><span lang="en">What the audit finds</span><span lang="zh">审计结果</span></h2>
 
@@ -172,53 +238,6 @@ js:
   <figure class="vi-fig" id="f-cards">
     <div id="vi-cards"></div>
   </figure>
-</section>
-
-<!-- ================= 4. Video-Index ================= -->
-<section id="video-index">
-  <h2>Video-Index</h2>
-
-  <section id="screening">
-    <h3><span lang="en">Screening every item</span><span lang="zh">逐题筛查</span></h3>
-    <p lang="en">We screen all 381,614 multiple-choice items of 112 audited benchmarks, dropping near-duplicates and every item that a small model answers from the options, the text, one frame, or 32 frames. The attacks remove 76% of the distinct questions.</p>
-    <p lang="zh">我们筛查了 112 个已审计 benchmark 的全部 381,614 道选择题，去掉近似重复的题，以及小模型靠选项、文字、单帧或 32 帧就能答对的题。这些攻击去掉了 76% 的不重复问题。</p>
-    <figure class="vi-fig" id="f-screen">
-      <div id="vi-screen" class="vi-screen"></div>
-      <figcaption><span lang="en"><b>Items remaining after each screening stage.</b></span><span lang="zh"><b>每个筛查阶段之后剩余的题目数。</b></span></figcaption>
-    </figure>
-    <p lang="en">Video-Index holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video. Selection ranks items by the attacker margins and ignores reference-model accuracy.</p>
-    <p lang="zh">Video-Index 收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道。选题按攻击者的得分幅度排序，不看参照模型的准确率。</p>
-  </section>
-
-  <section id="results">
-    <h3><span lang="en">Results</span><span lang="zh">结果</span></h3>
-    <p lang="en">With the same fixed input, Claude Opus 5 outscores every open model by more than 37 points, and tools raise it by another 19.8. GPT-6-Astra leads at 79.3%. Human volunteers reach 55.0%, below the three leading agents and above every open model.</p>
-    <p lang="zh">在相同的固定输入下，Claude Opus 5 比每个开源模型高出 37 个点以上，用上工具再提高 19.8 个点。GPT-6-Astra 以 79.3% 领先。人类志愿者拿到 55.0%，低于前三名 agent，高于所有开源模型。</p>
-    <figure class="vi-fig" id="f-results">
-      <div id="vi-results" class="vi-results-live"></div>
-      <figcaption><b><span lang="en">Table 1.</span><span lang="zh">表 1</span></b> <span lang="en"><b>Agents lead open models on Video-Index.</b></span><span lang="zh"><b>在 Video-Index 上 agent 领先开源模型。</b></span></figcaption>
-    </figure>
-    <div class="fnp">
-      <p lang="en">The set&#8217;s signal-to-noise ratio<sup class="fn">1</sup> is 10.8, against 3.7 for the median source benchmark.</p>
-      <p lang="zh">这套题的信噪比<sup class="fn">1</sup>为 10.8，来源 benchmark 的中位数是 3.7。</p>
-      <aside class="fnote" data-n="1">Heineman et al. <a href="https://arxiv.org/abs/2508.13144">Signal and Noise: A Framework for Reducing Uncertainty in Language Model Evaluation</a>. NeurIPS 2026.</aside>
-    </div>
-  </section>
-
-  <section id="agents">
-    <h3><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></h3>
-    <p lang="en">GPT-6-Astra, Claude Fable 5.1, and Claude Opus 5 tile frames into grids on nearly every answer and then diverge. GPT-6-Astra seeks timestamps more often, Claude Fable 5.1 and Claude Opus 5 favor cropping and zooming, and Claude Fable 5.1 extracts far more images without reaching GPT-6-Astra&#8217;s accuracy. All three score lower on videos past ten minutes.</p>
-    <p lang="zh">GPT-6-Astra、Claude Fable 5.1 和 Claude Opus 5 几乎每道题都先把帧拼成网格，然后各走各路。GPT-6-Astra 更常按时间戳定位，Claude Fable 5.1 和 Claude Opus 5 更爱裁剪和放大；Claude Fable 5.1 抽取的图像多得多，准确率却没有追上 GPT-6-Astra。三个 agent 在超过十分钟的视频上分数都更低。</p>
-    <figure class="vi-fig" id="f-agents">
-      <div class="vi-overlay vi-fig__img" data-overlay="fig12"><img src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes."></div>
-      <figcaption><b><span lang="en">Figure 12.</span><span lang="zh">图 12</span></b> <span lang="en"><b>Agents differ in accuracy, runtime, and inspection.</b></span><span lang="zh"><b>agent 在准确率、耗时和查看方式上各不相同。</b></span></figcaption>
-    </figure>
-  </section>
-</section>
-
-<!-- ================= 5. References (assembled from the footnotes by blog-article.js) ================= -->
-<section id="notes">
-  <h2><span lang="en">References</span><span lang="zh">参考文献</span></h2>
 </section>
 
 <section id="cite">
