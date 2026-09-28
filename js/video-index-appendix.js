@@ -245,7 +245,7 @@
     });
   }
 
-  /* ================= Figure 12: each agent picked out across the three panels ================= */
+  /* ================= Figure 12: hover a mark for its numbers ================= */
   var OPS12 = [['Sample at intervals', '按间隔采样'], ['Seek to times', '跳到指定时间'], ['Tile frames', '把帧拼成网格'], ['Crop / zoom', '裁剪或放大']];
   var DUR12 = [['under 30 s', '30 秒以内'], ['30 s to 2 min', '30 秒到 2 分钟'], ['2 to 10 min', '2 到 10 分钟'], ['over 10 min', '10 分钟以上']];
   function figure12(wrap) {
@@ -255,13 +255,10 @@
     if (old) { wrap.removeChild(old); }
     var s = svg('svg', { viewBox: '0 0 ' + f.w + ' ' + f.h, preserveAspectRatio: 'none', class: 'vi-overlay__svg', 'aria-hidden': 'true' }, wrap);
     var hl = svg('g', {}, s), hits = svg('g', {}, s);
-    function show(a) {
-      clear(hl);
-      svg('circle', { cx: a.dot[0], cy: a.dot[1], r: 4.6, class: 'vi-ring', style: 'stroke:' + a.color }, hl);
-      var r = a.row, pb = a.panel;
-      svg('rect', { x: r[0], y: r[1], width: r[2], height: r[3], rx: 2, class: 'vi-ring', style: 'stroke:' + a.color }, hl);
-      svg('rect', { x: pb[0] - 2, y: pb[1] - 2, width: pb[2] + 4, height: pb[3] + 4, rx: 3, class: 'vi-ring', style: 'stroke:' + a.color }, hl);
-    }
+    /* a hover marks only the mark under the pointer */
+    function ring(x, y, r, color) { return function () { clear(hl); svg('circle', { cx: x, cy: y, r: r, class: 'vi-ring', style: 'stroke:' + color }, hl); }; }
+    function frame(b, color) { return function () { clear(hl); svg('rect', { x: b[0] - 0.8, y: b[1] - 0.8, width: b[2] + 1.6, height: b[3] + 1.6, rx: 1.5, class: 'vi-ring', style: 'stroke:' + color }, hl); }; }
+    function off() { clear(hl); }
     function head(a) { return '<b>' + esc(a.name) + '</b> ' + dot(a.color); }
     f.agents.forEach(function (a) {
       var tipA = function () {
@@ -269,23 +266,28 @@
           '<span>' + t('Median time per item', '每题耗时中位数') + '</span><b class="is-axis">' + Math.round(a.sec) + ' s</b>' +
           '<span>Q1–Q3</span><b>' + Math.round(a.q[0]) + '–' + Math.round(a.q[1]) + ' s</b><span>' + t('Sessions timed', '计时的会话') + '</span><b>' + U.fmt(a.n) + '</b></span>';
       };
-      var i = a.iqr;
-      bindTip(svg('rect', { x: i[0] - 2, y: i[1] - 3.5, width: i[2] + 4, height: 7, class: 'vi-hitmark' }, hits), tipA, function () { show(a); }, function () { clear(hl); });
-      bindTip(svg('circle', { cx: a.dot[0], cy: a.dot[1], r: 5, class: 'vi-hitmark' }, hits), tipA, function () { show(a); }, function () { clear(hl); });
+      var i = a.iqr, onDot = ring(a.dot[0], a.dot[1], 4.6, a.color);
+      bindTip(svg('rect', { x: i[0] - 2, y: i[1] - 3.5, width: i[2] + 4, height: 7, class: 'vi-hitmark' }, hits), tipA, onDot, off);
+      bindTip(svg('circle', { cx: a.dot[0], cy: a.dot[1], r: 5, class: 'vi-hitmark' }, hits), tipA, onDot, off);
       a.ops.forEach(function (o, j) {
         var b = o.box;
         bindTip(svg('rect', { x: b[0], y: b[1], width: b[2], height: b[3], class: 'vi-hitmark' }, hits), function () {
           return head(a) + '<br>' + t(OPS12[j][0], OPS12[j][1]) + ': <b>' + o.share.toFixed(0) + '%</b> ' + t('of its answers', '的作答') +
             '<br><span class="vi-tip__note">' + U.fmt(o.count) + ' / ' + U.fmt(o.total) + t(' sessions; operations can co-occur', ' 个会话；多种操作可以同时出现') + '</span>';
-        }, function () { show(a); }, function () { clear(hl); });
+        }, frame(b, a.color), off);
       });
-      a.images.forEach(function (m, k) {
-        bindTip(svg('circle', { cx: m.at[0], cy: m.at[1], r: 4, class: 'vi-hitmark' }, hits), function () {
+      /* the small multiples: each point answers for the strip of its panel nearest to it */
+      var P = a.panel, pts = a.images;
+      pts.forEach(function (m, k) {
+        var x0 = k === 0 ? P[0] : (pts[k - 1].at[0] + m.at[0]) / 2;
+        var x1 = k === pts.length - 1 ? P[0] + P[2] : (m.at[0] + pts[k + 1].at[0]) / 2;
+        bindTip(svg('rect', { x: x0, y: P[1], width: x1 - x0, height: P[3], class: 'vi-hitmark' }, hits), function () {
           return head(a) + '<br>' + t('Videos ', '视频 ') + t(DUR12[k][0], DUR12[k][1]) + '<br>' + t('Median images per item: ', '每题图像数中位数：') + '<b>' + U.fmt(m.value) + '</b>';
-        }, function () { show(a); }, function () { clear(hl); });
+        }, ring(m.at[0], m.at[1], 3.4, a.color), off);
       });
     });
   }
+
 
   /* ================= Tables 48 to 50 drawn as figures ================= */
   var AGT = { 'Astra': ['GPT-6-Astra', '#4285f4'], 'Fable 5.1': ['Claude Fable 5.1', '#db4437'], 'Opus 5': ['Claude Opus 5', '#ab47bc'],
