@@ -1924,18 +1924,17 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 
 /* leaderboard */
 .ib-lb-wrap { overflow-x: auto; }
-.ib-page table.ib-lb { width: 100%; min-width: 680px; border-collapse: collapse; font-family: var(--ib-sans); font-size: 0.84rem; margin: 0; }
+.ib-page table.ib-lb { width: 100%; min-width: 600px; border-collapse: collapse; font-family: var(--ib-sans); font-size: 0.84rem; margin: 0; }
 .ib-page table.ib-lb th { font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 600; color: var(--text-sub); text-align: left; padding: 8px 6px; border: 0; border-bottom: 1px solid var(--near-black); background: transparent; white-space: nowrap; }
-.ib-page table.ib-lb th.n, .ib-page table.ib-lb td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.ib-page table.ib-lb th.n, .ib-page table.ib-lb td.n { text-align: center; font-variant-numeric: tabular-nums; }
 .ib-page table.ib-lb th[data-k] { cursor: pointer; }
 .ib-page table.ib-lb th[aria-sort="descending"]::after { content: " ↓"; }
 .ib-page table.ib-lb th[aria-sort="ascending"]::after { content: " ↑"; }
 .ib-page table.ib-lb td { padding: 7px 6px; border: 0; border-bottom: 1px solid var(--border-cream); color: #3f3f46; background: transparent; }
 .ib-page table.ib-lb tr:nth-child(even) td { background: transparent; }
 .ib-page table.ib-lb tbody tr.ib-row:hover td { background: var(--ivory); }
-.ib-page table.ib-lb td.ib-rank { color: var(--text-muted); width: 2.2em; }
+.ib-page table.ib-lb td.ib-rank { color: var(--text-muted); width: 2.2em; text-align: center; }
 .ib-page table.ib-lb td.ib-sys { color: var(--near-black); font-weight: 500; white-space: nowrap; }
-.ib-page table.ib-lb td.ib-set { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
 .ib-page table.ib-lb td b { color: var(--near-black); font-weight: 700; }
 .ib-page table.ib-lb tr.ib-ref td { font-style: italic; color: var(--text-muted); }
 .ib-page table.ib-lb tr.ib-ref td.ib-sys { color: var(--text-sub); }
@@ -1948,6 +1947,7 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .ib-tip b { display: block; font-weight: 600; margin-bottom: 3px; }
 .ib-tip span { display: inline-block; margin-right: 10px; font-variant-numeric: tabular-nums; }
 .ib-tip span:last-child { margin-right: 0; }
+.ib-tip em { font-style: normal; color: #d1cfc5; }
 .ib-tip i { font-style: normal; font-weight: 600; margin-right: 3px; }
 .ib-tip .t-acc { color: #8fb6f5; }
 .ib-tip .t-ta { color: #ee918a; }

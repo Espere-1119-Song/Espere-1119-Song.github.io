@@ -161,7 +161,7 @@
         best[k] = vals.length ? Math.max.apply(null, vals) : null;
       });
       var t = h('table', { 'class': 'ib-lb' });
-      var head = '<thead><tr><th>#</th><th>System</th><th>Setting</th>' + COLS.map(function (k, j) {
+      var head = '<thead><tr><th class="n">#</th><th>System</th>' + COLS.map(function (k, j) {
         var s = S.sort === k ? (S.dir < 0 ? 'descending' : 'ascending') : 'none';
         return '<th class="n' + (j === 1 ? ' ib-sep' : '') + '" data-k="' + k + '" aria-sort="' + s + '" tabindex="0">' + (k === 'overall' ? 'Overall' : k) + '</th>';
       }).join('') + '</tr></thead>';
@@ -170,7 +170,7 @@
         var r = o.r, ref = isRef(r);
         if (!ref) { rank += 1; }
         body += '<tr class="ib-row' + (ref ? ' ib-ref' : '') + '">' +
-          '<td class="ib-rank">' + (ref ? '' : rank) + '</td><td class="ib-sys">' + esc(r.system) + '</td><td class="ib-set">' + esc(settingText(r)) + '</td>' +
+          '<td class="ib-rank">' + (ref ? '' : rank) + '</td><td class="ib-sys" data-tip="' + esc('<b>' + esc(r.system) + '</b><em>' + esc(settingText(r)) + '</em>') + '" aria-label="' + esc(r.system + ', ' + settingText(r)) + '">' + esc(r.system) + '</td>' +
           COLS.map(function (k, j) {
             var v = f1(value(r, k)), strong = !ref && value(r, k) === best[k];
             var tipHtml = tip(r, k), label = tipHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
