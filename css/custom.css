@@ -1347,6 +1347,13 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
   color: var(--near-black);
   margin: 0 0 8px;
 }
+/* GitHub, Hugging Face and arXiv under the byline; an href of "#" is a placeholder and does nothing */
+.vi-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 26px; }
+.post-body a.vi-link { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border: 1px solid var(--border-warm); border-radius: 999px; background: #fff; font: 600 0.82rem/1.2 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--near-black); text-decoration: none; transition: border-color 0.15s; }
+.post-body a.vi-link:hover { border-color: var(--near-black); }
+.vi-link .fa { font-size: 1rem; }
+.vi-link__hf { font-size: 0.95rem; line-height: 1; }
+.vi-links a[href="#"] { pointer-events: none; }
 
 /* contents: a card in the flow; on wide screens a sticky column left of the text */
 .vi-side { position: static; }
