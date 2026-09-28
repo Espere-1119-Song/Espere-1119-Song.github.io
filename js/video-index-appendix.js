@@ -886,43 +886,147 @@
   /* ================= Appendix X: the report cards ================= */
   var CD = { i: 0 };
   var CARD_DIR = '/images/blogs/video-index/cards/';
+  function squash(s) { return s.toLowerCase().replace(/[^a-z0-9]/g, ''); }
   function cards(container) {
     clear(container);
     var list = A.cards, n = list.length;
     var bar = el('div', { class: 'vi-ctl vi-cards__bar' }, container);
-    var input = el('input', { type: 'search', class: 'vi-input', list: 'vi-cards-names', placeholder: t('Find one of the 115 benchmarks…', '在 115 个 benchmark 中查找…'), 'aria-label': t('Find a benchmark', '查找 benchmark') }, bar);
-    var dl = el('datalist', { id: 'vi-cards-names' }, bar);
-    list.forEach(function (c) { el('option', { value: c.name }, dl); });
+    var field = el('div', { class: 'vi-cards__field' }, bar);
+    var input = el('input', { type: 'search', class: 'vi-input', placeholder: t('Search the ' + n + ' benchmarks…', '搜索 ' + n + ' 个 benchmark…'),
+      'aria-label': t('Search a benchmark', '搜索 benchmark'), 'aria-expanded': 'false', 'aria-controls': 'vi-cards-menu', autocomplete: 'off', spellcheck: 'false' }, field);
+    el('span', { class: 'vi-cards__caret', 'aria-hidden': 'true' }, field);
     var nav = el('div', { class: 'vi-seg vi-cards__nav', role: 'group' }, bar);
-    var prev = button(nav, '', '‹', null, function () { show(CD.i - 1); });
+    var prev = button(nav, '', '‹', null, function () { close(); show(CD.i - 1); });
     var count = el('span', { class: 'vi-cards__count' }, nav);
-    var next = button(nav, '', '›', null, function () { show(CD.i + 1); });
+    var next = button(nav, '', '›', null, function () { close(); show(CD.i + 1); });
     prev.setAttribute('aria-label', t('Previous card', '上一张'));
     next.setAttribute('aria-label', t('Next card', '下一张'));
+    /* the menu: every benchmark at once, in columns read top to bottom, filtered by what is typed */
+    var menu = el('div', { class: 'vi-cards__menu', id: 'vi-cards-menu', role: 'group', 'aria-label': t('Benchmarks', 'Benchmark'), hidden: '' }, bar);
+    var grid = el('div', { class: 'vi-cards__grid' }, menu);
+    var none = el('p', { class: 'vi-cards__none', hidden: '' }, menu, t('No benchmark matches.', '没有匹配的 benchmark。'));
+    var shown = [], rows = 1;
+    var items = list.map(function (c, k) {
+      var b = el('button', { type: 'button', class: 'vi-cards__opt', tabindex: '-1' }, grid, c.name);
+      b.addEventListener('click', function (ev) { pick(k, ev.detail === 0); });
+      b.addEventListener('keydown', function (ev) { itemKey(ev, k); });
+      return b;
+    });
     var card = el('div', { class: 'vi-cards__card', tabindex: '0', 'aria-label': t('Report card; use the arrow keys to browse', '报告卡；用方向键翻页') }, container);
     var img = el('img', { class: 'vi-cards__img', width: '1430', height: '455', decoding: 'async', alt: '' }, card);
     function preload(k) { var im = new Image(); im.src = CARD_DIR + list[(k + n) % n].file; }
     function show(k) {
+      items[CD.i].classList.remove('is-current');
+      items[CD.i].removeAttribute('aria-current');
       CD.i = (k + n) % n;
       var c = list[CD.i];
+      items[CD.i].classList.add('is-current');
+      items[CD.i].setAttribute('aria-current', 'true');
       img.src = CARD_DIR + c.file;
       img.alt = t('Report card of ', '报告卡：') + c.name;
       count.textContent = (CD.i + 1) + ' / ' + n;
-      if (document.activeElement !== input) { input.value = c.name; }
       preload(CD.i + 1);
       preload(CD.i - 1);
     }
-    function find(v, loose) {
-      v = v.trim().toLowerCase();
-      if (!v) { return -1; }
-      for (var k = 0; k < n; k++) { if (list[k].name.toLowerCase() === v) { return k; } }
-      if (!loose) { return -1; }
-      for (k = 0; k < n; k++) { if (list[k].name.toLowerCase().indexOf(v) >= 0) { return k; } }
-      return -1;
+    /* a name with the typed letters in bold; the match ignores case, spaces and punctuation */
+    function label(b, name, q) {
+      clear(b);
+      var pos = [], flat = '', i;
+      for (i = 0; i < name.length; i++) { if (/[a-z0-9]/i.test(name[i])) { pos.push(i); flat += name[i].toLowerCase(); } }
+      var s = q ? flat.indexOf(q) : -1;
+      if (s < 0) { b.textContent = name; return; }
+      var a = pos[s], z = pos[s + q.length - 1] + 1;
+      if (a > 0) { b.appendChild(document.createTextNode(name.slice(0, a))); }
+      el('b', {}, b, name.slice(a, z));
+      if (z < name.length) { b.appendChild(document.createTextNode(name.slice(z))); }
     }
-    input.addEventListener('input', function () { var k = find(input.value, false); if (k >= 0) { show(k); } });
-    input.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { var k = find(input.value, true); if (k >= 0) { show(k); input.value = list[k].name; } } });
-    input.addEventListener('blur', function () { input.value = list[CD.i].name; });
+    function filter() {
+      var q = squash(input.value);
+      shown = [];
+      items.forEach(function (b, k) {
+        var hit = !q || squash(list[k].name).indexOf(q) >= 0;
+        b.hidden = !hit;
+        if (hit) { shown.push(k); label(b, list[k].name, q); }
+      });
+      none.hidden = shown.length > 0;
+      layout();
+    }
+    /* as many columns as the stylesheet's auto-fill makes (--vi-col wide at least), each filled top to bottom,
+       so the names read like an index */
+    function layout() {
+      if (menu.hidden) { return; }
+      var cs = window.getComputedStyle(grid), gap = parseFloat(cs.columnGap) || 0;
+      var cols = Math.max(1, Math.floor((grid.clientWidth + gap) / ((parseFloat(cs.getPropertyValue('--vi-col')) || 128) + gap)));
+      rows = Math.max(1, Math.ceil(shown.length / cols));
+      grid.style.gridTemplateRows = 'repeat(' + rows + ', auto)';
+    }
+    function open() {
+      if (!menu.hidden) { return; }
+      menu.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      filter();
+      /* bring the whole menu into view on a desktop; on a phone the keyboard decides the scroll */
+      if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+        var r = menu.getBoundingClientRect(), f = field.getBoundingClientRect();
+        var by = Math.min(r.bottom + 16 - window.innerHeight, f.top - 80);
+        if (by > 0) { window.scrollBy({ top: by, behavior: 'smooth' }); }
+      }
+    }
+    function close() {
+      if (menu.hidden) { return; }
+      menu.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+    }
+    function pick(k, byKey) {
+      show(k);
+      input.value = '';
+      close();
+      if (byKey) { card.focus({ preventScroll: true }); } else { input.blur(); }
+    }
+    function itemKey(ev, k) {
+      var at = shown.indexOf(k), to = null;
+      if (ev.key === 'ArrowDown') { to = at + 1; }
+      if (ev.key === 'ArrowUp') { to = at - 1; }
+      if (ev.key === 'ArrowRight') { to = at + rows; }
+      if (ev.key === 'ArrowLeft') { to = at - rows; }
+      if (ev.key === 'Escape') { ev.preventDefault(); input.focus(); close(); return; }
+      if (to !== null) {
+        ev.preventDefault();
+        if (to < 0 && ev.key === 'ArrowUp') { input.focus(); }
+        if (to >= 0 && to < shown.length) { items[shown[to]].focus(); }
+        return;
+      }
+      if (ev.key.length === 1 && !ev.metaKey && !ev.ctrlKey && !ev.altKey && ev.key !== ' ') { input.focus(); }
+    }
+    input.addEventListener('focus', open);
+    input.addEventListener('click', open);
+    input.addEventListener('input', function () { open(); filter(); });
+    input.addEventListener('keydown', function (ev) {
+      if (ev.key === 'ArrowDown' && shown.length && !menu.hidden) { ev.preventDefault(); items[shown[0]].focus(); }
+      if (ev.key === 'ArrowDown' && menu.hidden) { ev.preventDefault(); open(); }
+      if (ev.key === 'Enter' && shown.length && !menu.hidden) {
+        ev.preventDefault();
+        var q = squash(input.value), k = shown[0];
+        shown.forEach(function (j) { if (squash(list[j].name) === q) { k = j; } });
+        pick(k, true);
+      }
+      if (ev.key === 'Escape') { ev.preventDefault(); input.value = ''; close(); }
+    });
+    /* a click in the menu keeps the focus in the search box, so a tap on a phone reaches the name */
+    menu.addEventListener('mousedown', function (ev) { ev.preventDefault(); });
+    /* closing: a pick, Escape, a click elsewhere, or the focus moving on to another control */
+    bar.addEventListener('focusout', function (ev) {
+      var to = ev.relatedTarget;
+      if (to && !field.contains(to) && !menu.contains(to)) { close(); }
+    });
+    CD.close = close;
+    CD.inside = function (node) { return field.contains(node) || menu.contains(node); };
+    CD.layout = layout;
+    if (!CD.bound) {
+      CD.bound = true;
+      document.addEventListener('pointerdown', function (ev) { if (CD.inside && !CD.inside(ev.target)) { CD.close(); } });
+      window.addEventListener('resize', function () { if (CD.layout) { CD.layout(); } });
+    }
     card.addEventListener('keydown', function (ev) {
       if (ev.key === 'ArrowLeft') { ev.preventDefault(); show(CD.i - 1); }
       if (ev.key === 'ArrowRight') { ev.preventDefault(); show(CD.i + 1); }

@@ -1815,10 +1815,28 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-cards__card { border-radius: 8px; outline: none; }
 .vi-cards__card:focus-visible { box-shadow: 0 0 0 2px var(--terracotta); }
 .post-body .vi-cards__card img { display: block; width: 100%; height: auto; border: 0; border-radius: 0; margin: 4px 0 0; }
+/* the search box of the report cards and its menu of every benchmark, in columns */
+.vi-cards__bar { position: relative; }
+.vi-cards__field { position: relative; display: flex; flex: 1 1 220px; min-width: 0; }
+.vi-ctl .vi-cards__field .vi-input { flex: 1 1 auto; padding-left: 32px; padding-right: 32px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2387867f' stroke-width='1.6' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='4.6'/%3E%3Cpath d='m10.5 10.5 3.3 3.3'/%3E%3C/svg%3E") no-repeat 11px 50% / 14px 14px; }
+.vi-cards__field .vi-input:focus { outline: none; border-color: var(--text-muted); }
+.vi-cards__field .vi-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; margin: 0 2px 0 6px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2387867f' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m4.5 4.5 7 7m0-7-7 7'/%3E%3C/svg%3E") no-repeat center / 14px 14px; cursor: pointer; }
+.vi-cards__caret { position: absolute; right: 13px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border: solid var(--text-muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); pointer-events: none; transition: transform 0.15s, margin-top 0.15s; }
+.vi-cards__field .vi-input[aria-expanded="true"] + .vi-cards__caret { transform: rotate(-135deg); margin-top: -1px; }
+.vi-cards__menu { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; padding: 8px; background: #fff; border: 1px solid var(--border-warm); border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.12) 0 12px 32px; }
+.vi-cards__grid { --vi-col: 128px; display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--vi-col), 1fr)); grid-auto-flow: column; column-gap: 4px; row-gap: 1px; }
+.vi-cards__opt { display: block; min-width: 0; margin: 0; padding: 4px 8px; border: 0; border-radius: 6px; background: transparent; font: 0.8rem/1.3 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: #3f3f46; text-align: left; overflow-wrap: anywhere; cursor: pointer; }
+.vi-cards__opt:hover, .vi-cards__opt:focus-visible { background: #f1f3f4; color: var(--near-black); outline: none; }
+.vi-cards__opt b { font-weight: 700; color: var(--near-black); }
+.vi-cards__opt.is-current, .vi-cards__opt.is-current:hover { background: var(--near-black); color: #fff; }
+.vi-cards__opt.is-current b { color: #fff; }
+.post-body p.vi-cards__none { margin: 2px 8px; font: 0.82rem/1.4 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--text-muted); }
 @media (max-width: 600px) {
   .vi-seg { margin-left: 0; }
   .vi-select { max-width: 150px; }
   .vi-mbar { width: 70px; }
+  .vi-cards__grid { --vi-col: 96px; }
+  .vi-cards__opt { padding: 4px 6px; font-size: 0.76rem; }
 }
 
 /* ── InteractionBench page: begin (built by build_project.py) ── */
