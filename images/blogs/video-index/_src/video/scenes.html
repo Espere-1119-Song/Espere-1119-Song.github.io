@@ -1,0 +1,395 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Video-Index overview, the added scenes</title>
+<!--
+  The scenes added to the author's overview video (images/blogs/video-index/overview.mp4), drawn in its style:
+  white ground, the four Google colours of the capability groups, Google Sans, masked rises and eased moves.
+  They start on the video's own frame at 13.9 s (the full mosaic, mosaic_still.png) and end on it again, so the
+  original continues from there with its dots and wordmark. window.render(t) draws the frame at time t (seconds,
+  0 to window.DURATION) from t alone; render_frames.mjs captures it at 60 fps and build_video.sh splices it in.
+  Numbers come from the post (data.js, exported from js/video-index-data.js).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #fff; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #fff; font-family: 'Google Sans', sans-serif; color: #202124; }
+  .abs { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+  .mask { position: absolute; overflow: hidden; }
+  .mask > span { display: block; white-space: nowrap; }
+  .chip { position: absolute; left: 0; top: 0; }
+  .num { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="data.js"></script>
+<script>
+(function () {
+  'use strict';
+  var S = document.getElementById('stage');
+  var BLUE = '#4285f4', RED = '#db4437', YELLOW = '#f4b400', GREEN = '#0f9d58', INK = '#202124', GREY = '#5f6368', TRACK = '#f1f3f4';
+  var GROUP = { 'Perception': BLUE, 'Reasoning / knowledge': YELLOW, 'Spatial / physical': RED, 'Temporal': GREEN };
+  var GORDER = ['Perception', 'Reasoning / knowledge', 'Spatial / physical', 'Temporal'];
+  var LEVELS = ['option', 'text', 'pool', 'frame', 'order', 'unbroken'];
+
+  /* ---------- easing and timing ---------- */
+  function clamp(x, a, b) { return Math.max(a === undefined ? 0 : a, Math.min(b === undefined ? 1 : b, x)); }
+  function lerp(a, b, u) { return a + (b - a) * u; }
+  function eOut(u) { return 1 - Math.pow(1 - u, 3); }
+  function eIn(u) { return u * u * u; }
+  function eIO(u) { return u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; }
+  function eBack(u) { var c = 1.4; return 1 + (c + 1) * Math.pow(u - 1, 3) + c * Math.pow(u - 1, 2); }
+  function prog(t, t0, d) { return clamp((t - t0) / d); }
+  function hex(c) { return [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; }
+  function mix(a, b, u) { var x = hex(a), y = hex(b); return 'rgb(' + [0, 1, 2].map(function (i) { return Math.round(lerp(x[i], y[i], u)); }).join(',') + ')'; }
+  function fmt(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  /* ---------- elements ---------- */
+  function div(style, parent, html) {
+    var e = document.createElement('div');
+    e.className = 'abs';
+    e.setAttribute('style', style || '');
+    if (html !== undefined) { e.innerHTML = html; }
+    (parent || S).appendChild(e);
+    return e;
+  }
+  /* text that rises out of a baseline mask, as the wordmark's letters do */
+  function riser(x, y, w, h, html, style, align) {
+    var m = div('overflow:hidden;width:' + w + 'px;height:' + h + 'px;transform:translate(' + x + 'px,' + y + 'px)');
+    var s = div('position:absolute;left:0;top:0;width:' + w + 'px;height:' + h + 'px;line-height:' + h + 'px;white-space:nowrap;text-align:' + (align || 'left') + ';' + style, m, html);
+    return { m: m, s: s, h: h };
+  }
+  function rise(r, t, tin, tout) {   /* in from below at tin, out upwards at tout */
+    var u = eOut(prog(t, tin, 0.45)), v = tout === undefined ? 0 : eIn(prog(t, tout, 0.35));
+    r.s.style.transform = 'translateY(' + ((1 - u) * r.h * 1.05 - v * r.h * 1.05) + 'px)';
+    r.m.style.visibility = (u > 0 && v < 1) ? 'visible' : 'hidden';
+  }
+  function show(e, on) { e.style.visibility = on ? 'visible' : 'hidden'; }
+
+  var T = window.VID.tiles, N = T.length;
+
+  /* the mosaic as the video left it */
+  var still = document.createElement('img');
+  still.src = 'mosaic_still.png';
+  still.className = 'abs';
+  still.style.width = '1920px'; still.style.height = '1080px'; still.style.zIndex = 10;   /* over the chips while it fades */
+  S.appendChild(still);
+
+  /* ---------- scene 1: the attack pyramid ---------- */
+  var ROWY = [262, 382, 502, 622, 742, 900], P = 13, CELL = 11, CX = 1060;
+  var order = T.map(function (t, i) { return i; }).sort(function (a, b) {
+    var ga = GORDER.indexOf(T[a].group), gb = GORDER.indexOf(T[b].group);
+    return ga - gb || (T[a].name < T[b].name ? -1 : 1);
+  });
+  var lvIndex = T.map(function (t) { return LEVELS.indexOf(t.level); });
+  var rowMembers = [0, 1, 2, 3, 4, 5].map(function (r) { return order.filter(function (i) { return lvIndex[i] >= r; }); });
+  var slot = T.map(function () { return []; });      /* slot[i][r]: x of tile i in row r */
+  rowMembers.forEach(function (mem, r) {
+    var x0 = CX - mem.length * P / 2;
+    mem.forEach(function (i, k) { slot[i][r] = x0 + k * P; });
+  });
+  var chips = T.map(function (t) { return div('z-index:3;border-radius:3px;background:' + t.color); });
+  var ghosts = rowMembers.map(function (mem) { return div('height:' + (CELL + 14) + 'px;border-radius:' + ((CELL + 14) / 2) + 'px;background:' + TRACK + ';width:' + (mem.length * P + 12) + 'px'); });
+  var LV_NAMES = ['Option', 'Text', 'Pool', 'Frame', 'Order', 'Survive'];
+  var lvLabels = LV_NAMES.map(function (name, r) {
+    var html = r < 5 ? '<span style="color:#9aa0a6;font-weight:500;margin-right:14px">' + (r + 1) + '</span>' + name : name;
+    return riser(40, ROWY[r] - 18 + CELL / 2, 250, 44, html, 'font-size:32px;font-weight:700;color:' + INK, 'right');
+  });
+  var counts = rowMembers.map(function (mem, r) {
+    var x = CX + mem.length * P / 2 + 22;
+    return riser(x, ROWY[r] - 18 + CELL / 2, 160, 44, '<span class="num">' + mem.length + '</span>', 'font-size:32px;font-weight:700;color:' + (r === 5 ? BLUE : INK));
+  });
+  var t1 = riser(150, 96, 1200, 70, 'The attack pyramid', 'font-size:52px;font-weight:700;color:' + INK);
+  var t1b = riser(150, 162, 1400, 44, 'Each level gives the attacker more of the item', 'font-size:30px;font-weight:400;color:' + GREY);
+
+  var S1 = { fly: 0.35, lv0: 1.6, step: 1.0, end: 7.05 };
+  function levelTime(r) { return S1.lv0 + r * S1.step; }
+
+  function drawScene1(t) {
+    var vis = t < S1.end + 0.5;
+    /* rows fill: the tiles leave the mosaic as solid chips and fall into the first row */
+    T.forEach(function (tile, i) {
+      var c = chips[i];
+      if (!vis && t > 1) { show(c, false); return; }
+      var k = order.indexOf(i);
+      var dFly = S1.fly + 0.35 * (k / N);
+      var uF = eIO(prog(t, dFly, 0.75));
+      /* position in the pyramid: row r it has reached */
+      var r = 0, x = slot[i][0], y = ROWY[0];
+      var lv = lvIndex[i];
+      for (var q = 0; q < 5; q++) {
+        var tq = levelTime(q);
+        if (lv > q) {            /* survives level q: moves to row q+1 */
+          var um = eIO(prog(t, tq + 0.3 + 0.0022 * rowMembers[q + 1].indexOf(i), 0.55));
+          if (um > 0) { x = lerp(slot[i][q], slot[i][q + 1], um); y = lerp(ROWY[q], ROWY[q + 1], um); r = q + 1; }
+        }
+      }
+      var w, h, cx, cy, col, op = 1, rot = 0, rad;
+      if (uF < 1) {
+        w = lerp(tile.w - 6, CELL, uF); h = lerp(tile.h - 6, CELL, uF);
+        cx = lerp(tile.x + tile.w / 2, slot[i][0] + CELL / 2, uF); cy = lerp(tile.y + tile.h / 2, ROWY[0] + CELL / 2, uF);
+        col = mix(tile.color, GROUP[tile.group], uF); rad = lerp(4, 3, uF);
+      } else {
+        w = h = CELL; cx = x + CELL / 2; cy = y + CELL / 2; col = GROUP[tile.group]; rad = 3;
+      }
+      if (lv < 5) {               /* breaks at level lv: turns grey, then drops away */
+        var tb = levelTime(lv);
+        var ug = prog(t, tb, 0.25), ud = eIn(prog(t, tb + 0.22 + 0.15 * ((i * 37) % 11) / 11, 0.55));
+        if (ug > 0) { col = mix(GROUP[tile.group], '#bdc1c6', ug); }
+        if (ud > 0) { cy += ud * (80 + (i * 53) % 60); op = 1 - ud; rot = ud * (((i * 31) % 2) ? 40 : -40); }
+      }
+      var out = eIn(prog(t, S1.end, 0.4));
+      op *= 1 - out;
+      c.style.width = w + 'px'; c.style.height = h + 'px'; c.style.borderRadius = rad + 'px'; c.style.background = col;
+      c.style.transform = 'translate(' + (cx - w / 2) + 'px,' + (cy - h / 2 - out * 30) + 'px) rotate(' + rot + 'deg)';
+      c.style.opacity = op;
+      show(c, op > 0.001);
+    });
+    /* the tracks of the rows stay, a staircase of what reaches each level */
+    ghosts.forEach(function (g, r) {
+      var tin = r === 0 ? S1.fly + 0.5 : levelTime(r - 1) + 0.35;
+      var u = eOut(prog(t, tin, 0.5)), out = eIn(prog(t, S1.end, 0.4));
+      var w = rowMembers[r].length * P + 12;
+      g.style.transform = 'translate(' + (CX - w / 2) + 'px,' + (ROWY[r] - 7) + 'px) scaleX(' + u + ')';
+      g.style.opacity = u * (1 - out);
+      show(g, u > 0 && out < 1);
+    });
+    lvLabels.forEach(function (l, r) { rise(l, t, r === 0 ? S1.fly + 0.4 : levelTime(r - 1) + 0.4, S1.end); });
+    counts.forEach(function (l, r) { rise(l, t, r === 0 ? S1.fly + 0.8 : levelTime(r - 1) + 0.75, S1.end); });
+    rise(t1, t, 0.9, S1.end); rise(t1b, t, 1.05, S1.end);
+    still.style.opacity = 1 - prog(t, 0.02, 0.3);
+    show(still, t < 0.4);
+  }
+
+  /* ---------- scene 2: newer benchmarks break earlier ---------- */
+  var S2 = { t0: 7.35, end: 10.95 };
+  var t2 = riser(0, 190, 1920, 76, 'Newer benchmarks break earlier', 'font-size:60px;font-weight:700;color:' + INK, 'center');
+  var BAR2 = { x: 330, w: 1080, h: 34 };
+  var rows2 = [{ label: 'Released through 2024', v: 19, y: 430 }, { label: 'Released in 2025 and 2026', v: 34, y: 620 }].map(function (d, i) {
+    return {
+      d: d,
+      label: riser(BAR2.x, d.y - 64, 900, 46, d.label, 'font-size:32px;font-weight:500;color:' + GREY),
+      track: div('height:' + BAR2.h + 'px;border-radius:' + BAR2.h / 2 + 'px;background:' + TRACK + ';width:' + BAR2.w + 'px'),
+      fill: div('height:' + BAR2.h + 'px;border-radius:' + BAR2.h / 2 + 'px;background:' + RED),
+      num: riser(BAR2.x + BAR2.w + 40, d.y - 40, 300, 110, '', 'font-size:96px;font-weight:700;color:' + INK)
+    };
+  });
+  var note2 = riser(0, 770, 1920, 46, 'break before the attacker sees a single frame', 'font-size:32px;font-weight:400;color:' + GREY, 'center');
+  function drawScene2(t) {
+    var on = t > S2.t0 - 0.1 && t < S2.end + 0.5;
+    rise(t2, t, S2.t0 + 0.05, S2.end);
+    rows2.forEach(function (r, i) {
+      var tin = S2.t0 + 0.3 + i * 0.18;
+      rise(r.label, t, tin, S2.end);
+      var ug = eOut(prog(t, tin + 0.25, 0.5)), out = eIn(prog(t, S2.end, 0.35));
+      r.track.style.transform = 'translate(' + BAR2.x + 'px,' + (r.d.y - out * 40) + 'px) scaleX(' + ug + ')';
+      r.track.style.transformOrigin = '0 0';
+      r.track.style.opacity = 1 - out;
+      var uf = eOut(prog(t, tin + 0.55, 0.95));
+      var fw = Math.max(BAR2.h, BAR2.w * r.d.v / 100 * uf);
+      r.fill.style.width = fw + 'px';
+      r.fill.style.transform = 'translate(' + BAR2.x + 'px,' + (r.d.y - out * 40) + 'px)';
+      r.fill.style.opacity = (uf > 0 ? 1 : 0) * (1 - out);
+      r.num.s.innerHTML = '<span class="num">' + Math.round(r.d.v * uf) + '%</span>';
+      rise(r.num, t, tin + 0.5, S2.end);
+      show(r.track, on && ug > 0); show(r.fill, on && uf > 0);
+    });
+    rise(note2, t, S2.t0 + 1.5, S2.end);
+  }
+
+  /* ---------- scene 3: from 505,518 questions to 840 ---------- */
+  var S3 = { t0: 10.95, first: 11.75, step: 0.3, end: 16.25 };
+  var SCR = window.VID.screen;
+  var t3 = riser(0, 170, 1920, 76, 'From ' + fmt(SCR[0].items) + ' questions to ' + fmt(SCR[SCR.length - 1].items), 'font-size:60px;font-weight:700;color:' + INK, 'center');
+  var big = riser(0, 330, 1920, 230, '', 'font-size:200px;font-weight:700;letter-spacing:-2px', 'center');
+  var stage3 = riser(0, 575, 1920, 50, '', 'font-size:34px;font-weight:500;color:' + GREY, 'center');
+  var BAR3 = { x: 460, w: 1000, y: 680, h: 18 };
+  var track3 = div('height:' + BAR3.h + 'px;border-radius:9px;background:' + TRACK + ';width:' + BAR3.w + 'px');
+  var fill3 = div('height:' + BAR3.h + 'px;border-radius:9px;background:' + BLUE);
+  var pills = [['Perception', BLUE], ['Temporal', GREEN], ['Spatial / physical', RED], ['Reasoning / knowledge', YELLOW]].map(function (g, i) {
+    return riser(0, 0, 420, 50, '<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:' + g[1] + ';margin-right:12px;vertical-align:-1px"></span>' + g[0] + ' <b style="font-weight:700;color:' + INK + '">210</b>', 'font-size:30px;font-weight:500;color:' + GREY, 'center');
+  });
+  function stageAt(t) { return clamp(Math.floor((t - S3.first) / S3.step) + 1, 0, SCR.length - 1); }
+  function drawScene3(t) {
+    var on = t > S3.t0 - 0.1 && t < S3.end + 0.5;
+    rise(t3, t, S3.t0 + 0.05, S3.end);
+    var k = t < S3.first ? 0 : stageAt(t);
+    var tk = S3.first + (k - 1) * S3.step, u = k === 0 ? 1 : eOut(prog(t, tk, 0.22));
+    var prev = k === 0 ? SCR[0].items : SCR[k - 1].items, v = lerp(prev, SCR[k].items, u);
+    var last = k === SCR.length - 1, uLast = last ? eOut(prog(t, tk + 0.1, 0.4)) : 0;
+    big.s.innerHTML = '<span class="num" style="color:' + mix('#5f6368', INK, 0.55 + 0.45 * uLast) + '">' + fmt(v) + '</span>';
+    rise(big, t, S3.t0 + 0.25, S3.end);
+    stage3.s.textContent = last ? 'Video-Index' : SCR[k].stage;
+    stage3.s.style.color = last ? INK : GREY;
+    rise(stage3, t, S3.t0 + 0.4, S3.end);
+    var ug = eOut(prog(t, S3.t0 + 0.45, 0.5)), out = eIn(prog(t, S3.end, 0.35));
+    track3.style.transform = 'translate(' + BAR3.x + 'px,' + (BAR3.y - out * 40) + 'px) scaleX(' + ug + ')';
+    track3.style.transformOrigin = '0 0'; track3.style.opacity = 1 - out;
+    var fw = Math.max(BAR3.h, BAR3.w * v / SCR[0].items * ug);
+    fill3.style.width = fw + 'px';
+    fill3.style.transform = 'translate(' + BAR3.x + 'px,' + (BAR3.y - out * 40) + 'px)';
+    fill3.style.opacity = 1 - out;
+    fill3.style.background = last ? mix(BLUE, INK, uLast) : BLUE;
+    show(track3, on && ug > 0); show(fill3, on && ug > 0);
+    pills.forEach(function (p, i) {
+      var x = 960 - 2 * 430 + i * 430 + 5;
+      p.m.style.transform = 'translate(' + x + 'px,' + (800 - out * 0) + 'px)';
+      rise(p, t, S3.first + (SCR.length - 1) * S3.step + 0.25 + i * 0.08, S3.end);
+    });
+  }
+
+  /* ---------- scene 4: agents lead on Video-Index ---------- */
+  var S4 = { t0: 16.25, end: 21.65 };
+  var AG = { 'GPT-6-Astra': '#4285f4', 'Claude Fable 5.1': '#db4437', 'Claude Opus 5': '#ab47bc', 'Gemini 3.1 Pro': '#0f9d58', 'Gemini 3.5 Flash-Lite': '#f4b400' };
+  var R = window.VID.results.slice().sort(function (a, b) { return b.video - a.video; });
+  var best = R.filter(function (r) { return r.protocol === 'fixed' && r.model !== 'Claude Opus 5'; })[0];
+  var lb = R.filter(function (r) { return r.protocol !== 'fixed' || r.model === 'Claude Opus 5'; }).concat([best]);
+  var t4 = riser(160, 96, 1600, 76, 'Agents lead on Video-Index', 'font-size:60px;font-weight:700;color:' + INK);
+  var t4b = riser(160, 170, 1600, 44, 'Accuracy (%) on the 840 hardest verified questions', 'font-size:30px;font-weight:400;color:' + GREY);
+  var BAR4 = { x: 700, w: 1000, h: 40, y0: 262, dy: 90 };
+  var rows4 = lb.map(function (r, i) {
+    var human = r.protocol === 'human', agent = r.protocol === 'agent';
+    var col = agent ? AG[r.model] : human ? '#5f6368' : r.model === 'Claude Opus 5' ? '#d7a3de' : '#bdc1c6';
+    var tag = agent ? 'agent' : human ? '' : r.model === 'Claude Opus 5' ? 'fixed input' : 'best open model';
+    var y = BAR4.y0 + i * BAR4.dy;
+    return {
+      r: r, y: y, col: col,
+      name: riser(0, y - 8, BAR4.x - 30, 44, human ? 'Human volunteers' : r.model, 'font-size:34px;font-weight:500;color:' + INK, 'right'),
+      tag: riser(0, y + 34, BAR4.x - 30, 30, tag, 'font-size:22px;font-weight:400;color:#80868b', 'right'),
+      fill: div('height:' + BAR4.h + 'px;border-radius:' + BAR4.h / 2 + 'px;background:' + col),
+      num: riser(0, y - 12, 200, 60, '', 'font-size:40px;font-weight:700;color:' + INK)
+    };
+  });
+  function drawScene4(t) {
+    var on = t > S4.t0 - 0.1 && t < S4.end + 0.5;
+    rise(t4, t, S4.t0 + 0.05, S4.end); rise(t4b, t, S4.t0 + 0.2, S4.end);
+    rows4.forEach(function (row, i) {
+      var tin = S4.t0 + 0.45 + i * 0.09;
+      rise(row.name, t, tin, S4.end); rise(row.tag, t, tin + 0.05, S4.end);
+      var uf = eOut(prog(t, tin + 0.2, 1.1)), out = eIn(prog(t, S4.end, 0.35));
+      var w = Math.max(BAR4.h, BAR4.w * row.r.video / 100 * uf);
+      row.fill.style.width = w + 'px';
+      row.fill.style.transform = 'translate(' + BAR4.x + 'px,' + (row.y - out * 40) + 'px)';
+      row.fill.style.opacity = (uf > 0 ? 1 : 0) * (1 - out);
+      show(row.fill, on && uf > 0);
+      row.num.s.innerHTML = '<span class="num">' + (row.r.video * uf).toFixed(1) + '</span>';
+      row.num.m.style.transform = 'translate(' + (BAR4.x + w + 20) + 'px,' + (row.y - 12) + 'px)';
+      rise(row.num, t, tin + 0.2, S4.end);
+    });
+  }
+
+  /* ---------- scene 5: how agents look, sample, tile, then crop and zoom ---------- */
+  var SA = { t0: 21.65, end: 25.75 };
+  var t5 = riser(160, 96, 1600, 76, 'How agents gather evidence', 'font-size:60px;font-weight:700;color:' + INK);
+  var t5b = riser(160, 170, 1600, 44, 'Nearly every answer starts from a grid of sampled frames', 'font-size:30px;font-weight:400;color:' + GREY);
+  var CARD = { x: 160, y: 285, w: 800, h: 450, label: 56 };
+  var card5 = div('z-index:4;border-radius:14px;overflow:hidden;background:#fff;box-shadow:rgba(32,33,36,0.28) 0 16px 40px;width:' + CARD.w + 'px;height:' + (CARD.h + CARD.label) + 'px');
+  div('position:absolute;left:0;top:0;width:' + CARD.w + 'px;height:' + CARD.h + 'px;background:#202124 url(assets/agent_0.jpg) center/cover', card5);
+  div('position:absolute;left:0;top:' + CARD.h + 'px;width:' + CARD.w + 'px;height:' + CARD.label + 'px;line-height:' + CARD.label + 'px;padding-left:22px;font-size:26px;font-weight:500;color:' + INK,
+    card5, '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:' + BLUE + ';margin-right:12px"></span>S-EMBER · a five-minute first-person video');
+  var GRID = { x: 1040, y: 285, cw: 224, ch: 126, gap: 14 };
+  var thumbs = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (k) {
+    return div('z-index:5;border-radius:8px;background:#202124 url(assets/agent_' + k + '.jpg) center/cover;box-shadow:rgba(32,33,36,0.18) 0 4px 12px');
+  });
+  var ZOOM = { k: 6, x: 1110, y: 330, w: 560, h: 315 };
+  var zoom = div('z-index:6;border-radius:12px;background:#202124 url(assets/agent_' + ZOOM.k + '.jpg) no-repeat;background-size:200% auto;background-position:4% 60%;box-shadow:rgba(32,33,36,0.32) 0 18px 44px');
+  var ring = div('z-index:6;border:4px solid ' + BLUE + ';border-radius:10px;box-sizing:border-box');
+  var steps = ['Sample frames', 'Tile them into a grid', 'Crop and zoom'].map(function (name, i) {
+    return riser(0, 0, 520, 50, '<span class="n" style="display:inline-block;width:38px;height:38px;line-height:38px;border-radius:50%;text-align:center;font-size:22px;font-weight:700;margin-right:14px;vertical-align:2px">' + (i + 1) + '</span><span class="l">' + name + '</span>', 'font-size:30px;font-weight:500', 'left');
+  });
+  function drawAgents(t) {
+    var on = t > SA.t0 - 0.1 && t < SA.end + 0.5, r = t - SA.t0;
+    rise(t5, t, SA.t0 + 0.05, SA.end); rise(t5b, t, SA.t0 + 0.2, SA.end);
+    var out = eIn(prog(t, SA.end, 0.35));
+    var uc = eOut(prog(t, SA.t0 + 0.3, 0.5)), sc = lerp(0.86, 1, uc);
+    card5.style.transform = 'translate(' + CARD.x + 'px,' + (CARD.y - out * 40) + 'px) scale(' + sc + ')';
+    card5.style.transformOrigin = '50% 50%';
+    card5.style.opacity = uc * (1 - out);
+    show(card5, on && uc > 0);
+    thumbs.forEach(function (th, k) {
+      /* sampled: out of the card into a strip, one after another; then tiled into the grid */
+      var us = eOut(prog(t, SA.t0 + 0.95 + k * 0.07, 0.35));
+      var ut = eIO(prog(t, SA.t0 + 1.85 + k * 0.035, 0.6));
+      var sx0 = CARD.x + CARD.w - 60, sy0 = CARD.y + CARD.h / 2 - 17;                  /* from the card's edge */
+      var sx1 = GRID.x + k * 76, sy1 = GRID.y + 40;                                    /* the strip of samples */
+      var gx = GRID.x + (k % 3) * (GRID.cw + GRID.gap), gy = GRID.y + Math.floor(k / 3) * (GRID.ch + GRID.gap);
+      var w = lerp(lerp(40, 64, us), GRID.cw, ut), h = lerp(lerp(22, 36, us), GRID.ch, ut);
+      var x = lerp(lerp(sx0, sx1, us), gx, ut), y = lerp(lerp(sy0, sy1, us), gy, ut);
+      th.style.width = w + 'px'; th.style.height = h + 'px'; th.style.borderRadius = lerp(4, 8, ut) + 'px';
+      th.style.transform = 'translate(' + x + 'px,' + (y - out * 40) + 'px)';
+      th.style.opacity = us * (1 - out);
+      show(th, on && us > 0);
+    });
+    var k = ZOOM.k, gx = GRID.x + (k % 3) * (GRID.cw + GRID.gap), gy = GRID.y + Math.floor(k / 3) * (GRID.ch + GRID.gap);
+    var ur = eOut(prog(t, SA.t0 + 2.75, 0.3)), uz = eIO(prog(t, SA.t0 + 3.0, 0.55));
+    ring.style.width = (GRID.cw + 12) + 'px'; ring.style.height = (GRID.ch + 12) + 'px';
+    ring.style.transform = 'translate(' + (gx - 6) + 'px,' + (gy - 6 - out * 40) + 'px) scale(' + lerp(1.15, 1, ur) + ')';
+    ring.style.opacity = ur * (1 - uz) * (1 - out);
+    show(ring, on && ur > 0 && uz < 1);
+    zoom.style.width = lerp(GRID.cw, ZOOM.w, uz) + 'px'; zoom.style.height = lerp(GRID.ch, ZOOM.h, uz) + 'px';
+    zoom.style.transform = 'translate(' + lerp(gx, ZOOM.x, uz) + 'px,' + (lerp(gy, ZOOM.y, uz) - out * 40) + 'px)';
+    zoom.style.backgroundSize = lerp(100, 200, uz) + '% auto';
+    zoom.style.backgroundPosition = lerp(50, 4, uz) + '% ' + lerp(50, 60, uz) + '%';
+    zoom.style.opacity = (uz > 0 ? 1 : 0) * (1 - out);
+    show(zoom, on && uz > 0);
+    var active = r < 1.8 ? 0 : r < 2.75 ? 1 : 2;
+    steps.forEach(function (st, i) {
+      st.m.style.transform = 'translate(' + (160 + i * 560) + 'px,860px)';
+      rise(st, t, SA.t0 + 0.6 + i * 0.1, SA.end);
+      var on2 = i === active;
+      st.s.querySelector('.n').style.background = on2 ? INK : TRACK;
+      st.s.querySelector('.n').style.color = on2 ? '#fff' : '#80868b';
+      st.s.querySelector('.l').style.color = on2 ? INK : '#9aa0a6';
+    });
+  }
+
+  /* ---------- scene 6: the tiles fly back into the mosaic ---------- */
+  var S5 = { t0: 25.85, end: 27.4 };
+  var far = T.map(function (tile, i) {
+    var cx = tile.x + tile.w / 2 - 960, cy = tile.y + tile.h / 2 - 540, d = Math.sqrt(cx * cx + cy * cy) || 1;
+    return { dx: cx / d, dy: cy / d, d: d };
+  });
+  var maxD = Math.max.apply(null, far.map(function (f) { return f.d; }));
+  function drawScene5(t) {
+    if (t < S5.t0) { return; }
+    T.forEach(function (tile, i) {
+      var c = chips[i], f = far[i];
+      var delay = 0.55 * (1 - f.d / maxD);                 /* the edges arrive first, as in the video's opening */
+      var u = eOut(prog(t, S5.t0 + delay, 0.6));
+      var w = tile.w - 3, h = tile.h - 3;
+      var x = tile.x + 1.5 + f.dx * 1300 * (1 - u), y = tile.y + 1.5 + f.dy * 1300 * (1 - u);
+      c.style.width = w + 'px'; c.style.height = h + 'px'; c.style.borderRadius = '2px'; c.style.background = tile.color;
+      c.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      c.style.opacity = u > 0 ? 1 : 0;
+      show(c, u > 0);
+    });
+    var us = prog(t, S5.end - 0.45, 0.4);
+    still.style.opacity = us;
+    show(still, us > 0);
+  }
+
+  window.DURATION = S5.end;
+  window.render = function (t) {
+    drawScene1(t);
+    drawScene2(t);
+    drawScene3(t);
+    drawScene4(t);
+    drawAgents(t);
+    drawScene5(t);
+    if (t >= S5.end - 0.001) { T.forEach(function (tile, i) { show(chips[i], false); }); still.style.opacity = 1; show(still, true); }
+  };
+  window.READY = false;
+  Promise.all([document.fonts.load('700 60px "Google Sans"'), document.fonts.load('500 30px "Google Sans"'), document.fonts.load('400 30px "Google Sans"'),
+    new Promise(function (ok) { if (still.complete) { ok(); } else { still.onload = ok; } })].concat([0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (k) {
+      return new Promise(function (ok) { var im = new Image(); im.onload = ok; im.onerror = ok; im.src = 'assets/agent_' + k + '.jpg'; });
+    }))).then(function () {
+    window.render(0);
+    window.READY = document.fonts.check('700 60px "Google Sans"');
+  });
+})();
+</script>
+</body>
+</html>
