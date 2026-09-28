@@ -2,9 +2,13 @@
 layout: base
 title: "InteractionBench: A Real-Time Interaction Benchmark for Streaming Video Systems"
 permalink: /projects/interactionbench/
+ext-css:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css
+ext-js:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js
 js:
   - /js/interactionbench-data.js?v=b5fbb698
-  - /js/interactionbench.js?v=60ba12f5
+  - /js/interactionbench.js?v=79248bf0
 ---
 
 <div class="post-page">
@@ -18,9 +22,29 @@ js:
 <section id="demo">
   <h2>Demo</h2>
   <div class="ib-cases" id="x-tasks"></div>
-  <p class="ib-part">Scoring</p>
-  <p class="ib-note">An illustrative Alert item with two events. Click the timeline to add or remove a reply, or start from a pattern. Content accuracy grades what the reply says, timing accuracy when it arrives, and silence compliance penalizes premature and repeated replies.</p>
-  <div class="ib-scorer" id="x-scorer"></div>
+</section>
+
+<section id="scoring">
+  <h2>Scoring</h2>
+  <div class="ib-formulas">
+    <div class="ib-fname m-acc">Content · Acc</div>
+    <p class="ib-ftext">What the matched response says, graded against the reference answer.</p>
+    <div class="ib-fname m-ta">Timing · TA</div>
+    <div class="ib-eq" data-tex="\mathrm{TA}=\frac{100}{N}\sum_{n=1}^{N}\Bigl(1-\frac{d_n}{\Delta}\Bigr)_{+}"></div>
+    <div class="ib-fname m-sc">Silence · SC</div>
+    <div class="ib-eq" data-tex="\mathrm{SC}=100\Bigl(1-\frac{|V|}{N}\Bigr)_{+}"></div>
+    <div class="ib-fname m-ov">Overall</div>
+    <div class="ib-eq" data-tex="\mathrm{Overall}=\frac{\mathrm{Acc}+H(\mathrm{TA},\,\mathrm{SC})}{2}"></div>
+    <div class="ib-fname m-neg">Negative stream</div>
+    <div class="ib-eq" data-tex="\mathrm{Overall}=\mathrm{SC}=100\max(0,\,1-M)"></div>
+  </div>
+  <ul class="ib-defs">
+    <li>Event <span data-tex="n"></span> of <span data-tex="N"></span> can first be answered at <span data-tex="r^{*}_{n}"></span> and owns the window <span data-tex="W_n=[\,r^{*}_{n}-\epsilon,\;r^{*}_{n+1}-\epsilon)"></span> with <span data-tex="\epsilon=1\,\mathrm{s}"></span>. The last window runs to the end of the stream.</li>
+    <li>The first reply in <span data-tex="W_n"></span> is the matched response, <span data-tex="d_n=\max(0,\,t-r^{*}_{n})"></span> after <span data-tex="r^{*}_{n}"></span>. An event without one adds nothing to TA, and the delay scale is <span data-tex="\Delta=5\,\mathrm{s}"></span>.</li>
+    <li>Later replies in the same window are redundant and replies before the first window are premature. Together they form the violation set <span data-tex="V"></span>.</li>
+    <li><span data-tex="H(a,b)=2ab/(a+b)"></span> is the harmonic mean with <span data-tex="H(0,0)=0"></span>, and <span data-tex="(x)_{+}=\max(x,0)"></span>. <span data-tex="M"></span> counts the replies on a negative stream, where silence is correct throughout.</li>
+    <li>Dataset scores average the item scores.</li>
+  </ul>
 </section>
 
 <section id="leaderboard">
@@ -34,4 +58,5 @@ js:
 
 </div>
 </div>
+
 </div>
