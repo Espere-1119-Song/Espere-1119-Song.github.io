@@ -81,6 +81,53 @@
       'Video-Index ' + b.vi + ' ' + t('items', '道');
   }
 
+  /* ---------- Figure 1: a tile opens into a card playing an example of its benchmark, as in the overview video ---------- */
+  var CLIP_DIR = '/images/blogs/video-index/clips/';
+  var card = null;
+  function place(node, r) { node.style.left = r.x + 'px'; node.style.top = r.y + 'px'; node.style.width = r.w + 'px'; node.style.height = r.h + 'px'; }
+  function closeClip(now) {
+    var c = card;
+    if (!c) { return; }
+    card = null;
+    if (now) { c.node.parentNode.removeChild(c.node); return; }
+    c.node.classList.remove('is-open');
+    place(c.node, c.from);
+    setTimeout(function () { if (c.node.parentNode) { c.node.parentNode.removeChild(c.node); } }, 480);
+  }
+  function openClip(wrap, f, rect, b, clip) {
+    var again = card && card.name === b.name;
+    closeClip(false);
+    if (again) { return; }                        /* a second click on the tile closes its card */
+    var wr = wrap.getBoundingClientRect(), tr = rect.getBoundingClientRect(), k = wr.width / f.w;
+    var from = { x: tr.left - wr.left, y: tr.top - wr.top, w: tr.width, h: tr.height };
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;   /* the mosaic, the union of the tiles */
+    f.tiles.forEach(function (t0) { x0 = Math.min(x0, t0.box[0]); y0 = Math.min(y0, t0.box[1]); x1 = Math.max(x1, t0.box[0] + t0.box[2]); y1 = Math.max(y1, t0.box[1] + t0.box[3]); });
+    x0 *= k; y0 *= k; x1 *= k; y1 *= k;
+    var LABEL = 36, pad = 6;
+    var w = Math.min((x1 - x0) * (wr.width < 600 ? 0.9 : 0.62), 600), h = w * clip.h / clip.w + LABEL;
+    if (h > (y1 - y0) - 2 * pad) { h = (y1 - y0) - 2 * pad; w = (h - LABEL) * clip.w / clip.h; }
+    var cx = from.x + from.w / 2, cy = from.y + from.h / 2;
+    var to = { x: Math.max(x0 + pad, Math.min(cx - w / 2, x1 - pad - w)), y: Math.max(y0 + pad, Math.min(cy - h / 2, y1 - pad - h)), w: w, h: h };
+    var node = el('div', { class: 'vi-clip', role: 'dialog', 'aria-label': b.name }, wrap);
+    var media = el('div', { class: 'vi-clip__media' }, node);
+    var v = el('video', { poster: CLIP_DIR + clip.poster, src: CLIP_DIR + clip.src, preload: 'auto', playsinline: '', loop: '', muted: '' }, media);
+    v.muted = true;
+    var label = el('div', { class: 'vi-clip__label' }, node);
+    el('i', { style: 'background:' + GC[b.group] }, label);
+    el('span', {}, label, b.name);
+    place(node, from);
+    node.getBoundingClientRect();                 /* start from the tile, then grow */
+    node.classList.add('is-open');
+    place(node, to);
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () {}); }
+    node.addEventListener('click', function (ev) { ev.stopPropagation(); closeClip(false); });
+    card = { node: node, from: from, name: b.name, width: wrap.clientWidth };
+  }
+  document.addEventListener('click', function (ev) { if (card && !card.node.contains(ev.target)) { closeClip(false); } });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { closeClip(false); } });
+  window.addEventListener('resize', function () { if (card && card.width !== card.node.parentNode.clientWidth) { closeClip(true); } });   /* the figure changed width, not just the phone's toolbar */
+
   /* ---------- hover regions over the paper's figures ---------- */
   function overlay(wrap, spec, regions) {
     var old = wrap.querySelector('svg.vi-overlay__svg');
@@ -88,17 +135,18 @@
     var s = svg('svg', { viewBox: '0 0 ' + spec.w + ' ' + spec.h, preserveAspectRatio: 'none', class: 'vi-overlay__svg', 'aria-hidden': 'true' }, wrap);
     var table = !!document.getElementById('vi-explorer');   /* the clicks list benchmarks in the table, when the page has it */
     regions.forEach(function (r) {
-      var click = table ? r.click : null;
+      var click = r.play || (table ? r.click : null);
       var rect = svg('rect', { x: r.box[0], y: r.box[1], width: r.box[2], height: r.box[3], class: 'vi-hit' + (click ? ' is-link' : ''), 'vector-effect': 'non-scaling-stroke' }, s);
       hoverable(rect, r.tip);
-      if (click) { rect.addEventListener('click', function () { tip.setAttribute('hidden', ''); click(); }); }
+      if (click) { rect.addEventListener('click', function (ev) { ev.stopPropagation(); tip.setAttribute('hidden', ''); click(rect); }); }
     });
   }
   function figure1(wrap) {
-    var f = D.figures.fig1, regions = [];
+    var f = D.figures.fig1, regions = [], clips = window.VI_CLIPS || {};
     f.tiles.forEach(function (tile) {
-      var b = BY[tile.name];
-      regions.push({ box: tile.box, tip: function () { return benchTip(b); }, click: function () { selectBenchmark(b); } });
+      var b = BY[tile.name], clip = clips[tile.name];
+      regions.push({ box: tile.box, tip: function () { return benchTip(b); }, click: function () { selectBenchmark(b); },
+        play: clip ? function (rect) { openClip(wrap, f, rect, b, clip); } : null });
     });
     f.chain.forEach(function (st, i) {
       regions.push({ box: st.box, tip: function () {
