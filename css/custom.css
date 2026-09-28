@@ -1666,9 +1666,17 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .vi-explorer__detail { margin-top: 12px; }
 .post-body table.vi-results-table tbody tr { cursor: default; }
 .post-body table.vi-results-table td.is-metric { white-space: nowrap; }
-.post-body table.vi-results-table tbody.vi-results__block tr.vi-results__blockhead th { position: static; padding: 14px 8px 5px; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; text-align: left; color: var(--text-muted); background: transparent; border: 0; border-bottom: 1px solid var(--border-warm); }
-.post-body table.vi-results-table tbody.vi-results__block:first-of-type tr.vi-results__blockhead th { padding-top: 8px; }
-.vi-results-live .vi-explorer__wrap { max-height: none; }
+.post-body table.vi-results-table tbody.vi-results__block tr.vi-results__blockhead th { position: static; padding: 10px 8px 3px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; text-align: left; color: var(--text-muted); background: transparent; border: 0; border-bottom: 1px solid var(--border-warm); }
+.post-body table.vi-results-table tbody.vi-results__block:first-of-type tr.vi-results__blockhead th { padding-top: 6px; }
+/* Table 1 sits on the page, no box, as wide as its columns */
+.vi-results-live .vi-explorer__wrap { max-height: none; border: 0; border-radius: 0; background: transparent; }
+.post-body .vi-results-live table.vi-results-table { width: auto; font-size: 0.9rem; }
+.post-body .vi-results-live table.vi-results-table thead th { position: static; padding: 3px 12px 5px; background: transparent; font-size: 0.7rem; }
+.post-body .vi-results-live table.vi-results-table td { padding: 3px 12px; }
+.post-body .vi-results-live table.vi-results-table thead th:first-child, .post-body .vi-results-live table.vi-results-table td:first-child { padding-left: 0; padding-right: 20px; }
+.post-body .vi-results-live table.vi-results-table thead th:last-child, .post-body .vi-results-live table.vi-results-table td:last-child { padding-right: 0; }
+.post-body .vi-results-live table.vi-results-table tbody.vi-results__block tr.vi-results__blockhead th { padding-left: 0; }
+.post-body .vi-results-live table.vi-results-table tbody tr:hover td { background: rgba(20, 20, 19, 0.04); }
 .vi-rval.is-best { font-weight: 700; color: var(--near-black); }
 
 /* ── Appendix views of the Video-Index post (js/video-index-appendix.js) ── */
