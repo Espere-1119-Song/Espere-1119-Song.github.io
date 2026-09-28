@@ -8,9 +8,9 @@ cover: /images/blogs/video-index/cover.jpg
 js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260927vi1
-  - /js/video-index-explorer.js?v=20260927vi5
+  - /js/video-index-explorer.js?v=20260927vi6
   - /js/video-index-appendix-data.js?v=20260927vi2
-  - /js/video-index-appendix.js?v=20260927vi4
+  - /js/video-index-appendix.js?v=20260927vi5
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -42,7 +42,6 @@ js:
         <li><a href="#budget"><span lang="en">Frames, pixels, and long video</span><span lang="zh">帧数、像素与长视频</span></a></li>
         <li><a href="#errors"><span lang="en">Errors and duplicates</span><span lang="zh">错误与重复</span></a></li>
       </ol></li>
-    <li><a href="#explore"><span lang="en">Explore the benchmarks</span><span lang="zh">逐个查看 benchmark</span></a></li>
     <li><a href="#which"><span lang="en">Which benchmarks to use</span><span lang="zh">按能力选 benchmark</span></a></li>
     <li><a href="#cards"><span lang="en">Report cards</span><span lang="zh">报告卡</span></a></li>
     <li><a href="#video-index">Video-Index</a>
@@ -174,17 +173,6 @@ js:
   </section>
 </section>
 
-<!-- ================= Explore ================= -->
-<section id="explore">
-  <h2><span lang="en">Explore the 115 benchmarks</span><span lang="zh">逐个查看 115 个 benchmark</span></h2>
-  <p lang="en">Every count in this post traces to the per-benchmark records below. Filter by breaking level, capability group, or release period, sort any column, and click a row to see how far each attacker gets on that benchmark.</p>
-  <p lang="zh">本文的每一个数字都能追溯到下面的逐 benchmark 记录。可以按被攻破层级、能力组或发布时期筛选，按任意列排序，点击一行查看每个攻击者在该 benchmark 上能走多远。</p>
-  <figure class="vi-fig" id="f-explorer">
-    <div id="vi-explorer" class="vi-explorer"></div>
-    <figcaption><span lang="en">All 115 audited benchmarks. Reference is Gemini 3.5 Flash at 32 frames, Chance the mean reciprocal option count, Items the benchmark's full item count, and Video-Index the items it contributes to the 840.</span><span lang="zh">全部 115 个被审计的 benchmark。参照为看 32 帧的 Gemini 3.5 Flash，随机为选项数倒数的均值，题目数为该 benchmark 的全部题目，Video-Index 为它贡献给 840 道题的数量。</span></figcaption>
-  </figure>
-</section>
-
 <!-- ================= Which benchmarks to use ================= -->
 <section id="which">
   <h2><span lang="en">Which benchmarks to use for a capability</span><span lang="zh">按能力选 benchmark</span></h2>
@@ -200,12 +188,7 @@ js:
   <p lang="zh">幸存只说明它挡住了我们试过的攻击者，并不证明更多。它的<a href="#cards">报告卡</a>写明它离被攻破最近的是哪一层；如果某项能力需要最可靠的把关，可以按这个余量给同组的幸存者排序。表 34 到表 37 给出每组最强的十个 benchmark，余量是攻破门槛 <i>s</i>* − <i>c</i> − <i>δ</i> 减去各已测层级中最大的可利用度，单位为 %。</p>
   <figure class="vi-fig" id="f-rank">
     <div id="vi-rank"></div>
-    <figcaption>
-        <span data-rank="34"><b><span lang="en">Table 34.</span><span lang="zh">表 34</span></b> <span lang="en">Perception. Ten strongest of 45 benchmarks, 13 of which survive, ranked by breaking level and then by the margin below the breaking threshold (%).</span><span lang="zh">感知。45 个 benchmark 中最强的十个（其中 13 个幸存），先按被攻破层级、再按低于攻破门槛的余量（%）排序。</span></span>
-        <span data-rank="35" hidden><b><span lang="en">Table 35.</span><span lang="zh">表 35</span></b> <span lang="en">Temporal. Ten strongest of 18 benchmarks, 10 of which survive, ranked by breaking level and then by the margin below the breaking threshold (%).</span><span lang="zh">时序。18 个 benchmark 中最强的十个（其中 10 个幸存），先按被攻破层级、再按低于攻破门槛的余量（%）排序。</span></span>
-        <span data-rank="36" hidden><b><span lang="en">Table 36.</span><span lang="zh">表 36</span></b> <span lang="en">Spatial / physical. Ten strongest of 20 benchmarks, 7 of which survive, ranked by breaking level and then by the margin below the breaking threshold (%).</span><span lang="zh">空间 / 物理。20 个 benchmark 中最强的十个（其中 7 个幸存），先按被攻破层级、再按低于攻破门槛的余量（%）排序。</span></span>
-        <span data-rank="37" hidden><b><span lang="en">Table 37.</span><span lang="zh">表 37</span></b> <span lang="en">Reasoning / knowledge. Ten strongest of 32 benchmarks, 8 of which survive, ranked by breaking level and then by the margin below the breaking threshold (%).</span><span lang="zh">推理 / 知识。32 个 benchmark 中最强的十个（其中 8 个幸存），先按被攻破层级、再按低于攻破门槛的余量（%）排序。</span></span>
-    </figcaption>
+    <figcaption><b><span lang="en">Tables 34–37.</span><span lang="zh">表 34–37</span></b> <span lang="en">The ten strongest benchmarks of each capability group, ranked by breaking level and then by the margin below the breaking threshold (%).</span><span lang="zh">各能力组最强的十个 benchmark，先按被攻破层级、再按低于攻破门槛的余量（%）排序。</span></figcaption>
   </figure>
 </section>
 

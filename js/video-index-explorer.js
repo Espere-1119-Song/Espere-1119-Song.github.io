@@ -86,10 +86,12 @@
     var old = wrap.querySelector('svg.vi-overlay__svg');
     if (old) { wrap.removeChild(old); }
     var s = svg('svg', { viewBox: '0 0 ' + spec.w + ' ' + spec.h, preserveAspectRatio: 'none', class: 'vi-overlay__svg', 'aria-hidden': 'true' }, wrap);
+    var table = !!document.getElementById('vi-explorer');   /* the clicks list benchmarks in the table, when the page has it */
     regions.forEach(function (r) {
-      var rect = svg('rect', { x: r.box[0], y: r.box[1], width: r.box[2], height: r.box[3], class: 'vi-hit' + (r.click ? ' is-link' : ''), 'vector-effect': 'non-scaling-stroke' }, s);
+      var click = table ? r.click : null;
+      var rect = svg('rect', { x: r.box[0], y: r.box[1], width: r.box[2], height: r.box[3], class: 'vi-hit' + (click ? ' is-link' : ''), 'vector-effect': 'non-scaling-stroke' }, s);
       hoverable(rect, r.tip);
-      if (r.click) { rect.addEventListener('click', function () { tip.setAttribute('hidden', ''); r.click(); }); }
+      if (click) { rect.addEventListener('click', function () { tip.setAttribute('hidden', ''); click(); }); }
     });
   }
   function figure1(wrap) {

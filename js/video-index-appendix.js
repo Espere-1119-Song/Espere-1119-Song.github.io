@@ -7,7 +7,7 @@
      .vi-scatter[data-table]         Tables 7, 8, 14-15, 16, 17, 18 and 19 as scatter plots, with the table
      .vi-lines[data-table="20"]      Table 20 as one line per benchmark over the frame budgets, with the table
      #vi-dupshare                    Table 12, with the example questions of the flow picked in it
-     #vi-rank                        Tables 34 to 37, one tab per capability group
+     #vi-rank                        Tables 34 to 37 side by side, names only, details on hover
      .vi-static[data-table]          Tables 38 and 48 to 50
      #vi-cards                       the report cards of Appendix X, one at a time
    Everything re-renders on the EN / 中文 toggle. No dependencies. */
@@ -641,48 +641,26 @@
     apply();
   }
 
-  /* ================= Tables 34 to 37: the strongest benchmarks of each group ================= */
-  var RK = { tab: 0 };
+  /* ================= Tables 34 to 37: the strongest benchmarks of each group, side by side ================= */
   var RKT = [['34', 'Perception'], ['35', 'Temporal'], ['36', 'Spatial / physical'], ['37', 'Reasoning / knowledge']];
   var RKL = { 'Survives': ['unbroken', 'Survives', '幸存'], 'Option': ['option', 'Option', '选项'], 'Text': ['text', 'Text', '文本'], 'Pool': ['pool', 'Pool', '题库'], 'Frame': ['frame', 'Frame', '帧'], 'Order': ['order', 'Order', '顺序'] };
   function rank(container) {
     clear(container);
-    var tabs = el('div', { class: 'vi-chips', role: 'tablist' }, container);
-    RKT.forEach(function (g, k) {
-      var b = button(tabs, 'vi-chip' + (k === RK.tab ? ' is-on' : ''), '<i class="vi-legend__dot" style="background:' + GC[g[1]] + '"></i>' + esc(U.gName(g[1])), null, function () { RK.tab = k; rank(container); });
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', String(k === RK.tab));
-    });
-    var all = [];
-    RKT.forEach(function (g) { TB[g[0]].forEach(function (r) { all.push(parseFloat(r[2])); }); });
-    var lo = Math.min(0, Math.min.apply(null, all)), hi = Math.max.apply(null, all), zero = 100 * (-lo) / (hi - lo);
-    var wrap = el('div', { class: 'vi-explorer__wrap vi-rank__wrap' }, container);
-    var tb = el('table', { class: 'vi-explorer__table vi-rank' }, wrap);
-    var tr = el('tr', {}, el('thead', {}, tb));
-    [[t('Rank', '排名'), 'n'], [t('Benchmark', 'benchmark'), ''], [t('Level', '层级'), ''], [t('Margin', '余量'), 'n']].forEach(function (h) { el('th', { class: h[1], scope: 'col' }, tr, h[0]); });
-    var tbody = el('tbody', {}, tb);
-    TB[RKT[RK.tab][0]].forEach(function (r, k) {
-      var row = el('tr', {}, tbody), lv = RKL[r[1]], m = parseFloat(r[2]);
-      el('td', { class: 'n' }, row, String(k + 1));
-      el('td', {}, row, r[0]);
-      el('span', { class: 'vi-lvchip', style: 'background:' + LVCOL[lv[0]] + ';color:' + LVINK[lv[0]] }, el('td', {}, row), t(lv[1], lv[2]));
-      var cell = el('td', { class: 'n' }, row);
-      var track = el('span', { class: 'vi-mbar' }, cell);
-      var w = 100 * Math.abs(m) / (hi - lo);
-      el('i', { style: 'left:' + (m >= 0 ? zero : zero - w) + '%;width:' + w + '%;background:' + (m >= 0 ? '#4285f4' : '#d93025') }, track);
-      el('b', { style: 'left:' + zero + '%' }, track);
-      el('span', { class: 'vi-rval' }, cell, r[2].replace('-', '−'));
-      var b = BY[r[0]];
-      if (b) {
-        bindTip(row, function () { return U.benchTip(b); });
-      }
-    });
-    var fig = container.closest('figure');
-    if (fig) {
-      Array.prototype.forEach.call(fig.querySelectorAll('[data-rank]'), function (cap) {
-        if (cap.getAttribute('data-rank') === RKT[RK.tab][0]) { cap.removeAttribute('hidden'); } else { cap.setAttribute('hidden', ''); }
+    var grid = el('div', { class: 'vi-rank4' }, container);
+    RKT.forEach(function (g) {
+      var col = el('div', { class: 'vi-rank4__col' }, grid);
+      el('div', { class: 'vi-rank4__head' }, col).innerHTML = '<i class="vi-legend__dot" style="background:' + GC[g[1]] + '"></i>' + esc(U.gName(g[1]));
+      var list = el('ol', { class: 'vi-rank4__list' }, col);
+      TB[g[0]].forEach(function (r, k) {
+        var item = el('li', { tabindex: '0' }, list, r[0]);
+        bindTip(item, function () {
+          var b = BY[r[0]], lv = RKL[r[1]];
+          return '<b>' + esc(r[0]) + '</b><br>' + t('Rank ' + (k + 1) + ' of the ten · margin ', '十个中排第 ' + (k + 1) + ' · 余量 ') + r[2].replace('-', '−') + '<br>' + U.chipHtml(lv[0]) +
+            (b ? '<br>' + esc(U.gName(b.group)) + ' · ' + b.year + ' · ' + U.fmt(b.items) + ' ' + t('items', '道题') + '<br>' +
+              t('Reference ', '参照 ') + b.ref.toFixed(1) + '% · ' + t('chance ', '随机 ') + b.c.toFixed(1) + '%' : '');
+        });
       });
-    }
+    });
   }
 
   /* ================= Tables 38 and 48 to 50 ================= */
