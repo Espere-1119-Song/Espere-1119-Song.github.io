@@ -110,8 +110,9 @@
       { key: 'References', label: 'References' }
     ];
     var TASKS = ['Look', 'Recall', 'Time', 'Alert', 'Track', 'Commentate'];
-    var COLS = [['overall', 'Overall'], ['content', 'Content'], ['timing', 'Timing'], ['silence', 'Silence']];
-    var S = { off: {}, sort: 'overall', dir: -1, open: {} };
+    var COLS = ['overall'].concat(TASKS);
+    var S = { off: {}, sort: 'overall', dir: -1 };
+    function value(r, k) { return k === 'overall' ? r.overall : r.tasks[k].ov; }
     function setting(r) { for (var i = 0; i < SETTINGS.length; i++) { if (r.family.indexOf(SETTINGS[i].key) === 0) { return SETTINGS[i]; } } return SETTINGS[5]; }
     function settingText(r) {
       var m = r.family.match(/\((.+)\)/);
@@ -120,6 +121,27 @@
       return s.label === 'References' ? 'Reference' : s.label;
     }
     function isRef(r) { return r.family === 'References'; }
+    function part(cls, name, v) { return '<span><i class="' + cls + '">' + name + '</i>' + f1(v) + '</span>'; }
+    function tip(r, k) {
+      if (k === 'overall') {
+        return '<b>' + esc(r.system) + ' · all tasks</b>' + part('t-acc', 'Content', r.content) + part('t-ta', 'Timing', r.timing) + part('t-sc', 'Silence', r.silence);
+      }
+      var x = r.tasks[k];
+      return '<b>' + esc(r.system) + ' · ' + k + '</b>' + part('t-acc', 'Acc', x.acc) + part('t-ta', 'TA', x.ta) + part('t-sc', 'SC', x.sc);
+    }
+    var tipEl = h('div', { 'class': 'ib-tip', role: 'tooltip' });
+    document.body.appendChild(tipEl);
+    function showTip(td) {
+      tipEl.innerHTML = td.getAttribute('data-tip');
+      tipEl.classList.add('on');
+      var c = td.getBoundingClientRect(), w = tipEl.offsetWidth, hgt = tipEl.offsetHeight;
+      var x = Math.min(Math.max(8, c.left + c.width / 2 - w / 2), window.innerWidth - w - 8);
+      var y = c.top - hgt - 8 < 8 ? c.bottom + 8 : c.top - hgt - 8;
+      tipEl.style.left = x + 'px';
+      tipEl.style.top = y + 'px';
+    }
+    function hideTip() { tipEl.classList.remove('on'); }
+    window.addEventListener('scroll', hideTip, { passive: true });
     function controls() {
       ctl.innerHTML = '';
       SETTINGS.forEach(function (s) {
@@ -130,35 +152,31 @@
     }
     function render() {
       controls();
+      hideTip();
       var rows = DATA.systems.map(function (r, i) { return { r: r, i: i }; }).filter(function (o) { return !S.off[setting(o.r).key]; });
-      rows.sort(function (a, b) { return (a.r[S.sort] - b.r[S.sort]) * S.dir || a.i - b.i; });
+      rows.sort(function (a, b) { return (value(a.r, S.sort) - value(b.r, S.sort)) * S.dir || a.i - b.i; });
       var best = {};
-      COLS.forEach(function (c) {
-        var vals = rows.filter(function (o) { return !isRef(o.r); }).map(function (o) { return o.r[c[0]]; });
-        best[c[0]] = vals.length ? Math.max.apply(null, vals) : null;
+      COLS.forEach(function (k) {
+        var vals = rows.filter(function (o) { return !isRef(o.r); }).map(function (o) { return value(o.r, k); });
+        best[k] = vals.length ? Math.max.apply(null, vals) : null;
       });
       var t = h('table', { 'class': 'ib-lb' });
-      var head = '<thead><tr><th>#</th><th>System</th><th>Setting</th>' + COLS.map(function (c) {
-        var s = S.sort === c[0] ? (S.dir < 0 ? 'descending' : 'ascending') : 'none';
-        return '<th class="n" data-k="' + c[0] + '" aria-sort="' + s + '" tabindex="0">' + c[1] + '</th>';
+      var head = '<thead><tr><th>#</th><th>System</th><th>Setting</th>' + COLS.map(function (k, j) {
+        var s = S.sort === k ? (S.dir < 0 ? 'descending' : 'ascending') : 'none';
+        return '<th class="n' + (j === 1 ? ' ib-sep' : '') + '" data-k="' + k + '" aria-sort="' + s + '" tabindex="0">' + (k === 'overall' ? 'Overall' : k) + '</th>';
       }).join('') + '</tr></thead>';
       var body = '', rank = 0;
       rows.forEach(function (o) {
         var r = o.r, ref = isRef(r);
         if (!ref) { rank += 1; }
-        var open = !!S.open[o.i];
-        body += '<tr class="ib-row' + (ref ? ' ib-ref' : '') + (open ? ' ib-open' : '') + '" data-i="' + o.i + '" tabindex="0" aria-expanded="' + open + '">' +
+        body += '<tr class="ib-row' + (ref ? ' ib-ref' : '') + '">' +
           '<td class="ib-rank">' + (ref ? '' : rank) + '</td><td class="ib-sys">' + esc(r.system) + '</td><td class="ib-set">' + esc(settingText(r)) + '</td>' +
-          COLS.map(function (c) {
-            var v = f1(r[c[0]]), strong = !ref && r[c[0]] === best[c[0]];
-            if (c[0] === 'overall') { return '<td class="n ib-ov"><i style="width:calc((100% - 16px) * ' + (r.overall / 100).toFixed(3) + ')"></i><span>' + (strong ? '<b>' + v + '</b>' : v) + '</span></td>'; }
-            return '<td class="n">' + (strong ? '<b>' + v + '</b>' : v) + '</td>';
+          COLS.map(function (k, j) {
+            var v = f1(value(r, k)), strong = !ref && value(r, k) === best[k];
+            var tipHtml = tip(r, k), label = tipHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+            return '<td class="n' + (k === 'overall' ? ' ib-ovl' : '') + (j === 1 ? ' ib-sep' : '') + '" data-tip="' + esc(tipHtml) + '" aria-label="' + esc(v + ', ' + label) + '">' +
+              (strong ? '<b>' + v + '</b>' : v) + '</td>';
           }).join('') + '</tr>';
-        if (open) {
-          body += '<tr class="ib-detail"><td colspan="7"><table class="ib-tasks"><thead><tr><th>Task</th><th class="m-acc">Acc</th><th class="m-ta">TA</th><th class="m-sc">SC</th></tr></thead><tbody>' +
-            TASKS.map(function (k) { var x = r.tasks[k]; return '<tr><td>' + k + '</td><td>' + f1(x.acc) + '</td><td>' + f1(x.ta) + '</td><td>' + f1(x.sc) + '</td></tr>'; }).join('') +
-            '</tbody></table></td></tr>';
-        }
       });
       t.innerHTML = head + '<tbody>' + body + '</tbody>';
       host.replaceChildren(t);
@@ -167,10 +185,10 @@
         th.addEventListener('click', go);
         th.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
       });
-      Array.prototype.forEach.call(t.querySelectorAll('tr.ib-row'), function (tr) {
-        var go = function () { var i = tr.getAttribute('data-i'); S.open[i] = !S.open[i]; render(); };
-        tr.addEventListener('click', go);
-        tr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+      Array.prototype.forEach.call(t.querySelectorAll('td[data-tip]'), function (td) {
+        td.addEventListener('mouseenter', function () { showTip(td); });
+        td.addEventListener('mouseleave', hideTip);
+        td.addEventListener('click', function () { if (tipEl.classList.contains('on') && tipEl.innerHTML === td.getAttribute('data-tip')) { hideTip(); } else { showTip(td); } });
       });
     }
     renderers.push(render);
