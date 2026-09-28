@@ -1667,7 +1667,10 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .post-body table.vi-results-table tbody tr { cursor: default; }
 .post-body table.vi-results-table td.is-metric { white-space: nowrap; }
 .vi-rbar-track { display: inline-block; position: relative; width: 96px; height: 8px; margin-right: 8px; vertical-align: middle; background: var(--border-cream); border-radius: 4px; overflow: hidden; }
-.vi-rbar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; transition: width 0.6s ease; }
+.vi-rbar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: #8ab4f8; transition: width 0.6s ease; }
+.post-body table.vi-results-table tbody.vi-results__block tr.vi-results__blockhead th { position: static; padding: 14px 8px 5px; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; text-align: left; color: var(--text-muted); background: transparent; border: 0; border-bottom: 1px solid var(--border-warm); }
+.post-body table.vi-results-table tbody.vi-results__block:first-of-type tr.vi-results__blockhead th { padding-top: 8px; }
+.vi-results-live .vi-explorer__wrap { max-height: none; }
 .vi-rval.is-best { font-weight: 700; color: var(--near-black); }
 
 /* ── Appendix views of the Video-Index post (js/video-index-appendix.js) ── */

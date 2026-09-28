@@ -4,7 +4,7 @@
                                 recorded from the paper's own figure files
      #vi-screen                 the screening chain, counting up when scrolled into view
      #vi-explorer               all 115 benchmarks: search, filter, sort, and each benchmark's ladder
-     #vi-results                Table 1, sortable, with a bar for the sorted column
+     #vi-results                Table 1 in blocks (fixed input, agents, human), sortable within them
      .vi-pyr__lvl[data-level]   the pyramid's steps: benchmark counts on hover
    It also shares its helpers as window.VI_UI with js/video-index-appendix.js. Everything re-renders
    on the EN / 中文 toggle. No dependencies. */
@@ -311,18 +311,11 @@
     if (ex.selected) { showDetail(ex.selected, animate); }
   }
 
-  /* ---------- Table 1, sortable ---------- */
-  var rs = { metric: 'video', dir: -1, protocols: { fixed: true, agent: true, human: true } };
-  var PCOL = { fixed: '#669df6', agent: '#ee675c', human: '#bdc1c6' };
+  /* ---------- Table 1, sortable within its three blocks ---------- */
+  var rs = { metric: 'video', dir: -1 };
+  var BLOCKS = [['fixed', 'Fixed input', '固定输入'], ['agent', 'Agent tools', 'agent 工具'], ['human', 'Human', '人类']];
   function results(container) {
     clear(container);
-    var chips = el('div', { class: 'vi-chips' }, container);
-    [['fixed', t('Fixed input', '固定输入')], ['agent', t('Agent tools', 'agent 工具')], ['human', t('Human', '人类')]].forEach(function (p) {
-      var c = el('button', { type: 'button', class: 'vi-chip' + (rs.protocols[p[0]] ? ' is-on' : ''), 'aria-pressed': String(rs.protocols[p[0]]) }, chips);
-      el('i', { class: 'vi-legend__dot', style: 'background:' + PCOL[p[0]] }, c);
-      c.appendChild(document.createTextNode(p[1]));
-      c.addEventListener('click', function () { rs.protocols[p[0]] = !rs.protocols[p[0]]; results(container); });
-    });
     var wrap = el('div', { class: 'vi-explorer__wrap' }, container);
     var table = el('table', { class: 'vi-explorer__table vi-results-table' }, wrap);
     var tr = el('tr', {}, el('thead', {}, table));
@@ -333,28 +326,29 @@
       var btn = el('button', { type: 'button', class: 'vi-sort' }, th, c[1] + (rs.metric === c[0] ? (rs.dir > 0 ? ' ↑' : ' ↓') : ''));
       btn.addEventListener('click', function () { if (rs.metric === c[0]) { rs.dir = -rs.dir; } else { rs.metric = c[0]; rs.dir = c[0] === 'model' ? 1 : -1; } results(container); });
     });
-    var tbody = el('tbody', {}, table);
-    var list = D.results.filter(function (r) { return rs.protocols[r.protocol]; });
     var best = {};
-    cols.slice(1).forEach(function (c) { best[c[0]] = Math.max.apply(null, list.map(function (r) { return r[c[0]]; })); });
-    list.sort(function (a, b) { return rs.metric === 'model' ? rs.dir * (a.model < b.model ? -1 : 1) : rs.dir * (a[rs.metric] - b[rs.metric]); });
-    list.forEach(function (r) {
-      var trr = el('tr', {}, tbody);
-      var name = el('td', {}, trr);
-      el('i', { class: 'vi-legend__dot', style: 'background:' + PCOL[r.protocol] }, name);
-      var label = r.model === 'Human volunteers' ? t('Human volunteers', '人类志愿者') : r.model;
-      if (r.model === 'Claude Opus 5') { label += ' · ' + (r.protocol === 'agent' ? t('agent', 'agent') : t('fixed input', '固定输入')); }
-      name.appendChild(document.createTextNode(label));
-      cols.slice(1).forEach(function (c) {
-        var td = el('td', { class: 'n' + (c[0] === metric ? ' is-metric' : '') }, trr);
-        if (c[0] === metric) {
-          var track = el('span', { class: 'vi-rbar-track' }, td);
-          var fill = el('i', { class: 'vi-rbar', style: 'background:' + PCOL[r.protocol] }, track);
-          fill.style.width = '0%';
-          requestAnimationFrame(function () { requestAnimationFrame(function () { fill.style.width = r[c[0]] + '%'; }); });
-        }
-        var v = el('span', { class: 'vi-rval' }, td, r[c[0]].toFixed(1));
-        if (r[c[0]] === best[c[0]]) { v.classList.add('is-best'); }
+    cols.slice(1).forEach(function (c) { best[c[0]] = Math.max.apply(null, D.results.map(function (r) { return r[c[0]]; })); });
+    BLOCKS.forEach(function (blk) {
+      var tbody = el('tbody', { class: 'vi-results__block' }, table);
+      var head = el('tr', { class: 'vi-results__blockhead' }, tbody);
+      el('th', { colspan: String(cols.length), scope: 'rowgroup' }, head, t(blk[1], blk[2]));
+      var list = D.results.filter(function (r) { return r.protocol === blk[0]; });
+      list.sort(function (a, b) { return rs.metric === 'model' ? rs.dir * (a.model < b.model ? -1 : 1) : rs.dir * (a[rs.metric] - b[rs.metric]); });
+      list.forEach(function (r) {
+        var trr = el('tr', {}, tbody);
+        var label = r.model === 'Human volunteers' ? t('Human volunteers', '人类志愿者') : r.model;
+        el('td', {}, trr, label);
+        cols.slice(1).forEach(function (c) {
+          var td = el('td', { class: 'n' + (c[0] === metric ? ' is-metric' : '') }, trr);
+          if (c[0] === metric) {
+            var track = el('span', { class: 'vi-rbar-track' }, td);
+            var fill = el('i', { class: 'vi-rbar' }, track);
+            fill.style.width = '0%';
+            requestAnimationFrame(function () { requestAnimationFrame(function () { fill.style.width = r[c[0]] + '%'; }); });
+          }
+          var v = el('span', { class: 'vi-rval' }, td, r[c[0]].toFixed(1));
+          if (r[c[0]] === best[c[0]]) { v.classList.add('is-best'); }
+        });
       });
     });
   }
