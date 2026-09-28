@@ -1756,7 +1756,7 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .post-body table.vi-heat td { min-width: 30px; text-align: center; padding: 6px 2px; border: 0; border-radius: 4px; color: #b0b4ba; font-variant-numeric: tabular-nums; background: transparent; }
 .post-body table.vi-heat tr:nth-child(even) td { background: transparent; }
 .post-body table.vi-heat td.is-link { cursor: pointer; }
-.post-body table.vi-heat td.is-link:hover { box-shadow: inset 0 0 0 2px #202124; }
+.post-body table.vi-heat td.is-link:hover, .post-body table.vi-heat td.is-selected { box-shadow: inset 0 0 0 2px #202124; }
 
 /* Tables 34 to 37 */
 .vi-rank__wrap { max-height: none; }

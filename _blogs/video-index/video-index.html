@@ -9,8 +9,8 @@ js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260927vi1
   - /js/video-index-explorer.js?v=20260927vi5
-  - /js/video-index-appendix-data.js?v=20260927vi1
-  - /js/video-index-appendix.js?v=20260927vi2
+  - /js/video-index-appendix-data.js?v=20260927vi2
+  - /js/video-index-appendix.js?v=20260927vi3
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -166,29 +166,6 @@ js:
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig10_errors.png" alt="A heat map with 18 fine capability categories as rows and 76 benchmarks as columns grouped by first breaking level, each column summing to 100 percent.">
       <figcaption><b><span lang="en">Figure 10.</span><span lang="zh">图 10</span></b> <span lang="en"><b>Errors concentrate in few capabilities.</b> Columns are the 76 pool-level survivors with 20 or more agreed attributions, grouped by their first breaking level, each summing to 100%.</span><span lang="zh"><b>错误集中在少数几种能力上。</b>列是通过题库层且至少有 20 条一致归因的 76 个 benchmark，按首次被攻破的层级分组，每列之和为 100%。</span></figcaption>
     </figure>
-    <div class="fnp">
-      <p lang="en">A benchmark also lists more items than it measures. We embed each item's 32 frames with SigLIP 2 and its question with BGE-large. The Vendi score<sup class="fn">1</sup> of a 200-item draw in the joint space is the benchmark's effective size. A 200-item draw holds a median of 32 effective items, and 39 benchmarks hold 20 or fewer. Near-duplicate questions make up at least half the items of 63 benchmarks, and weighting items by inverse duplicate-cluster size moves accuracy by more than 1 point on 93 benchmarks. Across sources, a tenth of items use videos that appear in another benchmark, and PAI-Bench-U and PhysicalAI share 191 questions.</p>
-      <p lang="zh">一个 benchmark 列出的题目数也多于它真正测到的。我们用 SigLIP 2 编码每道题的 32 帧，用 BGE-large 编码问题，把 200 道题在联合空间里的 Vendi 分数<sup class="fn">1</sup>作为 benchmark 的有效题目数。抽 200 道题，中位数只有 32 道有效题目，39 个 benchmark 不超过 20 道。63 个 benchmark 里至少一半的题目是近似重复，按重复簇大小的倒数给题目加权，会让 93 个 benchmark 的准确率变动超过 1 个点。跨来源看，十分之一的题目用的视频也出现在别的 benchmark 里，PAI-Bench-U 和 PhysicalAI 共享 191 道题。</p>
-      <aside class="fnote" data-n="1">Friedman and Dieng. <a href="https://arxiv.org/abs/2210.02410">The Vendi Score: A Diversity Evaluation Metric for Machine Learning</a>. arXiv 2022.</aside>
-    </div>
-    <figure class="vi-fig" id="f-duplicates">
-      <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig11_duplicates.png" alt="Left, effective items per 200 for the benchmarks sorted, red where at least half the items are near-duplicates. Right, a heat map of the share of items with a near-duplicate in another benchmark for the twelve benchmarks with the largest totals.">
-      <figcaption><b><span lang="en">Figure 11.</span><span lang="zh">图 11</span></b> <span lang="en"><b>Near-duplicates shrink effective size.</b> Left, effective items per 200, red where at least half are near-duplicates. Right, the largest near-duplicate shares across benchmarks.</span><span lang="zh"><b>近似重复缩小了有效规模。</b>左图，每 200 道题中的有效题目数，至少一半为近似重复的标为红色。右图，跨 benchmark 最大的近似重复份额。</span></figcaption>
-    </figure>
-
-    <p lang="en">Table 16 covers 114 of the 115 benchmarks, since CG-Bench has no item embeddings. EffN is the Vendi score of a 200-item draw and VS/n that score per item, and the 8 smaller benchmarks use all their items.</p>
-    <p lang="zh">表 16 覆盖 115 个 benchmark 中的 114 个，因为 CG-Bench 没有题目向量。EffN 是抽 200 道题的 Vendi 分数，VS/n 是平均到每道题的分数；8 个较小的 benchmark 用全部题目。</p>
-    <figure class="vi-fig" id="f-t16">
-      <div class="vi-scatter" data-table="16"></div>
-      <figcaption><b><span lang="en">Table 16.</span><span lang="zh">表 16</span></b> <span lang="en">Content diversity, duplication, template entropy, and effective item counts by benchmark.</span><span lang="zh">各 benchmark 的内容多样性、重复、模板熵和有效题目数。</span></figcaption>
-    </figure>
-
-    <p lang="en">A near-duplicate pair needs a question cosine similarity of at least 0.9 under BGE-large, confirmed with MPNet. Table 11 lists the largest flows between benchmarks, with example questions, and Table 12 gives the share of each benchmark's items that match items of another.</p>
-    <p lang="zh">近似重复要求两道题的问题在 BGE-large 下的余弦相似度至少为 0.9，并经 MPNet 确认。表 11 列出 benchmark 之间最大的几股重复流向并附例题，表 12 给出每个 benchmark 的题目在另一个 benchmark 里有匹配的比例。</p>
-    <figure class="vi-fig" id="f-t11">
-      <div id="vi-dups"></div>
-      <figcaption><b><span lang="en">Table 11.</span><span lang="zh">表 11</span></b> <span lang="en">Largest cross-benchmark near-duplicate flows, confirmed in both embedding spaces.</span><span lang="zh">最大的跨 benchmark 近似重复流向，两种向量空间均确认。</span></figcaption>
-    </figure>
 
     <figure class="vi-fig" id="f-t12">
       <div id="vi-dupshare"></div>
@@ -255,9 +232,9 @@ js:
       <figcaption><span lang="en">Items remaining after each screening stage, counted up as the figure scrolls into view. The bars are on a log scale.</span><span lang="zh">每个筛查阶段之后剩余的题目数，滚动到这里时开始计数。条形为对数刻度。</span></figcaption>
     </figure>
     <div class="fnp">
-      <p lang="en">The screened pool serves two kinds of selection. A coverage composition answers a request that specifies task and event coverage, an item budget, and a cap per source. A specification agent turns the request into a query over the pool, and a selector draws items round-robin across duration groups, event types, and sources. A red-team gate then applies adversarial filtering<sup class="fn">2</sup> to what was selected. Video-Index takes the other route, difficulty first. It holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video, ranked by their maximum percentile over the five attacker margins. Claude Opus 5 labels the 3,000 hardest candidates by fine capability and verifies their answers against the frames, and selection ignores reference-model accuracy.</p>
-      <p lang="zh">筛查后的题库支持两种选题方式。覆盖式组合回应一个指定任务和事件覆盖、题目预算和每个来源上限的请求：一个规格 agent 把请求翻译成对题库的查询，选择器在时长组、事件类型和来源之间轮流抽题，再由红队闸门对选出的题目做对抗式过滤<sup class="fn">2</sup>。Video-Index 走的是另一条路，难度优先。它收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道，按五种攻击者得分幅度的最大百分位排序选出。Claude Opus 5 给最难的 3,000 道候选题标注细粒度能力，并对照画面核验答案，选题不看参照模型的准确率。</p>
-      <aside class="fnote" data-n="2">Le Bras et al. <a href="https://arxiv.org/abs/2002.04108">Adversarial Filters of Dataset Biases</a>. ICML 2020.</aside>
+      <p lang="en">The screened pool serves two kinds of selection. A coverage composition answers a request that specifies task and event coverage, an item budget, and a cap per source. A specification agent turns the request into a query over the pool, and a selector draws items round-robin across duration groups, event types, and sources. A red-team gate then applies adversarial filtering<sup class="fn">1</sup> to what was selected. Video-Index takes the other route, difficulty first. It holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video, ranked by their maximum percentile over the five attacker margins. Claude Opus 5 labels the 3,000 hardest candidates by fine capability and verifies their answers against the frames, and selection ignores reference-model accuracy.</p>
+      <p lang="zh">筛查后的题库支持两种选题方式。覆盖式组合回应一个指定任务和事件覆盖、题目预算和每个来源上限的请求：一个规格 agent 把请求翻译成对题库的查询，选择器在时长组、事件类型和来源之间轮流抽题，再由红队闸门对选出的题目做对抗式过滤<sup class="fn">1</sup>。Video-Index 走的是另一条路，难度优先。它收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道，按五种攻击者得分幅度的最大百分位排序选出。Claude Opus 5 给最难的 3,000 道候选题标注细粒度能力，并对照画面核验答案，选题不看参照模型的准确率。</p>
+      <aside class="fnote" data-n="1">Le Bras et al. <a href="https://arxiv.org/abs/2002.04108">Adversarial Filters of Dataset Biases</a>. ICML 2020.</aside>
     </div>
     <details class="vi-details">
       <summary><span lang="en">How the red-team gate works</span><span lang="zh">红队闸门如何工作</span></summary>
@@ -279,10 +256,10 @@ js:
       <figcaption><b><span lang="en">Table 1.</span><span lang="zh">表 1</span></b> <span lang="en"><b>Agents lead open models on Video-Index.</b> Accuracy in %, fixed input then agent tools. Blind sees text only and Gain is Video minus Blind. Highest in bold.</span><span lang="zh"><b>在 Video-Index 上 agent 领先开源模型。</b>准确率单位为 %，先列固定输入，再列 agent 工具。盲读只看文字，增益为看视频减去盲读。加粗为最高值。</span></figcaption>
     </figure>
     <div class="fnp">
-      <p lang="en">Three checks say the set measures what it should. Blind baselines in the style of MMStar<sup class="fn">3</sup> give a mean text-only accuracy of 6% and a mean video gain of 11% over the ten fixed-input models. Video exceeds blind for all ten. Item-bootstrap signal-to-noise analysis<sup class="fn">4</sup> gives a noise floor of 2.0% and a signal-to-noise ratio of 10.8, against 3.7 for the median source benchmark. And at a matched item budget, the red-team gate holds the strongest attacker to 13%, against 19% for selections without it.</p>
-      <p lang="zh">三项检查说明这套题测的是该测的东西。按 MMStar<sup class="fn">3</sup> 的方式做盲读基线，十个固定输入模型只看文字的平均准确率为 6%，看视频的平均增益为 11%，十个模型看视频都高于盲读。题目 bootstrap 的信噪比分析<sup class="fn">4</sup>给出 2.0% 的噪声下限和 10.8 的信噪比，来源 benchmark 的中位数是 3.7。在相同的题目预算下，红队闸门把最强攻击者压到 13%，没有闸门的选法是 19%。</p>
-      <aside class="fnote" data-n="3">Chen et al. <a href="https://arxiv.org/abs/2403.20330">Are We on the Right Way for Evaluating Large Vision-Language Models?</a> NeurIPS 2024.</aside>
-      <aside class="fnote" data-n="4">Heineman et al. <a href="https://arxiv.org/abs/2508.13144">Signal and Noise: A Framework for Reducing Uncertainty in Language Model Evaluation</a>. NeurIPS 2026.</aside>
+      <p lang="en">Three checks say the set measures what it should. Blind baselines in the style of MMStar<sup class="fn">2</sup> give a mean text-only accuracy of 6% and a mean video gain of 11% over the ten fixed-input models. Video exceeds blind for all ten. Item-bootstrap signal-to-noise analysis<sup class="fn">3</sup> gives a noise floor of 2.0% and a signal-to-noise ratio of 10.8, against 3.7 for the median source benchmark. And at a matched item budget, the red-team gate holds the strongest attacker to 13%, against 19% for selections without it.</p>
+      <p lang="zh">三项检查说明这套题测的是该测的东西。按 MMStar<sup class="fn">2</sup> 的方式做盲读基线，十个固定输入模型只看文字的平均准确率为 6%，看视频的平均增益为 11%，十个模型看视频都高于盲读。题目 bootstrap 的信噪比分析<sup class="fn">3</sup>给出 2.0% 的噪声下限和 10.8 的信噪比，来源 benchmark 的中位数是 3.7。在相同的题目预算下，红队闸门把最强攻击者压到 13%，没有闸门的选法是 19%。</p>
+      <aside class="fnote" data-n="2">Chen et al. <a href="https://arxiv.org/abs/2403.20330">Are We on the Right Way for Evaluating Large Vision-Language Models?</a> NeurIPS 2024.</aside>
+      <aside class="fnote" data-n="3">Heineman et al. <a href="https://arxiv.org/abs/2508.13144">Signal and Noise: A Framework for Reducing Uncertainty in Language Model Evaluation</a>. NeurIPS 2026.</aside>
     </div>
 
     <figure class="vi-fig" id="f-t38">

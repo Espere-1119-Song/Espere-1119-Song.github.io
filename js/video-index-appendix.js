@@ -6,7 +6,7 @@
      .vi-overlay[data-overlay="fig9"] Figure 9: one long-video benchmark followed across the frame budgets
      .vi-scatter[data-table]         Tables 7, 8, 14-15, 16, 17, 18 and 19 as scatter plots, with the table
      .vi-lines[data-table="20"]      Table 20 as one line per benchmark over the frame budgets, with the table
-     #vi-dups, #vi-dupshare          Tables 11 and 12, with example questions for each duplicate flow
+     #vi-dupshare                    Table 12, with the example questions of the flow picked in it
      #vi-rank                        Tables 34 to 37, one tab per capability group
      .vi-static[data-table]          Tables 38 and 48 to 50
      #vi-cards                       the report cards of Appendix X, one at a time
@@ -568,35 +568,7 @@
   }
 
   /* ================= Tables 11 and 12: duplicate flows and their example questions ================= */
-  var dupState = { sel: 0 };
-  var dupRoot = null;
-  function dups(container) {
-    dupRoot = container;
-    clear(container);
-    var rows = TB['11'];
-    var wrap = el('div', { class: 'vi-explorer__wrap vi-dups__table' }, container);
-    var tb = el('table', { class: 'vi-explorer__table' }, wrap);
-    var tr = el('tr', {}, el('thead', {}, tb));
-    [[t('Benchmark A', 'benchmark A'), ''], [t('Benchmark B', 'benchmark B'), ''], [t('Pairs', '题对'), 'n'], [t('Exact', '逐字相同'), 'n']].forEach(function (h) { el('th', { class: h[1], scope: 'col' }, tr, h[0]); });
-    var tbody = el('tbody', {}, tb);
-    var panel = el('div', { class: 'vi-dupex', 'aria-live': 'polite' }, container);
-    rows.forEach(function (r, k) {
-      var row = el('tr', { class: k === dupState.sel ? 'is-selected' : '', tabindex: '0' }, tbody);
-      el('td', {}, row, r[0]);
-      el('td', {}, row, r[1]);
-      el('td', { class: 'n' }, row, String(r[2]));
-      el('td', { class: 'n' }, row, String(r[3]));
-      function pick() {
-        dupState.sel = k;
-        Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function (x) { x.classList.remove('is-selected'); });
-        row.classList.add('is-selected');
-        examples(panel, r);
-      }
-      row.addEventListener('click', pick);
-      row.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); } });
-    });
-    examples(panel, rows[dupState.sel]);
-  }
+  var dupSel = 0;                      /* the Table 11 flow whose questions show under the heat map */
   function examples(panel, r) {
     clear(panel);
     var head = el('p', { class: 'vi-dupex__head' }, panel);
@@ -620,17 +592,6 @@
       if (e[0].trim() === e[1].trim()) { block(pair, r[0] + ' · ' + r[1], e[0]); } else { block(pair, r[0], e[0]); block(pair, r[1], e[1]); }
     });
   }
-  function selectDup(a, b) {
-    var rows = TB['11'];
-    for (var k = 0; k < rows.length; k++) {
-      if ((rows[k][0] === a && rows[k][1] === b) || (rows[k][0] === b && rows[k][1] === a)) {
-        dupState.sel = k;
-        if (dupRoot) { dups(dupRoot); dupRoot.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        return true;
-      }
-    }
-    return false;
-  }
   function heatColour(v, max) {
     var f = Math.sqrt(Math.max(0, v) / max), a = [238, 243, 253], b = [23, 78, 166];
     return { bg: 'rgb(' + a.map(function (x, k) { return Math.round(x + (b[k] - x) * f); }).join(',') + ')', ink: f > 0.55 ? '#fff' : '#202124' };
@@ -639,8 +600,8 @@
     clear(container);
     var d = TB['12'], names = d.rows.map(function (r) { return r[0]; });
     var max = Math.max.apply(null, d.rows.map(function (r) { return Math.max.apply(null, r.slice(1).filter(isNum)); }));
-    var pairs = {};
-    TB['11'].forEach(function (r) { pairs[r[0] + '|' + r[1]] = pairs[r[1] + '|' + r[0]] = true; });
+    var flow = {};
+    TB['11'].forEach(function (r, k) { flow[r[0] + '|' + r[1]] = flow[r[1] + '|' + r[0]] = k; });
     var wrap = el('div', { class: 'vi-heat-wrap' }, container);
     var tb = el('table', { class: 'vi-heat' }, wrap);
     var tr = el('tr', {}, el('thead', {}, tb));
@@ -649,7 +610,13 @@
       var th = el('th', { scope: 'col' }, tr, c);
       bindTip(th, function () { return '<b>' + c + '</b> ' + esc(names[k]); });
     });
-    var tbody = el('tbody', {}, tb);
+    var tbody = el('tbody', {}, tb), linked = [];
+    var panel = el('div', { class: 'vi-dupex', 'aria-live': 'polite' }, container);
+    function pick(k) {
+      dupSel = k;
+      linked.forEach(function (td) { td.classList.toggle('is-selected', +td.getAttribute('data-flow') === k); });
+      examples(panel, TB['11'][k]);
+    }
     d.rows.forEach(function (r) {
       var row = el('tr', {}, tbody);
       el('th', { class: 'row', scope: 'row' }, row, r[0]);
@@ -659,14 +626,19 @@
         var c = heatColour(v, max);
         td.style.background = c.bg;
         td.style.color = c.ink;
-        var linked = pairs[r[0] + '|' + other];
-        if (linked) { td.classList.add('is-link'); td.addEventListener('click', function () { hideTip(); selectDup(r[0], other); }); }
+        var f = flow[r[0] + '|' + other];
+        if (f !== undefined) {
+          td.classList.add('is-link');
+          td.setAttribute('data-flow', f);
+          linked.push(td);
+          td.addEventListener('click', function () { hideTip(); pick(f); });
+        }
         bindTip(td, function () {
-          return t('<b>' + v.toFixed(1) + '%</b> of ' + esc(r[0]) + ' items have a near-duplicate in ' + esc(other), esc(r[0]) + ' 的题目中有 <b>' + v.toFixed(1) + '%</b> 在 ' + esc(other) + ' 里有近似重复') +
-            (linked ? '<br><span class="vi-tip__note">' + t('Click for example questions in Table 11.', '点击查看表 11 中的例题。') + '</span>' : '');
+          return t('<b>' + v.toFixed(1) + '%</b> of ' + esc(r[0]) + ' items have a near-duplicate in ' + esc(other), esc(r[0]) + ' 的题目中有 <b>' + v.toFixed(1) + '%</b> 在 ' + esc(other) + ' 里有近似重复');
         });
       });
     });
+    pick(dupSel);
   }
 
   /* ================= Tables 34 to 37: the strongest benchmarks of each group ================= */
@@ -822,7 +794,6 @@
     each('.vi-overlay[data-overlay="fig9"]', figure9);
     each('.vi-scatter[data-table]', scatter);
     each('.vi-lines[data-table="20"]', lines20);
-    each('#vi-dups', dups);
     each('#vi-dupshare', dupshare);
     each('#vi-rank', rank);
     each('.vi-static[data-table]', staticTable);

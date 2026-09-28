@@ -197,8 +197,11 @@ for a, b, pairs, exact in T[11]:
     p = by_pair[frozenset((a, b))]
     assert (p['pairs'], p['exact']) == (pairs, exact), (a, b, p['pairs'], p['exact'], pairs, exact)
 
+    def cut(text):      # duplicates_detail.jsonl keeps the first 300 characters of a question
+        return text.rstrip() + '…' if len(text) >= 300 else text
+
     def oriented(e):    # the example's two questions in the order of the table row
-        return (e['ta'], e['tb']) if CLUSTER.get(e['a'], e['a']) == a else (e['tb'], e['ta'])
+        return (cut(e['ta']), cut(e['tb'])) if CLUSTER.get(e['a'], e['a']) == a else (cut(e['tb']), cut(e['ta']))
     near = [list(oriented(e)) + [round(e['bge'], 3), round(e['mpnet'], 3)] for e in p['near_examples']]
     same = [list(oriented(e)) for e in p['exact_examples']]
     t11.append([a, b, pairs, exact, near, same])
