@@ -117,8 +117,9 @@
     f.tiles.forEach(function (t0) { x0 = Math.min(x0, t0.box[0]); y0 = Math.min(y0, t0.box[1]); x1 = Math.max(x1, t0.box[0] + t0.box[2]); y1 = Math.max(y1, t0.box[1] + t0.box[3]); });
     x0 *= k; y0 *= k; x1 *= k; y1 *= k;
     var LABEL = 36, pad = 6, withQ = CLIP_Q && clip.q;
-    var w = Math.min((x1 - x0) * (wr.width < 600 ? 0.9 : 0.62), 600), h = w * clip.h / clip.w + LABEL;
-    if (h > (y1 - y0) - 2 * pad) { h = (y1 - y0) - 2 * pad; w = (h - LABEL) * clip.w / clip.h; }
+    /* the video sits in a 16:9 frame whatever its own shape, so a tall or very wide clip keeps the card's proportions */
+    var w = Math.min((x1 - x0) * (wr.width < 600 ? 0.9 : 0.62), 600), h = w * 9 / 16 + LABEL;
+    if (h > (y1 - y0) - 2 * pad) { h = (y1 - y0) - 2 * pad; w = (h - LABEL) * 16 / 9; }
     var qh = 0, bottom = y1;
     if (withQ) {                                  /* the question under the video: measure it at the card's width */
       var probe = el('div', { class: 'vi-clip', style: 'visibility:hidden;left:0;top:0;width:' + w + 'px;height:auto' }, wrap);
