@@ -18,6 +18,56 @@
   "clip": "original"
  },
  {
+  "name": "Artifact-Bench",
+  "slug": "artifact-bench",
+  "item": "Artifact-Bench_244",
+  "source": "DogNeverSleep/Artifact-Bench::::Video/Task_1/fake_245.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "Causal2Needles",
+  "slug": "causal2needles",
+  "item": "Causal2Needles_103",
+  "source": "causal2needles/Causal2Needles::::videos/yms/0083.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "CAViAR",
+  "slug": "caviar",
+  "item": "CAViAR_948",
+  "source": "nexar-ai/nexar_collision_prediction::::train/positive/00944.mp4",
+  "start_s": 4.9,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
+ },
+ {
+  "name": "CG-Bench",
+  "slug": "cg-bench",
+  "item": "CG-Bench_3766",
+  "source": "CG-Bench/CG-Bench::video_chunk_02.zip::BV13Q4y1E732.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "CineTechBench",
+  "slug": "cinetechbench",
+  "item": "CineTechBench_9",
+  "source": "yt::CineTechBench::::6Pkq_eBHXJ4|110-115",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
+ },
+ {
   "name": "CMU",
   "slug": "cmu",
   "item": "Camera Movement Understanding (BU/Google)_2818",
@@ -34,6 +84,26 @@
   "start_s": 45.63,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "ContPhy",
+  "slug": "contphy",
+  "item": "ContPhy_104",
+  "source": "zzcnewly/ContPhy_Dataset::rope_full.zip::rope/video/386/output_Full.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "COVER",
+  "slug": "cover",
+  "item": "COVER_2420",
+  "source": "PeterPanonly/COVER::VIDEO.zip::VIDEO/TGIF_Zero_Shot_QA/tumblr_npj6idU5GU1ql8dhmo2_250.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "DSI-Bench",
@@ -61,6 +131,16 @@
   "start_s": 6.97,
   "length_s": 5.0,
   "clip": "crossfade of the dataset copy (2 fps or sparser)"
+ },
+ {
+  "name": "EgoPlan-Bench",
+  "slug": "egoplan-bench",
+  "item": "EgoPlan-Bench_1205",
+  "source": "EgoLife-v1/EgoPlan::videos_chunked_02.zip::1205.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "EgoSchema",
@@ -99,6 +179,16 @@
   "clip": "original"
  },
  {
+  "name": "FineBench",
+  "slug": "finebench",
+  "item": "FineBench_7100",
+  "source": "yt::FineBench::::5BDj0ow5hnA|895-1806",
+  "start_s": 318.85,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
+ },
+ {
   "name": "ForeSeaQA",
   "slug": "foreseaqa",
   "item": "ForeSeaQA_403",
@@ -108,6 +198,16 @@
   "clip": "original"
  },
  {
+  "name": "GasVideo-1000",
+  "slug": "gasvideo-1000",
+  "item": "GasVideo-1000_388",
+  "source": "kk12ff/GasVideo1000::::videos/mvbench/video/ssv2_video/104554.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "GUI-World",
   "slug": "gui-world",
   "item": "GUI-World_3110",
@@ -115,6 +215,16 @@
   "start_s": 6.32,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "HERBench",
+  "slug": "herbench",
+  "item": "HERBench_703",
+  "source": "DanBenAmi/HERBench::videos/videos.tar::HD_EPIC/P08/P08-20240618-163547.mp4",
+  "start_s": 692.33,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
  },
  {
   "name": "HLV-1K",
@@ -135,6 +245,26 @@
   "clip": "crossfade of the dataset copy (2 fps or sparser)"
  },
  {
+  "name": "IntPhys 2",
+  "slug": "intphys-2",
+  "item": "IntPhys2_1071",
+  "source": "facebook/IntPhys2::::Main/Videos/d7ab82095005ade21934b28e795ce714a9393daeb9a953d1f785325f9ba06fc0.mp4",
+  "start_s": 3.7,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "iSafetyBench",
+  "slug": "isafetybench",
+  "item": "iSafetyBench_1736",
+  "source": "raiyaanabdullah/isafety-bench::::normal/MEEGwePfDgM_trim_11.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "K9-Bench",
   "slug": "k9-bench",
   "item": "K9-Bench_2431",
@@ -142,6 +272,36 @@
   "start_s": 6.78,
   "length_s": 5.0,
   "clip": "crossfade of the dataset copy (2 fps or sparser)"
+ },
+ {
+  "name": "KFS-Bench",
+  "slug": "kfs-bench",
+  "item": "KFS-Bench_526",
+  "source": "longvideobench/LongVideoBench::videos.tar::videos/Sy2unO22PUE.mp4",
+  "start_s": 195.18,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
+ },
+ {
+  "name": "LEMONADE",
+  "slug": "lemonade",
+  "item": "Lemonade_179",
+  "source": "amathislab/LEMONADE::videos_batch_0.zip::YH2040_2023_09_12_09_50_41_hololens.mp4",
+  "start_s": 273.0,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
+ },
+ {
+  "name": "LongTimeScope",
+  "slug": "longtimescope",
+  "item": "LongTimeScope_72",
+  "source": "Apollo-LMMs/LongTimeScope2::compressed_archive.tar::videos_split_2/videos_OCR_28800/22.mp4",
+  "start_s": 10080.0,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
  },
  {
   "name": "LongVideo-Reason",
@@ -234,6 +394,16 @@
   "clip": "original"
  },
  {
+  "name": "MORSE-500",
+  "slug": "morse-500",
+  "item": "MORSE-500_324",
+  "source": "video-reasoning/morse-500::test_sz512.zip::physical_reasoning_physics_CentralForce_quiz_846489_8.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "MotionBench",
   "slug": "motionbench",
   "item": "MotionBench_1010",
@@ -259,6 +429,16 @@
   "start_s": 7.78,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "Neptune",
+  "slug": "neptune",
+  "item": "Neptune_2000",
+  "source": "lmms-eval/GoogleDeepMind-NEPTUNE::data_chunk_03.zip::cSfHOWPydCA.mp4",
+  "start_s": 3.67,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "NExT-QA",
@@ -288,6 +468,16 @@
   "clip": "original"
  },
  {
+  "name": "PAI-Bench-U",
+  "slug": "pai-bench-u",
+  "item": "PAIBench-U_488",
+  "source": "Jialuo21/PAIBench-U::video.zip::videos/dd7c1c13-f52e-4927-a166-5ae433b7efb4.mp4",
+  "start_s": 3.09,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "Perception Test",
   "slug": "perception-test",
   "item": "PerceptionTest_6342",
@@ -295,6 +485,56 @@
   "start_s": 5.94,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "PerceptionComp",
+  "slug": "perceptioncomp",
+  "item": "PerceptionComp_1058",
+  "source": "hrinnnn/PerceptionComp::::data/50Youtubers_1m10s-1m30s.mp4",
+  "start_s": 6.47,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "PhysicalAI",
+  "slug": "physicalai",
+  "item": "PhysicalAI-Understanding_488",
+  "source": "shi-labs/physical-ai-bench-understanding::::videos/common_sense_20250225/dd7c1c13-f52e-4927-a166-5ae433b7efb4.mp4",
+  "start_s": 3.09,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "PLM-VideoBench",
+  "slug": "plm-videobench",
+  "item": "PLM-VideoBench_90",
+  "source": "facebook/PLM-VideoBench::videos/sgqa/sgqa.zip::e5c5ceef496c0e75_143_148.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "Q-Bench-Video",
+  "slug": "q-bench-video",
+  "item": "QBench-Video_440",
+  "source": "zhangzicheng/Q-Bench-Video::video.zip::video/4443.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "ReactHuman",
+  "slug": "reacthuman",
+  "item": "ReactHuman Benchmark (Scaled)_48",
+  "source": "Alan123/reacthuman-benchmark-scaled-with-videos::::bouncing_object/bouncing_object__d6_v0/video_observer.mp4",
+  "start_s": 2.55,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "ReVSI",
@@ -342,6 +582,16 @@
   "clip": "crossfade of the dataset copy (2 fps or sparser)"
  },
  {
+  "name": "SciVideoBench",
+  "slug": "scivideobench",
+  "item": "SciVideoBench_29",
+  "source": "groundmore/scivideobench::scivideobench_videos.zip::jove_65238.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "SFI-Bench",
   "slug": "sfi-bench",
   "item": "SFI-Bench_1531",
@@ -387,6 +637,26 @@
   "clip": "crossfade of the dataset copy (the original is on YouTube)"
  },
  {
+  "name": "SoMi-ToM",
+  "slug": "somi-tom",
+  "item": "SoMi-ToM_15",
+  "source": "SoMi-ToM/SoMi-ToM::::Videos/20250425_1157.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "SpatialTree",
+  "slug": "spatialtree",
+  "item": "SpatialTreeBench_717",
+  "source": "LongfeiLi/SpatialTree-Bench::videos.zip::videos/L2_Underst._SpatialCaption_multichoiceeval_10b17934-3938-2467-8959-93297ad1b22d.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "ST-Evidence",
   "slug": "st-evidence",
   "item": "E-VQA_2389",
@@ -394,6 +664,16 @@
   "start_s": 8.0,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "STI-Bench",
+  "slug": "sti-bench",
+  "item": "STI-Bench_2027",
+  "source": "MINT-SJTU/STI-Bench::video.zip::video/scene0143_00.mp4",
+  "start_s": 2.8,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "StreamingBench",
@@ -441,6 +721,16 @@
   "clip": "original"
  },
  {
+  "name": "TimeScope",
+  "slug": "timescope",
+  "item": "TimeScope_705",
+  "source": "Apollo-LMMs/TimeScope::compressed_archive.tar::videos_split_1/videos_QA_1200/5.mp4",
+  "start_s": 420.0,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
+ },
+ {
   "name": "TOC-Bench",
   "slug": "toc-bench",
   "item": "TOC-Bench_840",
@@ -468,6 +758,16 @@
   "clip": "original"
  },
  {
+  "name": "UCF101-AD",
+  "slug": "ucf101-ad",
+  "item": "UCF101-AD_4092",
+  "source": "raiyaanabdullah/UCF101-AD::::Action-Denial/val/NotWalkingWithDog/v_NotWalkingWithDog_g18_c02.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "UrbanVideo-Bench",
   "slug": "urbanvideo-bench",
   "item": "UrbanVideo-Bench_1902",
@@ -475,6 +775,16 @@
   "start_s": 5.89,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "v-HUB",
+  "slug": "v-hub",
+  "item": "v-HUB_149",
+  "source": "Foreverskyou/v-HUB::all_data.zip::all_data/1746570391223500800.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "V2P-Bench",
@@ -493,6 +803,16 @@
   "start_s": 3.0,
   "length_s": 5.0,
   "clip": "original, cut on the cluster"
+ },
+ {
+  "name": "VAU-Bench",
+  "slug": "vau-bench",
+  "item": "VAU-Bench (UCF-Crime)_184",
+  "source": "AllenXeon/ucf_crime::::Anomaly-Videos-Part-3/RoadAccidents/RoadAccidents021_x264.mp4",
+  "start_s": 0.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "VCR-Bench",
@@ -612,6 +932,16 @@
   "clip": "crossfade of the dataset copy (2 fps or sparser)"
  },
  {
+  "name": "VideoKR",
+  "slug": "videokr",
+  "item": "VideoKR_251",
+  "source": "minuzero/VideoKR-Eval::::MMVU/videos/Electronics_and_Communication/19.mp4",
+  "start_s": 3.5,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
   "name": "VideoMathQA",
   "slug": "videomathqa",
   "item": "VideoMathQA_1532",
@@ -628,6 +958,16 @@
   "start_s": 1095.6,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "VideoSIAH-Eval",
+  "slug": "videosiah-eval",
+  "item": "LongVT_64",
+  "source": "longvideotool/VideoSIAH-Eval::videosiaheval_2.zip::M8bk03k2z-0.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
  },
  {
   "name": "VidPair-Halluc",
@@ -675,6 +1015,16 @@
   "clip": "original"
  },
  {
+  "name": "VNBench",
+  "slug": "vnbench",
+  "item": "VNBench_169",
+  "source": "local::VNBench::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/VNBench/VNBench_new/video7856_cnt_edit1.mp4",
+  "start_s": 3.5,
+  "length_s": 5.0,
+  "clip": "original, cut on the cluster",
+  "in_video_index": false
+ },
+ {
   "name": "VRU-Accident",
   "slug": "vru-accident",
   "item": "VRU-Accident_2593",
@@ -682,5 +1032,45 @@
   "start_s": 6.39,
   "length_s": 5.0,
   "clip": "original"
+ },
+ {
+  "name": "VSI-Bench",
+  "slug": "vsi-bench",
+  "item": "VSI-Bench_959",
+  "source": "nyu-visionx/VSI-Bench::arkitscenes.zip::arkitscenes/41159504.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "VSI-Super-Wild",
+  "slug": "vsi-super-wild",
+  "item": "VSI-Super-Wild_1424",
+  "source": "THUSI-Lab/VSI-Super-Wild::videos_10_30_part_001.zip::videos_10_30/EvNuqtBVCNE_back.mp4",
+  "start_s": 1.0,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "VSTAT",
+  "slug": "vstat",
+  "item": "VStaT_676",
+  "source": "nyu-visionx/vstat::::videos/self_recorded/keyboard/0002_pt1.mp4",
+  "start_s": 3.46,
+  "length_s": 5.0,
+  "clip": "original",
+  "in_video_index": false
+ },
+ {
+  "name": "VURB",
+  "slug": "vurb",
+  "item": "VURB_1169",
+  "source": "wyccccc/VURB_Data::videos.tar::videos/MotionBench/43751a3e080d4558b26cec92308724e6.mp4",
+  "start_s": 5.54,
+  "length_s": 5.0,
+  "clip": "crossfade of the census copy (2 fps or sparser)",
+  "in_video_index": false
  }
 ]
