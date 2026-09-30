@@ -1224,11 +1224,12 @@
  {
   "name": "VURB",
   "slug": "vurb",
-  "item": "VURB_1169",
-  "source": "wyccccc/VURB_Data::videos.tar::videos/MotionBench/43751a3e080d4558b26cec92308724e6.mp4",
-  "start_s": 5.54,
+  "item": "VURB_1245",
+  "source": "wyccccc/VURB_Data::videos.tar::videos/MotionBench/VpoEssupqlgcfBcl.mp4",
+  "start_s": 3.48,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  }
 ]
