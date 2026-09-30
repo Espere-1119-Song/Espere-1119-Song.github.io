@@ -46,12 +46,13 @@
  {
   "name": "CAViAR",
   "slug": "caviar",
-  "item": "CAViAR_948",
-  "source": "nexar-ai/nexar_collision_prediction::::train/positive/00944.mp4",
-  "start_s": 4.9,
+  "item": "CAViAR_2128",
+  "source": "nexar-ai/nexar_collision_prediction::::train/positive/00047.mp4",
+  "start_s": 14.15,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "CG-Bench",
@@ -1003,7 +1004,9 @@
   "source": "NeurIPS2026-VGenST-Bench/VGenST-Bench::videos/CI_F_EXO_STA.zip::videos/50_Passenger_Train_Dining_Car_Table.mp4",
   "start_s": 2.4,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "crossfade of the dataset copy (2 fps or sparser)",
+  "picked": "2026-09-29 picker",
+  "note": "the Hugging Face repo was deleted and no original copy exists; the author kept the crossfade (2026-09-29)"
  },
  {
   "name": "Video-Holmes",
