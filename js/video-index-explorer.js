@@ -58,7 +58,7 @@
   function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
   function chipHtml(level) {
     return '<i class="vi-tip__dot" style="background:' + LVCOL[level] + '"></i>' +
-      (level === 'unbroken' ? t('Unbroken', '未被攻破') : t('Breaks at the ' + level + ' level', '在' + lvName(level) + '层被攻破'));
+      (level === 'unbroken' ? t('Unbroken', '未攻破') : t('Breaks at the ' + level + ' level', '在' + lvName(level) + '层被攻破'));
   }
 
   /* ---------- tooltip ---------- */
@@ -77,7 +77,7 @@
   }
   function benchTip(b) {
     return '<b>' + b.name + '</b><br>' + gName(b.group) + ' · ' + b.year + ' · ' + fmt(b.items) + ' ' + t('items', '道题') + '<br>' +
-      chipHtml(b.level) + '<br>' + t('Reference', '参照') + ' ' + b.ref.toFixed(1) + '% · ' + t('chance', '随机') + ' ' + b.c.toFixed(1) + '% · ' +
+      chipHtml(b.level) + '<br>' + t('Reference', '参照') + ' ' + b.ref.toFixed(1) + '% · ' + t('chance', '随机水平') + ' ' + b.c.toFixed(1) + '% · ' +
       'Video-Index ' + b.vi + ' ' + t('items', '道');
   }
 
@@ -190,7 +190,7 @@
       regions.push({ box: seg.box,
         tip: function () {
           if (seg.kind === 'continue') { return '<b>' + (reach.length - here.length) + ' ' + t('pass the ' + lv + ' level', '个通过' + lvName(lv) + '层') + '</b><br>' + t('of the ' + reach.length + ' that reach it', '到达该层的共 ' + reach.length + ' 个'); }
-          if (seg.kind === 'survive') { return '<b>' + here.length + ' ' + t('survive every level', '个全部幸存') + '</b><br>' + names(here); }
+          if (seg.kind === 'survive') { return '<b>' + here.length + ' ' + t('survive every level', '个五层全部幸存') + '</b><br>' + names(here); }
           return '<b>' + here.length + ' ' + t('break at the ' + lv + ' level', '个在' + lvName(lv) + '层被攻破') + '</b><br>' + names(here);
         },
         click: seg.kind === 'continue' ? null : function () { filterExplorer({ level: lv }); } });
@@ -270,8 +270,8 @@
     };
   }
   function verdictHtml(b) {
-    return '<b>' + b.name + '</b> ' + (b.level === 'unbroken' ? t('is unbroken', '未被攻破') : t('breaks at the ', '在') + '<b>' + lvName(b.level).toLowerCase() + '</b>' + t(' level', '层被攻破')) +
-      ' · ' + t('reference', '参照') + ' ' + b.ref.toFixed(1) + '%, ' + t('chance', '随机') + ' ' + b.c.toFixed(1) + '%, ' + t('bar', '门槛') + ' ' + bar(b).toFixed(1);
+    return '<b>' + b.name + '</b> ' + (b.level === 'unbroken' ? t('is unbroken', '未攻破') : t('breaks at the ', '在') + '<b>' + lvName(b.level).toLowerCase() + '</b>' + t(' level', '层被攻破')) +
+      ' · ' + t('reference', '参照') + ' ' + b.ref.toFixed(1) + '%, ' + t('chance', '随机水平') + ' ' + b.c.toFixed(1) + '%, ' + t('bar', '门槛') + ' ' + bar(b).toFixed(1);
   }
 
   /* ---------- the screening chain, counting up when scrolled into view ---------- */
@@ -454,7 +454,7 @@
       var reach = B.filter(function (b) { return LV6.indexOf(b.level) >= LV6.indexOf(lv); });
       var here = reach.filter(function (b) { return b.level === lv; });
       hoverable(step, function () {
-        if (lv === 'unbroken') { return '<b>' + here.length + ' ' + t('survive every level', '个 benchmark 五层都挡住了') + '</b><br>' + names(here); }
+        if (lv === 'unbroken') { return '<b>' + here.length + ' ' + t('survive every level', '个 benchmark 五层全部幸存') + '</b><br>' + names(here); }
         return '<b>' + reach.length + ' ' + t('reach the ' + lv + ' level', '个 benchmark 到达' + lvName(lv) + '层') + '</b><br>' +
           here.length + ' ' + t('break here: ', '个在这一层被攻破：') + names(here);
       });

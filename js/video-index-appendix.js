@@ -171,13 +171,13 @@
   }
   function fig8Tip(it) {
     var p = it.pix - it.frm, key = p >= 5 ? 'pixels' : p <= -5 ? 'frames' : 'within';
-    var verdict = { pixels: t('Pixels help more', '更多像素帮助更大'), frames: t('Frames help more', '更多帧帮助更大'), within: t('Pixels and frames help within 5 points of each other', '像素和帧数的帮助相差不到 5 个点') }[key];
+    var verdict = { pixels: t('Pixels help more', '像素收益更大'), frames: t('Frames help more', '帧数收益更大'), within: t('Pixels and frames help within 5 points of each other', '像素与帧数的收益相差不到 5 个百分点') }[key];
     var rl = RESL.concat([t('stored', '存储分辨率')]), br = argmax(it.res), bf = argmax(it.fps);
     return '<b>' + esc(it.name) + '</b><br>' + dot(PREF[key][0]) + verdict + '<br>' +
       t('Pixel gain ', '像素增益 ') + signed(it.pix, 1) + ' · ' + t('frame gain ', '帧数增益 ') + signed(it.frm, 1) +
       '<span class="vi-tip__grid">' +
-      (br >= 0 ? '<span>' + t('Best resolution', '最好的分辨率') + '</span><b class="is-axis">' + rl[br] + ' · ' + it.res[br].toFixed(1) + '%</b>' : '') +
-      (bf >= 0 ? '<span>' + t('Best frame rate', '最好的帧率') + '</span><b class="is-axis">' + FPSL[bf] + ' · ' + it.fps[bf].toFixed(1) + '%</b>' : '') +
+      (br >= 0 ? '<span>' + t('Best resolution', '最佳分辨率') + '</span><b class="is-axis">' + rl[br] + ' · ' + it.res[br].toFixed(1) + '%</b>' : '') +
+      (bf >= 0 ? '<span>' + t('Best frame rate', '最佳帧率') + '</span><b class="is-axis">' + FPSL[bf] + ' · ' + it.fps[bf].toFixed(1) + '%</b>' : '') +
       '</span><span class="vi-tip__note">' + ladderLine(it.res, rl) + '<br>' + ladderLine(it.fps, FPSL) + '</span>';
   }
   function figure8(wrap) {
@@ -264,7 +264,7 @@
       var tipA = function () {
         return head(a) + '<span class="vi-tip__grid"><span>' + t('Accuracy', '准确率') + '</span><b class="is-axis">' + a.acc.toFixed(1) + '%</b>' +
           '<span>' + t('Median time per item', '每题耗时中位数') + '</span><b class="is-axis">' + Math.round(a.sec) + ' s</b>' +
-          '<span>Q1–Q3</span><b>' + Math.round(a.q[0]) + '–' + Math.round(a.q[1]) + ' s</b><span>' + t('Sessions timed', '计时的会话') + '</span><b>' + U.fmt(a.n) + '</b></span>';
+          '<span>Q1–Q3</span><b>' + Math.round(a.q[0]) + '–' + Math.round(a.q[1]) + ' s</b><span>' + t('Sessions timed', '有计时的会话') + '</span><b>' + U.fmt(a.n) + '</b></span>';
       };
       var i = a.iqr, onDot = ring(a.dot[0], a.dot[1], 4.6, a.color);
       bindTip(svg('rect', { x: i[0] - 2, y: i[1] - 3.5, width: i[2] + 4, height: 7, class: 'vi-hitmark' }, hits), tipA, onDot, off);
@@ -675,7 +675,7 @@
         drawn.forEach(function (d2) { d2[0].classList.toggle('is-dim', d2[1] !== r); d2[0].classList.toggle('is-hit', d2[1] === r); if (d2[1] === r) { lines.appendChild(d2[0]); } });
         if (isNum(r[2])) {
           svg('line', { x1: L, x2: W - R, y1: sy(r[2]), y2: sy(r[2]), class: 'vi-sc-ref' }, chance);
-          svg('text', { x: W - R + 6, y: sy(r[2]) + 4, class: 'vi-sc-tick' }, chance, t('chance ', '随机 ') + r[2]);
+          svg('text', { x: W - R + 6, y: sy(r[2]) + 4, class: 'vi-sc-tick' }, chance, t('chance ', '随机水平 ') + r[2]);
         }
         nameAt(r);
       }
@@ -823,7 +823,7 @@
           var b = BY[r[0]], lv = RKL[r[1]];
           return '<b>' + esc(r[0]) + '</b><br>' + t('Rank ' + (k + 1) + ' of the ten · margin ', '十个中排第 ' + (k + 1) + ' · 余量 ') + r[2].replace('-', '−') + '<br>' + U.chipHtml(lv[0]) +
             (b ? '<br>' + esc(U.gName(b.group)) + ' · ' + b.year + ' · ' + U.fmt(b.items) + ' ' + t('items', '道题') + '<br>' +
-              t('Reference ', '参照 ') + b.ref.toFixed(1) + '% · ' + t('chance ', '随机 ') + b.c.toFixed(1) + '%' : '');
+              t('Reference ', '参照 ') + b.ref.toFixed(1) + '% · ' + t('chance ', '随机水平 ') + b.c.toFixed(1) + '%' : '');
         });
       });
       var more = survivors.filter(function (b) { return !shown[b.name]; }).map(function (b) { return b.name; }).sort(function (x, y) { return x.toLowerCase() < y.toLowerCase() ? -1 : 1; });

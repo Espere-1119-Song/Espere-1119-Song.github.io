@@ -9,9 +9,9 @@ js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260927vi2
   - /js/video-index-clips.js?v=20260929vi8
-  - /js/video-index-explorer.js?v=20260929vi12
+  - /js/video-index-explorer.js?v=20260930vi13
   - /js/video-index-appendix-data.js?v=20260927vi3
-  - /js/video-index-appendix.js?v=20260927vi10
+  - /js/video-index-appendix.js?v=20260930vi11
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -22,7 +22,7 @@ js:
 </div>
 
 <p class="vi-standfirst" lang="en">Video benchmarks are meant to show whether a model understands video. We attacked 115 of them with five kinds of shortcuts, and 35 break before the attacker sees a single frame. From the questions no shortcut solves, we select the 840 hardest to form Video-Index.</p>
-<p class="vi-standfirst" lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类捷径攻击了 115 个 benchmark，其中 35 个连一帧画面都不用看就被攻破。我们从捷径解不了的题里选出最难的 840 道，组成 Video-Index。</p>
+<p class="vi-standfirst" lang="zh">视频 benchmark 本该检验模型能不能看懂视频。我们用五类捷径攻击了 115 个视频 benchmark，其中 35 个，攻击者一帧画面都没看就攻破了。我们再从所有捷径都解不出的题里选出最难的 840 道，组成 Video-Index。</p>
 
 <div class="vi-byline"><span lang="en">By Enxin Song</span><span lang="zh">作者 Enxin Song</span></div>
 <!-- the arXiv link is a placeholder: replace its href="#" with the paper's address -->
@@ -44,16 +44,16 @@ js:
         <li><a href="#results"><span lang="en">Results</span><span lang="zh">结果</span></a></li>
         <li><a href="#agents"><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></a></li>
       </ol></li>
-    <li><a href="#findings"><span lang="en">What the audit finds</span><span lang="zh">审计结果</span></a>
+    <li><a href="#findings"><span lang="en">What the audit finds</span><span lang="zh">审计发现了什么</span></a>
       <ol>
-        <li><a href="#year"><span lang="en">Newer benchmarks break earlier</span><span lang="zh">越新越早被攻破</span></a></li>
+        <li><a href="#year"><span lang="en">Newer benchmarks break earlier</span><span lang="zh">越新的 benchmark 越早被攻破</span></a></li>
         <li><a href="#claims"><span lang="en">Each claim breaks differently</span><span lang="zh">每类能力各有软肋</span></a></li>
         <li><a href="#budget"><span lang="en">Frames, pixels, and long video</span><span lang="zh">帧数、像素与长视频</span></a></li>
         <li><a href="#errors"><span lang="en">Errors and duplicates</span><span lang="zh">错误与重复</span></a></li>
       </ol></li>
     <li><a href="#which"><span lang="en">Which benchmarks to use</span><span lang="zh">按能力选 benchmark</span></a></li>
     <li><a href="#cards"><span lang="en">Report cards</span><span lang="zh">报告卡</span></a></li>
-    <li><a href="#cite">Citation</a></li>
+    <li><a href="#cite"><span lang="en">Citation</span><span lang="zh">引用</span></a></li>
   </ol>
 </nav>
 </div>
@@ -73,29 +73,29 @@ js:
 <section id="question">
   <h2><span lang="en">The question</span><span lang="zh">问题</span></h2>
   <p lang="en">Each benchmark was built against the models of its year. Language priors are stronger now and one frame carries more of the answer, so a question that forced a 2023 model to watch the video may need no video in 2026. We asked every benchmark whether it can still tell if a model has the capability it claims to test.</p>
-  <p lang="zh">每个 benchmark 都是对着它那一年的模型造出来的。如今模型的语言先验更强，一帧画面里能读出的答案也更多，一道在 2023 年迫使模型看视频的题，到 2026 年可能根本不需要视频。所以我们问每一个 benchmark：它还能不能测出模型是否具备它要考察的能力？</p>
+  <p lang="zh">每个 benchmark 都是针对它发布那一年的模型设计的。如今模型的语言先验更强，单看一帧能得到的答案线索也更多，所以一道在 2023 年非看视频不可的题，到 2026 年可能根本用不着视频。我们对每个 benchmark 都问同一个问题：它还能分辨出模型是否具备它声称考察的能力吗？</p>
 </section>
 
 <!-- ================= 2. The attack pyramid ================= -->
 <section id="pyramid">
   <h2><span lang="en">The attack pyramid</span><span lang="zh">攻击金字塔</span></h2>
   <p lang="en">An attacker is any strategy that raises the score without the claimed capability. We arrange attackers in five levels of growing access to an item, the attack pyramid.</p>
-  <p lang="zh">攻击者指任何不靠所声称的能力却能抬高分数的策略。我们把攻击者按对题目的访问权限由少到多排成五层，称为攻击金字塔。</p>
+  <p lang="zh">攻击者指任何不具备 benchmark 声称考察的能力、却能提高分数的策略。我们按攻击者能拿到的题目信息从少到多，把它们分成五层，即攻击金字塔。</p>
 
   <figure class="vi-fig" id="f-schema">
     <div class="vi-pyr">
       <div class="vi-pyr__lvl vi-pyr__lvl--1" data-level="option"><i><span lang="en">Level 1</span><span lang="zh">第 1 层</span></i><b><span lang="en">Option</span><span lang="zh">选项</span></b><p lang="en">The answer options alone.</p><p lang="zh">只有答案选项。</p></div>
-      <div class="vi-pyr__lvl vi-pyr__lvl--2" data-level="text"><i><span lang="en">Level 2</span><span lang="zh">第 2 层</span></i><b><span lang="en">Text</span><span lang="zh">文本</span></b><p lang="en">Adds the question.</p><p lang="zh">加上问题。</p></div>
-      <div class="vi-pyr__lvl vi-pyr__lvl--3" data-level="pool"><i><span lang="en">Level 3</span><span lang="zh">第 3 层</span></i><b><span lang="en">Pool</span><span lang="zh">题库</span></b><p lang="en">Adds the other evaluated items.</p><p lang="zh">加上其他被评测的题目。</p></div>
-      <div class="vi-pyr__lvl vi-pyr__lvl--4" data-level="frame"><i><span lang="en">Level 4</span><span lang="zh">第 4 层</span></i><b><span lang="en">Frame</span><span lang="zh">帧</span></b><p lang="en">Adds one frame or captions.</p><p lang="zh">加上一帧或帧描述。</p></div>
-      <div class="vi-pyr__lvl vi-pyr__lvl--5" data-level="order"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth.</p><p lang="zh">加上视频，但帧序打乱或只取连续的十分之一。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--2" data-level="text"><i><span lang="en">Level 2</span><span lang="zh">第 2 层</span></i><b><span lang="en">Text</span><span lang="zh">文本</span></b><p lang="en">Adds the question.</p><p lang="zh">再加上题干。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--3" data-level="pool"><i><span lang="en">Level 3</span><span lang="zh">第 3 层</span></i><b><span lang="en">Pool</span><span lang="zh">题库</span></b><p lang="en">Adds the other evaluated items.</p><p lang="zh">再加上评测中的其他题目。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--4" data-level="frame"><i><span lang="en">Level 4</span><span lang="zh">第 4 层</span></i><b><span lang="en">Frame</span><span lang="zh">帧</span></b><p lang="en">Adds one frame or captions.</p><p lang="zh">再加上一帧画面或视频描述。</p></div>
+      <div class="vi-pyr__lvl vi-pyr__lvl--5" data-level="order"><i><span lang="en">Level 5</span><span lang="zh">第 5 层</span></i><b><span lang="en">Order</span><span lang="zh">顺序</span></b><p lang="en">Adds the video, shuffled or a contiguous tenth.</p><p lang="zh">再加上视频，但打乱帧序，或只保留连续的十分之一。</p></div>
       <div class="vi-pyr__lvl vi-pyr__lvl--6" data-level="unbroken"><i><span lang="en">After level 5</span><span lang="zh">第 5 层之后</span></i><b><span lang="en">Unbroken</span><span lang="zh">未攻破</span></b><p lang="en">Survives every level.</p><p lang="zh">五层都挡住了。</p></div>
     </div>
     <figcaption><span lang="en"><b>The attack pyramid.</b></span><span lang="zh"><b>攻击金字塔。</b></span></figcaption>
   </figure>
 
   <p lang="en">A benchmark breaks at the first level where an attacker comes within 5 points of a reference model watching the video, Gemini 3.5 Flash at 32 frames, both counted above chance. A benchmark that no level breaks survives.</p>
-  <p lang="zh">如果某一层的攻击者与看视频的参照模型（看 32 帧的 Gemini 3.5 Flash）相差不到 5 个点，两者都按超出随机水平计，benchmark 就在这一层被攻破；哪一层都没攻破的 benchmark 算作幸存。</p>
+  <p lang="zh">参照模型是看 32 帧视频的 Gemini 3.5 Flash。攻击者和参照模型都按超出随机水平的部分计分，攻击者第一次追到参照模型 5 个百分点以内的那一层，就是 benchmark 被攻破的层。五层都没被攻破的 benchmark 算作幸存。</p>
 </section>
 
 <!-- ================= 3. Video-Index ================= -->
@@ -105,15 +105,15 @@ js:
   <section id="screening">
     <h3><span lang="en">Screening every item</span><span lang="zh">逐题筛查</span></h3>
     <p lang="en">We screen all 381,614 multiple-choice items of 112 audited benchmarks, dropping near-duplicates and every item that a small model answers from the options, the text, one frame, or 32 frames. The attacks remove 76% of the distinct questions.</p>
-    <p lang="zh">我们筛查了 112 个已审计 benchmark 的全部 381,614 道选择题，去掉近似重复的题，以及小模型靠选项、文字、单帧或 32 帧就能答对的题。这些攻击去掉了 76% 的不重复问题。</p>
+    <p lang="zh">我们筛查了审计过的 112 个 benchmark 中的全部 381,614 道选择题，去掉近似重复的题，也去掉小模型只凭选项、题干、一帧画面或 32 帧就能答对的题。这些攻击筛掉了去重后 76% 的问题。</p>
     <p lang="en">Video-Index holds the 840 hardest verified questions from 76 sources, 210 per capability group and one per video. Selection ranks items by the attacker margins and ignores reference-model accuracy.</p>
-    <p lang="zh">Video-Index 收录来自 76 个来源的 840 道最难且经核验的题，每个能力组 210 道，每段视频一道。选题按攻击者的得分幅度排序，不看参照模型的准确率。</p>
+    <p lang="zh">Video-Index 收录 840 道经过核验的最难题目，来自 76 个来源：每个能力组 210 道，每段视频只取一道。选题按攻击者的 margin 排序，不看参照模型的准确率。</p>
   </section>
 
   <section id="results">
     <h3><span lang="en">Results</span><span lang="zh">结果</span></h3>
     <p lang="en">With the same fixed input, Claude Opus 5 outscores every open model by more than 37 points, and tools raise it by another 19.8. GPT-6-Astra leads at 79.3%. Human volunteers reach 55.0%, below the three leading agents and above every open model.</p>
-    <p lang="zh">在相同的固定输入下，Claude Opus 5 比每个开源模型高出 37 个点以上，用上工具再提高 19.8 个点。GPT-6-Astra 以 79.3% 领先。人类志愿者拿到 55.0%，低于前三名 agent，高于所有开源模型。</p>
+    <p lang="zh">输入相同且固定时，Claude Opus 5 比所有开源模型都高出 37 个百分点以上，用上工具后又提高 19.8 个百分点。GPT-6-Astra 以 79.3% 排第一。人类志愿者的准确率是 55.0%，低于前三名 agent，高于所有开源模型。</p>
     <figure class="vi-fig" id="f-results">
       <!-- The leaderboard. To add a system, add one row anywhere: data-type is agent, fixed (fixed input) or human
            (shown unranked), then the name and the seven accuracies in the order of the header, "–" if missing.
@@ -150,14 +150,14 @@ js:
           </tbody>
         </table>
       </div>
-      <figcaption><b><span lang="en">Table 1.</span><span lang="zh">表 1</span></b> <span lang="en"><b>Agents lead open models on Video-Index.</b></span><span lang="zh"><b>在 Video-Index 上 agent 领先开源模型。</b></span></figcaption>
+      <figcaption><b><span lang="en">Table 1.</span><span lang="zh">表 1</span></b> <span lang="en"><b>Agents lead open models on Video-Index.</b></span><span lang="zh"><b>Video-Index 上 agent 领先开源模型。</b></span></figcaption>
     </figure>
   </section>
 
   <section id="agents">
     <h3><span lang="en">How agents gather evidence</span><span lang="zh">agent 如何找证据</span></h3>
     <p lang="en">GPT-6-Astra, Claude Fable 5.1, and Claude Opus 5 tile frames into grids on nearly every answer and then diverge. GPT-6-Astra seeks timestamps more often, Claude Fable 5.1 and Claude Opus 5 favor cropping and zooming, and Claude Fable 5.1 extracts far more images without reaching GPT-6-Astra&#8217;s accuracy. All three score lower on videos past ten minutes.</p>
-    <p lang="zh">GPT-6-Astra、Claude Fable 5.1 和 Claude Opus 5 几乎每道题都先把帧拼成网格，然后各走各路。GPT-6-Astra 更常按时间戳定位，Claude Fable 5.1 和 Claude Opus 5 更爱裁剪和放大；Claude Fable 5.1 抽取的图像多得多，准确率却没有追上 GPT-6-Astra。三个 agent 在超过十分钟的视频上分数都更低。</p>
+    <p lang="zh">GPT-6-Astra、Claude Fable 5.1 和 Claude Opus 5 几乎每道题都会把帧拼成网格，之后的做法各不相同。GPT-6-Astra 更常跳到指定时间，Claude Fable 5.1 和 Claude Opus 5 更常裁剪和放大；Claude Fable 5.1 抽取的图像多得多，准确率却不如 GPT-6-Astra。三个 agent 在十分钟以上的视频上分数都更低。</p>
     <figure class="vi-fig" id="f-agents">
       <div class="vi-overlay vi-fig__img" data-overlay="fig12"><img src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes."></div>
       <figcaption><b><span lang="en">Figure 12.</span><span lang="zh">图 12</span></b> <span lang="en"><b>Agents differ in accuracy, runtime, and inspection.</b></span><span lang="zh"><b>agent 在准确率、耗时和查看方式上各不相同。</b></span></figcaption>
@@ -167,12 +167,12 @@ js:
 
 <!-- ================= 4. What the audit finds ================= -->
 <section id="findings">
-  <h2><span lang="en">What the audit finds</span><span lang="zh">审计结果</span></h2>
+  <h2><span lang="en">What the audit finds</span><span lang="zh">审计发现了什么</span></h2>
 
   <section id="year">
     <h3><span lang="en">Newer benchmarks break earlier</span><span lang="zh">越新的 benchmark 越早被攻破</span></h3>
     <p lang="en">Among releases through 2024, 19% break before any visual input; among releases in 2025 and 2026, 34% do, and the rise comes from the text and pool levels. Recent benchmarks use language models to write or refine questions and answers, which can leave the answer recoverable from the text alone.</p>
-    <p lang="zh">2024 年及以前发布的 benchmark 里，19% 在看到任何画面之前就被攻破；2025 和 2026 年发布的里，这个比例是 34%，增量来自文本层和题库层。近期的 benchmark 用语言模型生成或润色问题和答案，这可能让答案单靠文字就能推出来。</p>
+    <p lang="zh">2024 年及以前发布的 benchmark 中，19% 在攻击者看到任何画面之前就被攻破；2025 和 2026 年发布的 benchmark 中，这一比例是 34%，多出来的部分来自文本层和题库层。近期的 benchmark 常用语言模型来写或润色问题和答案，答案因此可能单凭文字就能推出来。</p>
     <figure class="vi-fig" id="f-year">
       <div class="vi-overlay vi-fig__img" data-overlay="fig6"><img src="/images/blogs/video-index/paper/fig06_year_counts.png?v=20260927vi2" alt="Left, a funnel of benchmarks reaching each level: 115 at option, 98 at text, 85 at pool, 80 at frame, 53 at order, 38 survive. Right, stacked bars of breaking levels by release year, each as long as the year's releases: 6 for 2023 and earlier, 20 for 2024, 54 for 2025 and 35 for 2026, of which 17, 20, 39 and 26 percent break before video."></div>
       <figcaption><b><span lang="en">Figure 6.</span><span lang="zh">图 6</span></b> <span lang="en"><b>Newer benchmarks break earlier.</b></span><span lang="zh"><b>越新的 benchmark 越早被攻破。</b></span></figcaption>
@@ -182,7 +182,7 @@ js:
   <section id="claims">
     <h3><span lang="en">Each claim breaks differently</span><span lang="zh">每类能力各有软肋</span></h3>
     <p lang="en">Reasoning and knowledge benchmarks break on the text or on captions, perception benchmarks most often at the frame level, and spatial and physical benchmarks on the options and under temporal perturbation. Temporal benchmarks split, with 6 of 18 breaking on the options and 10 surviving every level.</p>
-    <p lang="zh">推理和知识类 benchmark 在文本层或帧描述上失守，感知类最常在帧层失守，空间和物理类在选项层和时序扰动下失守。时序类则分成两半，18 个里 6 个在选项层被攻破，10 个全部幸存。</p>
+    <p lang="zh">推理与知识类 benchmark 在文本或视频描述上失守，感知类最常在帧层失守，空间与物理类在选项层和时序扰动下失守。时序类两极分化：18 个里有 6 个在选项层就被攻破，10 个五层全部幸存。</p>
     <figure class="vi-fig" id="f-claims">
       <div class="vi-overlay vi-fig__img" data-overlay="fig7"><img src="/images/blogs/video-index/paper/fig07_claims_counts.png" alt="Stacked horizontal bars of each capability group's benchmarks by breaking level, each as long as the group: temporal 18, spatial and physical 20, perception 45, reasoning and knowledge 32."></div>
       <figcaption><b><span lang="en">Figure 7.</span><span lang="zh">图 7</span></b> <span lang="en"><b>Each capability group breaks at its own levels.</b></span><span lang="zh"><b>每个能力组在各自的层被攻破。</b></span></figcaption>
@@ -192,24 +192,24 @@ js:
   <section id="budget">
     <h3><span lang="en">Frames, pixels, and long video</span><span lang="zh">帧数、像素与长视频</span></h3>
     <p lang="en">Given more visual input, 11 benchmarks gain more from pixels and 3 from frames; on the rest the two gains differ by less than the tolerance. Resolution recovers small details in slides, endoscopy, and synthetic artifacts, and denser sampling catches brief events.</p>
-    <p lang="zh">给更多视觉输入时，11 个 benchmark 更受益于像素，3 个更受益于帧数，其余的两种增益相差不到容差。分辨率找回幻灯片、内窥镜和合成瑕疵里的小细节，更密的采样抓住短暂的事件。</p>
+    <p lang="zh">增加视觉输入时，11 个 benchmark 从更高的分辨率中得益更多，3 个从更多的帧中得益更多，其余 benchmark 的两种增益相差不到 5 个百分点。更高的分辨率能看清幻灯片、内窥镜画面和合成瑕疵里的小细节，更密的采样能抓到一闪而过的事件。</p>
     <figure class="vi-fig" id="f-budget">
       <div class="vi-overlay vi-fig__img" data-overlay="fig8"><img src="/images/blogs/video-index/paper/fig08_frames_pixels.png" alt="A density curve of pixel gain minus frame gain with named dots for benchmarks; three sit on the frames side and eleven on the pixels side."></div>
-      <figcaption><b><span lang="en">Figure 8.</span><span lang="zh">图 8</span></b> <span lang="en"><b>Eleven benchmarks gain more from pixels and three from frames.</b></span><span lang="zh"><b>11 个 benchmark 更受益于像素，3 个更受益于帧数。</b></span></figcaption>
+      <figcaption><b><span lang="en">Figure 8.</span><span lang="zh">图 8</span></b> <span lang="en"><b>Eleven benchmarks gain more from pixels and three from frames.</b></span><span lang="zh"><b>11 个 benchmark 从像素中得益更多，3 个从帧数中得益更多。</b></span></figcaption>
     </figure>
 
     <p lang="en">Long videos want more frames. Among the 30 benchmarks whose videos average at least five minutes, 18 gain at least 5 points from larger frame budgets, and 9 still gain at the reference&#8217;s 600-frame limit.</p>
-    <p lang="zh">长视频需要更多帧。视频平均时长不低于五分钟的 30 个 benchmark 里，18 个随帧预算增加至少提高 5 个点，9 个到参照模型 600 帧的上限时仍在提高。</p>
+    <p lang="zh">长视频需要更多帧。在视频平均时长至少五分钟的 30 个 benchmark 中，18 个加大帧预算后至少提高 5 个百分点，9 个到了参照模型 600 帧的上限时仍在提高。</p>
     <figure class="vi-fig" id="f-longvideo">
       <div class="vi-overlay vi-fig__img" data-overlay="fig9"><img src="/images/blogs/video-index/paper/fig09_longvideo_left.png" alt="Accuracy of 30 long-video benchmarks at frame budgets of 32, 128, 512 and 1024, with group means and quartiles: blue for the 9 where the reference still gains at 600 frames, red for the other 21."></div>
-      <figcaption><b><span lang="en">Figure 9.</span><span lang="zh">图 9</span></b> <span lang="en"><b>Most long videos gain from larger budgets.</b></span><span lang="zh"><b>大多数长视频受益于更大的帧预算。</b></span></figcaption>
+      <figcaption><b><span lang="en">Figure 9.</span><span lang="zh">图 9</span></b> <span lang="en"><b>Most long videos gain from larger budgets.</b></span><span lang="zh"><b>多数长视频 benchmark 在更大的帧预算下得分更高。</b></span></figcaption>
     </figure>
   </section>
 
   <section id="errors">
     <h3><span lang="en">Errors and duplicates</span><span lang="zh">错误与重复</span></h3>
     <p lang="en">Errors concentrate in few capabilities. The two most frequent categories of a benchmark hold a median 71% of its attributed errors, and fine-grained action leads on 27 benchmarks, so covering the capability gaps takes several sources.</p>
-    <p lang="zh">错误集中在少数几种能力上。一个 benchmark 最常见的两类错误中位数占其归因错误的 71%，细粒度动作在 27 个 benchmark 上居首，所以要覆盖这些能力缺口，需要组合多个来源。</p>
+    <p lang="zh">错误集中在少数几种能力上。每个 benchmark 最常见的两类错误合计占其归因错误的比例，中位数是 71%；细粒度动作在 27 个 benchmark 上排第一。因此要覆盖这些能力缺口，需要组合多个来源。</p>
     <figure class="vi-fig" id="f-errors">
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/fig10_errors.png" alt="A heat map with 18 fine capability categories as rows and 76 benchmarks as columns grouped by first breaking level, each column summing to 100 percent.">
       <figcaption><b><span lang="en">Figure 10.</span><span lang="zh">图 10</span></b> <span lang="en"><b>Errors concentrate in few capabilities.</b></span><span lang="zh"><b>错误集中在少数几种能力上。</b></span></figcaption>
@@ -217,7 +217,7 @@ js:
 
     <figure class="vi-fig" id="f-t12">
       <div id="vi-dupshare"></div>
-      <figcaption><b><span lang="en">Table 12.</span><span lang="zh">表 12</span></b> <span lang="en"><b>Cross-benchmark near-duplicate shares (%).</b></span><span lang="zh"><b>跨 benchmark 近似重复份额（%）。</b></span></figcaption>
+      <figcaption><b><span lang="en">Table 12.</span><span lang="zh">表 12</span></b> <span lang="en"><b>Cross-benchmark near-duplicate shares (%).</b></span><span lang="zh"><b>跨 benchmark 的近似重复占比（%）。</b></span></figcaption>
     </figure>
   </section>
 </section>
@@ -226,7 +226,7 @@ js:
 <section id="which">
   <h2><span lang="en">Which benchmarks to use for a capability</span><span lang="zh">按能力选 benchmark</span></h2>
   <p lang="en">38 of the 115 benchmarks survive every level. The strongest benchmarks for a capability are the survivors of its group that stay furthest below the breaking threshold.</p>
-  <p lang="zh">115 个 benchmark 里有 38 个通过了全部五层。某项能力最可靠的 benchmark，是该能力组里离攻破门槛最远的幸存者。</p>
+  <p lang="zh">115 个 benchmark 中有 38 个五层全部幸存。对某项能力来说，最可靠的 benchmark 是该能力组的幸存者中离攻破门槛最远的那些。</p>
   <figure class="vi-fig" id="f-rank">
     <div id="vi-rank"></div>
     <figcaption><b><span lang="en">Tables 34–37.</span><span lang="zh">表 34–37</span></b> <span lang="en"><b>The ten strongest benchmarks of each capability group.</b></span><span lang="zh"><b>各能力组最强的十个 benchmark。</b></span></figcaption>
@@ -242,7 +242,7 @@ js:
 </section>
 
 <section id="cite">
-  <h2>Citation</h2>
+  <h2><span lang="en">Citation</span><span lang="zh">引用</span></h2>
   <p lang="en">To cite this post:</p>
   <p lang="zh">引用本文：</p>
   <pre><code>@misc{song2026videoindex,
