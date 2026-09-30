@@ -67,12 +67,14 @@
  {
   "name": "CineTechBench",
   "slug": "cinetechbench",
-  "item": "CineTechBench_9",
-  "source": "yt::CineTechBench::::6Pkq_eBHXJ4|110-115",
-  "start_s": 0.0,
+  "item": "CineTechBench_59",
+  "source": "yt::CineTechBench::::VACyePvKAa0|161.083-166.083",
+  "start_s": 161.083,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "CMU",
@@ -207,12 +209,14 @@
  {
   "name": "FineBench",
   "slug": "finebench",
-  "item": "FineBench_7100",
-  "source": "yt::FineBench::::5BDj0ow5hnA|895-1806",
-  "start_s": 318.85,
+  "item": "FineBench_10835",
+  "source": "yt::FineBench::::6d5u6FHvz7Q|895-1806",
+  "start_s": 1213.85,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "ForeSeaQA",
@@ -263,9 +267,12 @@
   "slug": "hlv-1k",
   "item": "HLV-1K_3199",
   "source": "yt::HLV-1K::::EfpgvAwwSBU",
-  "start_s": 542.57,
+  "start_s": 633.0,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "HourVideo",
@@ -303,9 +310,12 @@
   "slug": "k9-bench",
   "item": "K9-Bench_2431",
   "source": "yt::K9-Bench::::6gt5E-jWDpg",
-  "start_s": 6.78,
+  "start_s": 7.91,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "KFS-Bench",
@@ -345,9 +355,12 @@
   "slug": "longvideo-reason",
   "item": "LongVideo-Reason-eval_810",
   "source": "yt::LongVideo-Reason-eval::::NyFkqZ4Gm10",
-  "start_s": 150.47,
+  "start_s": 175.54,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "LongVideoBench",
@@ -376,9 +389,12 @@
   "slug": "m3-verse",
   "item": "M^3-Verse_1456",
   "source": "local::M^3-Verse::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/M^3-Verse/Sim/scene_90.mp4",
-  "start_s": 20.85,
+  "start_s": 24.32,
   "length_s": 5.0,
-  "clip": "original, cut on the cluster"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "cluster file cut on the cluster"
  },
  {
   "name": "MLVU",
@@ -627,9 +643,12 @@
   "slug": "rextime",
   "item": "ReXTime_752",
   "source": "yt::ReXTime::::k_7hLIwul48",
-  "start_s": 10.02,
+  "start_s": 11.69,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "S-EMBER",
@@ -676,11 +695,13 @@
  {
   "name": "SFI-Bench",
   "slug": "sfi-bench",
-  "item": "SFI-Bench_1531",
-  "source": "le723z/SFI-Bench::sfi_videos.tar.gz::sfi_videos/f9f95681fd.mp4",
-  "start_s": 37.9,
+  "item": "SFI-Bench_1372",
+  "source": "le723z/SFI-Bench::sfi_videos.tar.gz::sfi_videos/41069025.mp4",
+  "start_s": 58.86,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original, read from another copy of the same video: nyu-visionx/VSI-Bench::arkitscenes.zip::arkitscenes/41069025.mp4",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SIS-Bench",
@@ -720,9 +741,12 @@
   "slug": "smarthome-bench",
   "item": "SmartHome-Bench_517",
   "source": "yt::SmartHome-Bench::::SUkBjtTMdNk",
-  "start_s": 10.16,
+  "start_s": 11.85,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (the original is on YouTube)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "YouTube section cut on the cluster (yt-dlp), start in seconds of the full video"
  },
  {
   "name": "SoMi-ToM",
@@ -786,7 +810,10 @@
   "source": "local::TaskMeAnything-v1-videoqa-2024::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/TaskMeAnything-v1-videoqa-2024/6ebb06fd85647cdaa3d51450a091127e1c810488.mp4",
   "start_s": 0.0,
   "length_s": 4.0,
-  "clip": "original, cut on the cluster"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "cluster file cut on the cluster"
  },
  {
   "name": "TempCompass",
@@ -914,9 +941,12 @@
   "slug": "vane-bench",
   "item": "VANE-Bench_252",
   "source": "local::VANE-Bench::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/VANE-Bench/AI-Generated_Runway-Gen2_60.mp4",
-  "start_s": 3.0,
+  "start_s": 3.5,
   "length_s": 5.0,
-  "clip": "original, cut on the cluster"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker",
+  "note": "cluster file cut on the cluster"
  },
  {
   "name": "VAU-Bench",
@@ -1020,9 +1050,11 @@
   "slug": "video-mmmu",
   "item": "validation_Energy_and_Power_15:Comprehension",
   "source": "lmms-lab/VideoMMMU::Engineering.zip::Engineering/validation_Energy_and_Power_15.mp4",
-  "start_s": 79.69,
+  "start_s": 92.97,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original, read from another copy of the same video: minuzero/VideoKR-Eval::::VideoMMMU/Engineering/validation_Energy_and_Power_15.mp4",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Video-TT",
@@ -1170,12 +1202,14 @@
  {
   "name": "VNBench",
   "slug": "vnbench",
-  "item": "VNBench_169",
-  "source": "local::VNBench::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/VNBench/VNBench_new/video7856_cnt_edit1.mp4",
-  "start_s": 3.5,
+  "item": "VNBench_249",
+  "source": "local::VNBench::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/VNBench/VNBench_new/4979601057_ord_edit1.mp4",
+  "start_s": 13.5,
   "length_s": 5.0,
-  "clip": "original, cut on the cluster",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker",
+  "note": "cluster file cut on the cluster"
  },
  {
   "name": "VRU-Accident",
