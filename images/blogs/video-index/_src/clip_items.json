@@ -279,9 +279,11 @@
   "slug": "hourvideo",
   "item": "HourVideo_294",
   "source": "local::HourVideo::::/data/cambrian-s/Ego4D/v4/full_scale/41a86310-2cc1-48f9-b5b5-6b495a95fbac.mp4",
-  "start_s": 835.04,
+  "start_s": 974.21,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original, read from another copy of the same video: jylins/hourvideo::videos/videos.zip.00..21 (one zip in 40 GiB pieces)::videos/dev/41a86310-2cc1-48f9-b5b5-6b495a95fbac.mp4",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "IntPhys 2",
@@ -675,11 +677,13 @@
  {
   "name": "ScaleLong",
   "slug": "scalelong",
-  "item": "ScaleLong_733",
-  "source": "local::ScaleLong::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/ScaleLong/-UjzrQv4754.mp4",
-  "start_s": 823.97,
+  "item": "ScaleLong_1218",
+  "source": "local::ScaleLong::::/vast/projects/jgu32/lab/enxin/bench_exp/store/local_videos/ScaleLong/3aM5tbTca8A.mp4",
+  "start_s": 1496.33,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original, read from another copy of the same video: m-a-p/ScaleLong::videos_00001..00011.tar (one tar in 20 GiB pieces)::videos/3aM5tbTca8A.mp4",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SciVideoBench",
