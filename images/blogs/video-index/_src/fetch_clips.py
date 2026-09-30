@@ -10,7 +10,7 @@ Input: sources.json, {slug: {source_key: "repo::zip_path::member", original_fps,
 length of each cut in clip_jobs.json (both made from the Video-Index item list and the census metadata).
 Usage: python3 fetch_clips.py <sources.json> <clip_jobs.json> <out dir> [slug ...]
 """
-import bz2, io, json, os, subprocess, sys, tempfile, urllib.parse, urllib.request, zipfile, zlib
+import bz2, http.client, io, json, os, re, subprocess, sys, tarfile, tempfile, urllib.parse, urllib.request, zipfile, zlib
 
 TOKEN = os.environ.get('HF_TOKEN', '')
 
@@ -21,18 +21,30 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def resolve(repo, path):
-    """The signed download URL of a file in a dataset repository, and its size (the token is sent to huggingface.co only)."""
+    """The signed download URL of a file in a dataset repository, and its size. Redirects are followed hop by hop
+    (a renamed repository answers 307 first) and the token is sent to huggingface.co only, never to the CDN."""
     url = 'https://huggingface.co/datasets/%s/resolve/main/%s' % (repo, urllib.parse.quote(path))
     opener = urllib.request.build_opener(NoRedirect)
-    req = urllib.request.Request(url, method='HEAD', headers={'Authorization': 'Bearer ' + TOKEN} if TOKEN else {})
-    try:
-        r = opener.open(req)
-        loc, size = url, int(r.headers.get('Content-Length', 0))
-    except urllib.error.HTTPError as e:
-        if e.code not in (301, 302, 303, 307, 308):
-            raise
-        loc = urllib.parse.urljoin(url, e.headers['Location'])
-        size = int(e.headers.get('X-Linked-Size') or 0)
+    loc, size = url, 0
+    for _ in range(6):
+        if not urllib.parse.urlsplit(loc).netloc.endswith('huggingface.co'):
+            break
+        auth = {'Authorization': 'Bearer ' + TOKEN} if TOKEN else {}
+        try:
+            r = opener.open(urllib.request.Request(loc, method='HEAD', headers=auth))
+            size = size or int(r.headers.get('Content-Length', 0))
+            try:   # Xet-backed files are served to a token without a redirect; an anonymous GET names the CDN
+                opener.open(urllib.request.Request(loc, headers={'Range': 'bytes=0-0'})).close()
+                break
+            except urllib.error.HTTPError as e:
+                if e.code not in (301, 302, 303, 307, 308):
+                    break
+                loc = urllib.parse.urljoin(loc, e.headers['Location'])
+        except urllib.error.HTTPError as e:
+            if e.code not in (301, 302, 303, 307, 308):
+                raise
+            size = size or int(e.headers.get('X-Linked-Size') or 0)
+            loc = urllib.parse.urljoin(loc, e.headers['Location'])
     if not size:
         size = int(urllib.request.urlopen(urllib.request.Request(loc, method='HEAD')).headers['Content-Length'])
     return loc, size
@@ -88,9 +100,107 @@ def inflate(url, span, out):
             w.write(d.flush())
 
 
+class Ranger:
+    """Byte-range reads over one kept-alive HTTPS connection (a tar is walked header by header)."""
+    def __init__(self, url):
+        u = urllib.parse.urlsplit(url)
+        self.host, self.path, self.conn = u.netloc, u.path + ('?' + u.query if u.query else ''), None
+    def get(self, start, end):
+        for _ in range(4):
+            try:
+                if self.conn is None:
+                    self.conn = http.client.HTTPSConnection(self.host, timeout=60)
+                self.conn.request('GET', self.path, headers={'Range': 'bytes=%d-%d' % (start, end)})
+                r = self.conn.getresponse()
+                data = r.read()
+                if r.status in (200, 206):
+                    return data
+            except (OSError, http.client.HTTPException):
+                pass
+            try:
+                self.conn.close()
+            except Exception:
+                pass
+            self.conn = None
+        raise IOError('range read failed at %d' % start)
+
+
+def tar_spans(url, size, members, rg=None):
+    """Byte spans of named members of an uncompressed tar, found by hopping from header to header.
+    rg reads byte ranges; by default one kept-alive connection to url (a split tar passes a reader over its parts)."""
+    want = {m.lstrip('./'): m for m in members}
+    found, rg, off, longname, pax = {}, rg or Ranger(url), 0, None, None
+    while off + 512 <= size and len(found) < len(want):
+        h = rg.get(off, off + 511)
+        if h.count(0) == 512:
+            break
+        name = h[0:100].split(b'\0')[0].decode('utf-8', 'replace')
+        prefix = h[345:500].split(b'\0')[0].decode('utf-8', 'replace')
+        if prefix:
+            name = prefix + '/' + name
+        raw = h[124:136]
+        sz = int.from_bytes(raw[1:], 'big') if raw[0] & 0x80 else int(raw.split(b'\0')[0].strip() or b'0', 8)
+        typ, data = h[156:157], off + 512
+        if typ == b'L':
+            longname = rg.get(data, data + sz - 1).split(b'\0')[0].decode('utf-8', 'replace')
+        elif typ == b'x':
+            m = re.search(r'\d+ path=(.*)\n', rg.get(data, data + sz - 1).decode('utf-8', 'replace'))
+            pax = m.group(1) if m else None
+        else:
+            nm = (pax or longname or name).lstrip('./')
+            if nm in want:
+                found[want[nm]] = (data, data + sz)
+            longname = pax = None
+        off = data + (sz + 511) // 512 * 512
+    return found
+
+
+def targz_member(url, member, out):
+    """Stream a .tar.gz and write one member to out, stopping as soon as it has been read."""
+    want = member.lstrip('./')
+    with urllib.request.urlopen(url) as resp, tarfile.open(fileobj=resp, mode='r|gz') as tf:
+        for ti in tf:
+            if ti.name.lstrip('./') == want:
+                with tf.extractfile(ti) as f, open(out, 'wb') as w:
+                    while True:
+                        chunk = f.read(1 << 20)
+                        if not chunk:
+                            return True
+                        w.write(chunk)
+    return False
+
+
+def repo_files(repo, pattern):
+    """Files of a dataset repository matching a glob such as videos/videos_part_*.tar.gz."""
+    import fnmatch
+    d = os.path.dirname(pattern)
+    url = 'https://huggingface.co/api/datasets/%s/tree/main/%s' % (repo, urllib.parse.quote(d))
+    req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + TOKEN} if TOKEN else {})
+    return sorted(x['path'] for x in json.load(urllib.request.urlopen(req)) if fnmatch.fnmatch(x['path'], pattern))
+
+
+def local_copy(repo, arc, member, slug):
+    """For a member of a tar, tar.gz or a large zip entry: a local path or a subfile URL ffmpeg can read."""
+    tmp = os.path.join(tempfile.gettempdir(), 'vi_clip_' + slug + os.path.splitext(member)[1])
+    if arc.endswith('.tar'):
+        url, size = resolve(repo, arc)
+        span = tar_spans(url, size, [member]).get(member)
+        if not span:
+            raise IOError('member not in tar')
+        return 'subfile,,start,%d,end,%d,,:%s' % (span[0], span[1], url), None
+    if '.tar.gz' in arc or arc.endswith('.tgz'):
+        parts = repo_files(repo, arc) if '*' in arc else [arc]
+        for part in parts:
+            url, _ = resolve(repo, part)
+            if targz_member(url, member, tmp):
+                return tmp, tmp
+        raise IOError('member not in any part')
+    raise IOError('unknown archive ' + arc)
+
+
 def cut(src, start, dur, fps, out, seekable_input):
     fps = min(30.0, fps or 30.0)
-    vf = 'scale=640:360:force_original_aspect_ratio=decrease:force_divisible_by=2,fps=%.3f,format=yuv420p' % fps
+    vf = 'scale=854:480:force_original_aspect_ratio=decrease:force_divisible_by=2,fps=%.3f,format=yuv420p' % fps
     cmd = ['ffmpeg', '-nostdin', '-v', 'error', '-y', '-protocol_whitelist', 'file,http,https,tcp,tls,crypto,subfile',
            '-ss', '%.3f' % start, '-i', src, '-t', '%.3f' % dur, '-an', '-vf', vf,
            '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-movflags', '+faststart', out + '.mp4']
@@ -114,12 +224,14 @@ def main():
                 src = member.split('::', 1)[1] if '::' in member else member
             elif repo in ('yt', 'local'):
                 print('skipped', slug, repo); continue
+            elif zpath and not zpath.endswith('.zip'):
+                src, tmp = local_copy(repo, zpath, member, slug)
             elif zpath:
                 url, size = resolve(repo, zpath)
                 span = member_span(url, size, member)
                 if span[2] == zipfile.ZIP_STORED:
                     src = 'subfile,,start,%d,end,%d,,:%s' % (span[0], span[1], url)
-                elif span[2] in (zipfile.ZIP_DEFLATED, zipfile.ZIP_BZIP2) and span[1] - span[0] < 400e6:
+                elif span[2] in (zipfile.ZIP_DEFLATED, zipfile.ZIP_BZIP2) and span[1] - span[0] < 4e9:
                     tmp = src = os.path.join(tempfile.gettempdir(), 'vi_clip_' + slug + os.path.splitext(member)[1])
                     inflate(url, span, tmp)
                 else:

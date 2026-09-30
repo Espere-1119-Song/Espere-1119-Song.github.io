@@ -2,20 +2,24 @@
  {
   "name": "ALLVB",
   "slug": "allvb",
-  "item": "ALLVB_9375",
-  "source": "ALLVB/ALLVB::::test_set_movie/The Babysitter (2017)/The Babysitter (2017).mp4",
-  "start_s": 3170.5,
+  "item": "ALLVB_15618",
+  "source": "ALLVB/ALLVB::::test_set_movie/Bad Moms (2016)/Bad Moms (2016).mp4",
+  "start_s": 2119.95,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "AoTBench",
   "slug": "aotbench",
-  "item": "AoTBench_4255",
-  "source": "sherryxzh/AoTBench::videos.zip::videos/RTime/clip-1018424620-men-s-hands-tying-shoelaces-on-black-shoes_reverse.mp4",
-  "start_s": 6.02,
-  "length_s": 5.0,
-  "clip": "original"
+  "item": "AoTBench_1733",
+  "source": "sherryxzh/AoTBench::videos.zip::videos/tempcompass/1089201973_1086820415_0.mp4",
+  "start_s": 0.0,
+  "length_s": 3.04,
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Artifact-Bench",
@@ -25,17 +29,19 @@
   "start_s": 0.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Causal2Needles",
   "slug": "causal2needles",
-  "item": "Causal2Needles_103",
-  "source": "causal2needles/Causal2Needles::::videos/yms/0083.mp4",
-  "start_s": 1.0,
+  "item": "Causal2Needles_89",
+  "source": "causal2needles/Causal2Needles::::videos/yms/0008.mp4",
+  "start_s": 83.61,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "CAViAR",
@@ -50,12 +56,13 @@
  {
   "name": "CG-Bench",
   "slug": "cg-bench",
-  "item": "CG-Bench_3766",
-  "source": "CG-Bench/CG-Bench::video_chunk_02.zip::BV13Q4y1E732.mp4",
+  "item": "CG-Bench_645",
+  "source": "CG-Bench/CG-Bench::video_chunk_10.zip::BV1N64y1L78D.mp4",
   "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "CineTechBench",
@@ -70,86 +77,101 @@
  {
   "name": "CMU",
   "slug": "cmu",
-  "item": "Camera Movement Understanding (BU/Google)_2818",
-  "source": "Yuwen2024/ACaM-Bench::real_videos.zip::real_videos/self_collected_motion/Boom_Down_Videos/003_Boom_Down_Pedestal Down Shot.mp4",
-  "start_s": 4.23,
-  "length_s": 5.0,
-  "clip": "original"
+  "item": "Camera Movement Understanding (BU/Google)_3532",
+  "source": "Yuwen2024/ACaM-Bench::syn_videos.zip::syn_videos/roll_counterclockwise_35.mp4",
+  "start_s": 0.0,
+  "length_s": 4.0,
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Colon-Bench",
   "slug": "colon-bench",
   "item": "Colon-Bench_1002",
   "source": "ajhamdi/colon-bench::::videos/0d0e7bb7ef5945ec9b5fbe5f2d30fa21.mp4",
-  "start_s": 45.63,
+  "start_s": 53.23,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ContPhy",
   "slug": "contphy",
-  "item": "ContPhy_104",
-  "source": "zzcnewly/ContPhy_Dataset::rope_full.zip::rope/video/386/output_Full.mp4",
+  "item": "ContPhy_198",
+  "source": "zzcnewly/ContPhy_Dataset::rope_full.zip::rope/video/416/output_Full.mp4",
   "start_s": 0.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "COVER",
   "slug": "cover",
-  "item": "COVER_2420",
-  "source": "PeterPanonly/COVER::VIDEO.zip::VIDEO/TGIF_Zero_Shot_QA/tumblr_npj6idU5GU1ql8dhmo2_250.mp4",
-  "start_s": 0.0,
+  "item": "COVER_1696",
+  "source": "PeterPanonly/COVER::VIDEO.zip::VIDEO/TGIF_Zero_Shot_QA/tumblr_npabf7wMc81tatohao1_250.mp4",
+  "start_s": 3.42,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "DSI-Bench",
   "slug": "dsi-bench",
-  "item": "DSI-Bench_971",
-  "source": "Viglong/DSI-Bench::::videos/std/k700/marching/PJ1OjqHi-L0_000081_000091/video-scene-00000.mp4",
-  "start_s": 2.99,
-  "length_s": 5.0,
-  "clip": "original"
+  "item": "DSI-Bench_1349",
+  "source": "Viglong/DSI-Bench::::videos/std/internet/O47JUErbk34/video-scene-00048.mp4",
+  "start_s": 0.0,
+  "length_s": 4.171,
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "DSR-Bench",
   "slug": "dsr-bench",
-  "item": "DSRBench_874",
-  "source": "lmms-lab-si/EASI-Leaderboard-Data::raw_data/dsr-bench.zip::dsr-bench/pkxNYkW3KDE_11.mp4",
-  "start_s": 17.55,
+  "item": "DSRBench_47",
+  "source": "lmms-lab-si/EASI-Leaderboard-Data::raw_data/dsr-bench.zip::dsr-bench/JBQ7Pu9afuo_25.mp4",
+  "start_s": 6.99,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "E.T. Bench",
   "slug": "e-t-bench",
   "item": "E.T. Bench_202",
   "source": "PolyU-ChenLab/ETBench::videos/perception_test.tar.gz::perception_test/video_2795.mp4",
-  "start_s": 6.97,
+  "start_s": 8.13,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original, read from another copy of the same video: lmms-lab/PerceptionTest_Val::videos_chunked_01.zip::videos/video_2795.mp4",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "EgoPlan-Bench",
   "slug": "egoplan-bench",
-  "item": "EgoPlan-Bench_1205",
-  "source": "EgoLife-v1/EgoPlan::videos_chunked_02.zip::1205.mp4",
-  "start_s": 0.0,
+  "item": "EgoPlan-Bench_2807",
+  "source": "EgoLife-v1/EgoPlan::videos_chunked_15.zip::2807.mp4",
+  "start_s": 3.18,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "EgoSchema",
   "slug": "egoschema",
   "item": "EgoSchema_256",
   "source": "lmms-eval/egoschema::videos_chunked_01.zip::videos/84389a11-7dc2-4e1d-80b1-e44d8787424a.mp4",
-  "start_s": 54.0,
+  "start_s": 63.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ExAct",
@@ -163,20 +185,24 @@
  {
   "name": "ExpVid",
   "slug": "expvid",
-  "item": "ExpVid_3594",
-  "source": "OpenGVLab/ExpVid::::videos/level_1/53980/clip_14.mp4",
-  "start_s": 3.05,
+  "item": "ExpVid_1123",
+  "source": "OpenGVLab/ExpVid::::videos/level_1/56488/clip_33.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "FAVOR-Bench",
   "slug": "favor-bench",
-  "item": "FAVOR-Bench_6461",
-  "source": "FAVOR-Bench/FAVOR::::videos/FAVOR-Bench/DSHVL.mp4",
-  "start_s": 6.6,
+  "item": "FAVOR-Bench_2183",
+  "source": "FAVOR-Bench/FAVOR::::videos/FAVOR-Bench/2_05_001769.mp4",
+  "start_s": 0.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "FineBench",
@@ -193,9 +219,11 @@
   "slug": "foreseaqa",
   "item": "ForeSeaQA_403",
   "source": "AllenXeon/ucf_crime::::Anomaly-Videos-Part-2/Explosion/Explosion007_x264.mp4",
-  "start_s": 162.89,
+  "start_s": 190.04,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "GasVideo-1000",
@@ -205,26 +233,30 @@
   "start_s": 0.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "GUI-World",
   "slug": "gui-world",
-  "item": "GUI-World_3110",
-  "source": "ONE-Lab/GUI-World::::software/4456.mp4",
-  "start_s": 6.32,
+  "item": "GUI-World_1882",
+  "source": "ONE-Lab/GUI-World::::multi/49.mp4",
+  "start_s": 25.37,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "HERBench",
   "slug": "herbench",
-  "item": "HERBench_703",
-  "source": "DanBenAmi/HERBench::videos/videos.tar::HD_EPIC/P08/P08-20240618-163547.mp4",
-  "start_s": 692.33,
+  "item": "HERBench_645",
+  "source": "DanBenAmi/HERBench::videos/videos.tar::HD_EPIC/P01/P01-20240203-130505.mp4",
+  "start_s": 290.05,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "HLV-1K",
@@ -247,12 +279,13 @@
  {
   "name": "IntPhys 2",
   "slug": "intphys-2",
-  "item": "IntPhys2_1071",
-  "source": "facebook/IntPhys2::::Main/Videos/d7ab82095005ade21934b28e795ce714a9393daeb9a953d1f785325f9ba06fc0.mp4",
-  "start_s": 3.7,
+  "item": "IntPhys2_166",
+  "source": "facebook/IntPhys2::::Main/Videos/28649affdb79f0ac175a1e3c01467296ea7ab1927bfce17bef51f9f50231c95f.mp4",
+  "start_s": 3.71,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "iSafetyBench",
@@ -262,7 +295,8 @@
   "start_s": 0.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "K9-Bench",
@@ -276,12 +310,13 @@
  {
   "name": "KFS-Bench",
   "slug": "kfs-bench",
-  "item": "KFS-Bench_526",
-  "source": "longvideobench/LongVideoBench::videos.tar::videos/Sy2unO22PUE.mp4",
-  "start_s": 195.18,
+  "item": "KFS-Bench_174",
+  "source": "longvideobench/LongVideoBench::videos.tar::videos/hg2Q_O5b9w4.mp4",
+  "start_s": 603.59,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "LEMONADE",
@@ -290,18 +325,20 @@
   "source": "amathislab/LEMONADE::videos_batch_0.zip::YH2040_2023_09_12_09_50_41_hololens.mp4",
   "start_s": 273.0,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "LongTimeScope",
   "slug": "longtimescope",
-  "item": "LongTimeScope_72",
-  "source": "Apollo-LMMs/LongTimeScope2::compressed_archive.tar::videos_split_2/videos_OCR_28800/22.mp4",
-  "start_s": 10080.0,
+  "item": "LongTimeScope_102",
+  "source": "Apollo-LMMs/LongTimeScope2::compressed_archive.tar::videos_split_2/videos_OCR_18000/2.mp4",
+  "start_s": 6300.0,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "LongVideo-Reason",
@@ -317,18 +354,22 @@
   "slug": "longvideobench",
   "item": "LongVideoBench_1041",
   "source": "longvideobench/LongVideoBench::videos.tar::videos/7233851486474636570.mp4",
-  "start_s": 2.79,
+  "start_s": 3.26,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "LVBench",
   "slug": "lvbench",
-  "item": "5052",
-  "source": "lmms-eval/LVBench::video_chunks/videos_chunk_014.zip::Vk_Af0htZGU.mp4",
-  "start_s": 726.42,
+  "item": "729",
+  "source": "lmms-eval/LVBench::video_chunks/videos_chunk_013.zip::pXD3txG2bVQ.mp4",
+  "start_s": 1121.87,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "M3-Verse",
@@ -342,130 +383,156 @@
  {
   "name": "MLVU",
   "slug": "mlvu",
-  "item": "MLVU_605",
-  "source": "sy1998/MLVU_dev::video_part_5.zip::count_62.mp4",
-  "start_s": 148.71,
+  "item": "MLVU_603",
+  "source": "sy1998/MLVU_dev::video_part_7.zip::count_64.mp4",
+  "start_s": 169.48,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MME-VideoOCR",
   "slug": "mme-videoocr",
   "item": "MME-VideoOCR_1396",
   "source": "DogNeverSleep/MME-VideoOCR_Dataset::Video.zip::Video/1305.mp4",
-  "start_s": 1.5,
+  "start_s": 2.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MMR-V",
   "slug": "mmr-v",
   "item": "MMR-V_975",
   "source": "JokerJan/MMR-VBench::videos.tar::./This MINDSET Shift Will CHANGE Your Life Forever.mp4",
-  "start_s": 106.82,
+  "start_s": 124.63,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MMSI-Video-Bench",
   "slug": "mmsi-video-bench",
   "item": "MMSI-Video_227",
   "source": "oscarqjh/MMSI-Video-Bench_lmmseval::videos.zip::videos/question_0184/room3d_0236_0.mp4",
-  "start_s": 56.5,
+  "start_s": 65.92,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MMVU",
   "slug": "mmvu",
   "item": "MMVU_837",
   "source": "lmms-eval/MMVU::videos.zip::videos/Mechanical_Engineering/28.mp4",
-  "start_s": 23.7,
+  "start_s": 27.65,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MMWorld",
   "slug": "mmworld",
-  "item": "MMWorld_310",
-  "source": "MMWorld/MMWorld::::videos/robotics/youtube_7.mp4",
-  "start_s": 13.4,
+  "item": "MMWorld_82",
+  "source": "MMWorld/MMWorld::::Tds3k97aAzo_1/Tds3k97aAzo_1.mp4",
+  "start_s": 162.48,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MORSE-500",
   "slug": "morse-500",
-  "item": "MORSE-500_324",
-  "source": "video-reasoning/morse-500::test_sz512.zip::physical_reasoning_physics_CentralForce_quiz_846489_8.mp4",
-  "start_s": 0.0,
+  "item": "MORSE-500_59",
+  "source": "video-reasoning/morse-500::test_sz512.zip::spatial_reasoning_rotation_and_transformation_cube_rotation_hidden_1.mp4",
+  "start_s": 7.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MotionBench",
   "slug": "motionbench",
-  "item": "MotionBench_1010",
-  "source": "zai-org/MotionBench::::MotionBench/self-collected/JDS6iERIxs1N7Y0s.mp4",
-  "start_s": 5.94,
+  "item": "MotionBench_758",
+  "source": "zai-org/MotionBench::::MotionBench/self-collected/nOqrUTsvZHmylpVp.mp4",
+  "start_s": 5.48,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "MVBench",
   "slug": "mvbench",
   "item": "egocentric_navigation_30",
   "source": "OpenGVLab/MVBench::video/vlnqa.zip::vlnqa/left/4871_frame47.mp4",
-  "start_s": 2.33,
+  "start_s": 2.74,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "NaturalBench-Video",
   "slug": "naturalbench-video",
-  "item": "NaturalBench-Video_1137",
-  "source": "BaiqiL/NaturalBench-Video::::videos/37_1.mp4",
-  "start_s": 7.78,
-  "length_s": 5.0,
-  "clip": "original"
+  "item": "NaturalBench-Video_1693",
+  "source": "BaiqiL/NaturalBench-Video::::videos/211_1.mp4",
+  "start_s": 0.0,
+  "length_s": 1.267,
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Neptune",
   "slug": "neptune",
-  "item": "Neptune_2000",
-  "source": "lmms-eval/GoogleDeepMind-NEPTUNE::data_chunk_03.zip::cSfHOWPydCA.mp4",
-  "start_s": 3.67,
+  "item": "Neptune_2433",
+  "source": "lmms-eval/GoogleDeepMind-NEPTUNE::data_chunk_04.zip::kBL8ZpryRZk.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "NExT-QA",
   "slug": "next-qa",
   "item": "NExT-QA_4882",
   "source": "lmms-eval/NExTQA::videos.zip::NExTVideo/3889087646.mp4",
-  "start_s": 9.31,
+  "start_s": 10.87,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "OSI-Bench",
   "slug": "osi-bench",
   "item": "OSI-Bench_7388",
   "source": "HarmlessSR07/OSI-Bench::videos_part4.zip::1784.mp4",
-  "start_s": 5.6,
+  "start_s": 6.53,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "OVO-S-Bench",
   "slug": "ovo-s-bench",
-  "item": "OVO-S-Bench_1514",
-  "source": "url::OVO-S-Bench::::https://www.modelscope.cn/api/v1/datasets/JoeLeelyf/OVO-S-Bench/repo?Revision=master&FilePath=videos/annotated_videos/04_RoomTour3D/l4_0qw2HOHjiyU.mp4",
-  "start_s": 308.1,
+  "item": "OVO-S-Bench_1573",
+  "source": "url::OVO-S-Bench::::https://www.modelscope.cn/api/v1/datasets/JoeLeelyf/OVO-S-Bench/repo?Revision=master&FilePath=videos/annotated_videos/04_RoomTour3D/l4_UcM3x29JB04.mp4",
+  "start_s": 367.5,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "PAI-Bench-U",
@@ -475,26 +542,30 @@
   "start_s": 3.09,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Perception Test",
   "slug": "perception-test",
   "item": "PerceptionTest_6342",
   "source": "lmms-eval/PerceptionTest_Val::videos_chunked_01.zip::videos/video_8761.mp4",
-  "start_s": 5.94,
+  "start_s": 6.93,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "PerceptionComp",
   "slug": "perceptioncomp",
-  "item": "PerceptionComp_1058",
-  "source": "hrinnnn/PerceptionComp::::data/50Youtubers_1m10s-1m30s.mp4",
-  "start_s": 6.47,
+  "item": "PerceptionComp_1079",
+  "source": "hrinnnn/PerceptionComp::::data/RobertHome_4m-5m.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "PhysicalAI",
@@ -504,17 +575,19 @@
   "start_s": 3.09,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "PLM-VideoBench",
   "slug": "plm-videobench",
-  "item": "PLM-VideoBench_90",
-  "source": "facebook/PLM-VideoBench::videos/sgqa/sgqa.zip::e5c5ceef496c0e75_143_148.mp4",
-  "start_s": 0.0,
+  "item": "PLM-VideoBench_172",
+  "source": "facebook/PLM-VideoBench::videos/sgqa/sgqa.zip::71628e4d723cb5b8_341_376.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Q-Bench-Video",
@@ -524,26 +597,30 @@
   "start_s": 0.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ReactHuman",
   "slug": "reacthuman",
-  "item": "ReactHuman Benchmark (Scaled)_48",
-  "source": "Alan123/reacthuman-benchmark-scaled-with-videos::::bouncing_object/bouncing_object__d6_v0/video_observer.mp4",
-  "start_s": 2.55,
+  "item": "ReactHuman Benchmark (Scaled)_409",
+  "source": "Alan123/reacthuman-benchmark-scaled-with-videos::::ladder_slip/ladder_slip__d5_v1/video_observer.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ReVSI",
   "slug": "revsi",
   "item": "ReVSI_14755",
   "source": "3dlg-hcvc/ReVSI::video.zip::64_frame/e7af285f7d.mp4",
-  "start_s": 51.63,
+  "start_s": 60.23,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ReXTime",
@@ -557,20 +634,24 @@
  {
   "name": "S-EMBER",
   "slug": "s-ember",
-  "item": "S-EMBER_1495",
-  "source": "facebook/S-EMBER::::videos/798568735830718_start_0.0_end_300.0.mp4",
-  "start_s": 90.0,
+  "item": "S-EMBER_6395",
+  "source": "facebook/S-EMBER::::videos/989098036768628_start_0.0_end_583.962.mp4",
+  "start_s": 204.4,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SAW-Bench",
   "slug": "saw-bench",
-  "item": "SAW-Bench_172",
-  "source": "ucsbai/SAW-Bench::::videos_compressed/Scene_1/1_1.mp4",
-  "start_s": 11.53,
+  "item": "SAW-Bench_1781",
+  "source": "ucsbai/SAW-Bench::::videos_compressed/Scene_10/10_0.mp4",
+  "start_s": 9.5,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ScaleLong",
@@ -584,12 +665,13 @@
  {
   "name": "SciVideoBench",
   "slug": "scivideobench",
-  "item": "SciVideoBench_29",
-  "source": "groundmore/scivideobench::scivideobench_videos.zip::jove_65238.mp4",
+  "item": "SciVideoBench_327",
+  "source": "groundmore/scivideobench::scivideobench_videos.zip::jove_67336.mp4",
   "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SFI-Bench",
@@ -603,29 +685,35 @@
  {
   "name": "SIS-Bench",
   "slug": "sis-bench",
-  "item": "SIS-Bench_1168",
-  "source": "choucsan/SIS-Bench::::video/AirScape/AirScape_0697.mp4",
-  "start_s": 6.45,
+  "item": "SIS-Bench_558",
+  "source": "choucsan/SIS-Bench::::video/AirScape/AirScape_0226.mp4",
+  "start_s": 0.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SITE-Bench",
   "slug": "site-bench",
-  "item": "SiteBench-Video_3048",
-  "source": "franky-veteran/SITE-Bench::data_chunked_14.zip::data/VSI-Bench/scannet/scene0277_02.mp4",
-  "start_s": 10.76,
+  "item": "SiteBench-Video_2082",
+  "source": "franky-veteran/SITE-Bench::data_chunked_13.zip::data/ActivityNet/videos/vBaiedxy1Uw.mp4",
+  "start_s": 32.87,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SLVMBench",
   "slug": "slvmbench",
-  "item": "SLVMBench_1062",
-  "source": "SLVMBench/SLVMBench::::videos/merged_short_videos/merged_iJzkqi7jNVI_iJzkqi7jNVI_end4_42q2gEypaLM.mp4",
-  "start_s": 7.26,
+  "item": "SLVMBench_1543",
+  "source": "SLVMBench/SLVMBench::::videos/merged_short_videos/merged_ZwBNmRj09fo_ZwBNmRj09fo_end11_0qkli9Umc8Y.mp4",
+  "start_s": 16.24,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SmartHome-Bench",
@@ -639,31 +727,35 @@
  {
   "name": "SoMi-ToM",
   "slug": "somi-tom",
-  "item": "SoMi-ToM_15",
-  "source": "SoMi-ToM/SoMi-ToM::::Videos/20250425_1157.mp4",
-  "start_s": 1.0,
+  "item": "SoMi-ToM_45",
+  "source": "SoMi-ToM/SoMi-ToM::::Videos/20250424_1647.mp4",
+  "start_s": 93.64,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "SpatialTree",
   "slug": "spatialtree",
-  "item": "SpatialTreeBench_717",
-  "source": "LongfeiLi/SpatialTree-Bench::videos.zip::videos/L2_Underst._SpatialCaption_multichoiceeval_10b17934-3938-2467-8959-93297ad1b22d.mp4",
-  "start_s": 0.0,
+  "item": "SpatialTreeBench_727",
+  "source": "LongfeiLi/SpatialTree-Bench::videos.zip::videos/L2_Underst._SpatialCaption_multichoiceeval_77941460-cfdf-29cb-86c7-1f60e2ecd07a.mp4",
+  "start_s": 5.56,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ST-Evidence",
   "slug": "st-evidence",
-  "item": "E-VQA_2389",
-  "source": "Salesforce/ST-Evidence-Bench::st_evidence_gen/videos_6fps.zip::videos_6fps/pt/video_4914.mp4",
-  "start_s": 8.0,
+  "item": "E-VQA_1448",
+  "source": "Salesforce/ST-Evidence-Bench::st_evidence_gen/videos_6fps.zip::videos_6fps/pt/video_10905.mp4",
+  "start_s": 9.51,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "STI-Bench",
@@ -673,16 +765,19 @@
   "start_s": 2.8,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "StreamingBench",
   "slug": "streamingbench",
   "item": "StreamingBench_59",
   "source": "mjuicem/StreamingBench::Scene Understanding_1-25.zip::sample_12/video.mp4",
-  "start_s": 46.38,
+  "start_s": 54.11,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TaskMeAnything-v1",
@@ -698,102 +793,121 @@
   "slug": "tempcompass",
   "item": "TempCompass_1056",
   "source": "lmms-eval/TempCompass::tempcompass_videos.zip::videos/1016172301_reverse.mp4",
-  "start_s": 4.46,
+  "start_s": 5.2,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TemporalBench",
   "slug": "temporalbench",
   "item": "TemporalBench_23222",
   "source": "microsoft/TemporalBench::short_video.zip::short_video/Movie_Description/1034_Super_8_00.53.51.010-00.53.59.396.mp4",
-  "start_s": 2.54,
+  "start_s": 2.96,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TimeBlind",
   "slug": "timeblind",
-  "item": "TimeBlind_2144",
-  "source": "BaiqiL/TimeBlind::::videos/mcq_vid_00236_0.mp4",
-  "start_s": 3.59,
+  "item": "TimeBlind_1929",
+  "source": "BaiqiL/TimeBlind::::videos/mcq_vid_00182_1.mp4",
+  "start_s": 0.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TimeScope",
   "slug": "timescope",
-  "item": "TimeScope_705",
-  "source": "Apollo-LMMs/TimeScope::compressed_archive.tar::videos_split_1/videos_QA_1200/5.mp4",
+  "item": "TimeScope_1212",
+  "source": "Apollo-LMMs/TimeScope::compressed_archive.tar::videos_split_1/videos_Temp_1200/12.mp4",
   "start_s": 420.0,
   "length_s": 5.0,
-  "clip": "crossfade of the census copy (2 fps or sparser)",
-  "in_video_index": false
+  "clip": "original",
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TOC-Bench",
   "slug": "toc-bench",
   "item": "TOC-Bench_840",
   "source": "anonymous-video-benchmark/toc_bench::::videos/perception_test_video_612.mp4",
-  "start_s": 6.1,
+  "start_s": 7.11,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TOMATO",
   "slug": "tomato",
-  "item": "TOMATO_391",
-  "source": "lmms-eval/TOMATO::part_001.zip::videos/simulated/0577-02.mp4",
-  "start_s": 3.6,
+  "item": "TOMATO_161",
+  "source": "lmms-eval/TOMATO::part_002.zip::videos/human/0635-01.mp4",
+  "start_s": 0.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "TVBench",
   "slug": "tvbench",
   "item": "TVBench_1626",
   "source": "FunAILab/TVBench::video/egocentric_sequence/5.4.zip::5.4/zhangconghui.MP4",
-  "start_s": 5.78,
+  "start_s": 6.74,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "UCF101-AD",
   "slug": "ucf101-ad",
-  "item": "UCF101-AD_4092",
-  "source": "raiyaanabdullah/UCF101-AD::::Action-Denial/val/NotWalkingWithDog/v_NotWalkingWithDog_g18_c02.mp4",
-  "start_s": 0.0,
+  "item": "UCF101-AD_823",
+  "source": "raiyaanabdullah/UCF101-AD::::Action-Denial/val/NotArchery/v_NotArchery_g12_c01.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "UrbanVideo-Bench",
   "slug": "urbanvideo-bench",
   "item": "UrbanVideo-Bench_1902",
   "source": "EmbodiedCity/UrbanVideo-Bench::::videos/EmbodiedCity_88_0.mp4",
-  "start_s": 5.89,
+  "start_s": 6.88,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "v-HUB",
   "slug": "v-hub",
-  "item": "v-HUB_149",
-  "source": "Foreverskyou/v-HUB::all_data.zip::all_data/1746570391223500800.mp4",
-  "start_s": 0.0,
+  "item": "v-HUB_1357",
+  "source": "Foreverskyou/v-HUB::all_data.zip::all_data/1754246083776049152.mp4",
+  "start_s": 4.58,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "V2P-Bench",
   "slug": "v2p-bench",
-  "item": "V2P-Bench_448",
-  "source": "gaotiexinqu/V2P-Bench::videos/MLVU.zip::MLVU/movie101_59.mp4",
-  "start_s": 137.4,
+  "item": "V2P-Bench_988",
+  "source": "gaotiexinqu/V2P-Bench::videos/Video-MME_xk.zip::Video-MME_xk/rD5oDjk3IOU.mp4",
+  "start_s": 968.39,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VANE-Bench",
@@ -807,39 +921,46 @@
  {
   "name": "VAU-Bench",
   "slug": "vau-bench",
-  "item": "VAU-Bench (UCF-Crime)_184",
-  "source": "AllenXeon/ucf_crime::::Anomaly-Videos-Part-3/RoadAccidents/RoadAccidents021_x264.mp4",
-  "start_s": 0.0,
+  "item": "VAU-Bench (UCF-Crime)_141",
+  "source": "AllenXeon/ucf_crime::::Testing_Normal_Videos_Anomaly/Normal_Videos_897_x264.mp4",
+  "start_s": 10.21,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VCR-Bench",
   "slug": "vcr-bench",
   "item": "VCR-Bench_504",
   "source": "VLM-Reasoning/VCR-Bench::v1/videos/video.zip::video/videoEspresso/Hot.Fuzz.2007__#01-33-10_01-38-50_label_B2-0-0.mp4",
-  "start_s": 102.01,
+  "start_s": 119.01,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VELOCITI",
   "slug": "velociti",
   "item": "VELOCITI_141",
   "source": "katha-ai-iiith/VELOCITI::velociti_videos.zip::velociti_videos/v_LC1Sb6tRr4E_seg_0_10.mp4",
-  "start_s": 3.0,
+  "start_s": 3.5,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VF-Eval",
   "slug": "vf-eval",
   "item": "VF-Eval_1249",
   "source": "songtingyu/vf-eval::videos.zip::videos/data/video-data/T2V-turbo/data/T2V-turbo/data/T2V-turbo_99_.mp4",
-  "start_s": 2.42,
+  "start_s": 2.83,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VGenST-Bench",
@@ -855,36 +976,44 @@
   "slug": "video-holmes",
   "item": "Video-Holmes_932",
   "source": "TencentARC/Video-Holmes::videos.zip::videos_cropped/qD8Azhqi8yM.mp4",
-  "start_s": 17.71,
+  "start_s": 20.67,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Video-LevelGauge",
   "slug": "video-levelgauge",
-  "item": "Video-LevelGauge_1107",
-  "source": "Cola-any/Video-LevelGauge::::LevelGauge/videos/surveil_68.mp4",
-  "start_s": 9.54,
+  "item": "Video-LevelGauge_350",
+  "source": "Cola-any/Video-LevelGauge::::LevelGauge/videos/orVnyudsNuw.mp4",
+  "start_s": 11.19,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Video-MME",
   "slug": "video-mme",
   "item": "Video-MME_2180",
   "source": "lmms-eval/Video-MME::videos_chunked_19.zip::data/yk4eWjYVNYg.mp4",
-  "start_s": 780.71,
+  "start_s": 910.83,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Video-MME-v2",
   "slug": "video-mme-v2",
   "item": "Video-MME-v2_1554",
   "source": "MME-Benchmarks/Video-MME-v2::videos/020.zip::389.mp4",
-  "start_s": 137.4,
+  "start_s": 160.3,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Video-MMMU",
@@ -898,38 +1027,46 @@
  {
   "name": "Video-TT",
   "slug": "video-tt",
-  "item": "Video-TT_2289",
-  "source": "lmms-eval/video-tt::Benchmark-AllVideos-HQ-encoded_part3.zip::Benchmark-AllVideos-HQ-encoded/4LS2TBap9nU.mp4",
-  "start_s": 3.47,
+  "item": "Video-TT_159",
+  "source": "lmms-eval/video-tt::Benchmark-AllVideos-HQ-encoded_part1.zip::Benchmark-AllVideos-HQ-encoded/vIMumg749C4.mp4",
+  "start_s": 1.36,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoAds",
   "slug": "videoads",
-  "item": "VideoAds_338",
-  "source": "Zheyuan14/VideoAds::videoads.zip::videoads/youtube_videos/ads_Cur3b5NX_nk.mp4",
-  "start_s": 9.01,
+  "item": "VideoAds_784",
+  "source": "Zheyuan14/VideoAds::videoads.zip::videoads/youtube_videos/ads_WPYZNtcFJog.mp4",
+  "start_s": 10.52,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoEspresso",
   "slug": "videoespresso",
   "item": "VideoEspresso_120",
   "source": "hshjerry0315/VideoEspresso-Test::all_video.zip::all_video/Storystream/The_Land/000000_2_37.mp4",
-  "start_s": 7.2,
+  "start_s": 8.4,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoEval-Pro",
   "slug": "videoeval-pro",
-  "item": "VideoEval-Pro_248",
-  "source": "TIGER-Lab/VideoEval-Pro::videos/videos_part_*.tar.gz::videos_filtered/test_count_48.mp4",
-  "start_s": 218.61,
+  "item": "VideoEval-Pro_989",
+  "source": "TIGER-Lab/VideoEval-Pro::videos/videos_part_*.tar.gz::videos_filtered/XNtNNplAwiI.mp4",
+  "start_s": 1753.13,
   "length_s": 5.0,
-  "clip": "crossfade of the dataset copy (2 fps or sparser)"
+  "clip": "original, read from another copy of the same video: lmms-lab/LVBench::video_chunks/videos_chunk_013.zip::XNtNNplAwiI.mp4",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoKR",
@@ -939,80 +1076,96 @@
   "start_s": 3.5,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoMathQA",
   "slug": "videomathqa",
-  "item": "VideoMathQA_1532",
-  "source": "MBZUAI/VideoMathQA::videos.zip::videos/2cad877f-5e10-4556-944d-3ede4779e64e.mp4",
-  "start_s": 8.11,
+  "item": "VideoMathQA_1027",
+  "source": "MBZUAI/VideoMathQA::videos.zip::videos/7c1a9974-94ca-45b0-8721-f6af69cbfea2.mp4",
+  "start_s": 42.36,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoOdyssey",
   "slug": "videoodyssey",
-  "item": "VideoOdyssey_428",
-  "source": "maifoundations/VideoOdyssey::::videos/oXVExP9nQc4.mp4",
-  "start_s": 1095.6,
+  "item": "VideoOdyssey_2653",
+  "source": "maifoundations/VideoOdyssey::::videos/Jq_w1UJ7B4g.mp4",
+  "start_s": 1643.17,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VideoSIAH-Eval",
   "slug": "videosiah-eval",
-  "item": "LongVT_64",
-  "source": "longvideotool/VideoSIAH-Eval::videosiaheval_2.zip::M8bk03k2z-0.mp4",
+  "item": "LongVT_92",
+  "source": "longvideotool/VideoSIAH-Eval::videosiaheval_3.zip::09WjO141H1Y.mp4",
   "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VidPair-Halluc",
   "slug": "vidpair-halluc",
-  "item": "VidPair-Halluc_5911",
-  "source": "Jethro37/VidPair-Halluc::::VidPair-Halluc/sequence_0018/sequence_0018_2.mp4",
-  "start_s": 4.56,
+  "item": "VidPair-Halluc_6170",
+  "source": "Jethro37/VidPair-Halluc::::VidPair-Halluc/action_0040/action_0040_2.mp4",
+  "start_s": 5.32,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "ViMUL-Bench",
   "slug": "vimul-bench",
   "item": "ViMUL-Bench_2361",
   "source": "MBZUAI/ViMUL-Bench::videos.zip::vid_336.mp4",
-  "start_s": 68.66,
+  "start_s": 80.1,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "Vinoground",
   "slug": "vinoground",
-  "item": "Vinoground_333",
-  "source": "HanSolo9682/Vinoground::vinoground_videos.zip::vinoground_videos/166_neg.mp4",
-  "start_s": 4.5,
+  "item": "Vinoground_37",
+  "source": "HanSolo9682/Vinoground::vinoground_videos.zip::vinoground_videos/18_neg.mp4",
+  "start_s": 3.52,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VITATECS",
   "slug": "vitatecs",
-  "item": "VITATECS_12994",
-  "source": "lscpku/VITATECS::vitatecs_videos.zip::VATEX/7JubqqrrURI_000958_000968.mp4",
-  "start_s": 2.76,
+  "item": "VITATECS_2686",
+  "source": "lscpku/VITATECS::vitatecs_videos.zip::VATEX/tXtLASDaPrY_000026_000036.mp4",
+  "start_s": 3.5,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VKnowU",
   "slug": "vknowu",
   "item": "VKnowU_439",
   "source": "Eurayka/VKnowU::::videos/MS@2416.mp4",
-  "start_s": 18.0,
+  "start_s": 21.0,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VNBench",
@@ -1027,41 +1180,46 @@
  {
   "name": "VRU-Accident",
   "slug": "vru-accident",
-  "item": "VRU-Accident_2593",
-  "source": "VRUAccidentAnonymous/VRU-Accident::VRU_videos.zip::VRU_videos/DADA_2000/VRU_147.mp4",
-  "start_s": 6.39,
+  "item": "VRU-Accident_3822",
+  "source": "VRUAccidentAnonymous/VRU-Accident::VRU_videos.zip::VRU_videos/MANUAL_DATA/VRU_29.mp4",
+  "start_s": 2.6,
   "length_s": 5.0,
-  "clip": "original"
+  "clip": "original",
+  "in_video_index": true,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VSI-Bench",
   "slug": "vsi-bench",
-  "item": "VSI-Bench_959",
-  "source": "nyu-visionx/VSI-Bench::arkitscenes.zip::arkitscenes/41159504.mp4",
-  "start_s": 1.0,
+  "item": "VSI-Bench_1026",
+  "source": "nyu-visionx/VSI-Bench::arkitscenes.zip::arkitscenes/45662924.mp4",
+  "start_s": 27.54,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VSI-Super-Wild",
   "slug": "vsi-super-wild",
-  "item": "VSI-Super-Wild_1424",
-  "source": "THUSI-Lab/VSI-Super-Wild::videos_10_30_part_001.zip::videos_10_30/EvNuqtBVCNE_back.mp4",
-  "start_s": 1.0,
+  "item": "VSI-Super-Wild_662",
+  "source": "THUSI-Lab/VSI-Super-Wild::videos_0_10_part_000.zip::videos_0_10/wOrf7RVzSg0_right.mp4",
+  "start_s": 32.63,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VSTAT",
   "slug": "vstat",
-  "item": "VStaT_676",
-  "source": "nyu-visionx/vstat::::videos/self_recorded/keyboard/0002_pt1.mp4",
-  "start_s": 3.46,
+  "item": "VStaT_999",
+  "source": "nyu-visionx/vstat::::videos/synthetic/shuffle_puzzle/0025_pt1.mp4",
+  "start_s": 1.0,
   "length_s": 5.0,
   "clip": "original",
-  "in_video_index": false
+  "in_video_index": false,
+  "picked": "2026-09-29 picker"
  },
  {
   "name": "VURB",

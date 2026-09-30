@@ -5,7 +5,7 @@ Usage: python3 make_clip_manifest.py <items.jsonl>
 items.jsonl: the Video-Index item list (Hugging Face Video-Index/Video-Index, items/test.jsonl), optionally
 followed by more JSON lines for examples picked outside Video-Index (item_id, question, options, answer_idx).
 """
-import json, os, subprocess, sys
+import hashlib, json, os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.abspath(os.path.join(HERE, '../../../..'))
 items = {}
@@ -19,7 +19,10 @@ for c in clips:
     w, h = [int(x) for x in subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', mp4],
                                             capture_output=True, text=True).stdout.strip().split(',')]
     r = items.get(c['item'], {})
-    out[c['name']] = {'src': c['slug'] + '.mp4', 'poster': c['slug'] + '.jpg', 'w': w, 'h': h, 'item': c['item'],
+    # GitHub Pages lets browsers keep media for four hours: a content hash in the URL makes a re-cut clip load at once
+    ver = lambda path: hashlib.sha1(open(path, 'rb').read()).hexdigest()[:8]
+    out[c['name']] = {'src': c['slug'] + '.mp4?v=' + ver(mp4), 'poster': c['slug'] + '.jpg?v=' + ver(mp4[:-4] + '.jpg'),
+                      'w': w, 'h': h, 'item': c['item'],
                       'q': r.get('question'), 'opts': r.get('options'), 'ans': r.get('answer_idx')}
 js = ('/* Example clips that Figure 1 plays when a benchmark is clicked, with the question each comes from.\n'
       '   Made by images/blogs/video-index/_src/make_clip_manifest.py from _src/clip_items.json. */\n'
