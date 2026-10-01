@@ -892,6 +892,24 @@ h2.md-heading {
   display: block;
 }
 
+.rt { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+.rt--blue { --rt-accent: #011F5B; --rt-soft: rgba(1, 31, 91, 0.045); --rt-pill: rgba(1, 31, 91, 0.08); --rt-track-a: rgba(1, 31, 91, 0.12); --rt-track-b: rgba(1, 31, 91, 0.55); }
+.rt--red  { --rt-accent: #990000; --rt-soft: rgba(153, 0, 0, 0.04);  --rt-pill: rgba(153, 0, 0, 0.08);  --rt-track-a: rgba(153, 0, 0, 0.12);  --rt-track-b: rgba(153, 0, 0, 0.55); }
+.rt-stop-a { stop-color: var(--rt-track-a); }
+.rt-stop-b { stop-color: var(--rt-track-b); }
+.rt-band { fill: var(--rt-soft); }
+.rt-phase { font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; fill: var(--rt-accent); }
+.rt-track { stroke-width: 4; stroke-linecap: round; }
+.rt-head { fill: none; stroke: var(--rt-track-b); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.rt-date { font-size: 11px; font-weight: 600; fill: #7a8499; font-variant-numeric: tabular-nums; }
+.rt-dot-ring { fill: #fff; stroke: var(--rt-accent); stroke-width: 2.5; transition: r 0.15s ease; }
+.rt-dot { fill: var(--rt-accent); }
+.rt-name { font-size: 13px; font-weight: 700; fill: var(--text-main); }
+.rt-pill { fill: var(--rt-pill); }
+.rt-venue { font-size: 10.5px; font-weight: 600; fill: var(--rt-accent); }
+.rt-node:hover .rt-dot-ring { r: 11; }
+.rt-node:hover .rt-name { fill: var(--rt-accent); text-decoration: underline; }
+
 /* ── Skill / Research Interest tags ── */
 .skill-group {
   display: flex;
