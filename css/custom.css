@@ -212,7 +212,7 @@ h2.md-heading {
 /* ── Hero / Profile cover — soft gradient background ── */
 #profile-cover {
   padding: 0 !important;
-  background: url('/images/background/hero-gradient.svg') center center / cover no-repeat !important;
+  background: url('/images/background/hero-gradient.svg?v=2') center center / cover no-repeat !important;
   border-bottom: 1px solid var(--border-warm);
   position: relative;
 }
