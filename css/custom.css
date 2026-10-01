@@ -209,10 +209,10 @@ h2.md-heading {
   }
 }
 
-/* ── Hero / Profile cover — mountain background ── */
+/* ── Hero / Profile cover — soft gradient background ── */
 #profile-cover {
   padding: 0 !important;
-  background: url('/images/background/rainer.JPG') center center / cover no-repeat !important;
+  background: url('/images/background/hero-gradient.svg') center center / cover no-repeat !important;
   border-bottom: 1px solid var(--border-warm);
   position: relative;
 }
@@ -737,7 +737,7 @@ h2.md-heading {
   box-sizing: border-box;
   top: 0;
   padding: 0 36px;
-  background-color: rgba(255,255,255,0.8);
+  background-color: transparent;
 }
 
 .about-layout {

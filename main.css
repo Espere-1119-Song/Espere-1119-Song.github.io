@@ -46,7 +46,7 @@ body {
 
 body:after {
     display: none;
-    content: url("images/background/rainer.JPG") url("images/background/rainer.JPG")
+    content: url("images/background/hero-gradient.svg") url("images/background/hero-gradient.svg")
 }
 
 h1,
@@ -678,14 +678,14 @@ pre>code {
 }
 
 .shallow-bg {
-    background-image: url("images/background/rainer.JPG");
+    background-image: url("images/background/hero-gradient.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center
 }
 
 .deep-bg {
-    background-image: url("images/background/rainer.JPG");
+    background-image: url("images/background/hero-gradient.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center
