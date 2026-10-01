@@ -893,22 +893,18 @@ h2.md-heading {
 }
 
 .rt { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
-.rt--blue { --rt-accent: #5157c9; --rt-soft: rgba(81, 87, 201, 0.055); --rt-pill: rgba(81, 87, 201, 0.10); --rt-track-a: rgba(81, 87, 201, 0.14); --rt-track-b: rgba(81, 87, 201, 0.60); }
-.rt--red  { --rt-accent: #c96442; --rt-soft: rgba(201, 100, 66, 0.06); --rt-pill: rgba(201, 100, 66, 0.12); --rt-track-a: rgba(201, 100, 66, 0.14); --rt-track-b: rgba(201, 100, 66, 0.65); }
-.rt-stop-a { stop-color: var(--rt-track-a); }
-.rt-stop-b { stop-color: var(--rt-track-b); }
-.rt-band { fill: var(--rt-soft); }
-.rt-phase { font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; fill: var(--rt-accent); }
-.rt-track { stroke-width: 4; stroke-linecap: round; }
-.rt-head { fill: none; stroke: var(--rt-track-b); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.rt-date { font-size: 11px; font-weight: 600; fill: #7a8499; font-variant-numeric: tabular-nums; }
-.rt-dot-ring { fill: #fff; stroke: var(--rt-accent); stroke-width: 2.5; transition: r 0.15s ease; }
+.rt--blue { --rt-accent: #4b51c4; }
+.rt--red  { --rt-accent: #c96442; }
+.rt-phase { font-size: 10.5px; font-weight: 600; letter-spacing: 1.1px; fill: var(--rt-accent); }
+.rt-bracket { fill: none; stroke: #cfd2dc; stroke-width: 1; }
+.rt-track { stroke: #d9dce5; stroke-width: 1.5; }
+.rt-date { font-size: 11px; fill: #9a9a94; font-variant-numeric: tabular-nums; }
 .rt-dot { fill: var(--rt-accent); }
-.rt-name { font-size: 13px; font-weight: 700; fill: var(--text-main); }
-.rt-pill { fill: var(--rt-pill); }
-.rt-venue { font-size: 10.5px; font-weight: 600; fill: var(--rt-accent); }
-.rt-node:hover .rt-dot-ring { r: 11; }
-.rt-node:hover .rt-name { fill: var(--rt-accent); text-decoration: underline; }
+.rt-halo { fill: var(--rt-accent); opacity: 0.12; transition: opacity 0.15s ease; }
+.rt-name { font-size: 13.5px; font-weight: 600; fill: var(--text-main); }
+.rt-venue { font-size: 11.5px; fill: #6b6a65; }
+.rt-node:hover .rt-halo { opacity: 0.28; }
+.rt-node:hover .rt-name { fill: var(--rt-accent); }
 
 /* ── Skill / Research Interest tags ── */
 .skill-group {
