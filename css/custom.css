@@ -893,8 +893,8 @@ h2.md-heading {
 }
 
 .rt { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
-.rt--blue { --rt-accent: #011F5B; --rt-soft: rgba(1, 31, 91, 0.045); --rt-pill: rgba(1, 31, 91, 0.08); --rt-track-a: rgba(1, 31, 91, 0.12); --rt-track-b: rgba(1, 31, 91, 0.55); }
-.rt--red  { --rt-accent: #990000; --rt-soft: rgba(153, 0, 0, 0.04);  --rt-pill: rgba(153, 0, 0, 0.08);  --rt-track-a: rgba(153, 0, 0, 0.12);  --rt-track-b: rgba(153, 0, 0, 0.55); }
+.rt--blue { --rt-accent: #5157c9; --rt-soft: rgba(81, 87, 201, 0.055); --rt-pill: rgba(81, 87, 201, 0.10); --rt-track-a: rgba(81, 87, 201, 0.14); --rt-track-b: rgba(81, 87, 201, 0.60); }
+.rt--red  { --rt-accent: #c96442; --rt-soft: rgba(201, 100, 66, 0.06); --rt-pill: rgba(201, 100, 66, 0.12); --rt-track-a: rgba(201, 100, 66, 0.14); --rt-track-b: rgba(201, 100, 66, 0.65); }
 .rt-stop-a { stop-color: var(--rt-track-a); }
 .rt-stop-b { stop-color: var(--rt-track-b); }
 .rt-band { fill: var(--rt-soft); }
