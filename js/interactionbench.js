@@ -100,7 +100,7 @@
 
   /* ------------------------------------------------ leaderboard */
   (function leaderboard() {
-    var ctl = document.getElementById('c-lb'), host = document.getElementById('x-lb');
+    var ctl = document.getElementById('c-lb'), host = document.getElementById('x-lb'), note = document.getElementById('n-lb');
     var SETTINGS = [
       { key: 'Native streaming', label: 'Native streaming' },
       { key: 'Turn-based polling', label: 'Polling' },
@@ -170,7 +170,7 @@
         var r = o.r, ref = isRef(r);
         if (!ref) { rank += 1; }
         body += '<tr class="ib-row' + (ref ? ' ib-ref' : '') + '">' +
-          '<td class="ib-rank">' + (ref ? '' : rank) + '</td><td class="ib-sys" data-tip="' + esc('<b>' + esc(r.system) + '</b><em>' + esc(settingText(r)) + '</em>') + '" aria-label="' + esc(r.system + ', ' + settingText(r)) + '">' + esc(r.system) + '</td>' +
+          '<td class="ib-rank">' + (ref ? '' : rank) + '</td><td class="ib-sys" data-tip="' + esc('<b>' + esc(r.system) + '</b><em>' + esc(settingText(r)) + '</em>') + '" aria-label="' + esc(r.system + ', ' + settingText(r)) + '">' + esc(r.system) + (r.credit ? '<sup>†</sup>' : '') + '</td>' +
           COLS.map(function (k, j) {
             var v = f1(value(r, k)), strong = !ref && value(r, k) === best[k];
             var tipHtml = tip(r, k), label = tipHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -180,6 +180,10 @@
       });
       t.innerHTML = head + '<tbody>' + body + '</tbody>';
       host.replaceChildren(t);
+      note.innerHTML = DATA.systems.filter(function (r) { return r.credit; }).map(function (r) {
+        return '† ' + esc(r.system) + ' was evaluated with the released code and contributed by ' + esc(r.credit.by) +
+          ' (<a href="' + esc(r.credit.url) + '">pull request</a>).';
+      }).join('<br>');
       Array.prototype.forEach.call(t.querySelectorAll('th[data-k]'), function (th) {
         var go = function () { var k = th.getAttribute('data-k'); if (S.sort === k) { S.dir = -S.dir; } else { S.sort = k; S.dir = -1; } render(); };
         th.addEventListener('click', go);

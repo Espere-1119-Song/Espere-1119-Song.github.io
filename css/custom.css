@@ -1987,6 +1987,9 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .ib-tip .t-acc { color: #8fb6f5; }
 .ib-tip .t-ta { color: #ee918a; }
 .ib-tip .t-sc { color: #74c79f; }
+.ib-page table.ib-lb td.ib-sys sup { font-size: 0.7em; color: var(--text-muted); margin-left: 1px; }
+.ib-page p.ib-lb-note { font-family: var(--ib-sans); font-size: 0.74rem; line-height: 1.5; color: var(--text-muted); margin: 8px 0 0; }
+.ib-page .ib-lb-note a { color: var(--text-sub); font-weight: 400; }
 .ib-page p.ib-credits { font-family: var(--ib-sans); font-size: 0.78rem; line-height: 1.6; color: var(--text-muted); margin: 36px 0 0; }
 .ib-page .ib-credits a { color: var(--text-sub); font-weight: 400; }
 @media (prefers-reduced-motion: reduce) { .ib-cell, .ib-tip { transition: none !important; } }
