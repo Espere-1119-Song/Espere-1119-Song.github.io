@@ -182,7 +182,7 @@
       host.replaceChildren(t);
       note.innerHTML = DATA.systems.filter(function (r) { return r.credit; }).map(function (r) {
         return '† ' + esc(r.system) + ' was evaluated with the released code and contributed by ' + esc(r.credit.by) +
-          ' (<a href="' + esc(r.credit.url) + '">pull request</a>).';
+          ' (<a href="' + esc(r.credit.url) + '">' + esc(r.credit.link || 'pull request') + '</a>).';
       }).join('<br>');
       Array.prototype.forEach.call(t.querySelectorAll('th[data-k]'), function (th) {
         var go = function () { var k = th.getAttribute('data-k'); if (S.sort === k) { S.dir = -S.dir; } else { S.sort = k; S.dir = -1; } render(); };
