@@ -906,6 +906,17 @@ h2.md-heading {
 .rt-node:hover .rt-halo { opacity: 0.28; }
 .rt-node:hover .rt-name { fill: var(--rt-accent); }
 
+.ro-sub { list-style: none; margin: 8px 0 4px; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.research-overview-list .ro-sub li { border-left: none; padding-left: 14px; position: relative; font-size: 0.95em; line-height: 1.55; }
+.research-overview-list .ro-sub li::before { content: ""; position: absolute; left: 2px; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); }
+.ro-tag { white-space: nowrap; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: 0.82em; font-weight: 600; color: var(--penn-blue); }
+.ro-tag::before { content: "["; color: var(--text-muted); font-weight: 400; }
+.ro-tag::after { content: "]"; color: var(--text-muted); font-weight: 400; }
+.ro-tag:hover { text-decoration: underline; }
+.pub[id] { scroll-margin-top: 90px; }
+#profile-cover .about-main .about-callout { margin: 10px 0 0; }
+#profile-cover .about-main .about-callout strong { font-weight: 700; }
+
 /* ── Skill / Research Interest tags ── */
 .skill-group {
   display: flex;
