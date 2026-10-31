@@ -37,8 +37,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="main.css?v=20261021ro1">
-  <link rel="stylesheet" href="css/custom.css?v=20261021ro1">
+  <link rel="stylesheet" href="main.css?v=20261031ro2">
+  <link rel="stylesheet" href="css/custom.css?v=20261031ro2">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/academicons.css"/>
@@ -384,22 +384,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="research-overview-lead">My research centers on multimodal models and agents, with key areas of focus including:</p>
       <ul class="research-overview-list">
         <li>
-          <strong>Efficient Long-Sequence Modeling</strong>
-          <span>, scaling models to long and streaming inputs such as video with sparse attention, memory, token compression, and recurrent architectures.</span>
-          <ul class="ro-sub">
-            <li>Hybrid dense-token and sparse-memory designs for hour-long video <a class="ro-tag" href="#pub-moviechat">MovieChat</a> <a class="ro-tag" href="#pub-moviechat-plus">MovieChat+</a></li>
-            <li>Token merging for efficient detailed video captioning <a class="ro-tag" href="#pub-auroracap">AuroraCap</a></li>
-            <li>Recurrent, linear-time models for open-ended video understanding <a class="ro-tag" href="#pub-auroralong">AuroraLong</a></li>
-            <li>Learned native sparse attention that scales to long video <a class="ro-tag" href="#pub-videonsa">VideoNSA</a></li>
-          </ul>
+          <strong>Efficient Long-Sequence Modeling</strong><span>, scaling models to long and streaming inputs such as video with sparse attention, memory, token compression, and recurrent architectures.</span>
           <div class="research-timeline-wrap">
-            <svg viewBox="0 0 940 150" xmlns="http://www.w3.org/2000/svg" class="research-timeline-svg rt rt--blue" role="img" aria-label="Long-sequence modeling timeline">
-              <text class="rt-phase" x="280" y="16" text-anchor="middle">TOKEN MERGING</text>
-              <path class="rt-bracket" d="M24,31 V25 H536 V31"/>
-              <text class="rt-phase" x="660" y="16" text-anchor="middle">LINEAR ATTENTION</text>
-              <path class="rt-bracket" d="M594,31 V25 H726 V31"/>
-              <text class="rt-phase" x="850" y="16" text-anchor="middle">SPARSE ATTENTION</text>
-              <path class="rt-bracket" d="M784,31 V25 H916 V31"/>
+            <svg viewBox="0 18 940 118" xmlns="http://www.w3.org/2000/svg" class="research-timeline-svg rt rt--blue" role="img" aria-label="Long-sequence modeling timeline">
+              <text class="rt-phase" x="280" y="30" text-anchor="middle">TOKEN MERGING</text>
+              <path class="rt-bracket" d="M24,45 V39 H536 V45"/>
+              <text class="rt-phase" x="660" y="30" text-anchor="middle">LINEAR ATTENTION</text>
+              <path class="rt-bracket" d="M594,45 V39 H726 V45"/>
+              <text class="rt-phase" x="850" y="30" text-anchor="middle">SPARSE ATTENTION</text>
+              <path class="rt-bracket" d="M784,45 V39 H916 V45"/>
               <line class="rt-track" x1="30" y1="84" x2="910" y2="84"/>
               <a class="rt-node" href="https://rese1f.github.io/MovieChat/" target="_blank" rel="noopener">
                 <text class="rt-date" x="90" y="68" text-anchor="middle">2023.07</text>
@@ -440,31 +433,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </li>
         <li>
-          <strong>Real-Time Interactive Agents</strong>
-          <span>, building systems that perceive continuous streams and decide when and how to respond.</span>
+          <strong>Real-Time Interactive Agents</strong><span>, building systems that perceive continuous streams and decide when and how to respond.</span>
           <ul class="ro-sub">
             <li>Deciding when to speak and when to stay silent as a video unfolds <a class="ro-tag" href="#pub-interactionbench">InteractionBench</a></li>
             <li>Hierarchical agentic reasoning that builds a scene step by step from one image <a class="ro-tag" href="#pub-harmony">HARMONY</a></li>
           </ul>
         </li>
         <li>
-          <strong>Benchmarking and Evaluation</strong>
-          <span>, building benchmarks and evaluation toolkits that pose challenging real-world tasks, probe the boundaries of model capabilities, and provide insights for future improvement.</span>
-          <ul class="ro-sub">
-            <li>Long-form and detailed video understanding <a class="ro-tag" href="#pub-moviechat">MovieChat-1K</a> <a class="ro-tag" href="#pub-auroracap">VDC</a></li>
-            <li>Knowledge-intensive lecture understanding <a class="ro-tag" href="#pub-video-mmlu">Video-MMLU</a></li>
-            <li>Auditing whether video benchmarks measure what they claim <a class="ro-tag" href="#pub-video-index">Video-Index</a></li>
-          </ul>
+          <strong>Benchmarking and Evaluation</strong><span>, building benchmarks and evaluation toolkits that pose challenging real-world tasks, probe the boundaries of model capabilities, and provide insights for future improvement.</span>
           <div class="research-timeline-wrap">
-            <svg viewBox="0 0 940 150" xmlns="http://www.w3.org/2000/svg" class="research-timeline-svg rt rt--red" role="img" aria-label="Benchmarking timeline">
-              <text class="rt-phase" x="185" y="16" text-anchor="middle">LONG-FORM UNDERSTANDING</text>
-              <path class="rt-bracket" d="M24,31 V25 H346 V31"/>
-              <text class="rt-phase" x="470" y="16" text-anchor="middle">KNOWLEDGE REASONING</text>
-              <path class="rt-bracket" d="M404,31 V25 H536 V31"/>
-              <text class="rt-phase" x="660" y="16" text-anchor="middle">REAL-TIME INTERACTION</text>
-              <path class="rt-bracket" d="M594,31 V25 H726 V31"/>
-              <text class="rt-phase" x="850" y="16" text-anchor="middle">BENCHMARK AUDITING</text>
-              <path class="rt-bracket" d="M784,31 V25 H916 V31"/>
+            <svg viewBox="0 18 940 118" xmlns="http://www.w3.org/2000/svg" class="research-timeline-svg rt rt--red" role="img" aria-label="Benchmarking timeline">
+              <text class="rt-phase" x="185" y="30" text-anchor="middle">LONG-FORM UNDERSTANDING</text>
+              <path class="rt-bracket" d="M24,45 V39 H346 V45"/>
+              <text class="rt-phase" x="470" y="30" text-anchor="middle">KNOWLEDGE REASONING</text>
+              <path class="rt-bracket" d="M404,45 V39 H536 V45"/>
+              <text class="rt-phase" x="660" y="30" text-anchor="middle">REAL-TIME INTERACTION</text>
+              <path class="rt-bracket" d="M594,45 V39 H726 V45"/>
+              <text class="rt-phase" x="850" y="30" text-anchor="middle">BENCHMARK AUDITING</text>
+              <path class="rt-bracket" d="M784,45 V39 H916 V45"/>
               <line class="rt-track" x1="30" y1="84" x2="910" y2="84"/>
               <a class="rt-node" href="https://huggingface.co/datasets/Enxin/MovieChat-1K_train" target="_blank" rel="noopener">
                 <text class="rt-date" x="90" y="68" text-anchor="middle">2023.07</text>
