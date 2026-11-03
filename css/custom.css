@@ -2005,3 +2005,25 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .ib-page .ib-credits a { color: var(--text-sub); font-weight: 400; }
 @media (prefers-reduced-motion: reduce) { .ib-cell, .ib-tip { transition: none !important; } }
 /* ── InteractionBench page: end ── */
+
+/* ── Availability dialog ── */
+.avail-link { white-space: nowrap; }
+.avail-dialog {
+  width: min(880px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text-main);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18), 0 0 0 1px var(--border-warm);
+}
+.avail-dialog::backdrop { background: rgba(20, 20, 19, 0.35); }
+.avail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 18px 20px 12px; }
+.avail-head h2 { margin: 0 0 4px; font-size: 1.15rem; }
+.avail-head p { margin: 0; font-size: 0.9rem; color: var(--text-sub); }
+.avail-close { border: none; background: none; font-size: 1.6rem; line-height: 1; color: var(--text-muted); cursor: pointer; padding: 0 4px; }
+.avail-close:hover { color: var(--text-main); }
+.avail-frame { height: min(560px, calc(100vh - 200px)); border-top: 1px solid var(--border-warm); border-bottom: 1px solid var(--border-warm); }
+.avail-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.avail-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 10px 20px 14px; font-size: 0.85rem; color: var(--text-muted); }

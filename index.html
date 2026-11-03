@@ -38,7 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="main.css?v=20261031ro2">
-  <link rel="stylesheet" href="css/custom.css?v=20261031ro2">
+  <link rel="stylesheet" href="css/custom.css?v=20261102av1">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/academicons.css"/>
@@ -119,6 +119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </p>
             <p class="about-callout">
               <strong>I am looking for research internships for Summer 2027.</strong> Feel free to reach out at <a href="mailto:enxin.song@engineering.upenn.edu">enxin.song@engineering.upenn.edu</a>.
+              I also welcome collaborations and research discussions; see <a href="https://calendar.google.com/calendar/embed?src=enxinson%40engineering.upenn.edu&ctz=America%2FNew_York&mode=WEEK" class="avail-link" id="avail-open" target="_blank" rel="noopener">my availability</a>.
             </p>
             <div class="social-media">
               <a href="https://scholar.google.com.hk/citations?user=sLqa-3oAAAAJ&hl=zh-CN" class="icon-button github">
@@ -1029,6 +1030,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
   </script>
-  </body>
+  
+<dialog id="avail-dialog" class="avail-dialog" aria-labelledby="avail-title">
+  <div class="avail-head">
+    <div>
+      <h2 id="avail-title">My availability</h2>
+      <p>Busy slots are taken; any open slot works. Email me to set up a time.</p>
+    </div>
+    <button type="button" class="avail-close" id="avail-close" aria-label="Close">&times;</button>
+  </div>
+  <div class="avail-frame"></div>
+  <div class="avail-foot">
+    <a href="mailto:enxin.song@engineering.upenn.edu?subject=Meeting%20request">enxin.song@engineering.upenn.edu</a>
+    <span class="avail-tz" id="avail-tz"></span>
+  </div>
+</dialog>
+<script>
+(function () {
+  var open = document.getElementById('avail-open');
+  var dlg = document.getElementById('avail-dialog');
+  if (!open || !dlg || typeof dlg.showModal !== 'function') return;
+  var frame = dlg.querySelector('.avail-frame');
+  var tz = 'America/New_York';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
+  open.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!frame.firstChild) {
+      var narrow = window.matchMedia('(max-width: 640px)').matches;
+      var src = 'https://calendar.google.com/calendar/embed?src=enxinson%40engineering.upenn.edu'
+        + '&ctz=' + encodeURIComponent(tz) + '&mode=' + (narrow ? 'AGENDA' : 'WEEK')
+        + '&hl=en&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&wkst=2';
+      var f = document.createElement('iframe');
+      f.src = src; f.title = 'Availability calendar';
+      frame.appendChild(f);
+      document.getElementById('avail-tz').textContent = 'Times shown in ' + tz.replace(/_/g, ' ');
+    }
+    dlg.showModal();
+  });
+  document.getElementById('avail-close').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+})();
+</script>
+</body>
 
 </html>
