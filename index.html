@@ -38,7 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="main.css?v=20261031ro2">
-  <link rel="stylesheet" href="css/custom.css?v=20261102av1">
+  <link rel="stylesheet" href="css/custom.css?v=20261102av4">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/academicons.css"/>
@@ -119,7 +119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </p>
             <p class="about-callout">
               <strong>I am looking for research internships for Summer 2027.</strong> Feel free to reach out at <a href="mailto:enxin.song@engineering.upenn.edu">enxin.song@engineering.upenn.edu</a>.
-              I also welcome collaborations and research discussions; see <a href="https://calendar.google.com/calendar/embed?src=enxinson%40engineering.upenn.edu&ctz=America%2FNew_York&mode=WEEK" class="avail-link" id="avail-open" target="_blank" rel="noopener">my availability</a>.
+              I also welcome collaborations and research discussions; see <a href="mailto:enxin.song@engineering.upenn.edu" class="avail-link" id="avail-open">my availability</a>.
             </p>
             <div class="social-media">
               <a href="https://scholar.google.com.hk/citations?user=sLqa-3oAAAAJ&hl=zh-CN" class="icon-button github">
@@ -1032,17 +1032,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </script>
   
 <dialog id="avail-dialog" class="avail-dialog" aria-labelledby="avail-title">
-  <div class="avail-head">
+  <div class="av-head">
     <div>
       <h2 id="avail-title">My availability</h2>
-      <p>Busy slots are taken; any open slot works. Email me to set up a time.</p>
+      <p>Weekdays, 9 am to 6 pm Eastern Time. I am happy to chat about research or collaborations in any open slot.</p>
     </div>
-    <button type="button" class="avail-close" id="avail-close" aria-label="Close">&times;</button>
+    <button type="button" class="av-close" id="avail-close" aria-label="Close">&times;</button>
   </div>
-  <div class="avail-frame"></div>
-  <div class="avail-foot">
-    <a href="mailto:enxin.song@engineering.upenn.edu?subject=Meeting%20request">enxin.song@engineering.upenn.edu</a>
-    <span class="avail-tz" id="avail-tz"></span>
+  <div class="av-bar">
+    <div class="av-nav">
+      <button type="button" class="av-step" id="av-prev" aria-label="Previous week">&lsaquo;</button>
+      <span class="av-week" id="av-week"></span>
+      <button type="button" class="av-step" id="av-next" aria-label="Next week">&rsaquo;</button>
+    </div>
+    <div class="av-legend"><span><i class="av-key av-key--open"></i>Open</span><span><i class="av-key av-key--busy"></i>Busy</span></div>
+  </div>
+  <div class="av-grid" id="av-grid"><p class="av-empty">Loading&hellip;</p></div>
+  <p class="av-detail" id="av-detail">Select an open slot to see the exact time.</p>
+  <div class="av-foot">
+    <span class="av-tz" id="av-tz"></span>
+    <a class="av-cta" href="mailto:enxin.song@engineering.upenn.edu?subject=Meeting%20request">Email to schedule</a>
   </div>
 </dialog>
 <script>
@@ -1050,22 +1059,129 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var open = document.getElementById('avail-open');
   var dlg = document.getElementById('avail-dialog');
   if (!open || !dlg || typeof dlg.showModal !== 'function') return;
-  var frame = dlg.querySelector('.avail-frame');
-  var tz = 'America/New_York';
-  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
+  var grid = document.getElementById('av-grid');
+  var detail = document.getElementById('av-detail');
+  var weekEl = document.getElementById('av-week');
+  var prev = document.getElementById('av-prev');
+  var next = document.getElementById('av-next');
+  var HOME = 'America/New_York';
+  var MIN_OPEN = 30;
+  var data = null, week = 0;
+  var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function parts(d, tz) {
+    var o = {};
+    new Intl.DateTimeFormat('en-US', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      .formatToParts(d).forEach(function (p) { o[p.type] = p.value; });
+    return o;
+  }
+  function addDays(iso, n) {
+    var d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+  function label(iso) { var d = new Date(iso + 'T12:00:00Z'); return MONTHS[d.getUTCMonth()] + ' ' + d.getUTCDate(); }
+  function clock(m, suffix) {
+    var h = Math.floor(m / 60), mm = m % 60, ap = h >= 12 ? 'pm' : 'am', h12 = h % 12 || 12;
+    return h12 + (mm ? ':' + (mm < 10 ? '0' : '') + mm : '') + (suffix ? ' ' + ap : '');
+  }
+  function range(a, b) {
+    var same = (a < 720) === (b < 720);
+    return clock(a, !same) + '\u2013' + clock(b, true);
+  }
+  function offsetHours(tz) {
+    var now = new Date(), a = parts(now, tz), b = parts(now, HOME);
+    var ua = Date.UTC(a.year, a.month - 1, a.day, a.hour, a.minute), ub = Date.UTC(b.year, b.month - 1, b.day, b.hour, b.minute);
+    return Math.round((ua - ub) / 36e5 * 2) / 2;
+  }
+  function localRange(iso, a, b, tz) {
+    var base = new Date(iso + 'T12:00:00Z');
+    var p = parts(base, HOME);
+    var off = (Number(p.hour) * 60 + Number(p.minute)) - 720;
+    function at(m) { return new Date(base.getTime() + (m - 720 - off) * 6e4); }
+    var f = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'short', hour: 'numeric', minute: '2-digit' });
+    return f.format(at(a)) + ' \u2013 ' + new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', minute: '2-digit' }).format(at(b));
+  }
+
+  var viewerTz = HOME;
+  try { viewerTz = Intl.DateTimeFormat().resolvedOptions().timeZone || HOME; } catch (e) {}
+
+  function render() {
+    var d0 = data.day[0], d1 = data.day[1], span = d1 - d0;
+    var monday = addDays(data.from, week * 7);
+    var now = parts(new Date(), HOME);
+    var todayIso = now.year + '-' + now.month + '-' + now.day;
+    var nowMin = Number(now.hour) * 60 + Number(now.minute);
+    weekEl.textContent = label(monday) + ' \u2013 ' + label(addDays(monday, 4));
+    prev.disabled = week === 0;
+    next.disabled = week === data.weeks - 1;
+
+    var html = '<div class="av-row av-row--ticks"><span></span><div class="av-ticks">';
+    for (var h = d0; h <= d1; h += 60) {
+      html += '<span class="av-tick' + ((h - d0) % 180 ? ' av-tick--minor' : '') + '" style="left:' + ((h - d0) / span * 100) + '%">' + clock(h, h === d0 || h === 720 || h === d1) + '</span>';
+    }
+    html += '</div></div>';
+    DAYS.forEach(function (name, i) {
+      var iso = addDays(monday, i);
+      var past = iso < todayIso, today = iso === todayIso;
+      var busy = (data.busy[iso] || []).slice();
+      var cut = past ? d1 : (today ? Math.max(d0, Math.min(d1, Math.ceil(nowMin / 30) * 30)) : d0);
+      var segs = [], t = d0;
+      busy.forEach(function (bz) {
+        if (bz[0] > t) segs.push(['open', t, bz[0]]);
+        segs.push(['busy', bz[0], bz[1]]);
+        t = Math.max(t, bz[1]);
+      });
+      if (t < d1) segs.push(['open', t, d1]);
+      html += '<div class="av-row' + (today ? ' av-row--today' : '') + (past ? ' av-row--past' : '') + '">';
+      html += '<span class="av-day"><b>' + name + '</b>' + label(iso) + '</span><div class="av-track">';
+      for (var g = d0 + 60; g < d1; g += 60) html += '<i class="av-line" style="left:' + ((g - d0) / span * 100) + '%"></i>';
+      if (cut > d0) html += '<span class="av-past" style="width:' + ((cut - d0) / span * 100) + '%"></span>';
+      segs.forEach(function (sg) {
+        var a = sg[1], b = sg[2];
+        if (sg[0] === 'open') { a = Math.max(a, cut); if (b - a < MIN_OPEN) return; }
+        else if (b <= cut) return;
+        else a = Math.max(a, cut);
+        var style = 'left:' + ((a - d0) / span * 100) + '%;width:' + ((b - a) / span * 100) + '%';
+        if (sg[0] === 'busy') { html += '<span class="av-seg av-seg--busy" style="' + style + '"></span>'; return; }
+        html += '<button type="button" class="av-seg av-seg--open" style="' + style + '" data-iso="' + iso + '" data-a="' + a + '" data-b="' + b + '">'
+          + (b - a >= 90 ? '<span>' + range(a, b) + '</span>' : '') + '</button>';
+      });
+      html += '</div></div>';
+    });
+    grid.innerHTML = html;
+  }
+
+  grid.addEventListener('click', function (e) {
+    var b = e.target.closest('.av-seg--open');
+    if (!b) return;
+    [].forEach.call(grid.querySelectorAll('.av-seg--sel'), function (x) { x.classList.remove('av-seg--sel'); });
+    b.classList.add('av-seg--sel');
+    var iso = b.dataset.iso, a = +b.dataset.a, z = +b.dataset.b;
+    var d = new Date(iso + 'T12:00:00Z');
+    var text = DAYS[(d.getUTCDay() + 6) % 7] + ', ' + label(iso) + ': open ' + range(a, z) + ' ET';
+    if (offsetHours(viewerTz) !== 0) text += ' (' + localRange(iso, a, z, viewerTz) + ' your time)';
+    detail.textContent = text;
+  });
+  prev.addEventListener('click', function () { if (week > 0) { week--; render(); } });
+  next.addEventListener('click', function () { if (data && week < data.weeks - 1) { week++; render(); } });
+
   open.addEventListener('click', function (e) {
     e.preventDefault();
-    if (!frame.firstChild) {
-      var narrow = window.matchMedia('(max-width: 640px)').matches;
-      var src = 'https://calendar.google.com/calendar/embed?src=enxinson%40engineering.upenn.edu'
-        + '&ctz=' + encodeURIComponent(tz) + '&mode=' + (narrow ? 'AGENDA' : 'WEEK')
-        + '&hl=en&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&wkst=2';
-      var f = document.createElement('iframe');
-      f.src = src; f.title = 'Availability calendar';
-      frame.appendChild(f);
-      document.getElementById('avail-tz').textContent = 'Times shown in ' + tz.replace(/_/g, ' ');
-    }
     dlg.showModal();
+    if (data) return;
+    var off = offsetHours(viewerTz);
+    document.getElementById('av-tz').textContent = off === 0 ? 'Times in Eastern Time'
+      : 'Times in Eastern Time \u00b7 you are ' + (off > 0 ? '+' : '\u2212') + Math.abs(off) + 'h';
+    fetch('/data/availability.json?t=' + Math.floor(Date.now() / 6e5))
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) {
+        data = j;
+        var now = parts(new Date(), HOME), todayIso = now.year + '-' + now.month + '-' + now.day;
+        while (week < data.weeks - 1 && addDays(data.from, week * 7 + 4) < todayIso) week++;
+        render();
+      })
+      .catch(function () { grid.innerHTML = '<p class="av-empty">The calendar could not be loaded. Please email me instead.</p>'; });
   });
   document.getElementById('avail-close').addEventListener('click', function () { dlg.close(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
