@@ -9,7 +9,7 @@ js:
   - /js/blog-article.js?v=20260926c
   - /js/video-index-data.js?v=20260927vi2
   - /js/video-index-clips.js?v=20260929vi8
-  - /js/video-index-explorer.js?v=20260930vi13
+  - /js/video-index-explorer.js?v=20261104vi14
   - /js/video-index-appendix-data.js?v=20260927vi3
   - /js/video-index-appendix.js?v=20260930vi11
 ---
@@ -114,9 +114,10 @@ js:
     <p lang="en">With the same fixed input, Claude Opus 5 outscores every open model by more than 37 points, and tools raise it by another 19.8. GPT-6-Astra leads at 79.3%. Human volunteers reach 55.0%, below the three leading agents and above every open model.</p>
     <p lang="zh">输入相同且固定时，Claude Opus 5 比所有开源模型都高出 37 个百分点以上，用上工具后又提高 19.8 个百分点。GPT-6-Astra 以 79.3% 排第一。人类志愿者的准确率是 55.0%，低于前三名 agent，高于所有开源模型。</p>
     <figure class="vi-fig" id="f-results">
-      <!-- The leaderboard. To add a system, add one row anywhere: data-type is agent, fixed (fixed input) or human
-           (shown unranked), then the name and the seven accuracies in the order of the header, "–" if missing.
-           The page ranks the rows by Video and bolds the best of each column. -->
+      <!-- The leaderboard. To add a system, add one row anywhere: data-type is agent, fixed (fixed input), native
+           (the video file itself) or human (shown unranked), then the name and the seven accuracies in the order of the header, "–" if missing.
+           The page ranks the rows by Video and bolds the best of each column. A template.vi-lb__tip in the
+           name cell is shown when the row is hovered. -->
       <div class="vi-lb-wrap">
         <table class="vi-lb" id="vi-lb">
           <thead><tr>
@@ -139,6 +140,7 @@ js:
             <tr data-type="agent"><td>Gemini 3.5 Flash-Lite</td><td>22.5</td><td>17.5</td><td>5.0</td><td>20.0</td><td>30.0</td><td>10.0</td><td>30.0</td></tr>
             <tr data-type="fixed"><td>Molmo2-8B</td><td>19.0</td><td>4.8</td><td>14.2</td><td>20.0</td><td>16.2</td><td>17.1</td><td>22.9</td></tr>
             <tr data-type="fixed"><td>InternVL3.5-8B</td><td>15.2</td><td>4.4</td><td>10.8</td><td>13.3</td><td>20.0</td><td>8.1</td><td>19.5</td></tr>
+            <tr data-type="native"><td>Mage-VL-4B<a class="vi-lb__by" href="https://github.com/Espere-1119-Song/Video-Index/pull/1"><span lang="en">contributed by Senqiao Yang</span><span lang="zh">杨森乔贡献</span></a><template class="vi-lb__tip"><span lang="en"><b>Mage-VL-4B, native video</b><br>The video file goes through Mage-VL's HEVC codec processor, which packs up to 1,024 frames into at most 128 canvases: 7.5k visual tokens per question on average. The 12 videos the codec cannot read use the official frames.<br><b>Official protocol</b>, 1 FPS frames (at most 512, short side 224), 14.9k visual tokens: Video 14.3 · Blind 2.9 · Gain 11.4 · Percep. 12.9 · Temp. 21.9 · Spatial 8.6 · Reason. 13.8</span><span lang="zh"><b>Mage-VL-4B，原生视频</b><br>视频文件直接交给 Mage-VL 的 HEVC codec 处理器，最多 1,024 帧打包成至多 128 张画布，平均每题 7.5k 个视觉 token。codec 读不了的 12 个视频改用官方协议的帧。<br><b>官方协议</b>，每秒 1 帧（最多 512 帧，短边 224），14.9k 个视觉 token：看视频 14.3 · 盲读 2.9 · 增益 11.4 · 感知 12.9 · 时序 21.9 · 空间 8.6 · 推理 13.8</span></template></td><td>14.4</td><td>2.9</td><td>11.5</td><td>17.1</td><td>18.6</td><td>11.9</td><td>10.0</td></tr>
             <tr data-type="fixed"><td>LLaVA-OneVision-2-8B</td><td>14.2</td><td>1.8</td><td>12.4</td><td>11.4</td><td>21.0</td><td>11.9</td><td>12.4</td></tr>
             <tr data-type="fixed"><td>InternVideo2.5-8B</td><td>12.4</td><td>7.5</td><td>4.9</td><td>12.9</td><td>11.0</td><td>8.1</td><td>17.6</td></tr>
             <tr data-type="fixed"><td>VideoLLaMA3-7B</td><td>12.4</td><td>5.2</td><td>7.1</td><td>11.9</td><td>18.6</td><td>8.6</td><td>10.5</td></tr>

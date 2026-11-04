@@ -384,7 +384,7 @@
   }
 
   /* ---------- Table 1 as a leaderboard: the rows are written in the post, the page ranks them ---------- */
-  var LB_TYPE = { agent: ['Agent', 'agent'], fixed: ['Fixed input', '固定输入'], human: ['Human', '人类'] };
+  var LB_TYPE = { agent: ['Agent', 'agent'], fixed: ['Fixed input', '固定输入'], native: ['Native video', '原生视频'], human: ['Human', '人类'] };
   function both(en, zh) { return '<span lang="en">' + en + '</span><span lang="zh">' + zh + '</span>'; }
   function leaderboard(table) {
     if (table.getAttribute('data-ready')) { return; }
@@ -403,6 +403,11 @@
       tr.insertBefore(el('td', { class: 'vi-lb__type' }), tr.cells[1]).innerHTML = both(LB_TYPE[type][0], LB_TYPE[type][1]);
       var rank = tr.insertBefore(el('td', { class: 'vi-lb__rank' }), tr.cells[0]);
       if (type === 'human') { tr.classList.add('is-human'); }
+      var note = tr.querySelector('template.vi-lb__tip');
+      if (note) {
+        tr.classList.add('has-tip');
+        hoverable(tr, function () { var span = note.content.querySelector('[lang="' + lang() + '"]'); return span ? span.innerHTML : ''; });
+      }
       return { tr: tr, v: v, td: td, type: type, order: i, rank: rank };
     });
     head.insertBefore(el('th', { class: 'vi-lb__type', scope: 'col' }), head.cells[1]).innerHTML = both('Type', '类型');

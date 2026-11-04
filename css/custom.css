@@ -1730,6 +1730,8 @@ li.indented::before      { content: attr(data-date); position: absolute; left: 0
 .post-body table.vi-lb td.vi-lb__type { color: var(--text-muted); font-size: 0.8rem; }
 .post-body table.vi-lb td.is-best { font-weight: 700; color: var(--near-black); }
 .post-body table.vi-lb tr.is-human td.vi-lb__model { color: var(--text-sub); }
+.post-body table.vi-lb a.vi-lb__by { display: block; margin-top: 1px; font-size: 0.72rem; font-weight: 400; color: var(--text-muted); text-decoration: none; }
+.post-body table.vi-lb a.vi-lb__by:hover { color: var(--near-black); text-decoration: underline; }
 .vi-rval.is-best { font-weight: 700; color: var(--near-black); }
 
 /* ── Appendix views of the Video-Index post (js/video-index-appendix.js) ── */
