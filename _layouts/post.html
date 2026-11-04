@@ -14,6 +14,10 @@ layout: base
         <span class="post-meta-sep">·</span>
         {% endif %}
         <span class="post-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+        {% if page.updated %}
+        <span class="post-meta-sep">·</span>
+        <span class="post-date">Updated {{ page.updated | date: "%B %-d, %Y" }}</span>
+        {% endif %}
         <span class="post-meta-sep">·</span>
         {% assign read_time = page.content | number_of_words | divided_by: 200 %}
         {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
