@@ -38,7 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="main.css?v=20261031ro2">
-  <link rel="stylesheet" href="css/custom.css?v=20261106mr2">
+  <link rel="stylesheet" href="css/custom.css?v=20261106flat1">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/academicons.css"/>
@@ -149,6 +149,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
+    <div class="bio home-duo">
+      <section id="availability" class="duo-card">
+        <div class="duo-head">
+          <h2 class="duo-title">Availability</h2>
+          <span class="duo-meta" id="av-tz">9 am&ndash;6 pm ET</span>
+        </div>
+        <div class="av-nav" id="av-nav" hidden>
+          <button type="button" class="av-back" id="av-back">&lsaquo; All days</button>
+          <span class="av-nav-day">
+            <button type="button" class="av-step" id="av-prev" aria-label="Previous day">&lsaquo;</button>
+            <span class="av-month" id="av-month"></span>
+            <button type="button" class="av-step" id="av-next" aria-label="Next day">&rsaquo;</button>
+          </span>
+        </div>
+        <div class="av-cal" id="av-cal"><p class="av-empty">Loading&hellip;</p></div>
+        <div class="av-dayview" id="av-agenda" hidden></div>
+        <div class="av-foot">
+          <span class="duo-meta" id="av-hint">Pick a day to see open times</span>
+          <a class="av-cta" href="mailto:enxin.song@engineering.upenn.edu?subject=Meeting%20request">Email to schedule &rarr;</a>
+        </div>
+      </section>
+      <section id="most-read" class="duo-card">
+        <div class="duo-head"><h2 class="duo-title">Most Read</h2><span class="duo-meta">Page views, past 30 days</span></div>
+        <ol class="mr-list" id="mr-list">
+          <li><a class="mr-item" href="/blog/video-index/"><span class="mr-rank">01</span><span class="mr-body"><span class="mr-title">Video-Index</span><span class="mr-desc">Which video benchmarks still test watching, and the 840 items that do</span></span><span class="mr-views">1.4k</span></a></li>
+          <li><a class="mr-item" href="/projects/interactionbench/"><span class="mr-rank">02</span><span class="mr-body"><span class="mr-title">InteractionBench</span><span class="mr-desc">Demo and leaderboard for real-time interaction on streaming video</span></span><span class="mr-views">880</span></a></li>
+          <li><a class="mr-item" href="/VideoNSA-web/"><span class="mr-rank">03</span><span class="mr-body"><span class="mr-title">VideoNSA</span><span class="mr-desc">Learned native sparse attention that scales to long video</span></span><span class="mr-views">710</span></a></li>
+          <li><a class="mr-item" href="/Video-MMLU-web/"><span class="mr-rank">04</span><span class="mr-body"><span class="mr-title">Video-MMLU</span><span class="mr-desc">A benchmark for knowledge-intensive lecture understanding</span></span><span class="mr-views">480</span></a></li>
+          <li><a class="mr-item" href="/blog/phd-application/"><span class="mr-rank">05</span><span class="mr-body"><span class="mr-title">CS Ph.D. Application</span><span class="mr-desc">Notes and materials from my 2026 Fall application</span></span><span class="mr-views">400</span></a></li>
+        </ol>
+      </section>
+    </div>
+
     <div id="news" class="bio">
       <h1 class="md-heading text-left">News</h1>
       <ul class="news-list">
@@ -198,39 +231,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </li>
       </ul>
       <button type="button" class="news-more" id="news-more-btn" hidden>Load more</button>
-    </div>
-
-    <div class="bio home-duo">
-      <section id="availability" class="duo-card">
-        <div class="duo-head">
-          <h2 class="duo-title">Availability</h2>
-          <div class="av-nav">
-            <button type="button" class="av-back" id="av-back" hidden>&lsaquo; Month</button>
-            <button type="button" class="av-step" id="av-prev" aria-label="Previous">&lsaquo;</button>
-            <span class="av-month" id="av-month"></span>
-            <button type="button" class="av-step" id="av-next" aria-label="Next">&rsaquo;</button>
-          </div>
-        </div>
-        <p class="duo-sub">9 am to 6 pm Eastern Time. Happy to chat about research or collaborations in any open slot.</p>
-        <div class="av-cal" id="av-cal"><p class="av-empty">Loading&hellip;</p></div>
-        <div class="av-dayview" id="av-agenda" hidden></div>
-        <p class="av-hint" id="av-hint">Darker days have more open time. Pick a day to see the slots.</p>
-        <div class="av-foot">
-          <span class="av-tz" id="av-tz">Eastern Time</span>
-          <a class="av-cta" href="mailto:enxin.song@engineering.upenn.edu?subject=Meeting%20request">Email to schedule</a>
-        </div>
-      </section>
-      <section id="most-read" class="duo-card">
-        <div class="duo-head"><h2 class="duo-title">Most Read</h2></div>
-        <p class="duo-sub">What visitors read most on this site over the past 30 days, by page views.</p>
-        <ol class="mr-list" id="mr-list">
-          <li><a class="mr-item" href="/blog/video-index/"><span class="mr-rank">01</span><span class="mr-body"><span class="mr-title">Video-Index</span><span class="mr-desc">Which video benchmarks still test watching, and the 840 items that do</span></span><span class="mr-views"><b>1.4k</b>views</span></a></li>
-          <li><a class="mr-item" href="/projects/interactionbench/"><span class="mr-rank">02</span><span class="mr-body"><span class="mr-title">InteractionBench</span><span class="mr-desc">Demo and leaderboard for real-time interaction on streaming video</span></span><span class="mr-views"><b>880</b>views</span></a></li>
-          <li><a class="mr-item" href="/VideoNSA-web/"><span class="mr-rank">03</span><span class="mr-body"><span class="mr-title">VideoNSA</span><span class="mr-desc">Learned native sparse attention that scales to long video</span></span><span class="mr-views"><b>710</b>views</span></a></li>
-          <li><a class="mr-item" href="/Video-MMLU-web/"><span class="mr-rank">04</span><span class="mr-body"><span class="mr-title">Video-MMLU</span><span class="mr-desc">A benchmark for knowledge-intensive lecture understanding</span></span><span class="mr-views"><b>480</b>views</span></a></li>
-          <li><a class="mr-item" href="/blog/phd-application/"><span class="mr-rank">05</span><span class="mr-body"><span class="mr-title">CS Ph.D. Application</span><span class="mr-desc">Notes and materials from my 2026 Fall application</span></span><span class="mr-views"><b>400</b>views</span></a></li>
-        </ol>
-      </section>
     </div>
 
   </div><!-- /#section-about -->
@@ -1072,13 +1072,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var prev = document.getElementById('av-prev');
   var next = document.getElementById('av-next');
   var agenda = document.getElementById('av-agenda');
-  var hint = document.getElementById('av-hint');
   var back = document.getElementById('av-back');
+  var nav = document.getElementById('av-nav');
+  var hint = document.getElementById('av-hint');
   var HOME = 'America/New_York';
   var MIN_OPEN = 30;
   var DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  var data, today, nowMin, last, month, sel, view = 'month';
+  var data, today, nowMin, last, sel, view = 'month';
 
   function parts(d, tz) {
     var o = {};
@@ -1122,30 +1123,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function total(slots) { return slots ? slots.reduce(function (s, x) { return s + x[1] - x[0]; }, 0) : 0; }
 
   function renderMonth() {
-    var y = +month.slice(0, 4), m = +month.slice(5, 7);
-    monthEl.textContent = MONTHS[m - 1] + ' ' + y;
-    prev.disabled = month <= today.slice(0, 7);
-    next.disabled = month >= last.slice(0, 7);
-    var first = month + '-01', start = addDays(first, -weekday(first));
+    var start = addDays(today, -weekday(today)), end = addDays(last, 6 - weekday(last));
     var html = DOW.map(function (d) { return '<span class="av-dow">' + d.slice(0, 2) + '</span>'; }).join('');
-    for (var i = 0; i < 42; i++) {
-      var iso = addDays(start, i);
-      if (i % 7 === 0 && i > 0 && iso.slice(0, 7) !== month) break;
-      if (iso.slice(0, 7) !== month) { html += '<span class="av-d av-d--out"></span>'; continue; }
+    for (var iso = start; iso <= end; iso = addDays(iso, 1)) {
       var t = total(openSlots(iso));
       var cls = 'av-d';
       if (t > 0) cls += ' av-d--open ' + (t >= 360 ? 'av-l3' : t >= 180 ? 'av-l2' : 'av-l1');
       if (iso === today) cls += ' av-d--today';
+      var label = +iso.slice(8) === 1 ? MONTHS[+iso.slice(5, 7) - 1].slice(0, 3) + ' 1' : +iso.slice(8);
       html += t > 0
-        ? '<button type="button" class="' + cls + '" data-iso="' + iso + '" aria-label="' + shortDate(iso) + ', ' + Math.round(t / 30) / 2 + ' hours open">' + (+iso.slice(8)) + '</button>'
-        : '<span class="' + cls + '">' + (+iso.slice(8)) + '</span>';
+        ? '<button type="button" class="' + cls + '" data-iso="' + iso + '" aria-label="' + shortDate(iso) + ', ' + Math.round(t / 30) / 2 + ' hours open">' + label + '</button>'
+        : '<span class="' + cls + '">' + label + '</span>';
     }
     cal.innerHTML = html;
   }
 
   function renderDay() {
     var d0 = data.day[0], d1 = data.day[1], span = d1 - d0;
-    monthEl.textContent = MONTHS[+sel.slice(5, 7) - 1] + ' ' + sel.slice(0, 4);
+    monthEl.textContent = DOW[weekday(sel)] + ', ' + shortDate(sel);
     prev.disabled = sel <= today || sel <= data.from;
     next.disabled = sel >= last;
     var slots = openSlots(sel) || [];
@@ -1179,7 +1174,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function render() {
     var day = view === 'day';
-    cal.hidden = day; agenda.hidden = !day; back.hidden = !day; hint.hidden = day;
+    cal.hidden = day; agenda.hidden = !day; nav.hidden = !day; hint.hidden = day;
+    cal.closest('.home-duo').classList.toggle('home-duo--day', day);
     if (day) renderDay(); else renderMonth();
   }
 
@@ -1189,13 +1185,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     sel = d.dataset.iso; view = 'day'; render();
   });
   function shift(n) {
-    if (view === 'day') { sel = addDays(sel, n); render(); return; }
-    var y = +month.slice(0, 4), m = +month.slice(5, 7) - 1 + n;
-    y += Math.floor(m / 12); m = ((m % 12) + 12) % 12;
-    month = y + '-' + (m < 9 ? '0' : '') + (m + 1);
-    render();
+    if (view === 'day') { sel = addDays(sel, n); render(); }
   }
-  back.addEventListener('click', function () { view = 'month'; if (sel) month = sel.slice(0, 7); render(); });
+  back.addEventListener('click', function () { view = 'month'; render(); });
   prev.addEventListener('click', function () { shift(-1); });
   next.addEventListener('click', function () { shift(1); });
 
@@ -1209,7 +1201,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       today = n.year + '-' + n.month + '-' + n.day;
       nowMin = Number(n.hour) * 60 + Number(n.minute);
       last = addDays(data.from, data.weeks * 7 - 1);
-      month = today.slice(0, 7);
       render();
     })
     .catch(function () { cal.innerHTML = '<p class="av-empty">The calendar could not be loaded. Please email me instead.</p>'; });
@@ -1233,7 +1224,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       list.innerHTML = d.items.map(function (it, i) {
         return '<li><a class="mr-item" href="' + esc(it.href) + '"><span class="mr-rank">' + (i < 9 ? '0' : '') + (i + 1) + '</span>'
           + '<span class="mr-body"><span class="mr-title">' + esc(it.title) + '</span><span class="mr-desc">' + esc(it.desc) + '</span></span>'
-          + '<span class="mr-views"><b>' + fmt(it.views) + '</b>views</span></a></li>';
+          + '<span class="mr-views">' + fmt(it.views) + '</span></a></li>';
       }).join('');
     })
     .catch(function () {});
