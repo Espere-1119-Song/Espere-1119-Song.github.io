@@ -1,6 +1,6 @@
 """Write data/availability.json from the public free/busy calendar feed.
 
-Only busy intervals inside weekday working hours are kept, as minutes since
+Only busy intervals inside working hours are kept, as minutes since
 midnight Eastern Time, so no event details ever reach the site.
 """
 import json
@@ -60,7 +60,7 @@ def main():
         end = parse_time(*ev["DTEND"]).astimezone(TZ) if "DTEND" in ev else start + timedelta(days=1)
         day = start.date()
         while day < last and datetime.combine(day, datetime.min.time(), TZ) < end:
-            if day >= first and day.weekday() < 5:
+            if day >= first:
                 day_start = datetime.combine(day, datetime.min.time(), TZ)
                 a = max(DAY_START, int((start - day_start).total_seconds() // 60))
                 b = min(DAY_END, int((end - day_start).total_seconds() // 60 + 0.999))

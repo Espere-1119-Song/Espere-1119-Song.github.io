@@ -1,0 +1,37 @@
+name: most-read
+
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/build_most_read.py
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/most_read.json; then
+            echo "No change"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/most_read.json
+          git commit -m "data: refresh most read"
+          git pull --rebase
+          git push
