@@ -5,19 +5,19 @@
    "href": "/blog/video-index/",
    "title": "Video-Index",
    "desc": "Which video benchmarks still test watching, and the 840 items that do",
-   "views": 1440
+   "views": 1420
   },
   {
    "href": "/projects/interactionbench/",
    "title": "InteractionBench",
    "desc": "Demo and leaderboard for real-time interaction on streaming video",
-   "views": 900
+   "views": 880
   },
   {
    "href": "/VideoNSA-web/",
    "title": "VideoNSA",
    "desc": "Learned native sparse attention that scales to long video",
-   "views": 760
+   "views": 780
   },
   {
    "href": "/Video-MMLU-web/",
@@ -29,7 +29,7 @@
    "href": "/blog/phd-application/",
    "title": "CS Ph.D. Application",
    "desc": "Notes and materials from my 2026 Fall application",
-   "views": 440
+   "views": 420
   }
  ]
 }
