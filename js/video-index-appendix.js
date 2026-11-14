@@ -888,6 +888,7 @@
   /* ================= Appendix X: the report cards ================= */
   var CD = { i: 0 };
   var CARD_DIR = '/images/blogs/video-index/cards/';
+  var CARD_VER = '?v=20261113';   // the cards were redrawn in place (level stability added); skip cached copies
   function squash(s) { return s.toLowerCase().replace(/[^a-z0-9]/g, ''); }
   function cards(container) {
     clear(container);
@@ -916,7 +917,7 @@
     });
     var card = el('div', { class: 'vi-cards__card', tabindex: '0', 'aria-label': t('Report card; use the arrow keys to browse', '报告卡；用方向键翻页') }, container);
     var img = el('img', { class: 'vi-cards__img', width: '1430', height: '455', decoding: 'async', alt: '' }, card);
-    function preload(k) { var im = new Image(); im.src = CARD_DIR + list[(k + n) % n].file; }
+    function preload(k) { var im = new Image(); im.src = CARD_DIR + list[(k + n) % n].file + CARD_VER; }
     function show(k) {
       items[CD.i].classList.remove('is-current');
       items[CD.i].removeAttribute('aria-current');
@@ -924,7 +925,7 @@
       var c = list[CD.i];
       items[CD.i].classList.add('is-current');
       items[CD.i].setAttribute('aria-current', 'true');
-      img.src = CARD_DIR + c.file;
+      img.src = CARD_DIR + c.file + CARD_VER;
       img.alt = t('Report card of ', '报告卡：') + c.name;
       count.textContent = (CD.i + 1) + ' / ' + n;
       preload(CD.i + 1);

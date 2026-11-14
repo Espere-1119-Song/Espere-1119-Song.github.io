@@ -3,7 +3,7 @@ layout: post
 title: "Video-Index: A Curated Meta-Benchmark for Video Understanding"
 subtitle: "Auditing 115 video benchmarks with five attacks, and selecting the 840 hardest verified questions."
 date: 2026-09-26
-updated: 2026-11-04
+updated: 2026-11-13
 tags: [research]
 cover: /images/blogs/video-index/cover.jpg
 js:
@@ -12,7 +12,7 @@ js:
   - /js/video-index-clips.js?v=20260929vi8
   - /js/video-index-explorer.js?v=20261104vi14
   - /js/video-index-appendix-data.js?v=20260927vi3
-  - /js/video-index-appendix.js?v=20260930vi11
+  - /js/video-index-appendix.js?v=20261113vi12
 ---
 
 <div class="vi-article" id="vi-article" data-lang="en">
@@ -112,8 +112,8 @@ js:
 
   <section id="results">
     <h3><span lang="en">Results</span><span lang="zh">结果</span></h3>
-    <p lang="en">With the same fixed input, Claude Opus 5 outscores every open model by more than 37 points, and tools raise it by another 19.8. GPT-6-Astra leads at 79.3%. Human volunteers reach 55.0%, below the three leading agents and above every open model.</p>
-    <p lang="zh">输入相同且固定时，Claude Opus 5 比所有开源模型都高出 37 个百分点以上，用上工具后又提高 19.8 个百分点。GPT-6-Astra 以 79.3% 排第一。人类志愿者的准确率是 55.0%，低于前三名 agent，高于所有开源模型。</p>
+    <p lang="en">Gemini 4 Argon leads at 80.4% as an agent and reaches 76.8% from the fixed frames. With the same fixed input, Claude Opus 5 outscores every open model by more than 33 points, and tools raise it by another 19.8. Human volunteers reach 55.0%, below the leading agents and above every open model.</p>
+    <p lang="zh">Gemini 4 Argon 作为 agent 以 80.4% 排第一，只看固定帧时是 76.8%。输入相同且固定时，Claude Opus 5 比所有开源模型都高出 33 个百分点以上，用上工具后又提高 19.8 个百分点。人类志愿者的准确率是 55.0%，低于领先的几个 agent，高于所有开源模型。</p>
     <figure class="vi-fig" id="f-results">
       <!-- The leaderboard. To add a system, add one row anywhere: data-type is agent, fixed (fixed input), native
            (the video file itself) or human (shown unranked), then the name and the seven accuracies in the order of the header, "–" if missing.
@@ -132,6 +132,8 @@ js:
             <th scope="col" data-k="reasoning"><span lang="en">Reason.</span><span lang="zh">推理</span></th>
           </tr></thead>
           <tbody>
+            <tr data-type="agent"><td>Gemini 4 Argon</td><td>80.4</td><td>–</td><td>–</td><td>79.5</td><td>82.9</td><td>79.5</td><td>79.5</td></tr>
+            <tr data-type="fixed"><td>Gemini 4 Argon</td><td>76.8</td><td>–</td><td>–</td><td>74.3</td><td>77.1</td><td>79.5</td><td>76.2</td></tr>
             <tr data-type="agent"><td>GPT-6-Astra</td><td>79.3</td><td>18.7</td><td>60.6</td><td>75.4</td><td>83.7</td><td>80.4</td><td>77.1</td></tr>
             <tr data-type="agent"><td>Claude Fable 5.1</td><td>71.5</td><td>20.7</td><td>50.8</td><td>68.4</td><td>77.7</td><td>71.1</td><td>68.7</td></tr>
             <tr data-type="agent"><td>Claude Opus 5</td><td>70.6</td><td>24.9</td><td>45.7</td><td>68.4</td><td>77.2</td><td>69.1</td><td>67.6</td></tr>
@@ -139,10 +141,14 @@ js:
             <tr data-type="human"><td><span lang="en">Human volunteers</span><span lang="zh">人类志愿者</span></td><td>55.0</td><td>17.5</td><td>37.5</td><td>56.0</td><td>68.0</td><td>56.0</td><td>40.0</td></tr>
             <tr data-type="agent"><td>Gemini 3.1 Pro</td><td>54.7</td><td>23.9</td><td>30.8</td><td>58.2</td><td>59.1</td><td>60.6</td><td>40.9</td></tr>
             <tr data-type="agent"><td>Gemini 3.5 Flash-Lite</td><td>22.5</td><td>17.5</td><td>5.0</td><td>20.0</td><td>30.0</td><td>10.0</td><td>30.0</td></tr>
+            <tr data-type="fixed"><td>Qwen3-VL-32B</td><td>23.0</td><td>4.7</td><td>18.3</td><td>21.0</td><td>23.3</td><td>19.5</td><td>28.1</td></tr>
+            <tr data-type="fixed"><td>InternVL3.5-30B-A3B</td><td>21.4</td><td>4.9</td><td>16.5</td><td>22.4</td><td>21.0</td><td>14.3</td><td>28.1</td></tr>
+            <tr data-type="fixed"><td>GLM-4.5V</td><td>19.0</td><td>5.8</td><td>13.2</td><td>20.5</td><td>21.0</td><td>14.3</td><td>20.5</td></tr>
             <tr data-type="fixed"><td>Molmo2-8B</td><td>19.0</td><td>4.8</td><td>14.2</td><td>20.0</td><td>16.2</td><td>17.1</td><td>22.9</td></tr>
             <tr data-type="fixed"><td>InternVL3.5-8B</td><td>15.2</td><td>4.4</td><td>10.8</td><td>13.3</td><td>20.0</td><td>8.1</td><td>19.5</td></tr>
             <tr data-type="native"><td>Mage-VL-4B<span class="vi-lb__by"><span lang="en">contributed by Senqiao Yang</span><span lang="zh">杨森乔贡献</span></span><template class="vi-lb__tip"><span lang="en"><b>Mage-VL-4B, native video</b><br>The video file goes through Mage-VL's HEVC codec processor, which packs up to 1,024 frames into at most 128 canvases: 7.5k visual tokens per question on average. The 12 videos the codec cannot read use the official frames.<br><b>Official protocol</b>, 1 FPS frames (at most 512, short side 224), 14.9k visual tokens: Video 14.3 · Blind 2.9 · Gain 11.4 · Percep. 12.9 · Temp. 21.9 · Spatial 8.6 · Reason. 13.8</span><span lang="zh"><b>Mage-VL-4B，原生视频</b><br>视频文件直接交给 Mage-VL 的 HEVC codec 处理器，最多 1,024 帧打包成至多 128 张画布，平均每题 7.5k 个视觉 token。codec 读不了的 12 个视频改用官方协议的帧。<br><b>官方协议</b>，每秒 1 帧（最多 512 帧，短边 224），14.9k 个视觉 token：看视频 14.3 · 盲读 2.9 · 增益 11.4 · 感知 12.9 · 时序 21.9 · 空间 8.6 · 推理 13.8</span></template></td><td>14.4</td><td>2.9</td><td>11.5</td><td>17.1</td><td>18.6</td><td>11.9</td><td>10.0</td></tr>
             <tr data-type="fixed"><td>LLaVA-OneVision-2-8B</td><td>14.2</td><td>1.8</td><td>12.4</td><td>11.4</td><td>21.0</td><td>11.9</td><td>12.4</td></tr>
+            <tr data-type="fixed"><td>Gemma 3 27B</td><td>12.7</td><td>8.2</td><td>4.6</td><td>13.8</td><td>13.3</td><td>7.1</td><td>16.7</td></tr>
             <tr data-type="fixed"><td>InternVideo2.5-8B</td><td>12.4</td><td>7.5</td><td>4.9</td><td>12.9</td><td>11.0</td><td>8.1</td><td>17.6</td></tr>
             <tr data-type="fixed"><td>VideoLLaMA3-7B</td><td>12.4</td><td>5.2</td><td>7.1</td><td>11.9</td><td>18.6</td><td>8.6</td><td>10.5</td></tr>
             <tr data-type="fixed"><td>Video-XL-2</td><td>12.4</td><td>7.3</td><td>5.1</td><td>12.4</td><td>15.7</td><td>9.0</td><td>12.4</td></tr>
@@ -164,6 +170,65 @@ js:
       <div class="vi-overlay vi-fig__img" data-overlay="fig12"><img src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes."></div>
       <figcaption><b><span lang="en">Figure 12.</span><span lang="zh">图 12</span></b> <span lang="en"><b>Agents differ in accuracy, runtime, and inspection.</b></span><span lang="zh"><b>agent 在准确率、耗时和查看方式上各不相同。</b></span></figcaption>
     </figure>
+    <p lang="en">Agents do not lead because they see more. Given only the fixed frames, Claude Opus 5 as an agent still scores 9.0 points above a single call with the same frames and the same reasoning effort, and the gain comes from choosing what to read and reading it over several turns. The images it chooses also raise six of twelve open models, while twice as many uniform frames at native resolution do not.</p>
+    <p lang="zh">agent 领先并不是因为看得更多。只给固定协议的帧时，Claude Opus 5 作为 agent 仍比用同样的帧、同样 reasoning effort 的单次调用高 9.0 个百分点，优势来自自己选看什么，并分多轮去看。它选出的图也让 12 个开源模型中的 6 个明显提高，而数量翻倍的原分辨率均匀帧没有帮助。</p>
+    <figure class="vi-fig" id="f-matched">
+      <img class="vi-fig__img" src="/images/blogs/video-index/paper/figV2_matched_runs.png" alt="Left, accuracy of Claude Opus 5 on 210 items after each change: fixed input 53.3, current single call 55.7, maximum reasoning effort 60.5, images chosen by the agent 65.2, reading over several turns 69.5, with the unrestricted agent as a dashed line. Right, the gain of each change over the row above with its interval.">
+      <figcaption><b><span lang="en">Figure V2.</span><span lang="zh">图 V2</span></b> <span lang="en"><b>Matched runs of Claude Opus 5 on 210 items.</b></span><span lang="zh"><b>Claude Opus 5 在 210 题上的匹配实验。</b></span></figcaption>
+    </figure>
+    <details class="vi-details">
+      <summary><b><span lang="en">Table 51.</span><span lang="zh">表 51</span></b> <span lang="en">Accuracy in % on 210 items from the fixed protocol, from uniform frames at native resolution, and from the images of the agent.</span><span lang="zh">准确率（%，210 题）：固定协议、原分辨率均匀帧、agent 选的图。</span></summary>
+      <div class="vi-lb-wrap">
+        <table class="vi-lb">
+          <thead><tr>
+            <th scope="col"><span lang="en">Model</span><span lang="zh">模型</span></th>
+            <th scope="col" class="n"><span lang="en">Fixed protocol</span><span lang="zh">固定协议</span></th>
+            <th scope="col" class="n"><span lang="en">Native uniform</span><span lang="zh">原分辨率均匀帧</span></th>
+            <th scope="col" class="n"><span lang="en">Agent images</span><span lang="zh">agent 选的图</span></th>
+            <th scope="col" class="n"><span lang="en">Gain</span><span lang="zh">增益</span></th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Claude Opus 5</td><td class="n">60.5</td><td class="n">–</td><td class="n">65.2</td><td class="n">+4.8</td></tr>
+            <tr><td>Qwen3-VL-32B</td><td class="n">21.0</td><td class="n">21.0</td><td class="n">32.4</td><td class="n"><b>+11.4</b></td></tr>
+            <tr><td>GLM-4.5V</td><td class="n">17.1</td><td class="n">15.2</td><td class="n">24.3</td><td class="n"><b>+7.1</b></td></tr>
+            <tr><td>Gemma 3 27B</td><td class="n">11.0</td><td class="n">11.4</td><td class="n">19.5</td><td class="n"><b>+8.6</b></td></tr>
+            <tr><td>InternVL3.5-8B</td><td class="n">14.8</td><td class="n">–</td><td class="n">17.6</td><td class="n">+2.9</td></tr>
+            <tr><td>Molmo2-8B</td><td class="n">18.6</td><td class="n">–</td><td class="n">17.1</td><td class="n">−1.4</td></tr>
+            <tr><td>LLaVA-OneVision-2-8B</td><td class="n">12.4</td><td class="n">–</td><td class="n">17.1</td><td class="n"><b>+4.8</b></td></tr>
+            <tr><td>Qwen3-VL-8B</td><td class="n">6.7</td><td class="n">6.7</td><td class="n">14.8</td><td class="n"><b>+8.1</b></td></tr>
+            <tr><td>InternVideo2.5-8B</td><td class="n">8.6</td><td class="n">–</td><td class="n">14.3</td><td class="n"><b>+5.7</b></td></tr>
+            <tr><td>VideoLLaMA3-7B</td><td class="n">11.4</td><td class="n">–</td><td class="n">12.9</td><td class="n">+1.4</td></tr>
+            <tr><td>Video-XL-2</td><td class="n">10.5</td><td class="n">–</td><td class="n">10.0</td><td class="n">−0.5</td></tr>
+            <tr><td>Cambrian-S-7B</td><td class="n">8.6</td><td class="n">–</td><td class="n">9.0</td><td class="n">+0.5</td></tr>
+            <tr><td>VideoChat3-4B</td><td class="n">7.6</td><td class="n">–</td><td class="n">8.6</td><td class="n">+1.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <p lang="en">An agent answer costs 0.08 to 1.80 USD and a fixed-input call 0.12 to 0.42 USD. The ranking does not follow cost, and Gemini 4 Argon, the best system, costs 0.10 USD per answer as an agent.</p>
+    <p lang="zh">agent 每答一题的花费是 0.08 到 1.80 美元，固定输入的调用是 0.12 到 0.42 美元。排名并不随花费变化，分数最高的 Gemini 4 Argon 作为 agent 每题只要 0.10 美元。</p>
+    <details class="vi-details">
+      <summary><b><span lang="en">Table 52.</span><span lang="zh">表 52</span></b> <span lang="en">Mean cost per answer in US dollars over the logged sessions.</span><span lang="zh">每题的平均花费（美元），按已记录的会话统计。</span></summary>
+      <div class="vi-lb-wrap">
+        <table class="vi-lb">
+          <thead><tr>
+            <th scope="col"><span lang="en">System</span><span lang="zh">系统</span></th>
+            <th scope="col"><span lang="en">Protocol</span><span lang="zh">协议</span></th>
+            <th scope="col" class="n"><span lang="en">Cost</span><span lang="zh">花费</span></th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Claude Opus 5</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">0.12</td></tr>
+            <tr><td>Gemini 4 Argon</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">0.42</td></tr>
+            <tr><td>Gemini 3.5 Flash-Lite</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.08</td></tr>
+            <tr><td>Gemini 3.1 Pro</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.56</td></tr>
+            <tr><td>Claude Opus 5</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">1.40</td></tr>
+            <tr><td>Claude Fable 5.1</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">1.80</td></tr>
+            <tr><td>GPT-6-Astra</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.29</td></tr>
+            <tr><td>Gemini 4 Argon</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
   </section>
 </section>
 
@@ -238,6 +303,8 @@ js:
 <!-- ================= Report cards ================= -->
 <section id="cards">
   <h2><span lang="en">Report cards</span><span lang="zh">报告卡</span></h2>
+  <p lang="en">Level stability is the share of 1,000 item-bootstrap resamples that reproduce the breaking level of the card, and side is the share that breaks on the same side of visual input, before or after.</p>
+  <p lang="zh">Level stability 是 1,000 次题目级 bootstrap 重抽样中复现该卡片攻破层级的比例，side 是落在视觉输入同一侧（之前或之后）的比例。</p>
   <figure class="vi-fig" id="f-cards">
     <div id="vi-cards"></div>
   </figure>

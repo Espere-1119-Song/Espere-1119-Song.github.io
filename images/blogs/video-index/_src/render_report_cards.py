@@ -19,6 +19,7 @@ from render_paper_figures import white_to_alpha
 
 REPO = Path(sys.argv[1] if len(sys.argv) > 1 else Path.home() / 'Downloads/apex_paper').resolve()
 OUT = Path(__file__).resolve().parent.parent / 'cards'
+INK = np.array([0x1a, 0x1a, 0x1a]) / 255.0   # the text colour of the cards
 
 
 def slug(name):
@@ -35,7 +36,13 @@ def main():
         assert abs(page.rect.width - 396) < 0.5 and abs(page.rect.height - 126) < 0.5, (name, page.rect)
         pm = page.get_pixmap(dpi=260, alpha=False)
         rgb = np.frombuffer(pm.samples, dtype=np.uint8).reshape(pm.height, pm.width, pm.n)[:, :, :3] / 255.0
-        img = Image.fromarray((white_to_alpha(rgb) * 255 + 0.5).astype(np.uint8), 'RGBA')
+        rgba = white_to_alpha(rgb)
+        # The revised paper prints its added footer text (level stability, side) in pure blue to mark the revision.
+        # The post is not a revision, so that text takes the colour of the footer beside it. Pure blue occurs nowhere
+        # else on a card (the title and the bars use #4285f4 and its tints).
+        blue = (rgba[..., 0] < 0.02) & (rgba[..., 1] < 0.02) & (rgba[..., 2] > 0.98) & (rgba[..., 3] > 0)
+        rgba[blue, :3] = INK
+        img = Image.fromarray((rgba * 255 + 0.5).astype(np.uint8), 'RGBA')
         path = OUT / (slug(name) + '.png')
         img.quantize(colors=256, method=Image.Quantize.FASTOCTREE).save(path, optimize=True)
         total += path.stat().st_size
