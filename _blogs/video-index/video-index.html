@@ -170,6 +170,12 @@ js:
       <div class="vi-overlay vi-fig__img" data-overlay="fig12"><img src="/images/blogs/video-index/paper/fig12_agents.png" alt="Top left, accuracy against median time per item with quartile bars for five agents. Top right, the share of answers using each operation: sampling at intervals, seeking to times, tiling frames, cropping and zooming. Bottom, median images per item by video duration for each agent on shared log axes."></div>
       <figcaption><b><span lang="en">Figure 12.</span><span lang="zh">图 12</span></b> <span lang="en"><b>Agents differ in accuracy, runtime, and inspection.</b></span><span lang="zh"><b>agent 在准确率、耗时和查看方式上各不相同。</b></span></figcaption>
     </figure>
+    <p lang="en">The same model scores higher as an agent than from the fixed frames, by 19.8 points for Claude Opus 5 and 3.6 points for Gemini 4 Argon.</p>
+    <p lang="zh">同一个模型作为 agent 比只看固定帧分数更高：Claude Opus 5 高 19.8 个百分点，Gemini 4 Argon 高 3.6 个百分点。</p>
+    <figure class="vi-fig" id="f-agentfixed">
+      <img class="vi-fig__img" src="/images/blogs/video-index/paper/figV1_agent_vs_fixed.png" alt="Left, accuracy under both protocols: Claude Opus 5 rises from 50.8 with fixed frames to 70.6 as an agent, Gemini 4 Argon from 76.8 to 80.4. Right, agent minus fixed-frame accuracy for all items and for the four capability groups, with intervals, for both models.">
+      <figcaption><b><span lang="en">Figure V1.</span><span lang="zh">图 V1</span></b> <span lang="en"><b>The same model as an agent and from the fixed frames.</b></span><span lang="zh"><b>同一个模型作为 agent 和只看固定帧。</b></span></figcaption>
+    </figure>
     <p lang="en">Agents do not lead because they see more. Given only the fixed frames, Claude Opus 5 as an agent still scores 9.0 points above a single call with the same frames and the same reasoning effort, and the gain comes from choosing what to read and reading it over several turns. The images it chooses also raise six of twelve open models, while twice as many uniform frames at native resolution do not.</p>
     <p lang="zh">agent 领先并不是因为看得更多。只给固定协议的帧时，Claude Opus 5 作为 agent 仍比用同样的帧、同样 reasoning effort 的单次调用高 9.0 个百分点，优势来自自己选看什么，并分多轮去看。它选出的图也让 12 个开源模型中的 6 个明显提高，而数量翻倍的原分辨率均匀帧没有帮助。</p>
     <figure class="vi-fig" id="f-matched">
