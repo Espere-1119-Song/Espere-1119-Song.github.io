@@ -176,59 +176,8 @@ js:
       <img class="vi-fig__img" src="/images/blogs/video-index/paper/figV2_matched_runs.png" alt="Left, accuracy of Claude Opus 5 on 210 items after each change: fixed input 53.3, current single call 55.7, maximum reasoning effort 60.5, images chosen by the agent 65.2, reading over several turns 69.5, with the unrestricted agent as a dashed line. Right, the gain of each change over the row above with its interval.">
       <figcaption><b><span lang="en">Figure V2.</span><span lang="zh">图 V2</span></b> <span lang="en"><b>Matched runs of Claude Opus 5 on 210 items.</b></span><span lang="zh"><b>Claude Opus 5 在 210 题上的匹配实验。</b></span></figcaption>
     </figure>
-    <details class="vi-details">
-      <summary><b><span lang="en">Table 51.</span><span lang="zh">表 51</span></b> <span lang="en">Accuracy in % on 210 items from the fixed protocol, from uniform frames at native resolution, and from the images of the agent.</span><span lang="zh">准确率（%，210 题）：固定协议、原分辨率均匀帧、agent 选的图。</span></summary>
-      <div class="vi-lb-wrap">
-        <table class="vi-lb">
-          <thead><tr>
-            <th scope="col"><span lang="en">Model</span><span lang="zh">模型</span></th>
-            <th scope="col" class="n"><span lang="en">Fixed protocol</span><span lang="zh">固定协议</span></th>
-            <th scope="col" class="n"><span lang="en">Native uniform</span><span lang="zh">原分辨率均匀帧</span></th>
-            <th scope="col" class="n"><span lang="en">Agent images</span><span lang="zh">agent 选的图</span></th>
-            <th scope="col" class="n"><span lang="en">Gain</span><span lang="zh">增益</span></th>
-          </tr></thead>
-          <tbody>
-            <tr><td>Claude Opus 5</td><td class="n">60.5</td><td class="n">–</td><td class="n">65.2</td><td class="n">+4.8</td></tr>
-            <tr><td>Qwen3-VL-32B</td><td class="n">21.0</td><td class="n">21.0</td><td class="n">32.4</td><td class="n"><b>+11.4</b></td></tr>
-            <tr><td>GLM-4.5V</td><td class="n">17.1</td><td class="n">15.2</td><td class="n">24.3</td><td class="n"><b>+7.1</b></td></tr>
-            <tr><td>Gemma 3 27B</td><td class="n">11.0</td><td class="n">11.4</td><td class="n">19.5</td><td class="n"><b>+8.6</b></td></tr>
-            <tr><td>InternVL3.5-8B</td><td class="n">14.8</td><td class="n">–</td><td class="n">17.6</td><td class="n">+2.9</td></tr>
-            <tr><td>Molmo2-8B</td><td class="n">18.6</td><td class="n">–</td><td class="n">17.1</td><td class="n">−1.4</td></tr>
-            <tr><td>LLaVA-OneVision-2-8B</td><td class="n">12.4</td><td class="n">–</td><td class="n">17.1</td><td class="n"><b>+4.8</b></td></tr>
-            <tr><td>Qwen3-VL-8B</td><td class="n">6.7</td><td class="n">6.7</td><td class="n">14.8</td><td class="n"><b>+8.1</b></td></tr>
-            <tr><td>InternVideo2.5-8B</td><td class="n">8.6</td><td class="n">–</td><td class="n">14.3</td><td class="n"><b>+5.7</b></td></tr>
-            <tr><td>VideoLLaMA3-7B</td><td class="n">11.4</td><td class="n">–</td><td class="n">12.9</td><td class="n">+1.4</td></tr>
-            <tr><td>Video-XL-2</td><td class="n">10.5</td><td class="n">–</td><td class="n">10.0</td><td class="n">−0.5</td></tr>
-            <tr><td>Cambrian-S-7B</td><td class="n">8.6</td><td class="n">–</td><td class="n">9.0</td><td class="n">+0.5</td></tr>
-            <tr><td>VideoChat3-4B</td><td class="n">7.6</td><td class="n">–</td><td class="n">8.6</td><td class="n">+1.0</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
     <p lang="en">An agent answer costs 0.08 to 1.80 USD and a fixed-input call 0.12 to 0.42 USD. The ranking does not follow cost, and Gemini 4 Argon, the best system, costs 0.10 USD per answer as an agent.</p>
     <p lang="zh">agent 每答一题的花费是 0.08 到 1.80 美元，固定输入的调用是 0.12 到 0.42 美元。排名并不随花费变化，分数最高的 Gemini 4 Argon 作为 agent 每题只要 0.10 美元。</p>
-    <details class="vi-details">
-      <summary><b><span lang="en">Table 52.</span><span lang="zh">表 52</span></b> <span lang="en">Mean cost per answer in US dollars over the logged sessions.</span><span lang="zh">每题的平均花费（美元），按已记录的会话统计。</span></summary>
-      <div class="vi-lb-wrap">
-        <table class="vi-lb">
-          <thead><tr>
-            <th scope="col"><span lang="en">System</span><span lang="zh">系统</span></th>
-            <th scope="col"><span lang="en">Protocol</span><span lang="zh">协议</span></th>
-            <th scope="col" class="n"><span lang="en">Cost</span><span lang="zh">花费</span></th>
-          </tr></thead>
-          <tbody>
-            <tr><td>Claude Opus 5</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">0.12</td></tr>
-            <tr><td>Gemini 4 Argon</td><td><span lang="en">Fixed input</span><span lang="zh">固定输入</span></td><td class="n">0.42</td></tr>
-            <tr><td>Gemini 3.5 Flash-Lite</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.08</td></tr>
-            <tr><td>Gemini 3.1 Pro</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.56</td></tr>
-            <tr><td>Claude Opus 5</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">1.40</td></tr>
-            <tr><td>Claude Fable 5.1</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">1.80</td></tr>
-            <tr><td>GPT-6-Astra</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.29</td></tr>
-            <tr><td>Gemini 4 Argon</td><td><span lang="en">Agent</span><span lang="zh">agent</span></td><td class="n">0.10</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
   </section>
 </section>
 
