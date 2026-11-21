@@ -11,25 +11,25 @@
    "href": "/VideoNSA-web/",
    "title": "VideoNSA",
    "desc": "Learned native sparse attention that scales to long video",
-   "views": 940
+   "views": 930
   },
   {
    "href": "/projects/interactionbench/",
    "title": "InteractionBench",
    "desc": "Demo and leaderboard for real-time interaction on streaming video",
-   "views": 770
+   "views": 670
   },
   {
    "href": "/Video-MMLU-web/",
    "title": "Video-MMLU",
    "desc": "A benchmark for knowledge-intensive lecture understanding",
-   "views": 510
+   "views": 500
   },
   {
    "href": "/blog/phd-application/",
    "title": "CS Ph.D. Application",
    "desc": "Notes and materials from my 2026 Fall application",
-   "views": 400
+   "views": 390
   }
  ]
 }
