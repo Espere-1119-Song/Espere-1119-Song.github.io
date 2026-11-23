@@ -384,7 +384,7 @@
   }
 
   /* ---------- Table 1 as a leaderboard: the rows are written in the post, the page ranks them ---------- */
-  var LB_TYPE = { agent: ['Agent', 'agent'], fixed: ['Fixed input', '固定输入'], native: ['Native video', '原生视频'], human: ['Human', '人类'] };
+  var LB_TYPE = { agent: ['Agent', 'agent'], fixed: ['Fixed input', '固定输入'], native: ['Native video', '原生视频'], reported: ['Reported', '论文报告'], human: ['Human', '人类'] };
   function both(en, zh) { return '<span lang="en">' + en + '</span><span lang="zh">' + zh + '</span>'; }
   function leaderboard(table) {
     if (table.getAttribute('data-ready')) { return; }
