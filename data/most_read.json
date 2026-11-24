@@ -5,7 +5,7 @@
    "href": "/blog/video-index/",
    "title": "Video-Index",
    "desc": "Which video benchmarks still test watching, and the 840 items that do",
-   "views": 2010
+   "views": 2030
   },
   {
    "href": "/VideoNSA-web/",
@@ -17,19 +17,19 @@
    "href": "/projects/interactionbench/",
    "title": "InteractionBench",
    "desc": "Demo and leaderboard for real-time interaction on streaming video",
-   "views": 760
+   "views": 770
   },
   {
    "href": "/Video-MMLU-web/",
    "title": "Video-MMLU",
    "desc": "A benchmark for knowledge-intensive lecture understanding",
-   "views": 530
+   "views": 430
   },
   {
    "href": "/blog/phd-application/",
    "title": "CS Ph.D. Application",
    "desc": "Notes and materials from my 2026 Fall application",
-   "views": 370
+   "views": 360
   }
  ]
 }
